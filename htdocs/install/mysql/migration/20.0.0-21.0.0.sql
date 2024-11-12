@@ -114,7 +114,7 @@ ALTER TABLE llx_bank_categ RENAME TO llx_category_bank;		-- TODO Move content in
 ALTER TABLE llx_bank_class RENAME TO llx_category_bankline;
 
 
-create table llx_paymentexpensereport_expensereport
+CREATE TABLE llx_paymentexpensereport_expensereport
 (
   rowid            		integer AUTO_INCREMENT PRIMARY KEY,
   fk_payment       		integer,
@@ -257,7 +257,7 @@ ALTER TABLE llx_c_accounting_category ADD COLUMN fk_report integer NOT NULL DEFA
 ALTER TABLE llx_c_accounting_category DROP INDEX uk_c_accounting_category;
 ALTER TABLE llx_c_accounting_category ADD UNIQUE INDEX uk_c_accounting_category (code,entity,fk_report);
 
-create table llx_accounting_category_account
+CREATE TABLE llx_accounting_category_account
 (
   rowid           			integer AUTO_INCREMENT PRIMARY KEY,
   fk_accounting_category	integer,
@@ -326,3 +326,5 @@ INSERT INTO llx_c_type_contact (element, source, code, libelle, active ) values 
 INSERT INTO llx_c_type_contact (element, source, code, libelle, active ) values ('expedition', 'external', 'SHIPPING',      'Customer shipping contact', 1);
 
 ALTER TABLE llx_facture_rec ADD COLUMN fk_societe_rib integer DEFAULT NULL;
+
+ALTER TABLE llx_facture ADD COLUMN is_also_delivery_note tinyint DEFAULT 0 NOT NULL;
