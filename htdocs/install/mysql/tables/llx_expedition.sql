@@ -27,11 +27,10 @@ create table llx_expedition
   ref                   varchar(30)        NOT NULL,
   entity                integer  DEFAULT 1 NOT NULL,	-- multi company id
   fk_soc                integer            NOT NULL,
-  fk_projet  		integer  DEFAULT NULL,
+  fk_projet  		    integer  DEFAULT NULL,
 
   ref_ext               varchar(255),					-- reference into an external system (not used by dolibarr)
   ref_customer          varchar(255),					-- customer number
-
   date_creation         datetime,						-- date of creation
   fk_user_author        integer,						-- author of creation
   fk_user_modif         integer,						-- author of last change
