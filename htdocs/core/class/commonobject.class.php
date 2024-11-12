@@ -425,25 +425,25 @@ abstract class CommonObject
 
 	/**
 	 * @var int			Barcode type
-	 * @see fetch_barcode()
+	 * @see fetchBarCode()
 	 */
 	public $barcode_type;
 
 	/**
 	 * @var string		Code of the barcode type
-	 * @see fetch_barcode(), barcode_type
+	 * @see fetchBarCode(), barcode_type
 	 */
 	public $barcode_type_code;
 
 	/**
 	 * @var string		Label of the barcode type
-	 * @see fetch_barcode(), barcode_type
+	 * @see fetchBarCode(), barcode_type
 	 */
 	public $barcode_type_label;
 
 	/**
 	 * @var string
-	 * @see fetch_barcode(), barcode_type
+	 * @see fetchBarCode(), barcode_type
 	 */
 	public $barcode_type_coder;
 
@@ -1702,7 +1702,7 @@ abstract class CommonObject
 	 */
 	public function listeTypeContacts($source = 'internal', $option = 0, $activeonly = 0, $code = '', $element = '', $excludeelement = '')
 	{
-		global $langs, $conf;
+		global $langs;
 
 		$langs->loadLangs(array('bills', 'contracts', 'interventions', 'orders', 'projects', 'propal', 'ticket', 'agenda'));
 
@@ -1784,8 +1784,6 @@ abstract class CommonObject
 	 */
 	public function getIdContact($source, $code, $status = 0)
 	{
-		global $conf;
-
 		$result = array();
 		$i = 0;
 		// Particular case for shipping
@@ -1952,13 +1950,24 @@ abstract class CommonObject
 	 *  if it is not defined, ->element must be defined to know default barcode type.
 	 *
 	 *	@return		int<-1,1>		Return integer <0 if KO, 0 if can't guess type of barcode (ISBN, EAN13...), >0 if OK (all barcode properties loaded)
+	 *  @deprecated Use fetchBarCode()
 	 */
 	public function fetch_barcode()
 	{
 		// phpcs:enable
-		global $conf;
+		return fetchBarCode();
+	}
 
-		dol_syslog(get_class($this).'::fetch_barcode this->element='.$this->element.' this->barcode_type='.$this->barcode_type);
+	/**
+	 *	Load data for barcode into properties ->barcode_type*
+	 *	Properties ->barcode_type that is id of barcode. Type is used to find other properties, but
+	 *  if it is not defined, ->element must be defined to know default barcode type.
+	 *
+	 *	@return		int<-1,1>		Return integer <0 if KO, 0 if can't guess type of barcode (ISBN, EAN13...), >0 if OK (all barcode properties loaded)
+	 */
+	public function fetchBarCode()
+	{
+		dol_syslog(get_class($this).'::fetchBarCode this->element='.$this->element.' this->barcode_type='.$this->barcode_type);
 
 		$idtype = $this->barcode_type;
 		if (empty($idtype) && $idtype != '0') {	// If type of barcode no set, we try to guess. If set to '0' it means we forced to have type remain not defined
@@ -1967,7 +1976,7 @@ abstract class CommonObject
 			} elseif ($this->element == 'societe') {
 				$idtype = getDolGlobalString('GENBARCODE_BARCODETYPE_THIRDPARTY');
 			} else {
-				dol_syslog('Call fetch_barcode with barcode_type not defined and cannot be guessed', LOG_WARNING);
+				dol_syslog('Call fetchBarCode with barcode_type not defined and cannot be guessed', LOG_WARNING);
 			}
 		}
 
@@ -1976,10 +1985,11 @@ abstract class CommonObject
 				$sql = "SELECT rowid, code, libelle as label, coder";
 				$sql .= " FROM ".$this->db->prefix()."c_barcode_type";
 				$sql .= " WHERE rowid = ".((int) $idtype);
-				dol_syslog(get_class($this).'::fetch_barcode', LOG_DEBUG);
+
 				$resql = $this->db->query($sql);
 				if ($resql) {
 					$obj = $this->db->fetch_object($resql);
+
 					$this->barcode_type       = $obj->rowid;
 					$this->barcode_type_code  = $obj->code;
 					$this->barcode_type_label = $obj->label;
