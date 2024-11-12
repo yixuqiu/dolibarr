@@ -225,7 +225,7 @@ $cptfour = getDolGlobalString('ACCOUNTING_ACCOUNT_SUPPLIER', 'NotDefined');
 $cpttva = getDolGlobalString('ACCOUNTING_VAT_BUY_ACCOUNT', 'NotDefined');
 $rcctva = getDolGlobalString('ACCOUNTING_VAT_BUY_REVERSE_CHARGES_CREDIT', 'NotDefined');
 $rcdtva = getDolGlobalString('ACCOUNTING_VAT_BUY_REVERSE_CHARGES_DEBIT', 'NotDefined');
-$group_tax_with_lines = getDolGlobalInt('AC_JOURNAL_GROUP_TAX_WITH_LINES'); //If enabled, Tax will NOT get split off from the base entry and credited to a separate tax account (good for non-VAT countries like USA)
+$noTaxDispatchingKeepWithLines = getDolGlobalInt('ACCOUNTING_PURCHASES_DO_NOT_DISPATCH_TAXES'); //If enabled, Tax will NOT get split off from the base entry and credited to a separate tax account (good for non-VAT countries like USA)
 $country_code_in_EEC = getCountriesInEEC();		// This make a database call but there is a cache done into $conf->cache['country_code_in_EEC']
 
 $result = $db->query($sql);
@@ -345,7 +345,7 @@ if ($result) {
 
 		$tabttc[$obj->rowid][$compta_soc] += $obj->total_ttc;
 
-		if ($group_tax_with_lines) { //case where all taxes paid should be grouped with the same account as the main expense (best for USA)
+		if ($noTaxDispatchingKeepWithLines) { //case where all taxes paid should be grouped with the same account as the main expense (best for USA)
 			$tabht[$obj->rowid][$compta_prod] += $obj->total_ttc;
 		} else { //case where every tax paid should be broken out into its own account for future recovery (best for VAT countries)
 			$tabht[$obj->rowid][$compta_prod] += $obj->total_ht;
