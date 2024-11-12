@@ -350,7 +350,7 @@ $help_url = "EN:Module_Unalterable_Archives_-_Logs|FR:Module_Archives_-_Logs_Ina
 
 llxHeader('', $title, $help_url, '', 0, 0, '', '', '', 'bodyforlist mod-blockedlog page-admin_blockedlog_list');
 
-$MAXLINES = 10000;
+$MAXLINES = getDolGlobalInt('BLOCKEDLOG_MAX_LINES', 1000);
 
 $blocks = $block_static->getLog('all', $search_id, $MAXLINES, $sortfield, $sortorder, $search_fk_user, $search_start, $search_end, $search_ref, $search_amount, $search_code);
 if (!is_array($blocks)) {
