@@ -1,10 +1,6 @@
 ---
 on:
-  # pull_request:
-  # push:
-  # schedule:
-  #   # execute once a day, the 1st
-  #   - cron: 10 9 * * *
+  # workflow called by the parent workflow ci.yml
   workflow_call:
     inputs:
       gh_event:
