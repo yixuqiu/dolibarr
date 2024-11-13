@@ -134,6 +134,9 @@ ALTER TABLE llx_bank_categ RENAME TO llx_category_bank;		-- TODO Move content in
 ALTER TABLE llx_bank_class RENAME TO llx_category_bankline;
 
 
+ALTER TABLE llx_bank_account MODIFY COLUMN label varchar(50);
+
+
 CREATE TABLE llx_paymentexpensereport_expensereport
 (
   rowid            		integer AUTO_INCREMENT PRIMARY KEY,
