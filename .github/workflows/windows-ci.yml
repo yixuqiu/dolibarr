@@ -9,7 +9,13 @@ on:
       gh_event:
         required: true
         type: string
+  # can run job manually
   workflow_dispatch:
+  # Run if workflow is Travis is ok only
+  workflow_run:
+    workflows: ["Travis"]
+    types:
+      - completed
 
 concurrency:
   group: win-ci-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref
@@ -27,6 +33,7 @@ env:
   GITHUB_JSON: ${{ toJSON(github) }} # Helps in debugging Github Action
 jobs:
   win-test:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
         os: [windows-latest]

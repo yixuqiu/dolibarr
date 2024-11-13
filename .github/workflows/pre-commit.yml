@@ -8,6 +8,7 @@ on:
       gh_event:
         required: true
         type: string
+  # can run job manually
   workflow_dispatch:
 
 concurrency:

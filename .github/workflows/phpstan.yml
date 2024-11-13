@@ -10,11 +10,11 @@ on:
       gh_event:
         required: true
         type: string
+  # can run job manually
   workflow_dispatch:
 
 concurrency:
-  group: stan-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref
-    }}
+  group: stan-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 env:
   gh_event: ${{ inputs.gh_event || github.event_name }}
