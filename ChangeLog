@@ -217,8 +217,66 @@ The following changes may create regressions for some external modules, but were
 * If you were using the substitution key __MEMBER_CIVILITY__, you must now use __MEMBER_TITLE__
 
 
-***** ChangeLog for 20.0.1 compared to 20.0.0 *****
+***** ChangeLog for 20.0.2 compared to 20.0.1 *****
+FIX: fatal when updating recurring supplier invoice line with php8 ($remise_percent is '' instead of 0) (#31713)
+FIX: supplier invoice template card: buyer and seller swapped in VAT-related function calls (probably a copy-paste from customer invoice templates) (#31446)
+FIX: #25853 Thirdparty Massaction (#25868)
+FIX: #28505 Blank page from third party to projects (#31637)
+FIX: #30432 make thirdparty code_client and code_compta modifiable via API (#31668)
+FIX: #31015
+FIX: #31360 delete contact when using pgsql.
+FIX: #31365 Bank - Card - Ref haven't max length in edit mode (#31533)
+FIX: #31452 Predefined supplier invoice - Language key & link to supplier card (#31514)
+FIX: #31538 Addition to EPC-QR values <200b><200b>to correct remittance information (#31557)
+FIX: Accountancy - Loan - Error on transfer (#31546)
+FIX: a dictionary CANNOT have zero value in entity field (#31625)
+FIX: Avoid fatal error when mysqli not available
+FIX: Bad balance of td into setup page of shipments
+FIX: bad test on permission makes agenda event creation on object not
+FIX: can validate shipment without stock movement (#31780)
+FIX: Clear of option THEME_ELDY_USEBORDERONTABLE
+FIX: column position on PDF of payments
+FIX: const WORKFLOW_RECEPTION_CLASSIFY_NEWD_INVOICE (#31601)
+FIX: convert amount into text when using numberwords
+FIX: Corrected typo preventing data from being saved (#31716)
+FIX: CSS
+FIX: access to media files
+FIX: default visibility
+FIX: dol_openinpopup for virtual card
+FIX: duplicate answers in list when using global search on proposals
+FIX: Edit a link
+FIX: email templates for expense report not visible
+FIX: Error management on cheque deposit.
+FIX: error message in xls import when stream zip is not available.
+FIX: Extrafield following between rec invoice and classic invoice (#31445)
+FIX: Filter on month of the balance of leaves.
+FIX: Fix bug select columns and access to the public ticket list from the public ticket card (case when we have connected to another client before, the track id stocked in session overwrite the new track id from the public ticket card) (#31000)
+FIX: for #31237 #31524
+FIX: Get number of bank deposit wa not using the date.
+FIX: If you have no stock of your product, an error is displayed when you delete the reception. (#31504)
+FIX: issue on action set condition in particular when you set a deposi… (#31518)
+FIX: open redirection
+FIX: pagebreak when option PDF_ADD_POSITION is set
+FIX: PHP-warning-multiprice-in-liste-product-if-level-is-not-defined-on-product (#31507)
+FIX: Picto menu not visible
+FIX: Salary - Payment card - Missing date (#31512)
+FIX: Search on batch code
+FIX: select variant by attribute. (#31759)
+FIX: show preview pdf list expensereport (#31694)
+FIX: Show twice the technical ID
+FIX: space used by linked elements in PDF notes (#31459)
+FIX: substitutions THIRDPARTY_XXX are not available for actioncomm reminders (#31385)
+FIX: Support for PDF_ADD_POSITION was not complete
+FIX: the autofix corrupted vat value must be triggered only if we are
+FIX: the autofix must also fix the multicurrency value.
+FIX: this constant break the dictionary admin without Multicompany (#31638)
+FIX: uniformize and check delete contact action (#31384)
+FIX: Vat code is lost when updating lines in POS
+FIX: uniformize and check delete contact action (#31384)
+FIX: Vat code is lost when updating lines in POS
+FIX: When PDF_ADD_POSITION is on, the number was doing pagebreak before
 
+***** ChangeLog for 20.0.1 compared to 20.0.0 *****
 FIX: #30960 show and search extrafields (#31026)
 FIX: #31076 Bad position of hooks
 FIX: #31152
