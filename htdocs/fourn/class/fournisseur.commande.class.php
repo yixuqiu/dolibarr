@@ -1442,6 +1442,7 @@ class CommandeFournisseur extends CommonOrder
 			$this->multicurrency_tx = 1;
 		}
 
+		// We set order into draft status
 		$this->statut = self::STATUS_DRAFT;	// deprecated
 		$this->status = self::STATUS_DRAFT;
 
@@ -3310,6 +3311,7 @@ class CommandeFournisseur extends CommonOrder
 
 	/**
 	 * Returns the rights used for this class
+	 *
 	 * @return stdClass
 	 */
 	public function getRights()
