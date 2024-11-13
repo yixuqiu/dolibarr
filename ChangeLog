@@ -190,7 +190,7 @@ NEW: Module Website: Can link/unlink translation between web pages
 NEW: Move dir of cache for widgets
 NEW: multiselect with checkbox in categories/tags search for thirdparty list (#28335)
 NEW: new consts to redirect from massaction createbills (#29436)
-NEW: new global string to preselect yes for one bill per thirparty in orderlist massaction (#29359)
+NEW: new global string to preselect yes for one bill per thirdparty in orderlist massaction (#29359)
 NEW: notification action triggers for cancelling orders and invoices
 NEW: now button when editing an event
 NEW: online signature of shipments (#29559)
@@ -353,7 +353,7 @@ The following changes may create regressions for some external modules, but were
 FIX: fatal when updating recurring supplier invoice line with php8 ($remise_percent is '' instead of 0) (#31713)
 FIX: supplier invoice template card: buyer and seller swapped in VAT-related function calls (probably a copy-paste from customer invoice templates) (#31446)
 FIX: #25853 Thirdparty Massaction (#25868)
-FIX: #28505 Blank page from thirparty to projects (#31637)
+FIX: #28505 Blank page from thirdparty to projects (#31637)
 FIX: #30757
 FIX: #30762
 FIX: #30768 allocate the correct invoice_line_id to the element timespent (#30769)
@@ -3513,7 +3513,7 @@ FIX: fix checkbox displayed according to module project setup parameters - work 
 FIX: inconsistency in margin recording with option "Force to sale price"
 FIX: invoice PDF generation after payment
 FIX: mask selector fournisseur if module not activate
-FIX: merge thirparty also work for bank URL entry
+FIX: merge thirdparty also work for bank URL entry
 FIX: Missing extrafields into export of agenda record
 FIX: missing parameter in select for POP
 FIX: missing return edit if update error
