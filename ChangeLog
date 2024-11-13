@@ -87,7 +87,7 @@ FIX: mysql error during dump for enable sandbox M999999 (#31116)
 FIX: notification: error 500 in fixed emails due to a bad copy/paste (#29580)
 FIX: notification module: for supplier orders (any of the 3 triggers), user can choose an e-mail template in conf, but the conf is not used when sending the notification (#28216)
 FIX: Not qualified lines for reception (#29473)
-FIX: not redirtect when error occurs on updating card (#29388)
+FIX: not redirect when error occurs on updating card (#29388)
 FIX: Not trancate the multicurrency rate shown on cards (even if the global MAIN_MAX_DECIMALS_SHOWN is set to 0) (#28211)
 FIX: on change ref for bank account attachement are lost (#30529)
 FIX: Option MAIN_DOC_USE_TIMING can be a string with date format
