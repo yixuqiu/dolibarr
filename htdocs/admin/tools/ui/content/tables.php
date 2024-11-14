@@ -18,16 +18,20 @@
  */
 
 $res=0;
-if (! $res && file_exists("../../main.inc.php")) : $res=@include '../../main.inc.php';
-endif;
-if (! $res && file_exists("../../../main.inc.php")) : $res=@include '../../../main.inc.php';
-endif;
-if (! $res && file_exists("../../../../main.inc.php")) : $res=@include '../../../../main.inc.php';
-endif;
+if (! $res && file_exists("../../main.inc.php")) {
+	$res=@include '../../main.inc.php';
+}
+if (! $res && file_exists("../../../main.inc.php")) {
+	$res=@include '../../../main.inc.php';
+}
+if (! $res && file_exists("../../../../main.inc.php")) {
+	$res=@include '../../../../main.inc.php';
+}
 
 // Protection if external user
-if ($user->socid > 0) : accessforbidden();
-endif;
+if ($user->socid > 0) {
+	accessforbidden();
+}
 
 // Includes
 dol_include_once('admin/tools/ui/class/documentation.class.php');
@@ -52,7 +56,7 @@ $documentation->view = array('Content','Tables');
 $documentation->showSidebar(); ?>
 
 <div class="doc-wrapper">
-		
+
 		<?php $documentation->showBreadCrumb(); ?>
 
 		<div class="doc-content-wrapper">
@@ -71,7 +75,7 @@ $documentation->showSidebar(); ?>
 				<p class="documentation-text"><?php echo $langs->trans('DocTableBasicDescription'); ?></p>
 				<div class="documentation-example">
 					<div class="div-table-responsive">
-						<table class="tagtable nobottomiftotal liste">
+						<table class="tagtable nobottomiftotal noborder liste">
 							<tr class="liste_titre">
 								<th class="wrapcolumntitle left liste_titre" title="First Name">First Name</th>
 								<th class="wrapcolumntitle left liste_titre" title="Last Name">Last Name</th>
@@ -108,7 +112,7 @@ $documentation->showSidebar(); ?>
 				<?php
 				$lines = array(
 				);
-				echo $documentation->showCode($lines); ?>				
+				echo $documentation->showCode($lines); ?>
 			</div>
 
 			<!-- Basic usage -->
@@ -162,9 +166,9 @@ $documentation->showSidebar(); ?>
 				<?php
 				$lines = array(
 				);
-				echo $documentation->showCode($lines); ?>				
+				echo $documentation->showCode($lines); ?>
 			</div>
-			
+
 
 		</div>
 
