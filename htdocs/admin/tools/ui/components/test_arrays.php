@@ -1,23 +1,8 @@
 <?php
-//define("NOLOGIN",1);		// This means this output page does not require to be logged.
-//if (!defined('NOREQUIREUSER'))  define('NOREQUIREUSER', '1');
-//if (!defined('NOREQUIREDB'))    define('NOREQUIREDB', '1');
-if (!defined('NOREQUIRESOC')) {
-	define('NOREQUIRESOC', '1');
-}
-//if (!defined('NOREQUIRETRAN'))  define('NOREQUIRETRAN', '1');
-if (!defined('NOSTYLECHECK')) {
-	define('NOSTYLECHECK', '1'); // Do not check style html tag into posted data
-}
-//if (!defined('NOREQUIREMENU'))  define('NOREQUIREMENU', '1'); // If there is no need to load and show top and left menu
-//if (!defined('NOREQUIREHTML'))  define('NOREQUIREHTML', '1'); // If we don't need to load the html.form.class.php
-//if (!defined('NOREQUIREAJAX'))  define('NOREQUIREAJAX', '1'); // Do not load ajax.lib.php library
-if (!defined("NOLOGIN")) {
-	define("NOLOGIN", '1'); // If this page is public (can be called outside logged session)
-}
+
 
 // Load Dolibarr environment
-require '../../main.inc.php';
+@include '../../main.inc.php';
 
 // Security
 if ($dolibarr_main_prod) {
@@ -175,6 +160,14 @@ include_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
 $productspecimen = new Product($db);
 $productspecimen->initAsSpecimen();
 $object = $productspecimen;
+$param = '';
+$actioncode = '';
+$status = '';
+$filter = '';
+$filtert = '';
+$socid = 0;
+$type = 0;
+$usergroup = 0;
 
 $sortfield = 'aaa';
 $sortorder = 'ASC';
