@@ -1199,7 +1199,7 @@ class FormTicket
 					print ' selected="selected"';
 				} elseif (isset($selected) && $selected == $id) {
 					print ' selected="selected"';
-				} elseif ($arrayseverities['use_default'] == "1" && !$selected && !$empty) {
+				} elseif ($arrayseverities['use_default'] == "1" && empty($selected)) {
 					print ' selected="selected"';
 				}
 
