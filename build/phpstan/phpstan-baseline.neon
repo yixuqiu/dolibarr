@@ -11107,12 +11107,6 @@ parameters:
 			path: ../../htdocs/core/class/ctyperesource.class.php
 
 		-
-			message: '#^Property CUnits\:\:\$scale \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 4
-			path: ../../htdocs/core/class/cunits.class.php
-
-		-
 			message: '#^Property CUnits\:\:\$short_label \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 4
@@ -22309,12 +22303,6 @@ parameters:
 			path: ../../htdocs/fourn/commande/card.php
 
 		-
-			message: '#^Variable \$text might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/fourn/commande/card.php
-
-		-
 			message: '#^If condition is always false\.$#'
 			identifier: if.alwaysFalse
 			count: 1
@@ -27253,12 +27241,6 @@ parameters:
 			path: ../../htdocs/partnership/partnership_card.php
 
 		-
-			message: '#^Variable \$upload_dir might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/partnership/partnership_document.php
-
-		-
 			message: '#^Negated boolean expression is always true\.$#'
 			identifier: booleanNot.alwaysTrue
 			count: 1
@@ -30429,18 +30411,6 @@ parameters:
 		-
 			message: '#^Call to function method_exists\(\) with Project and ''fetchComments'' will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
-			count: 1
-			path: ../../htdocs/projet/tasks/comment.php
-
-		-
-			message: '#^Variable \$mode might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/projet/tasks/comment.php
-
-		-
-			message: '#^Variable \$socid might not be defined\.$#'
-			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/projet/tasks/comment.php
 
