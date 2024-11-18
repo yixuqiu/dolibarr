@@ -9698,10 +9698,12 @@ class Form
 	 */
 	public function showLinkToObjectBlock($object, $restrictlinksto = array(), $excludelinksto = array(), $nooutput = 0)
 	{
-		global $conf, $langs, $hookmanager;
+		global $conf, $langs, $hookmanager, $form;
 		global $action;
 
-		$form = new Form($this->db);
+		if (empty($form)) {
+			$form = new Form($this->db);
+		}
 
 		$linktoelem = '';
 		$linktoelemlist = '';
@@ -9716,16 +9718,16 @@ class Form
 		$dontIncludeCompletedItems = getDolGlobalString('DONT_INCLUDE_COMPLETED_ELEMENTS_LINKS');
 
 		if (is_object($object->thirdparty) && !empty($object->thirdparty->id) && $object->thirdparty->id > 0) {
-			$listofidcompanytoscan = $object->thirdparty->id;
+			$listofidcompanytoscan = (int) $object->thirdparty->id;
 			if (($object->thirdparty->parent > 0) && getDolGlobalString('THIRDPARTY_INCLUDE_PARENT_IN_LINKTO')) {
-				$listofidcompanytoscan .= ',' . $object->thirdparty->parent;
+				$listofidcompanytoscan .= ',' . (int) $object->thirdparty->parent;
 			}
 			if (($object->fk_project > 0) && getDolGlobalString('THIRDPARTY_INCLUDE_PROJECT_THIRDPARY_IN_LINKTO')) {
 				include_once DOL_DOCUMENT_ROOT . '/projet/class/project.class.php';
 				$tmpproject = new Project($this->db);
 				$tmpproject->fetch($object->fk_project);
 				if ($tmpproject->socid > 0 && ($tmpproject->socid != $object->thirdparty->id)) {
-					$listofidcompanytoscan .= ',' . $tmpproject->socid;
+					$listofidcompanytoscan .= ',' . (int) $tmpproject->socid;
 				}
 				unset($tmpproject);
 			}
