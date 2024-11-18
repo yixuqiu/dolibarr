@@ -2005,6 +2005,8 @@ if ($resql) {
 
 					$filename = dol_sanitizeFileName($obj->ref);
 					$filedir = $conf->facture->dir_output.'/'.dol_sanitizeFileName($obj->ref);
+					$filepath = $conf->invoice->multidir_output[$obj->entity] ?? $conf->invoice->dir_output;
+					$filedir = $filepath . '/' . $filename;
 					$urlsource = $_SERVER['PHP_SELF'].'?id='.$obj->id;
 					print $formfile->getDocumentsLink($facturestatic->element, $filename, $filedir);
 					print '</td>';
