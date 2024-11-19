@@ -9713,7 +9713,6 @@ class Form
 			$object->fetch_thirdparty();
 		}
 
-		$object->fetchObjectLinked();
 		$possiblelinks = array();
 
 		$dontIncludeCompletedItems = getDolGlobalString('DONT_INCLUDE_COMPLETED_ELEMENTS_LINKS');
@@ -9833,6 +9832,10 @@ class Form
 			if (is_array($hookmanager->resArray) && count($hookmanager->resArray)) {
 				$possiblelinks = $hookmanager->resArray;
 			}
+		}
+
+		if (!empty($possiblelinks)) {
+			$object->fetchObjectLinked();
 		}
 
 		// Build the html part with possible suggested links
