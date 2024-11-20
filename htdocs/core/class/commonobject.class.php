@@ -2156,12 +2156,7 @@ abstract class CommonObject
 				if (!empty($user->admin) && empty($user->entity) && $conf->entity == 1) {
 					$sql .= " AND te.entity IS NOT NULL"; // Show all users
 				} else {
-<<<<<<< HEAD
-					$sql .= " AND ug.fk_user = te.rowid";
-					$sql .= " AND ug.entity IN (".getEntity('usergroup').")";
-=======
 					$sql .= " AND ug.entity IN (".getEntity($this->element).")";
->>>>>>> branch '13.0' of git@github.com:Dolibarr/dolibarr.git
 				}
 			} else {
 				$sql .= ' AND te.entity IN ('.getEntity($this->element).')';
