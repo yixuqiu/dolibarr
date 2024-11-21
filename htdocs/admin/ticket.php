@@ -89,17 +89,9 @@ if ($action == 'updateMask') {
 } elseif (preg_match('/set_(.*)/', $action, $reg)) {
 	$code = $reg[1];
 	$value = GETPOSTISSET($code) ? GETPOSTINT($code) : 1;
-	if ($code == 'TICKET_NOTIFICATION_ALSO_MAIN_ADDRESS' && getDolGlobalInt('MAIN_FEATURES_LEVEL') >= 2) {
-		$param_notification_also_main_addressemail = GETPOST('TICKET_NOTIFICATION_ALSO_MAIN_ADDRESS', 'alpha');
-		$res = dolibarr_set_const($db, 'TICKET_NOTIFICATION_ALSO_MAIN_ADDRESS', $param_notification_also_main_addressemail, 'chaine', 0, '', $conf->entity);
-		if (!($res > 0)) {
-			$error++;
-		}
-	} else {
-		$res = dolibarr_set_const($db, $code, $value, 'chaine', 0, '', $conf->entity);
-		if (!($res > 0)) {
-			$error++;
-		}
+	$res = dolibarr_set_const($db, $code, $value, 'chaine', 0, '', $conf->entity);
+	if (!($res > 0)) {
+		$error++;
 	}
 } elseif (preg_match('/del_(.*)/', $action, $reg)) {
 	$code = $reg[1];
@@ -210,15 +202,6 @@ if ($action == 'updateMask') {
 	}
 	if (!($res > 0)) {
 		$error++;
-	}
-
-	// For compatibility when javascript is not enabled
-	if (getDolGlobalInt('MAIN_FEATURES_LEVEL') >= 2 && empty($conf->use_javascript_ajax)) {
-		$param_notification_also_main_addressemail = GETPOST('TICKET_NOTIFICATION_ALSO_MAIN_ADDRESS', 'alpha');
-		$res = dolibarr_set_const($db, 'TICKET_NOTIFICATION_ALSO_MAIN_ADDRESS', $param_notification_also_main_addressemail, 'chaine', 0, '', $conf->entity);
-		if (!($res > 0)) {
-			$error++;
-		}
 	}
 }
 
@@ -658,23 +641,6 @@ print '<td class="center">';
 print $formcategory->textwithpicto('', $langs->trans("TicketEmailNotificationToHelp"), 1, 'help');
 print '</td>';
 print '</tr>';
-
-// Also send to TICKET_NOTIFICATION_EMAIL_TO for responses (not only creation)
-if (getDolGlobalInt('MAIN_FEATURES_LEVEL') >= 2) {
-	print '<tr class="oddeven"><td>'.$langs->trans("TicketsEmailAlsoSendToMainAddress").'</td>';
-	print '<td class="left">';
-	if ($conf->use_javascript_ajax) {
-		print ajax_constantonoff('TICKET_NOTIFICATION_ALSO_MAIN_ADDRESS');
-	} else {
-		$arrval = array('0' => $langs->trans("No"), '1' => $langs->trans("Yes"));
-		print $formcategory->selectarray("TICKET_NOTIFICATION_ALSO_MAIN_ADDRESS", $arrval, $conf->global->TICKET_NOTIFICATION_ALSO_MAIN_ADDRESS);
-	}
-	print '</td>';
-	print '<td class="center">';
-	print $formcategory->textwithpicto('', $langs->trans("TicketsEmailAlsoSendToMainAddressHelp"), 1, 'help');
-	print '</td>';
-	print '</tr>';
-}
 
 // Message header
 $mail_intro = getDolGlobalString('TICKET_MESSAGE_MAIL_INTRO', '');
