@@ -3072,7 +3072,7 @@ class FactureFournisseur extends CommonInvoice
 		$xnbp = 0;
 		if (empty($option) || $option != 'nolines') {
 			// Lines
-			$nbp = 5;
+			$nbp = min(1000, GETPOSTINT('nblines') ? GETPOSTINT('nblines') : 5);	// We can force the nb of lines to test from command line (but not more than 1000)
 			while ($xnbp < $nbp) {
 				$line = new SupplierInvoiceLine($this->db);
 				$line->desc = $langs->trans("Description")." ".$xnbp;
