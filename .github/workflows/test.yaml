@@ -4,6 +4,9 @@ jobs:
   demo_app_authentication:
     runs-on: ubuntu-latest
     steps:
+      - name: Log
+        run: echo "CIAPPID ${{ vars.CIAPPID }}"
+
       - name: Generate a token
         id: generate-token
         uses: actions/create-github-app-token@v1
