@@ -223,7 +223,7 @@ class Ticket extends CommonObject
 	public $cache_msgs_ticket;
 
 	/**
-	 * @var int 	Notify thirdparty at create
+	 * @var int 	Save if a thirdparty was notified at creation at ticket or not
 	 */
 	public $notify_tiers_at_create;
 

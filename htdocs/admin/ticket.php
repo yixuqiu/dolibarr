@@ -59,6 +59,15 @@ $reg = array();
 
 include DOL_DOCUMENT_ROOT.'/core/actions_setmoduleoptions.inc.php';
 
+if (GETPOSTISSET('TICKET_CHECK_NOTIFY_THIRDPARTY_AT_CREATION')) {	// only for no js case
+	$param_disable_email = GETPOST('TICKET_CHECK_NOTIFY_THIRDPARTY_AT_CREATION', 'alpha');
+	$res = dolibarr_set_const($db, 'TICKET_CHECK_NOTIFY_THIRDPARTY_AT_CREATION', $param_disable_email, 'chaine', 0, '', $conf->entity);
+	if (!($res > 0)) {
+		$error++;
+		setEventMessages($db->lasterror(), null, 'errors');
+	}
+}
+
 if ($action == 'updateMask') {
 	$maskconstticket = GETPOST('maskconstticket', 'aZ09');
 	$maskticket = GETPOST('maskticket', 'alpha');
@@ -595,13 +604,14 @@ print $formcategory->buttonsSaveCancel("Save", '', array(), 0, 'reposition');
 
 print '</form>';
 
+print '<br>';
 
 /*
- * Notification
+ * Emails
  */
 
 // Admin var of module
-print load_fiche_titre($langs->trans("Notification"), '', '');
+print load_fiche_titre($langs->trans("Emails"), '', '');
 
 print '<table class="noborder centpercent">';
 
@@ -636,10 +646,25 @@ print '</tr>';
 // Email for notification of TICKET_CREATE
 print '<tr class="oddeven"><td>'.$langs->trans("TicketEmailNotificationTo").'</td>';
 print '<td class="left">';
-print '<input type="text" class="minwidth200" name="TICKET_NOTIFICATION_EMAIL_TO" value="'.(getDolGlobalString('TICKET_NOTIFICATION_EMAIL_TO') ? $conf->global->TICKET_NOTIFICATION_EMAIL_TO : '').'"></td>';
+print '<input type="text" class="minwidth200" name="TICKET_NOTIFICATION_EMAIL_TO" value="'.getDolGlobalString('TICKET_NOTIFICATION_EMAIL_TO').'"></td>';
 print '<td class="center">';
 print $formcategory->textwithpicto('', $langs->trans("TicketEmailNotificationToHelp"), 1, 'help');
 print '</td>';
+print '</tr>';
+
+// Disable email to customers
+print '<tr class="pair"><td>';
+print $form->textwithpicto($langs->trans("TicketsNotifyThirdPartyFromBackOfficeByDefault"), $langs->trans("TicketsNotifyThirdPartyFromBackOfficeByDefaultHelp"), 1, 'help');
+print '</td>';
+print '<td class="left">';
+if ($conf->use_javascript_ajax) {
+	print ajax_constantonoff('TICKET_CHECK_NOTIFY_THIRDPARTY_AT_CREATION');
+} else {
+	$arrval = array('0' => $langs->trans("No"), '1' => $langs->trans("Yes"));
+	print $form->selectarray("TICKET_CHECK_NOTIFY_THIRDPARTY_AT_CREATION", $arrval, getDolGlobalInt('TICKET_CHECK_NOTIFY_THIRDPARTY_AT_CREATION'));
+}
+print '</td>';
+print '<td></td>';
 print '</tr>';
 
 // Message header
