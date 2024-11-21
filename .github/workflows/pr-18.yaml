@@ -3,6 +3,9 @@ on:
     types: [opened, reopened]
     branches:
       - "18.0"
+  push:
+    branches:
+      - "18.0"
 
 jobs:
   run:
@@ -23,7 +26,8 @@ jobs:
 
     - name: Assign reviewer
       env:
-        REVIEWER: "eldy,lvessiller-opendsi,rycks" # Remplacez par le nom d'utilisateur GitHub du reviewer
+        #REVIEWER: "eldy,lvessiller-opendsi,rycks" # Remplacez par le nom d'utilisateur GitHub du reviewer
+        REVIEWER: "rycks" # Remplacez par le nom d'utilisateur GitHub du reviewer
       run: |
         pr_number=$(jq --raw-output .number < $GITHUB_EVENT_PATH)
         gh pr edit $pr_number --add-reviewer "$REVIEWER"
