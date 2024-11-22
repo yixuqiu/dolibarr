@@ -265,7 +265,7 @@ if (empty($reshook)) {
 
 			$conf->global->STOCK_CALCULATE_ON_BILL = 1;	// To force the change of stock during invoice validation
 
-			$constantforkey = 'CASHDESK_ID_WAREHOUSE'.$_SESSION["takeposterminal"];
+			$constantforkey = 'CASHDESK_ID_WAREHOUSE'.(isset($_SESSION["takeposterminal"]) ? $_SESSION["takeposterminal"] : '');
 			dol_syslog("Validate invoice with stock change. Warehouse defined into constant ".$constantforkey." = ".getDolGlobalString($constantforkey));
 
 			// Validate invoice with stock change into warehouse getDolGlobalInt($constantforkey)
@@ -799,7 +799,7 @@ if (empty($reshook)) {
 			$line = array('description' => $prod->description, 'price' => $price, 'tva_tx' => $tva_tx, 'localtax1_tx' => $localtax1_tx, 'localtax2_tx' => $localtax2_tx, 'remise_percent' => $customer->remise_percent, 'price_ttc' => $price_ttc, 'array_options' => $array_options);
 
 			/* setup of margin calculation */
-			if (isset($conf->global->MARGIN_TYPE)) {
+			if (getDolGlobalString('MARGIN_TYPE')) {
 				if (getDolGlobalString('MARGIN_TYPE') == 'pmp' && !empty($prod->pmp)) {
 					$line['fk_fournprice'] = null;
 					$line['pa_ht'] = $prod->pmp;
@@ -1259,7 +1259,7 @@ if (empty($reshook)) {
 		if (getDolGlobalInt('TAKEPOS_PRINT_INVOICE_DOC_INSTEAD_OF_RECEIPT')) {
 			$sectionwithinvoicelink .= ' <a target="_blank" class="button" href="' . DOL_URL_ROOT . '/document.php?token=' . newToken() . '&modulepart=facture&file=' . $invoice->ref . '/' . $invoice->ref . '.pdf">Invoice</a>';
 		} elseif (getDolGlobalString('TAKEPOS_PRINT_METHOD') == "takeposconnector") {
-			if (getDolGlobalString('TAKEPOS_PRINT_SERVER') && filter_var($conf->global->TAKEPOS_PRINT_SERVER, FILTER_VALIDATE_URL) == true) {
+			if (getDolGlobalString('TAKEPOS_PRINT_SERVER') && filter_var(getDolGlobalString('TAKEPOS_PRINT_SERVER'), FILTER_VALIDATE_URL) == true) {
 				$sectionwithinvoicelink .= ' <button id="buttonprint" type="button" onclick="TakeposConnector('.$placeid.')">'.$langs->trans('PrintTicket').'</button>';
 			} else {
 				$sectionwithinvoicelink .= ' <button id="buttonprint" type="button" onclick="TakeposPrinting('.$placeid.')">'.$langs->trans('PrintTicket').'</button>';
@@ -1357,11 +1357,11 @@ $(document).ready(function() {
 <?php
 
 if ($action == "order" && !empty($order_receipt_printer1)) {
-	if (filter_var($conf->global->TAKEPOS_PRINT_SERVER, FILTER_VALIDATE_URL) == true) {
+	if (filter_var(getDolGlobalString('TAKEPOS_PRINT_SERVER'), FILTER_VALIDATE_URL) == true) {
 		?>
 		$.ajax({
 			type: "POST",
-			url: '<?php print $conf->global->TAKEPOS_PRINT_SERVER; ?>/printer/index.php',
+			url: '<?php print getDolGlobalString('TAKEPOS_PRINT_SERVER'); ?>/printer/index.php',
 			data: 'invoice='+orderprinter1esc
 		});
 		<?php
@@ -1369,7 +1369,7 @@ if ($action == "order" && !empty($order_receipt_printer1)) {
 		?>
 		$.ajax({
 			type: "POST",
-			url: 'http://<?php print $conf->global->TAKEPOS_PRINT_SERVER; ?>:8111/print',
+			url: 'http://<?php print getDolGlobalString('TAKEPOS_PRINT_SERVER'); ?>:8111/print',
 			data: '<?php
 			print $headerorder.$order_receipt_printer1.$footerorder; ?>'
 		});
@@ -1378,11 +1378,11 @@ if ($action == "order" && !empty($order_receipt_printer1)) {
 }
 
 if ($action == "order" && !empty($order_receipt_printer2)) {
-	if (filter_var($conf->global->TAKEPOS_PRINT_SERVER, FILTER_VALIDATE_URL) == true) {
+	if (filter_var(getDolGlobalString('TAKEPOS_PRINT_SERVER'), FILTER_VALIDATE_URL) == true) {
 		?>
 		$.ajax({
 			type: "POST",
-			url: '<?php print $conf->global->TAKEPOS_PRINT_SERVER; ?>/printer/index.php?printer=2',
+			url: '<?php print getDolGlobalString('TAKEPOS_PRINT_SERVER'); ?>/printer/index.php?printer=2',
 			data: 'invoice='+orderprinter2esc
 		});
 		<?php
@@ -1390,7 +1390,7 @@ if ($action == "order" && !empty($order_receipt_printer2)) {
 		?>
 		$.ajax({
 			type: "POST",
-			url: 'http://<?php print $conf->global->TAKEPOS_PRINT_SERVER; ?>:8111/print2',
+			url: 'http://<?php print getDolGlobalString('TAKEPOS_PRINT_SERVER'); ?>:8111/print2',
 			data: '<?php
 			print $headerorder.$order_receipt_printer2.$footerorder; ?>'
 		});
@@ -1399,11 +1399,11 @@ if ($action == "order" && !empty($order_receipt_printer2)) {
 }
 
 if ($action == "order" && !empty($order_receipt_printer3)) {
-	if (filter_var($conf->global->TAKEPOS_PRINT_SERVER, FILTER_VALIDATE_URL) == true) {
+	if (filter_var(getDolGlobalString('TAKEPOS_PRINT_SERVER'), FILTER_VALIDATE_URL) == true) {
 		?>
 		$.ajax({
 			type: "POST",
-			url: '<?php print $conf->global->TAKEPOS_PRINT_SERVER; ?>/printer/index.php?printer=3',
+			url: '<?php print getDolGlobalString('TAKEPOS_PRINT_SERVER'); ?>/printer/index.php?printer=3',
 			data: 'invoice='+orderprinter3esc
 		});
 		<?php
@@ -1422,7 +1422,7 @@ if ($action == "temp" && !empty($ticket_printer1)) {
 	?>
 	$.ajax({
 		type: "POST",
-		url: 'http://<?php print $conf->global->TAKEPOS_PRINT_SERVER; ?>:8111/print',
+		url: 'http://<?php print getDolGlobalString('TAKEPOS_PRINT_SERVER'); ?>:8111/print',
 		data: '<?php
 		print $header_soc.$header_ticket.$body_ticket.$ticket_printer1.$ticket_total.$footer_ticket; ?>'
 	});
@@ -1984,7 +1984,7 @@ if ($placeid > 0) {
 					if ($line->product_label && $line->desc) {
 						$htmlforlines .= '<br>';
 					}
-					$firstline = dolGetFirstLineOfText($line->desc, $conf->global->TAKEPOS_SHOW_N_FIRST_LINES);
+					$firstline = dolGetFirstLineOfText($line->desc, getDolGlobalString('TAKEPOS_SHOW_N_FIRST_LINES'));
 					if ($firstline != $line->desc) {
 						$htmlforlines .= $form->textwithpicto(dolGetFirstLineOfText($line->desc), $line->desc);
 					} else {
