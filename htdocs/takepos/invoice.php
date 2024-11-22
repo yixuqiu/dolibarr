@@ -624,7 +624,9 @@ if (empty($reshook)) {
 			if ($placeid < 0) {
 				dol_htmloutput_errors($invoice->error, $invoice->errors, 1);
 			}
-			$sql = "UPDATE ".MAIN_DB_PREFIX."facture set ref='(PROV-POS".$_SESSION["takeposterminal"]."-".$place.")' where rowid = ".((int) $placeid);
+			$sql = "UPDATE ".MAIN_DB_PREFIX."facture";
+			$sql .= " SET ref='(PROV-POS".$_SESSION["takeposterminal"]."-".$place.")'";
+			$sql .= " WHERE rowid = ".((int) $placeid);
 			$resql = $db->query($sql);
 			if (!$resql) {
 				$error++;
@@ -898,7 +900,7 @@ if (empty($reshook)) {
 			if ($invoice->status == $invoice::STATUS_DRAFT && $invoice->pos_source && $invoice->module_source == 'takepos') {
 				$permissiontoupdateline = true;
 				// TODO Add also a test on $_SESSION('publicobjectid'] defined at creation of object
-				// TODO Check also that invoice->ref is (PROV-POS1-2) with 1 = terminal and 2, the invoice ID
+				// TODO Check also that invoice->ref is (PROV-POS1-2) with 1 = terminal and 2, the table ID
 			}
 		}*/
 
@@ -928,11 +930,12 @@ if (empty($reshook)) {
 
 	// Action to delete or discard an invoice
 	if ($action == "delete" && ($user->hasRight('takepos', 'run') || defined('INCLUDE_PHONEPAGE_FROM_PUBLIC_PAGE'))) {
-		// $placeid is the invoice id (it differs from place) and is defined if the place is set and the ref of invoice is '(PROV-POS'.$_SESSION["takeposterminal"].'-'.$place.')', so the fetch at beginning of page works.
+		// $placeid is the invoice id (it differs from place) and is defined if the place is set and
+		// the ref of invoice is '(PROV-POS'.$_SESSION["takeposterminal"].'-'.$place.')', so the fetch at beginning of page works.
 		if ($placeid > 0) {
 			$result = $invoice->fetch($placeid);
 
-			if ($result > 0 && $invoice->statut == Facture::STATUS_DRAFT) {
+			if ($result > 0 && $invoice->status == Facture::STATUS_DRAFT) {
 				$db->begin();
 
 				// We delete the lines
@@ -973,7 +976,7 @@ if (empty($reshook)) {
 					if ($invoice->status == $invoice::STATUS_DRAFT && $invoice->pos_source && $invoice->module_source == 'takepos') {
 						$permissiontoupdateline = true;
 						// TODO Add also a test on $_SESSION('publicobjectid'] defined at creation of object
-						// TODO Check also that invoice->ref is (PROV-POS1-2) with 1 = terminal and 2, the invoice ID
+						// TODO Check also that invoice->ref is (PROV-POS1-2) with 1 = terminal and 2, the table ID
 					}
 				}
 				if (!$permissiontoupdateline) {
@@ -1023,7 +1026,7 @@ if (empty($reshook)) {
 						if ($invoice->status == $invoice::STATUS_DRAFT && $invoice->pos_source && $invoice->module_source == 'takepos') {
 							$permissiontoupdateline = true;
 							// TODO Add also a test on $_SESSION('publicobjectid'] defined at creation of object
-							// TODO Check also that invoice->ref is (PROV-POS1-2) with 1 = terminal and 2, the invoice ID
+							// TODO Check also that invoice->ref is (PROV-POS1-2) with 1 = terminal and 2, the table ID
 						}
 					}
 
@@ -1074,7 +1077,7 @@ if (empty($reshook)) {
 						if ($invoice->status == $invoice::STATUS_DRAFT && $invoice->pos_source && $invoice->module_source == 'takepos') {
 							$permissiontoupdateline = true;
 							// TODO Add also a test on $_SESSION('publicobjectid'] defined at creation of object
-							// TODO Check also that invoice->ref is (PROV-POS1-2) with 1 = terminal and 2, the invoice ID
+							// TODO Check also that invoice->ref is (PROV-POS1-2) with 1 = terminal and 2, the table ID
 						}
 					}
 					if (!$permissiontoupdateline) {
