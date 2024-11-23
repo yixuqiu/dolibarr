@@ -322,9 +322,8 @@ $documentation->showSidebar(); ?>
 				'print dolGetButtonTitle($btnLabel, \'\', \'fa fa-file\', \'#\', \'\', $status);',
 			);
 
-			echo $documentation->showCode($lines); ?><div class="documentation-example">
+			echo $documentation->showCode($lines, 'php'); ?><div class="documentation-example">
 				<?php
-
 
 				$btnLabel = $langs->trans('Label', 'php');
 				print dolGetButtonTitle($btnLabel, '', 'fa fa-download', '#', '', 0, ['forcenohideoftext'=>1]); // Not Enough Permissions
@@ -332,7 +331,6 @@ $documentation->showSidebar(); ?>
 				print dolGetButtonTitle($btnLabel, '', 'fa fa-download', '#', '', 2, ['forcenohideoftext'=>1]); // Active and selected
 				print dolGetButtonTitle($btnLabel, '', 'fa fa-download', '#', '', -1, ['forcenohideoftext'=>1]); // Functionality is disabled
 				print dolGetButtonTitle($btnLabel, '', 'fa fa-download', '#', '', -2, ['forcenohideoftext'=>1]); // Disabled without info
-
 
 				?>
 			</div>

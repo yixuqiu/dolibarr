@@ -395,7 +395,7 @@ class Documentation
 	{
 		require_once DOL_DOCUMENT_ROOT . '/core/class/doleditor.class.php';
 		print '<div class="documentation-code">';
-		$content = implode("\n", $lines);
+		$content = implode("\n", $lines) . "\n";
 		$doleditor = new DolEditor(md5($content), $content, '', 0, 'Basic', 'In', true, false, 'ace', 0, '99%', 1);
 		print $doleditor->Create(1, '', false, '', $option);
 		print '</div>';
