@@ -147,7 +147,7 @@ $documentation->showSidebar(); ?>
 				$id = 'button-id-7';
 				$url = '#'.$id;
 				$params = array(
-					'confirm' => true
+					'confirm' => [],
 				);
 				print dolGetButtonAction($label, $html, $actionType, $url, $id, $userRight, $params);
 
@@ -173,7 +173,7 @@ $documentation->showSidebar(); ?>
 				$id = 'button-id-9';
 				$url = '#'.$id;
 				$params = array(
-					'confirm' => true
+					'confirm' => [],
 				);
 				print dolGetButtonAction($label, $html, $actionType, $url, $id, $userRight, $params); ?>
 			</div>
