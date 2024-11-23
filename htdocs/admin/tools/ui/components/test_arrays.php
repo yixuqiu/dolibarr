@@ -32,7 +32,7 @@ if ($user->socid > 0) {
 	accessforbidden();
 }
 
-
+$optioncss = GETPOST('optioncsss', 'alpha');
 
 /*
  * View
@@ -186,15 +186,14 @@ $productspecimen = new Product($db);
 $productspecimen->initAsSpecimen();
 $object = $productspecimen;
 $param = '';
-$actioncode = '';
-$status = '';
-$filter = '';
-$filtert = '';
-$socid = 0;
-$type = 0;
-$usergroup = 0;
-
-$sortfield = 'aaa';
+$actioncode = getDolGlobalString('MAIN_TEST_UI_ACTION_CODE'); // '' by default
+$status = getDolGlobalString('MAIN_TEST_UI_STATUS'); // '' by default;
+$filter = getDolGlobalString('MAIN_TEST_UI_FILTER'); // '' by default;
+$filtert = getDolGlobalString('MAIN_TEST_UI_FILTERT'); // '' by default;
+$socid = getDolGlobalInt('MAIN_TEST_UI_SOCID', 0); // 0 by default;
+$type = getDolGlobalInt('MAIN_TEST_UI_TYPE', 0); // 0 by default;
+$usergroup = getDolGlobalInt('MAIN_TEST_UI_USERGROUP', 0); // 0 by default;
+$sortfield = getDolGlobalString('MAIN_TEST_UI_SORTFIELD', 'aaa'); // 'aaa' by default;
 $sortorder = 'ASC';
 $tasksarray = array(1, 2, 3); // To force having several lines
 $tagidfortablednd = 'tablelines3';
@@ -265,18 +264,16 @@ $cate_arbo = array('field1' => 'value1d into the select list D', 'field2' => 'va
 $moreforfilter .= $form->selectarray('search_ddd', $cate_arbo, '', 1, 0, 0, '', 0, 0, 0, '', 'maxwidth300', 1); // List with js combo forced
 $moreforfilter .= '</div>';
 
-if (!empty($moreforfilter)) {
-	print '<div class="liste_titre liste_titre_bydiv centpercent">';
-	print $moreforfilter;
-	$parameters = array();
-	$reshook = $hookmanager->executeHooks('printFieldPreListTitle', $parameters, $object); // Note that $action and $object may have been modified by hook
-	print $hookmanager->resPrint;
-	print '</div>';
-}
+print '<div class="liste_titre liste_titre_bydiv centpercent">';
+print $moreforfilter;
+$parameters = array();
+$reshook = $hookmanager->executeHooks('printFieldPreListTitle', $parameters, $object); // Note that $action and $object may have been modified by hook
+print $hookmanager->resPrint;
+print '</div>';
 
 ?>
 
-<table class="stripe row-border order-column centpercent tagtable liste<?php echo $moreforfilter ? " listwithfilterbefore" : ""; ?>" id="tablelines3">
+<table class="stripe row-border order-column centpercent tagtable liste<?php echo /* $moreforfilter ? */ " listwithfilterbefore" /* : "" */; ?>" id="tablelines3">
 <thead>
 <tr class="liste_titre">
 <?php print getTitleFieldOfList($langs->trans('title1'), 0, $_SERVER["PHP_SELF"], 'aaa', '', '', 'align="left"', $sortfield, $sortorder); ?>

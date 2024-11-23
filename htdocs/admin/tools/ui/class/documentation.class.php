@@ -77,7 +77,6 @@ class Documentation
 	 */
 	private function setMenu()
 	{
-
 		global $hookmanager;
 
 
@@ -315,7 +314,8 @@ class Documentation
 	}
 
 	/**
-	 *    Output summary
+	 * Output summary
+	 *
 	 * @param int $showsubmenu 			Show Sub menus: 0 = No, 1 = Yes
 	 * @param int $showsubmenu_summary	Show summary of sub menus: 0 = No, 1 = Yes
 	 * @return void
