@@ -41,8 +41,13 @@ $langs->load('uxdocumentation');
 //
 $documentation = new Documentation($db);
 
+$morejs = [
+	'/includes/ace/src/ace.js',
+	'/includes/ace/src/ext-statusbar.js',
+	'/includes/ace/src/ext-language_tools.js',
+];
 // Output html head + body - Param is Title
-$documentation->docHeader('Badges');
+$documentation->docHeader('Badges', $morejs);
 
 // Set view for menu and breadcrumb
 // Menu must be set in constructor of documentation class

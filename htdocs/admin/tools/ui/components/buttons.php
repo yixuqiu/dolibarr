@@ -40,9 +40,13 @@ $langs->load('uxdocumentation');
 
 //
 $documentation = new Documentation($db);
-
+$morejs = [
+	'/includes/ace/src/ace.js',
+	'/includes/ace/src/ext-statusbar.js',
+	'/includes/ace/src/ext-language_tools.js',
+];
 // Output html head + body - Param is Title
-$documentation->docHeader('Buttons');
+$documentation->docHeader('Buttons', $morejs);
 
 // Set view for menu and breadcrumb
 // Menu must be set in constructor of documentation class
@@ -131,7 +135,7 @@ $documentation->showSidebar(); ?>
 				' */',
 				'print dolGetButtonAction($label, $html, $actionType, $url, $id, $userRight, $params);',
 			);
-			echo $documentation->showCode($lines); ?>
+			echo $documentation->showCode($lines, 'php'); ?>
 		</div>
 
 		<!-- Example of modal usage -->
@@ -198,7 +202,7 @@ $documentation->showSidebar(); ?>
 				'',
 				'print dolGetButtonAction($label, $html, $actionType, $url, $id, $userRight, $params);',
 			);
-			echo $documentation->showCode($lines); ?>
+			echo $documentation->showCode($lines, 'php'); ?>
 		</div>
 
 		<!-- Example of subbutton usage -->
@@ -255,7 +259,7 @@ $documentation->showSidebar(); ?>
 				');',
 				'print dolGetButtonAction($label, $html, $actionType, $url, $id, $userRight, $params);'
 			);
-			echo $documentation->showCode($lines); ?>
+			echo $documentation->showCode($lines, 'php'); ?>
 		</div>
 
 
@@ -282,7 +286,7 @@ $documentation->showSidebar(); ?>
 				'print \' <button class="btn-low-emphasis --btn-icon" title="\'.dol_escape_htmltag($btnLabel).\'" aria-label="\'.dol_escape_htmltag($btnLabel).\'" >\'.img_picto($btnLabel, \'eraser\', \'aria-hidden="true"\', 0, 0, 1).\'</button>\';',
 
 			);
-			echo $documentation->showCode($lines); ?>
+			echo $documentation->showCode($lines, 'php'); ?>
 		</div>
 
 		<!-- Example of subbutton usage -->
@@ -322,7 +326,7 @@ $documentation->showSidebar(); ?>
 				<?php
 
 
-				$btnLabel = $langs->trans('Label');
+				$btnLabel = $langs->trans('Label', 'php');
 				print dolGetButtonTitle($btnLabel, '', 'fa fa-download', '#', '', 0, ['forcenohideoftext'=>1]); // Not Enough Permissions
 				print dolGetButtonTitle($btnLabel, '', 'fa fa-download', '#', '', 1, ['forcenohideoftext'=>1]); // Active
 				print dolGetButtonTitle($btnLabel, '', 'fa fa-download', '#', '', 2, ['forcenohideoftext'=>1]); // Active and selected
@@ -348,14 +352,8 @@ $documentation->showSidebar(); ?>
 				'$status = -2; // Disabled without info',
 				'print dolGetButtonTitle($btnLabel, \'\', \'fa fa-download\', \'#\', \'\', $status, [\'forcenohideoftext\'=>1]);',
 			);
-			echo $documentation->showCode($lines); ?>
+			echo $documentation->showCode($lines, 'php'); ?>
 		</div>
-
-
-
-
-
-
 
 	</div>
 

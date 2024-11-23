@@ -388,16 +388,16 @@ class Documentation
 	 *    Output a View Code area
 	 *
 	 * @param array $lines Lines of code to show
+	 * @param string $option Source code language ('html', 'php' etc)
 	 * @return void
 	 */
-	public function showCode($lines = array())
+	public function showCode($lines = array(), $option = 'html')
 	{
-		print '<div class="documentation-code"><pre>';
-		if (!empty($lines)) {
-			foreach ($lines as $lineofcode) {
-				print dol_htmlentities($lineofcode).'<br/>';
-			}
-		}
-		print '</pre></div>';
+		require_once DOL_DOCUMENT_ROOT . '/core/class/doleditor.class.php';
+		print '<div class="documentation-code">';
+		$content = implode("\n", $lines);
+		$doleditor = new DolEditor(md5($content), $content, '', 0, 'Basic', 'In', true, false, 'ace', 0, '99%', 1);
+		print $doleditor->Create(1, '', false, '', $option);
+		print '</div>';
 	}
 }

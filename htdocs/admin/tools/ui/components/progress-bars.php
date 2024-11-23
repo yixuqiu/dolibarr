@@ -41,8 +41,13 @@ $langs->load('uxdocumentation');
 //
 $documentation = new Documentation($db);
 
+$morejs = [
+	'/includes/ace/src/ace.js',
+	'/includes/ace/src/ext-statusbar.js',
+	'/includes/ace/src/ext-language_tools.js',
+];
 // Output html head + body - Param is Title
-$documentation->docHeader('Progress-bars');
+$documentation->docHeader('Progress-bars', $morejs);
 
 // Set view for menu and breadcrumb
 // Menu must be set in constructor of documentation class
@@ -249,6 +254,7 @@ $documentation->showSidebar(); ?>
 					'<div class="progress progress-striped" title="40%">',
 					'    <div class="progress-bar progress-bar-danger" role="progressbar" style="width: 40%" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100"></div>',
 					'</div>',
+					'',
 					'',
 
 				);

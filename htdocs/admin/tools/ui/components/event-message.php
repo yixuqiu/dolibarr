@@ -57,9 +57,13 @@ if ($action == 'displayeventmessage') {
 
 //
 $documentation = new Documentation($db);
-
+$morejs = [
+	'/includes/ace/src/ace.js',
+	'/includes/ace/src/ext-statusbar.js',
+	'/includes/ace/src/ext-language_tools.js',
+];
 // Output html head + body - Param is Title
-$documentation->docHeader('SetEventMessages');
+$documentation->docHeader('SetEventMessages', $morejs);
 
 // Set view for menu and breadcrumb
 // Menu must be set in constructor of documentation class
@@ -123,7 +127,7 @@ $documentation->showSidebar(); ?>
 					'setEventMessages("message", null);',
 					'setEventMessages(null, messages[]);',
 			);
-			echo $documentation->showCode($lines); ?>
+			echo $documentation->showCode($lines, 'php'); ?>
 		</div>
 
 		<!-- Contextual variations -->
@@ -158,11 +162,12 @@ $documentation->showSidebar(); ?>
 			</div>
 			<?php
 			$lines = array(
+				'<?php',
 				'setEventMessages("message", null)',
 				'setEventMessages("message", null, "warnings")',
 				'setEventMessages("message", null, "errors")'
 			);
-			echo $documentation->showCode($lines); ?>
+			echo $documentation->showCode($lines, 'php'); ?>
 		</div>
 		<!--  -->
 	</div>
