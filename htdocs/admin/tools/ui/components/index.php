@@ -1,6 +1,7 @@
 <?php
 /*
  * Copyright (C) 2024 Anthony Damhet <a.damhet@progiseize.fr>
+ * Copyright (C) 2024       Frédéric France         <frederic.france@free.fr>
  *
  * This program and files/directory inner it is free software: you can
  * redistribute it and/or modify it under the terms of the
@@ -17,20 +18,23 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/agpl-3.0.html>.
  */
 
-$res=0;
-if (! $res && file_exists("../../main.inc.php")) : $res=@include '../../main.inc.php';
-endif;
-if (! $res && file_exists("../../../main.inc.php")) : $res=@include '../../../main.inc.php';
-endif;
-if (! $res && file_exists("../../../../main.inc.php")) : $res=@include '../../../../main.inc.php';
-endif;
+// Load Dolibarr environment
+require '../../../../main.inc.php';
+
+/**
+ * @var DoliDB $db
+ * @var HookManager $hookmanager
+ * @var Translate $langs
+ * @var User $user
+ */
 
 // Protection if external user
-if ($user->socid > 0) : accessforbidden();
-endif;
+if ($user->socid > 0) {
+	accessforbidden();
+}
 
 // Includes
-dol_include_once('admin/tools/ui/class/documentation.class.php');
+require_once DOL_DOCUMENT_ROOT . '/admin/tools/ui/class/documentation.class.php';
 
 // Load documentation translations
 $langs->load('uxdocumentation');
@@ -48,7 +52,7 @@ $documentation->view = array('Components');
 $documentation->showSidebar(); ?>
 
 <div class="doc-wrapper">
-		
+
 	<?php $documentation->showBreadCrumb(); ?>
 
 	<div class="doc-content-wrapper">
@@ -56,7 +60,7 @@ $documentation->showSidebar(); ?>
 		<h1 class="documentation-title"><?php echo $langs->trans('DocComponentsTitle'); ?></h1>
 		<p class="documentation-text"><?php echo $langs->trans('DocComponentsMainDescription'); ?></p>
 
-		<?php $documentation->showSummary(); ?>		
+		<?php $documentation->showSummary(); ?>
 	</div>
 
 </div>
