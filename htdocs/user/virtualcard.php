@@ -131,7 +131,7 @@ if (!getDolUserInt('USER_ENABLE_PUBLIC', 0, $object)) {
 	$enabledisablehtml .= img_picto($langs->trans("Disabled"), 'switch_off');
 	$enabledisablehtml .= '</a>';
 
-	$enabledisablehtml .= '<br><br><span class="opacitymedium">'.$langs->trans("UserPublicPageDesc").'</span><br><br>';
+	$enabledisablehtml .= '<br><br><div class="opacitymedium justify">'.$langs->trans("UserPublicPageDesc").'</div>';
 } else {
 	// Button on, click to disable
 	$enabledisablehtml .= '<a class="reposition valignmiddle" href="'.$_SERVER["PHP_SELF"].'?action=setUSER_ENABLE_PUBLIC&token='.newToken().'&value=0'.$param.'">';
@@ -139,13 +139,14 @@ if (!getDolUserInt('USER_ENABLE_PUBLIC', 0, $object)) {
 	$enabledisablehtml .= '</a>';
 }
 print $enabledisablehtml;
-print '<input type="hidden" id="USER_ENABLE_PUBLIC" name="USER_ENABLE_PUBLIC" value="'.(getDolGlobalString('USER_ENABLE_PUBLIC') ? 1 : 0).'">';
+print '<input type="hidden" id="USER_ENABLE_PUBLIC" name="USER_ENABLE_PUBLIC" value="'.(getDolUserInt('USER_ENABLE_PUBLIC') ? 1 : 0).'">';
 
-print '<br><br>';
 
 print '<form action="'.$_SERVER["PHP_SELF"].'" method="POST">';
 
 if (getDolUserInt('USER_ENABLE_PUBLIC', 0, $object)) {
+	print '<br><br>';
+
 	print '<input type="hidden" name="action" value="update">';
 	print '<input type="hidden" name="id" value="'.$object->id.'">';
 	print '<input type="hidden" name="token" value="'.newToken().'">';
