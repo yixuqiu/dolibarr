@@ -40,7 +40,9 @@ if ($user->socid > 0) {
 
 $form = new Form($db);
 
-$usedolheader = 1; // 1 = Test inside a dolibarr page, 0 = Use hard coded header
+// 1 = Test inside a dolibarr page, 0 = Use hard coded header
+// Using a dolibarr constant avoid phpstan hardcoded value always true or false
+$usedolheader = getDolGlobalInt('MAIN_TEST_UI_IN_DOLIBARR_PAGE', 1);
 
 // HEADER
 //--------

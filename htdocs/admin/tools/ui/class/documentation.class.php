@@ -1,5 +1,6 @@
 <?php
 /* Copyright (C) 2024        Anthony Damhet        <a.damhet@progiseize.fr>
+ * Copyright (C) 2024       Frédéric France         <frederic.france@free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -57,6 +58,7 @@ class Documentation
 	 *    Constructor
 	 *
 	 * @param DoliDB $db Database handler
+	 * @return void
 	 */
 	public function __construct(DoliDB $db)
 	{
@@ -223,7 +225,8 @@ class Documentation
 	}
 
 	/**
-	 *    Output sidebar
+	 * Output sidebar
+	 *
 	 * @return void
 	 */
 	public function showSidebar()
@@ -320,6 +323,7 @@ class Documentation
 	public function showSummary($showsubmenu = 1, $showsubmenu_summary = 1)
 	{
 		$i = 0;
+		$menu_entry = [];
 		if (!empty($this->view)) :
 			// On se place au bon niveau
 			foreach ($this->view as $view) {
