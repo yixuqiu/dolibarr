@@ -217,13 +217,15 @@ $documentation->showSidebar(); ?>
 						'lang'=>'documentation@documentation',
 						'url'=> $submenu_url.'#'.$id,
 						'label' => 'My SubAction 1',
-						'perm' => 1
+						'perm' => true,
+						'enabled' => true,
 					),
 					array(
 						'lang'=>'documentation@documentation',
 						'url'=> $submenu_url.'#'.$id,
 						'label' => 'My SubAction 2',
-						'perm' => 0
+						'perm' => false,
+						'enabled' => true,
 					),
 				);
 				$params = array();

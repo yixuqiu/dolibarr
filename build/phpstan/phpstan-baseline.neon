@@ -1963,6 +1963,60 @@ parameters:
 			path: ../../htdocs/admin/tools/purge.php
 
 		-
+			message: '#^Method Documentation\:\:displayMenu\(\) has parameter \$menu with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../htdocs/admin/tools/ui/class/documentation.class.php
+
+		-
+			message: '#^Method Documentation\:\:displaySummary\(\) has parameter \$menu with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../htdocs/admin/tools/ui/class/documentation.class.php
+
+		-
+			message: '#^Method Documentation\:\:setMenu\(\) should return mixed but return statement is missing\.$#'
+			identifier: return.missing
+			count: 1
+			path: ../../htdocs/admin/tools/ui/class/documentation.class.php
+
+		-
+			message: '#^Method Documentation\:\:showCode\(\) has parameter \$lines with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../htdocs/admin/tools/ui/class/documentation.class.php
+
+		-
+			message: '#^Property Documentation\:\:\$menu type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../htdocs/admin/tools/ui/class/documentation.class.php
+
+		-
+			message: '#^Property Documentation\:\:\$summary type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../htdocs/admin/tools/ui/class/documentation.class.php
+
+		-
+			message: '#^Property Documentation\:\:\$view type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: ../../htdocs/admin/tools/ui/class/documentation.class.php
+
+		-
+			message: '#^Parameter \#7 \$params of function dolGetButtonAction expects array\{confirm\?\: array\{url\?\: string, title\?\: string, content\?\: string, action\-btn\-label\?\: string, cancel\-btn\-label\?\: string, modal\?\: bool\}, attr\?\: array\<string, mixed\>, areDropdownButtons\?\: bool, backtopage\?\: string, lang\?\: string, enabled\?\: bool, perm\?\: int\<0, 1\>, label\?\: string, \.\.\.\}, array\{confirm\: true\} given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../../htdocs/admin/tools/ui/components/buttons.php
+
+		-
+			message: '#^Parameter \#7 \$params of function dolGetButtonAction expects array\{confirm\?\: array\{url\?\: string, title\?\: string, content\?\: string, action\-btn\-label\?\: string, cancel\-btn\-label\?\: string, modal\?\: bool\}, attr\?\: array\<string, mixed\>, areDropdownButtons\?\: bool, backtopage\?\: string, lang\?\: string, enabled\?\: bool, perm\?\: int\<0, 1\>, label\?\: string, \.\.\.\}, array\{confirm\: true\} given\.$#'
+			identifier: argument.type
+			count: 2
+			path: ../../htdocs/admin/tools/ui/components/test_buttons.php
+
+		-
 			message: '#^Variable \$massactionbutton in empty\(\) always exists and is always falsy\.$#'
 			identifier: empty.variable
 			count: 1
