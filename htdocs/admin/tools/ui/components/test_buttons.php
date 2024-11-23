@@ -154,7 +154,7 @@ llxHeader('', 'Documentation and examples for theme');
 		$url = '#'.$id;
 		$userRight = 1;
 		$params = array(
-			'confirm' => true
+			'confirm' => [],
 		);
 
 		print dolGetButtonAction($label, $html, $actionType, $url, $id, $userRight, $params);
@@ -172,7 +172,7 @@ llxHeader('', 'Documentation and examples for theme');
 				'title' => 'Your title to display',
 				'action-btn-label' => 'Your confirm label',
 				'cancel-btn-label' => 'Your cancel label',
-				'content' => 'Content to display  with <strong>HTML</strong> compatible <ul><li>test 01</li><li>test 02</li><li>test 03</li></ul>'
+				'content' => 'Content to display  with <strong>HTML</strong> compatible <ul><li>test 01</li><li>test 02</li><li>test 03</li></ul>',
 			)
 		);
 
@@ -193,7 +193,7 @@ llxHeader('', 'Documentation and examples for theme');
 		$url = '#'.$id;
 		$userRight = 0;
 		$params = array(
-			'confirm' => true,
+			'confirm' => [],
 		);
 
 		print dolGetButtonAction($label, $html, $actionType, $url, $id, $userRight, $params);
