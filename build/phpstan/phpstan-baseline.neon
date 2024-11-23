@@ -2005,12 +2005,6 @@ parameters:
 			path: ../../htdocs/admin/tools/ui/class/documentation.class.php
 
 		-
-			message: '#^Parameter \#7 \$params of function dolGetButtonAction expects array\{confirm\?\: array\{url\?\: string, title\?\: string, content\?\: string, action\-btn\-label\?\: string, cancel\-btn\-label\?\: string, modal\?\: bool\}, attr\?\: array\<string, mixed\>, areDropdownButtons\?\: bool, backtopage\?\: string, lang\?\: string, enabled\?\: bool, perm\?\: int\<0, 1\>, label\?\: string, \.\.\.\}, array\{confirm\: true\} given\.$#'
-			identifier: argument.type
-			count: 2
-			path: ../../htdocs/admin/tools/ui/components/buttons.php
-
-		-
 			message: '#^Variable \$massactionbutton in empty\(\) always exists and is always falsy\.$#'
 			identifier: empty.variable
 			count: 1
