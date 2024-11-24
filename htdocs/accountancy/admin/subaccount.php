@@ -54,14 +54,6 @@ $search_subaccount = GETPOST('search_subaccount', 'alpha');
 $search_label = GETPOST('search_label', 'alpha');
 $search_type = GETPOST('search_type', 'intcomma');
 
-// Security check
-if ($user->socid > 0) {
-	accessforbidden();
-}
-if (!$user->hasRight('accounting', 'chartofaccount')) {
-	accessforbidden();
-}
-
 // Load variable for pagination
 $limit = GETPOSTINT('limit') ? GETPOSTINT('limit') : $conf->liste_limit;
 $sortfield = GETPOST('sortfield', 'aZ09comma');
@@ -90,6 +82,14 @@ $arrayfields = array(
 
 if (getDolGlobalInt('MAIN_FEATURES_LEVEL') < 2) {
 	unset($arrayfields['reconcilable']);
+}
+
+// Security check
+if ($user->socid > 0) {
+	accessforbidden();
+}
+if (!$user->hasRight('accounting', 'chartofaccount')) {
+	accessforbidden();
 }
 
 
@@ -123,6 +123,13 @@ if (empty($reshook)) {
 		$search_label = "";
 		$search_type = "";
 		$search_array_options = array();
+	}
+
+	if ($action == 'enable' && $user->hasRight('accounting', 'chartofaccount')) {
+		setEventMessages($langs->trans("FeatureNotYetAvailable"), null, 'errors');
+	}
+	if ($action == 'disable' && $user->hasRight('accounting', 'chartofaccount')) {
+		setEventMessages($langs->trans("FeatureNotYetAvailable"), null, 'errors');
 	}
 }
 
@@ -506,11 +513,11 @@ if ($resql) {
 			if (!empty($arrayfields['reconcilable']['checked'])) {
 				print '<td class="center">';
 				if (empty($obj->reconcilable)) {
-					print '<a class="reposition" href="'.$_SERVER["PHP_SELF"].'?id='.$obj->rowid.'&action=enable&mode=1&token='.newToken().'">';
+					print '<a class="reposition" href="'.$_SERVER["PHP_SELF"].'?id='.$obj->rowid.'&action=enable&mode=1&page='.$page.'&token='.newToken().'">';
 					print img_picto($langs->trans("Disabled"), 'switch_off');
 					print '</a>';
 				} else {
-					print '<a class="reposition" href="'.$_SERVER["PHP_SELF"].'?id='.$obj->rowid.'&action=disable&mode=1&token='.newToken().'">';
+					print '<a class="reposition" href="'.$_SERVER["PHP_SELF"].'?id='.$obj->rowid.'&action=disable&mode=1&page='.$page.'&token='.newToken().'">';
 					print img_picto($langs->trans("Activated"), 'switch_on');
 					print '</a>';
 				}
