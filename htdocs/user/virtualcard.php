@@ -303,6 +303,34 @@ if (getDolUserInt('USER_ENABLE_PUBLIC', 0, $object)) {
 	print "</td></tr>\n";
 
 	if (!getDolUserString('USER_PUBLIC_HIDE_COMPANY', '', $object)) {
+		// Email
+		print '<tr class="oddeven" id="tredit"><td>';
+		print $langs->trans("HideOnVCard", $langs->transnoentitiesnoconv("Email"));
+		print '</td><td>';
+		print ajax_constantonoff("SOCIETE_PUBLIC_HIDE_EMAIL", array(), null, 0, 0, 1, 2, 0, 0, '', '', 'reposition', $object);
+		print "</td></tr>\n";
+
+		// URL
+		print '<tr class="oddeven" id="tredit"><td>';
+		print $langs->trans("HideOnVCard", $langs->transnoentitiesnoconv("URL"));
+		print '</td><td>';
+		print ajax_constantonoff("SOCIETE_PUBLIC_HIDE_URL", array(), null, 0, 0, 1, 2, 0, 0, '', '', 'reposition', $object);
+		print "</td></tr>\n";
+
+		// Office phone
+		print '<tr class="oddeven" id="tredit"><td>';
+		print $langs->trans("HideOnVCard", $langs->transnoentitiesnoconv("Phone"));
+		print '</td><td>';
+		print ajax_constantonoff("SOCIETE_PUBLIC_HIDE_OFFICE_PHONE", array(), null, 0, 0, 1, 2, 0, 0, '', '', 'reposition', $object);
+		print "</td></tr>\n";
+
+		// Office fax
+		print '<tr class="oddeven" id="tredit"><td>';
+		print $langs->trans("HideOnVCard", $langs->transnoentitiesnoconv("Fax"));
+		print '</td><td>';
+		print ajax_constantonoff("SOCIETE_PUBLIC_HIDE_OFFICE_FAX", array(), null, 0, 0, 1, 2, 0, 0, '', '', 'reposition', $object);
+		print "</td></tr>\n";
+
 		// Social networks
 		print '<tr class="oddeven" id="tredit"><td>';
 		print $langs->trans("HideOnVCard", $langs->transnoentitiesnoconv("SocialNetworksInformation"));

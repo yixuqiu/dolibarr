@@ -184,6 +184,18 @@ if (!getDolUserInt('USER_PUBLIC_SHOW_ADDRESS', 0, $object)) {
 if (getDolUserInt('USER_PUBLIC_HIDE_COMPANY', 0, $object)) {
 	$company = null;
 }
+if (getDolUserInt('SOCIETE_PUBLIC_HIDE_EMAIL', 0, $object)) {
+	$mysoc->email = '';
+}
+if (getDolUserInt('SOCIETE_PUBLIC_HIDE_OFFICE_PHONE', 0, $object)) {
+	$mysoc->phone = '';
+}
+if (getDolUserInt('SOCIETE_PUBLIC_HIDE_OFFICE_FAX', 0, $object)) {
+	$mysoc->fax = '';
+}
+if (getDolUserInt('SOCIETE_PUBLIC_HIDE_URL', 0, $object)) {
+	$mysoc->url = '';
+}
 if (getDolUserInt('USER_PUBLIC_HIDE_SOCIALNETWORKS_BUSINESS', 0, $object) && is_object($company)) {
 	$company->socialnetworks = [];
 } else {
