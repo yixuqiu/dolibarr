@@ -4039,7 +4039,7 @@ function dol_print_socialnetworks($value, $cid, $socid, $type, $dictsocialnetwor
 				$link = str_replace('{socialid}', $value, getDolGlobalString($networkconstname));
 				if (preg_match('/^https?:\/\//i', $link)) {
 					$htmllink .= '<a href="'.dol_sanitizeUrl($link, 0).'" target="_blank" rel="noopener noreferrer">'.dol_escape_htmltag($value).'</a>';
-				} else {
+				} elseif ($link) {
 					$htmllink .= '<a href="'.dol_sanitizeUrl($link, 1).'" target="_blank" rel="noopener noreferrer">'.dol_escape_htmltag($value).'</a>';
 				}
 			} elseif (!empty($dictsocialnetworks[$type]['url'])) {
