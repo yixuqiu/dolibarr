@@ -1205,7 +1205,7 @@ class BonPrelevement extends CommonObject
 					$factures[$i] = $row;
 
 					// Decode BAN
-					$factures[11] = dolDecrypt($factures[11]);
+					$factures[$i][11] = dolDecrypt($factures[$i][11]);
 
 					if ($row[7] == 0) {
 						$error++;
@@ -1254,7 +1254,7 @@ class BonPrelevement extends CommonObject
 
 						$verif = checkSwiftForAccount(null, $fac[10]);
 						if ($verif || (empty($fac[10]) && getDolGlobalInt("WITHDRAWAL_WITHOUT_BIC"))) {
-							dol_syslog(__METHOD__." now call checkIbanForAccount");
+							dol_syslog(__METHOD__." now call checkIbanForAccount(null, ".$fac[11].")");
 							$verif = checkIbanForAccount(null, $fac[11]);
 						}
 
