@@ -5164,7 +5164,7 @@ class Form
 				if ($status == 0) {
 					$out .= '<option class="opacitymedium" value="-1">' . $langs->trans("NoActiveBankAccountDefined") . '</span>';
 				} else {
-					$out .= '<option class="opacitymedium" value="-1">' . $langs->trans("NoBankAccountFound") . '</span>';
+					$out .= '<option class="opacitymedium" value="-1">' . $langs->trans("NoBankAccountDefined") . '</span>';
 				}
 			} else {
 				if (!empty($useempty) && !is_numeric($useempty)) {
