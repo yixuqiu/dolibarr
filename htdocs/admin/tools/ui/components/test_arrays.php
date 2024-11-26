@@ -24,8 +24,14 @@ require '../../../../main.inc.php';
  * @var HookManager $hookmanager
  * @var Translate $langs
  * @var User $user
+ *
+ * @var int $dolibarr_main_prod
  */
 
+// Security
+if ($dolibarr_main_prod) {
+	accessforbidden('Access forbidden when $dolibarr_main_prod is set to 1');
+}
 // Protection if external user
 if ($user->socid > 0) {
 	accessforbidden();
