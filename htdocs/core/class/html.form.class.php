@@ -5214,7 +5214,7 @@ class Form
 	}
 
 	/**
-	 *  Return a HTML select list of bank accounts customer
+	 * Return a HTML select list of bank accounts customer
 	 *
 	 * @param int|''	 	$selected 		Id account preselected
 	 * @param string 		$htmlname 		Name of select zone
@@ -5238,7 +5238,7 @@ class Form
 
 		$sql = "SELECT rowid, label, bank, status, iban_prefix, bic";
 		$sql .= " FROM " . $this->db->prefix() . "societe_rib";
-		$sql.=  " WHERE 1=1";
+		$sql.=  " WHERE type = 'ban'";
 		if ($filtre) {	// TODO Support USF
 			$sql .= " AND " . $filtre;
 		}
