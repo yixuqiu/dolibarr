@@ -1591,7 +1591,7 @@ function dol_clone($object, $native = 2)
 }
 
 /**
- *	Optimize a size for some browsers (phone, smarphone, ...)
+ *	Optimize a size for some browsers (phone, smarphone...)
  *
  * 	@param	int		$size		Size we want
  * 	@param	string	$type		Type of optimizing:
