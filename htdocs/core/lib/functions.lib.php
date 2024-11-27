@@ -122,7 +122,7 @@ if (!function_exists('str_contains')) {
 
 
 /**
- * Return the full path of the directory where a module (or an object of a module) stores its files,
+ * Return the full path of the directory where a module (or an object of a module) stores its files.
  * Path may depends on the entity if a multicompany module is enabled.
  *
  * @param 	CommonObject 	$object 	Dolibarr common object
@@ -132,7 +132,7 @@ if (!function_exists('str_contains')) {
  * @return 	string|null					The path of the relative directory of the module, ending with /
  * @since Dolibarr V18
  */
-function getMultidirOutput($object, $module = '', $forobject = 0, $mode = 'output')
+function getMultidirOutput($object, $odule = '', $forobject = 0, $mode = 'output')
 {
 	global $conf;
 
