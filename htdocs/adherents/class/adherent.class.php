@@ -43,7 +43,7 @@ require_once DOL_DOCUMENT_ROOT.'/core/class/commonpeople.class.php';
 
 
 /**
- *		Class to manage members of a foundation
+ *		Class to manage members of a foundation.
  */
 class Adherent extends CommonObject
 {
