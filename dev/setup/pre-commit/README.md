@@ -27,8 +27,8 @@ the project: `pre-commit-config.yaml`.
    If you do not have python installed, install [python](https://www.python.org) first.\
    `sudo apt install python3`
    
-   If you do not have [`pip`](https://pypi.org/project/pip), install that as well.\\
-    `sudo apt install pip`
+   If you do not have [`pip`](https://pypi.org/project/pip), install that as well.\
+   `sudo apt install pip`
 
    Then you can install pre-commit tool: 
    `python3 -m pip install pre-commit`
