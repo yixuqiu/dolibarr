@@ -30,7 +30,7 @@ the project: `pre-commit-config.yaml`.
    If you do not have [`pip`](https://pypi.org/project/pip), install that as well.\
    `sudo apt install pip`
 
-   Then you can install pre-commit tool: 
+   Then you can install pre-commit tool:\
    `python3 -m pip install pre-commit`
 
 2. In your local git clone of the project, run `pre-commit install` to add the hooks 
