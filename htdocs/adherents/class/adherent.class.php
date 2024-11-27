@@ -829,7 +829,7 @@ class Adherent extends CommonObject
 		$sql .= ", fk_user_mod = ".($user->id > 0 ? $user->id : 'null'); // Can be null because member can be create by a guest
 		$sql .= " WHERE rowid = ".((int) $this->id);
 
-		// If we change the type of membership, we set also label of new type
+		// If we change the type of membership, we set also label of new type.
 		'@phan-var-force Adherent $this->oldcopy';
 		/** @var Adherent $this->oldcopy */
 		if (!empty($this->oldcopy) && $this->typeid != $this->oldcopy->typeid) {
