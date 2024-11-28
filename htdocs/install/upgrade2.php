@@ -114,7 +114,7 @@ if ((!$versionfrom || preg_match('/version/', $versionfrom)) && (!$versionto || 
 	if (substr($sapi_type, 0, 3) == 'cli') {
 		print 'Syntax from command line: '.$script_file." x.y.z a.b.c [MAIN_MODULE_NAME1_TO_ENABLE,MAIN_MODULE_NAME2_TO_ENABLE...]\n";
 		print 'Example: '.$script_file." 19.0.0 20.0.0\n";
-		print 'Example: '.$script_file."  0.0.0  0.0.0  Adherents\n";
+		print 'Example: '.$script_file."  0.0.0  0.0.0  MAIN_MODULE_Adherent\n";
 		print "\n";
 	}
 	exit;
