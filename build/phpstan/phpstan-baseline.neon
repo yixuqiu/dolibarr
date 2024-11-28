@@ -229,12 +229,6 @@ parameters:
 			path: ../../htdocs/accountancy/bookkeeping/export.php
 
 		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 1
-			path: ../../htdocs/accountancy/bookkeeping/list.php
-
-		-
 			message: '#^Variable \$contextpage in empty\(\) always exists and is not falsy\.$#'
 			identifier: empty.variable
 			count: 1
@@ -251,12 +245,6 @@ parameters:
 			identifier: variable.undefined
 			count: 3
 			path: ../../htdocs/accountancy/bookkeeping/list.php
-
-		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 1
-			path: ../../htdocs/accountancy/bookkeeping/listbyaccount.php
 
 		-
 			message: '#^Variable \$contextpage in empty\(\) always exists and is not falsy\.$#'
@@ -4573,12 +4561,6 @@ parameters:
 			path: ../../htdocs/comm/propal/class/propal.class.php
 
 		-
-			message: '#^Property CommonObject\:\:\$model_pdf \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 2
-			path: ../../htdocs/comm/propal/class/propal.class.php
-
-		-
 			message: '#^Property CommonObject\:\:\$ref \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 2
@@ -4972,12 +4954,6 @@ parameters:
 			message: '#^Property CommonObject\:\:\$fk_project \(int\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
-			path: ../../htdocs/commande/class/commande.class.php
-
-		-
-			message: '#^Property CommonObject\:\:\$model_pdf \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 2
 			path: ../../htdocs/commande/class/commande.class.php
 
 		-
@@ -6172,12 +6148,6 @@ parameters:
 			message: '#^Property CommonObject\:\:\$fk_project \(int\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
-			path: ../../htdocs/compta/facture/class/facture.class.php
-
-		-
-			message: '#^Property CommonObject\:\:\$model_pdf \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 3
 			path: ../../htdocs/compta/facture/class/facture.class.php
 
 		-
@@ -19369,12 +19339,6 @@ parameters:
 			path: ../../htdocs/expedition/class/expedition.class.php
 
 		-
-			message: '#^Property Expedition\:\:\$model_pdf \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 2
-			path: ../../htdocs/expedition/class/expedition.class.php
-
-		-
 			message: '#^Property Expedition\:\:\$ref_customer \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 2
@@ -20743,12 +20707,6 @@ parameters:
 			path: ../../htdocs/fourn/class/fournisseur.commande.class.php
 
 		-
-			message: '#^Property CommonObject\:\:\$model_pdf \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 2
-			path: ../../htdocs/fourn/class/fournisseur.commande.class.php
-
-		-
 			message: '#^Property CommonObject\:\:\$ref_ext \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
@@ -20980,12 +20938,6 @@ parameters:
 			message: '#^Property CommonObject\:\:\$fk_project \(int\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
-			path: ../../htdocs/fourn/class/fournisseur.facture.class.php
-
-		-
-			message: '#^Property CommonObject\:\:\$model_pdf \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 2
 			path: ../../htdocs/fourn/class/fournisseur.facture.class.php
 
 		-
@@ -28759,12 +28711,6 @@ parameters:
 			path: ../../htdocs/projet/list.php
 
 		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 1
-			path: ../../htdocs/projet/list.php
-
-		-
 			message: '#^Ternary operator condition is always false\.$#'
 			identifier: ternary.alwaysFalse
 			count: 1
@@ -30655,12 +30601,6 @@ parameters:
 			path: ../../htdocs/reception/class/reception.class.php
 
 		-
-			message: '#^Property Reception\:\:\$model_pdf \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 2
-			path: ../../htdocs/reception/class/reception.class.php
-
-		-
 			message: '#^Property Reception\:\:\$ref_supplier \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 2
@@ -31915,12 +31855,6 @@ parameters:
 			path: ../../htdocs/salaries/payments.php
 
 		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 1
-			path: ../../htdocs/salaries/payments.php
-
-		-
 			message: '#^Ternary operator condition is always false\.$#'
 			identifier: ternary.alwaysFalse
 			count: 1
@@ -32332,12 +32266,6 @@ parameters:
 			message: '#^Negated boolean expression is always true\.$#'
 			identifier: booleanNot.alwaysTrue
 			count: 1
-			path: ../../htdocs/societe/class/companybankaccount.class.php
-
-		-
-			message: '#^Property CompanyBankAccount\:\:\$model_pdf \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 2
 			path: ../../htdocs/societe/class/companybankaccount.class.php
 
 		-
@@ -33739,18 +33667,6 @@ parameters:
 			path: ../../htdocs/ticket/class/ticket.class.php
 
 		-
-			message: '#^Property CommonObject\:\:\$entity \(int\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 1
-			path: ../../htdocs/ticket/class/ticket.class.php
-
-		-
-			message: '#^Property CommonObject\:\:\$model_pdf \(string\) in isset\(\) is not nullable\.$#'
-			identifier: isset.property
-			count: 2
-			path: ../../htdocs/ticket/class/ticket.class.php
-
-		-
 			message: '#^Property CommonObject\:\:\$ref \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 4
@@ -33959,18 +33875,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/ticket/index.php
-
-		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 3
-			path: ../../htdocs/ticket/list.php
-
-		-
-			message: '#^Variable \$contextpage in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: ../../htdocs/ticket/list.php
 
 		-
 			message: '#^If condition is always false\.$#'
@@ -34319,12 +34223,6 @@ parameters:
 			identifier: variable.undefined
 			count: 2
 			path: ../../htdocs/user/home.php
-
-		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 2
-			path: ../../htdocs/user/list.php
 
 		-
 			message: '#^Offset ''u\.salary'' on array\{u\.salary\: \(float\|int\)\} in isset\(\) always exists and is not nullable\.$#'
