@@ -1850,7 +1850,7 @@ if ($action == 'create') {
 			$currency_code = $soc->multicurrency_code;
 		}
 	}
-	
+
 	// If form was posted (but error returned), we must reuse the value posted in priority (standard Dolibarr behaviour)
 	if (!GETPOST('changecompany')) {
 		if (GETPOSTISSET('cond_reglement_id')) {
