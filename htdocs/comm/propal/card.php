@@ -1766,7 +1766,7 @@ if ($action == 'create') {
 	$fk_account = GETPOST('fk_account', 'int');
 
 	// Load objectsrc
-	$objectsrc = NULL;
+	$objectsrc = null;
 	if (!empty($origin) && !empty($originid)) {
 		// Parse element/subelement (ex: project_task)
 		$element = $subelement = $origin;
