@@ -968,7 +968,7 @@ class FormTicket
 	 *      @param  string 		$htmlname   		Name of select component
 	 *      @param  string 		$filtertype 		To filter on some properties in llx_c_ticket_category ('public = 1'). This parameter must not come from input of users.
 	 *      @param  int    		$format     		0 = id+label, 1 = code+code, 2 = code+label, 3 = id+code
-	 *      @param  int    		$empty      		1 = can be empty, 0 = or can't be empty
+	 *      @param  int|string	$empty      		1 = can be empty or 'string' to show the string as the empty value, 0 = can't be empty, 'ifone' = can be empty but autoselected if there is one only
 	 *      @param  int    		$noadmininfo		0 = ddd admin info, 1 = disable admin info
 	 *      @param  int    		$maxlength  		Max length of label
 	 *      @param	string		$morecss			More CSS
@@ -995,7 +995,7 @@ class FormTicket
 		if ($use_multilevel <= 0) {
 			print '<select id="select'.$htmlname.'" class="flat minwidth100'.($morecss ? ' '.$morecss : '').'" name="'.$htmlname.'">';
 			if ($empty) {
-				print '<option value="">&nbsp;</option>';
+				print '<option value="">'.(is_numeric($empty) ? '&nbsp;' : $empty).'</option>';
 			}
 
 			if (is_array($ticketstat->cache_category_tickets) && count($ticketstat->cache_category_tickets)) {
@@ -1042,7 +1042,7 @@ class FormTicket
 						print ' selected="selected"';
 					} elseif ($arraycategories['use_default'] == "1" && empty($selected)) {
 						print ' selected="selected"';
-					} elseif (count($ticketstat->cache_category_tickets) == 1) {	// If only 1 choice, we autoselect it
+					} elseif (count($ticketstat->cache_category_tickets) == 1 && (!$empty || $empty == 'ifone')) {	// If only 1 choice, we autoselect it
 						print ' selected="selected"';
 					}
 
