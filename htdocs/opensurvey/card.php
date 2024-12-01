@@ -261,16 +261,6 @@ if ($action == 'edit') {
 }
 print '</td></tr>';
 
-// Description
-print '<tr><td class="tdtop">'.$langs->trans("Description").'</td><td class="wordbreak">';
-if ($action == 'edit') {
-	$doleditor = new DolEditor('nouveauxcommentaires', $object->description, '', 120, 'dolibarr_notes', 'In', true, 1, 1, ROWS_7, '90%');
-	$doleditor->Create(0, '');
-} else {
-	print(dol_textishtml($object->description) ? $object->description : dol_nl2br($object->description, 1, true));
-}
-print '</td></tr>';
-
 // Receive an email with each vote
 print '<tr><td>'.$langs->trans('ToReceiveEMailForEachVote').'</td><td>';
 if ($action == 'edit') {
@@ -302,6 +292,16 @@ if ($action == 'edit') {
 	print '<input type="checkbox" name="canseeothersvote" '.($object->allow_spy ? 'checked="checked"' : '').'">';
 } else {
 	print yn($object->allow_spy);
+}
+print '</td></tr>';
+
+// Description
+print '<tr><td class="tdtop">'.$langs->trans("Description").'</td><td class="wordbreak">';
+if ($action == 'edit') {
+	$doleditor = new DolEditor('nouveauxcommentaires', $object->description, '', 120, 'dolibarr_notes', 'In', true, 1, 1, ROWS_7, '90%');
+	$doleditor->Create(0, '');
+} else {
+	print(dol_textishtml($object->description) ? $object->description : dol_nl2br($object->description, 1, true));
 }
 print '</td></tr>';
 
