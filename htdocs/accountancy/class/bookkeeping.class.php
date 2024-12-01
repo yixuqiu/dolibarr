@@ -3,6 +3,7 @@
  * Copyright (C) 2015-2022  Alexandre Spangaro  <aspangaro@open-dsi.fr>
  * Copyright (C) 2015-2020  Florian Henry       <florian.henry@open-concept.pro>
  * Copyright (C) 2018-2020  Frédéric France     <frederic.france@netlogic.fr>
+ * Copyright (C) 2024		Jose MARTINEZ	    <jose.martinez@pichinov.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -2748,9 +2749,9 @@ class BookKeeping extends CommonObject
 								$sql .= " LIMIT 1";
 								$result = $this->db->query($sql);
 								if (!$result) {
-    								$this->errors[] = 'Error: ' . $this->db->lasterror();
-    								dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
-    								$error++;
+									$this->errors[] = 'Error: ' . $this->db->lasterror();
+									dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
+									$error++;
 								}
 								$objtmp = $this->db->fetch_object($result);
 								$bookkeeping->subledger_label = $objtmp->subledger_label; // latest subledger label used
@@ -2810,9 +2811,9 @@ class BookKeeping extends CommonObject
 							$sql .= " LIMIT 1";
 							$result = $this->db->query($sql);
 							if (!$result) {
-    							$this->errors[] = 'Error: ' . $this->db->lasterror();
-    							dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
-    							$error++;
+								$this->errors[] = 'Error: ' . $this->db->lasterror();
+								dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
+								$error++;
 							}
 							$objtmp = $this->db->fetch_object($result);
 							$bookkeeping->subledger_label = $objtmp->subledger_label; // latest subledger label used
