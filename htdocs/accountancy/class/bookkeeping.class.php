@@ -2692,10 +2692,8 @@ class BookKeeping extends CommonObject
 
 				$sql = 'SELECT';
 				$sql .= " t.numero_compte,";
-				$sql .= " t.label_compte,";
 				if ($separate_auxiliary_account) {
-					$sql .= " t.subledger_account,";
-					$sql .= " t.subledger_label,";
+					$sql .= " NULLIF(t.subledger_account, '') as subledger_account,"; // fix db issues with Null or "" values
 				}
 				$sql .= " aa.pcg_type,";
 				$sql .= " (SUM(t.credit) - SUM(t.debit)) as opening_balance";
@@ -2707,10 +2705,11 @@ class BookKeeping extends CommonObject
 				$sql .= ' AND aa.pcg_type IN (' . $this->db->sanitize(implode(',', $pcg_type_filter), 1) . ')';
 				$sql .= " AND DATE(t.doc_date) >= '" . $this->db->idate($fiscal_period->date_start) . "'";
 				$sql .= " AND DATE(t.doc_date) <= '" . $this->db->idate($fiscal_period->date_end) . "'";
-				$sql .= ' GROUP BY t.numero_compte, t.label_compte, aa.pcg_type';
+				$sql .= ' GROUP BY t.numero_compte, aa.pcg_type';
 				if ($separate_auxiliary_account) {
-					$sql .= ' ,t.subledger_account, t.subledger_label';
+					$sql .= " , NULLIF(t.subledger_account, '')";
 				}
+				$sql .= ' HAVING (SUM(t.credit) - SUM(t.debit)) != 0 '; // Exclude rows with opening_balance = 0
 				$sql .= $this->db->order("t.numero_compte", "ASC");
 
 				$resql = $this->db->query($sql);
@@ -2732,23 +2731,38 @@ class BookKeeping extends CommonObject
 							$bookkeeping = new BookKeeping($this->db);
 							$bookkeeping->doc_date = $new_fiscal_period->date_start;
 							$bookkeeping->date_lim_reglement = '';
-							$bookkeeping->doc_ref = $new_fiscal_period->label;
+							$bookkeeping->doc_ref = $fiscal_period->label;
 							$bookkeeping->date_creation = $now;
 							$bookkeeping->doc_type = 'closure';
-							$bookkeeping->fk_doc = $new_fiscal_period->id;
+							$bookkeeping->fk_doc = $fiscal_period->id;
 							$bookkeeping->fk_docdet = 0; // Useless, can be several lines that are source of this record to add
 							$bookkeeping->thirdparty_code = '';
 
 							if ($separate_auxiliary_account) {
 								$bookkeeping->subledger_account = $obj->subledger_account;
-								$bookkeeping->subledger_label = $obj->subledger_label;
+								$sql = 'SELECT';
+								$sql .= " subledger_label";
+								$sql .= " FROM " . MAIN_DB_PREFIX . $this->table_element;
+								$sql .= " WHERE subledger_account = '" . $this->db->escape($obj->subledger_account) . "'";
+								$sql .= " ORDER BY doc_date DESC";
+								$sql .= " LIMIT 1";
+								$result = $this->db->query($sql);
+								if (!$result) {
+    								$this->errors[] = 'Error: ' . $this->db->lasterror();
+    								dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
+    								$error++;
+								}
+								$objtmp = $this->db->fetch_object($result);
+								$bookkeeping->subledger_label = $objtmp->subledger_label; // latest subledger label used
 							} else {
-								$bookkeeping->subledger_account = '';
-								$bookkeeping->subledger_label = '';
+								$bookkeeping->subledger_account = null;
+								$bookkeeping->subledger_label = null;
 							}
 
 							$bookkeeping->numero_compte = $obj->numero_compte;
-							$bookkeeping->label_compte = $obj->label_compte;
+							$accountingaccount = new AccountingAccount($this->db);
+							$accountingaccount->fetch('', $obj->numero_compte);
+							$bookkeeping->label_compte = $accountingaccount->label; // latest account label used
 
 							$bookkeeping->label_operation = $new_fiscal_period->label;
 							$bookkeeping->montant = $mt;
@@ -2787,12 +2801,24 @@ class BookKeeping extends CommonObject
 						$bookkeeping->thirdparty_code = '';
 
 						if ($separate_auxiliary_account) {
-							$bookkeeping->subledger_label = '';
 							$bookkeeping->subledger_account = $obj->subledger_account;
-							$bookkeeping->subledger_label = $obj->subledger_label;
+							$sql = 'SELECT';
+							$sql .= " subledger_label";
+							$sql .= " FROM " . MAIN_DB_PREFIX . $this->table_element;
+							$sql .= " WHERE subledger_account = '" . $this->db->escape($obj->subledger_account) . "'";
+							$sql .= " ORDER BY doc_date DESC";
+							$sql .= " LIMIT 1";
+							$result = $this->db->query($sql);
+							if (!$result) {
+    							$this->errors[] = 'Error: ' . $this->db->lasterror();
+    							dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
+    							$error++;
+							}
+							$objtmp = $this->db->fetch_object($result);
+							$bookkeeping->subledger_label = $objtmp->subledger_label; // latest subledger label used
 						} else {
-							$bookkeeping->subledger_account = '';
-							$bookkeeping->subledger_label = '';
+							$bookkeeping->subledger_account = null;
+							$bookkeeping->subledger_label = null;
 						}
 
 						$bookkeeping->numero_compte = $accountingaccount->account_number;
