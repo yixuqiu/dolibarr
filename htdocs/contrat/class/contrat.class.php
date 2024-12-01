@@ -541,6 +541,12 @@ class Contrat extends CommonObject
 					if (!$resql) {
 						$error++; $this->error = $this->db->lasterror();
 					}
+					$sql = 'UPDATE '.MAIN_DB_PREFIX."ecm_files set filepath = 'contract/".$this->db->escape($this->newref)."'";
+					$sql .= " WHERE filepath = 'contract/".$this->db->escape($this->ref)."' and entity = ".$conf->entity;
+					$resql = $this->db->query($sql);
+					if (!$resql) {
+						$error++; $this->error = $this->db->lasterror();
+					}
 
 					// We rename directory ($this->ref = old ref, $num = new ref) in order not to lose the attachments
 					$oldref = dol_sanitizeFileName($this->ref);
@@ -1615,7 +1621,8 @@ class Contrat extends CommonObject
 					$contractline->id = $contractlineid;
 					$result = $contractline->insertExtraFields();
 					if ($result < 0) {
-						$this->error[] = $contractline->error;
+						$this->errors = array_merge($this->errors, $contractline->errors);
+						$this->error = $contractline->error;
 						$error++;
 					}
 				}
@@ -2104,7 +2111,7 @@ class Contrat extends CommonObject
 
 		$result .= $linkstart;
 		if ($withpicto) {
-			$result .= img_object(($notooltip ? '' : $label), $this->picto, ($notooltip ? (($withpicto != 2) ? 'class="paddingright"' : '') : $dataparams.' class="'.(($withpicto != 2) ? 'paddingright ' : '').$classfortooltip.'"'), 0, 0, $notooltip ? 0 : 1);
+			$result .= img_object(($notooltip ? '' : $label), ($this->picto ? $this->picto : 'generic'), (($withpicto != 2) ? 'class="paddingright"' : ''), 0, 0, $notooltip ? 0 : 1);
 		}
 		if ($withpicto != 2) {
 			$result .= ($this->ref ? $this->ref : $this->id);

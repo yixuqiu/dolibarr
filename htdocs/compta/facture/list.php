@@ -111,8 +111,8 @@ $search_town = GETPOST('search_town', 'alpha');
 $search_zip = GETPOST('search_zip', 'alpha');
 $search_state = GETPOST("search_state");
 $search_country = GETPOST("search_country", 'alpha');
+$search_customer_code = GETPOST("search_customer_code", 'alphanohtml');
 $search_type_thirdparty = GETPOST("search_type_thirdparty", 'int');
-$search_company_code_client = GETPOST("search_type_thirdparty", 'alpha');
 $search_user = GETPOST('search_user', 'int');
 $search_sale = GETPOST('search_sale', 'int');
 $search_date_startday = GETPOST('search_date_startday', 'int');
@@ -350,6 +350,7 @@ if (GETPOST('button_removefilter_x', 'alpha') || GETPOST('button_removefilter', 
 	$search_state = "";
 	$search_country = '';
 	$search_type_thirdparty = '';
+	$search_customer_code = '';
 	$search_date_startday = '';
 	$search_date_startmonth = '';
 	$search_date_startyear = '';
@@ -421,8 +422,8 @@ if ($action == 'makepayment_confirm' && $user->hasRight('facture', 'paiement')) 
 						$paiementAmount = $facture->getSommePaiement();
 						$totalcreditnotes = $facture->getSumCreditNotesUsed();
 						$totaldeposits = $facture->getSumDepositsUsed();
-						$totalpay = $paiementAmount + $totalcreditnotes + $totaldeposits;
-						$remaintopay = price2num($facture->total_ttc - $totalpay);
+						$totalallpayments = $paiementAmount + $totalcreditnotes + $totaldeposits;
+						$remaintopay = price2num($facture->total_ttc - $totalallpayments);
 						if ($remaintopay != 0) {
 							$resultBank = $facture->setBankAccount($bankid);
 							if ($resultBank < 0) {
@@ -699,8 +700,8 @@ if (empty($arrayfields['s.name_alias']['checked']) && $search_company) {
 if ($search_parent_name) {
 	$sql .= natural_search('s2.nom', $search_parent_name);
 }
-if ($search_company_code_client) {
-	$sql .= natural_search('s.code_client', $search_company_code_client);
+if ($search_customer_code) {
+	$sql .= natural_search('s.code_client', $search_customer_code);
 }
 if ($search_town) {
 	$sql .= natural_search('s.town', $search_town);
@@ -943,6 +944,7 @@ if (!getDolGlobalInt('MAIN_DISABLE_FULL_SCANLIST')) {
 	/* The fast and low memory method to get and count full list converts the sql into a sql count */
 	$sqlforcount = preg_replace('/^'.preg_quote($sqlfields, '/').'/', 'SELECT COUNT(*) as nbtotalofrecords', $sql);
 	$sqlforcount = preg_replace('/GROUP BY .*$/', '', $sqlforcount);
+
 	$resql = $db->query($sqlforcount);
 	if ($resql) {
 		$objforcount = $db->fetch_object($resql);
@@ -1094,6 +1096,9 @@ if ($resql) {
 	}
 	if ($search_type_thirdparty != '') {
 		$param .= '&search_type_thirdparty='.urlencode($search_type_thirdparty);
+	}
+	if ($search_customer_code) {
+		$param .= '&search_customer_code='.urlencode($search_customer_code);
 	}
 	if ($search_sale > 0) {
 		$param .= '&search_sale='.urlencode($search_sale);
@@ -1423,7 +1428,7 @@ if ($resql) {
 	}
 	// Customer Code
 	if (!empty($arrayfields['s.code_client']['checked'])) {
-		print '<td class="liste_titre"><input class="flat maxwidth75imp" type="text" name="search_company_code_client" value="'.dol_escape_htmltag($search_company_code_client).'"></td>';
+		print '<td class="liste_titre"><input class="flat maxwidth75imp" type="text" name="search_customer_code" value="'.dol_escape_htmltag($search_customer_code).'"></td>';
 	}
 	// Town
 	if (!empty($arrayfields['s.town']['checked'])) {
@@ -1816,6 +1821,9 @@ if ($resql) {
 		$totalarray['val']['f.total_tva'] = 0;
 		$totalarray['val']['f.total_ht'] = 0;
 		$totalarray['val']['f.total_ttc'] = 0;
+		$totalarray['val']['dynamount_payed'] = 0;
+		$totalarray['val']['rtp'] = 0;
+
 
 		$with_margin_info = false;
 		if (isModEnabled('margin') && (
@@ -1902,8 +1910,8 @@ if ($resql) {
 			$multicurrency_totalcreditnotes = $facturestatic->getSumCreditNotesUsed(1);
 			$multicurrency_totaldeposits = $facturestatic->getSumDepositsUsed(1);
 
-			$totalpay = $paiement + $totalcreditnotes + $totaldeposits;
-			$remaintopay = price2num($facturestatic->total_ttc - $totalpay);
+			$totalallpayments = $paiement + $totalcreditnotes + $totaldeposits;
+			$remaintopay = $obj->total_ttc - $totalallpayments;
 
 			$multicurrency_totalpay = $multicurrency_paiement + $multicurrency_totalcreditnotes + $multicurrency_totaldeposits;
 			$multicurrency_remaintopay = price2num($facturestatic->multicurrency_total_ttc - $multicurrency_totalpay);
@@ -1915,13 +1923,16 @@ if ($resql) {
 			if ($facturestatic->type == Facture::TYPE_CREDIT_NOTE && $obj->paye == 1) {		// If credit note closed, we take into account the amount not yet consumed
 				$remaincreditnote = $discount->getAvailableDiscounts($companystatic, '', 'rc.fk_facture_source='.$facturestatic->id);
 				$remaintopay = -$remaincreditnote;
-				$totalpay = price2num($facturestatic->total_ttc - $remaintopay);
+				$totalallpayments = price2num($facturestatic->total_ttc - $remaintopay);
 				$multicurrency_remaincreditnote = $discount->getAvailableDiscounts($companystatic, '', 'rc.fk_facture_source='.$facturestatic->id, 0, 0, 1);
 				$multicurrency_remaintopay = -$multicurrency_remaincreditnote;
 				$multicurrency_totalpay = price2num($facturestatic->multicurrency_total_ttc - $multicurrency_remaintopay);
 			}
 
 			$facturestatic->alreadypaid = $paiement;
+			$facturestatic->totalpaid = $paiement;
+			$facturestatic->totalcreditnotes = $totalcreditnotes;
+			$facturestatic->totaldeposits = $totaldeposits;
 
 			$marginInfo = array();
 			if ($with_margin_info === true) {
@@ -1994,6 +2005,8 @@ if ($resql) {
 
 					$filename = dol_sanitizeFileName($obj->ref);
 					$filedir = $conf->facture->dir_output.'/'.dol_sanitizeFileName($obj->ref);
+					$filepath = $conf->invoice->multidir_output[$obj->entity] ?? $conf->invoice->dir_output;
+					$filedir = $filepath . '/' . $filename;
 					$urlsource = $_SERVER['PHP_SELF'].'?id='.$obj->id;
 					print $formfile->getDocumentsLink($facturestatic->element, $filename, $filedir);
 					print '</td>';
@@ -2374,14 +2387,14 @@ if ($resql) {
 				}
 
 				if (!empty($arrayfields['dynamount_payed']['checked'])) {
-					print '<td class="right nowraponall amount">'.(!empty($totalpay) ? price($totalpay, 0, $langs) : '&nbsp;').'</td>'; // TODO Use a denormalized field
+					print '<td class="right nowraponall amount">'.(!empty($totalallpayments) ? price($totalallpayments, 0, $langs) : '&nbsp;').'</td>'; // TODO Use a denormalized field
 					if (!$i) {
 						$totalarray['nbfield']++;
 					}
 					if (!$i) {
-						$totalarray['pos'][$totalarray['nbfield']] = 'totalam';
+						$totalarray['pos'][$totalarray['nbfield']] = 'dynamount_payed';
 					}
-					$totalarray['val']['totalam'] += $totalpay;
+					$totalarray['val']['dynamount_payed'] += $totalallpayments;
 				}
 
 				// Pending amount
@@ -2572,7 +2585,7 @@ if ($resql) {
 				// Status
 				if (!empty($arrayfields['f.fk_statut']['checked'])) {
 					print '<td class="nowrap right">';
-					print $facturestatic->getLibStatut(5, $paiement);
+					print $facturestatic->getLibStatut(5, $totalallpayments);
 					print "</td>";
 					if (!$i) {
 						$totalarray['nbfield']++;

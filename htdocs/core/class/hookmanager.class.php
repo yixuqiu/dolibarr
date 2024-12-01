@@ -153,7 +153,7 @@ class HookManager
 	 *                                      All types can also return some values into an array ->results that will be finaly merged into this->resArray for caller.
 	 *                                      $this->error or this->errors are also defined by class called by this function if error.
 	 */
-	public function executeHooks($method, $parameters = array(), &$object = '', &$action = '')
+	public function executeHooks($method, $parameters = array(), &$object = null, &$action = '')
 	{
 		if (!is_array($this->hooks) || empty($this->hooks)) {
 			return 0; // No hook available, do nothing.
@@ -200,14 +200,15 @@ class HookManager
 			'insertExtraFooter',
 			'printLeftBlock',
 			'formAddObjectLine',
-			'formBuilddocOption',
+			'formBuilddocOptions',
 			'showSocinfoOnPrint'
 		))) {
 			$hooktype = 'output';
 		}
 
 		// Init return properties
-		$this->resPrint = '';
+		$localResPrint = '';
+		$localResArray = array();
 		$this->resArray = array();
 		$this->resNbOfHooks = 0;
 
@@ -241,8 +242,8 @@ class HookManager
 					$actionclassinstance->error = 0;
 					$actionclassinstance->errors = array();
 
-					if (getDolGlobalInt('MAIN_DEBUG_SHOW_EACH_QUALIFIED_HOOK_CALL') >= 2) {
-						// This his too much verbose, enabled in develop only
+					if (getDolGlobalInt('MAIN_HOOK_DEBUG')) {
+						// This his too much verbose, enabled if const enabled only
 						dol_syslog(get_class($this)."::executeHooks Qualified hook found (hooktype=".$hooktype."). We call method ".get_class($actionclassinstance).'->'.$method.", context=".$context.", module=".$module.", action=".$action.((is_object($object) && property_exists($object, 'id')) ? ', object id='.$object->id : '').((is_object($object) && property_exists($object, 'element')) ? ', object element='.$object->element : ''), LOG_DEBUG);
 					}
 
@@ -263,16 +264,16 @@ class HookManager
 
 						if (isset($actionclassinstance->results) && is_array($actionclassinstance->results)) {
 							if ($resactiontmp > 0) {
-								$this->resArray = $actionclassinstance->results;
+								$localResArray = $actionclassinstance->results;
 							} else {
-								$this->resArray = array_merge($this->resArray, $actionclassinstance->results);
+								$localResArray = array_merge($localResArray, $actionclassinstance->results);
 							}
 						}
 						if (!empty($actionclassinstance->resprints)) {
 							if ($resactiontmp > 0) {
-								$this->resPrint = $actionclassinstance->resprints;
+								$localResPrint = $actionclassinstance->resprints;
 							} else {
-								$this->resPrint .= $actionclassinstance->resprints;
+								$localResPrint .= $actionclassinstance->resprints;
 							}
 						}
 					} else {
@@ -283,15 +284,18 @@ class HookManager
 							continue;
 						}
 
-						//dol_syslog("Call method ".$method." of class ".get_class($actionclassinstance).", module=".$module.", hooktype=".$hooktype, LOG_DEBUG);
+						if (getDolGlobalInt('MAIN_HOOK_DEBUG')) {
+							dol_syslog("Call method ".$method." of class ".get_class($actionclassinstance).", module=".$module.", hooktype=".$hooktype, LOG_DEBUG);
+						}
+
 						$resactiontmp = $actionclassinstance->$method($parameters, $object, $action, $this); // $object and $action can be changed by method ($object->id during creation for example or $action to go back to other action for example)
 						$resaction += $resactiontmp;
 
 						if (!empty($actionclassinstance->results) && is_array($actionclassinstance->results)) {
-							$this->resArray = array_merge($this->resArray, $actionclassinstance->results);
+							$localResArray = array_merge($localResArray, $actionclassinstance->results);
 						}
 						if (!empty($actionclassinstance->resprints)) {
-							$this->resPrint .= $actionclassinstance->resprints;
+							$localResPrint .= $actionclassinstance->resprints;
 						}
 						if (is_numeric($resactiontmp) && $resactiontmp < 0) {
 							$error++;
@@ -304,7 +308,7 @@ class HookManager
 						if (!is_array($resactiontmp) && !is_numeric($resactiontmp)) {
 							dol_syslog('Error: Bug into hook '.$method.' of module class '.get_class($actionclassinstance).'. Method must not return a string but an int (0=OK, 1=Replace, -1=KO) and set string into ->resprints', LOG_ERR);
 							if (empty($actionclassinstance->resprints)) {
-								$this->resPrint .= $resactiontmp;
+								$localResPrint .= $resactiontmp;
 							}
 						}
 					}
@@ -316,6 +320,9 @@ class HookManager
 				}
 			}
 		}
+
+		$this->resPrint = $localResPrint;
+		$this->resArray = $localResArray;
 
 		return ($error ? -1 : $resaction);
 	}

@@ -70,7 +70,10 @@ class Product extends CommonObject
 		'facturedet' => array('name' => 'Invoice', 'parent' => 'facture', 'parentkey' => 'fk_facture'),
 		'contratdet' => array('name' => 'Contract', 'parent' => 'contrat', 'parentkey' => 'fk_contrat'),
 		'facture_fourn_det' => array('name' => 'SupplierInvoice', 'parent' => 'facture_fourn', 'parentkey' => 'fk_facture_fourn'),
-		'commande_fournisseurdet' => array('name' => 'SupplierOrder', 'parent' => 'commande_fournisseur', 'parentkey' => 'fk_commande')
+		'commande_fournisseurdet' => array('name' => 'SupplierOrder', 'parent' => 'commande_fournisseur', 'parentkey' => 'fk_commande'),
+		'mrp_production' => array('name' => 'Mo', 'parent' => 'mrp_mo', 'parentkey' => 'fk_mo' ),
+		'bom_bom' => array('name' => 'BOM'),
+		'bom_bomline' => array('name' => 'BOMLine', 'parent' => 'bom_bom', 'parentkey' => 'fk_bom'),
 	);
 
 	/**
@@ -564,7 +567,7 @@ class Product extends CommonObject
 		'import_key'    =>array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>1, 'visible'=>-2, 'notnull'=>-1, 'index'=>0, 'position'=>1000),
 		//'tosell'       =>array('type'=>'integer',      'label'=>'Status',           'enabled'=>1, 'visible'=>1,  'notnull'=>1, 'default'=>0, 'index'=>1,  'position'=>1000, 'arrayofkeyval'=>array(0=>'Draft', 1=>'Active', -1=>'Cancel')),
 		//'tobuy'        =>array('type'=>'integer',      'label'=>'Status',           'enabled'=>1, 'visible'=>1,  'notnull'=>1, 'default'=>0, 'index'=>1,  'position'=>1000, 'arrayofkeyval'=>array(0=>'Draft', 1=>'Active', -1=>'Cancel')),
-		'mandatory_period' => array('type'=>'integer', 'label'=>'mandatory_period', 'enabled'=>1, 'visible'=>1,  'notnull'=>1, 'default'=>0, 'index'=>1,  'position'=>1000),
+		'mandatory_period' => array('type'=>'integer', 'label'=>'mandatoryperiod', 'enabled'=>1, 'visible'=>1,  'notnull'=>1, 'default'=>0, 'index'=>1,  'position'=>1000),
 	);
 
 	/**
@@ -809,7 +812,7 @@ class Product extends CommonObject
 					$sql .= ", mandatory_period";
 					$sql .= ") VALUES (";
 					$sql .= "'".$this->db->idate($now)."'";
-					$sql .= ", ".((int) $conf->entity);
+					$sql .= ", ".(!empty($this->entity) ? (int) $this->entity : (int) $conf->entity);
 					$sql .= ", '".$this->db->escape($this->ref)."'";
 					$sql .= ", ".(!empty($this->ref_ext) ? "'".$this->db->escape($this->ref_ext)."'" : "null");
 					$sql .= ", ".price2num($price_min_ht);
@@ -1272,7 +1275,6 @@ class Product extends CommonObject
 				// Multilangs
 				if (getDolGlobalInt('MAIN_MULTILANGS')) {
 					if ($this->setMultiLangs($user) < 0) {
-						$this->error = $langs->trans("Error")." : ".$this->db->error()." - ".$sql;
 						return -2;
 					}
 				}
@@ -2538,7 +2540,7 @@ class Product extends CommonObject
 				$this->fk_default_bom = $obj->fk_default_bom;
 
 				$this->duration = $obj->duration;
-				$this->duration_value = $obj->duration ? substr($obj->duration, 0, dol_strlen($obj->duration) - 1) : null;
+				$this->duration_value = $obj->duration ? (int) (substr($obj->duration, 0, dol_strlen($obj->duration) - 1)) : 0;
 				$this->duration_unit = $obj->duration ? substr($obj->duration, -1) : null;
 				$this->canvas = $obj->canvas;
 				$this->net_measure = $obj->net_measure;
@@ -4723,8 +4725,8 @@ class Product extends CommonObject
 
 		// les prix de fournisseurs.
 		$sql = "INSERT ".$this->db->prefix()."product_fournisseur_price (";
-		$sql .= " datec, fk_product, fk_soc, price, quantity, fk_user)";
-		$sql .= " SELECT '".$this->db->idate($now)."', ".((int) $toId).", fk_soc, price, quantity, fk_user";
+		$sql .= " datec, fk_product, fk_soc, price, quantity, fk_user, tva_tx)";
+		$sql .= " SELECT '".$this->db->idate($now)."', ".((int) $toId).", fk_soc, price, quantity, fk_user, tva_tx";
 		$sql .= " FROM ".$this->db->prefix()."product_fournisseur_price";
 		$sql .= " WHERE fk_product = ".((int) $fromId);
 
@@ -5058,7 +5060,7 @@ class Product extends CommonObject
 	{
 		global $conf, $langs;
 
-		$langs->load('products', 'other');
+		$langs->loadLangs(array('products', 'other'));
 
 		$datas = array();
 		$nofetch = !empty($params['nofetch']);
@@ -5189,7 +5191,7 @@ class Product extends CommonObject
 		}
 		$params = [
 			'id' => $this->id,
-			'objecttype' => $this->element,
+			'objecttype' => (isset($this->type) ? ($this->type == 1 ? 'service' : 'product') : $this->element),
 			'option' => $option,
 			'nofetch' => 1,
 		];

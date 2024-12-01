@@ -102,8 +102,10 @@ if (!$sortorder) {
 $hookmanager->initHooks(array('pricesuppliercard', 'globalcard'));
 
 $object = new ProductFournisseur($db);
+$prod = new Product($db);
 if ($id > 0 || $ref) {
 	$object->fetch($id, $ref);
+	$prod->fetch($id, $ref);
 }
 
 $usercanread = (($object->type == Product::TYPE_PRODUCT && $user->rights->produit->lire) || ($object->type == Product::TYPE_SERVICE && $user->hasRight('service', 'lire')));
@@ -183,6 +185,7 @@ if (empty($reshook)) {
 	}
 
 	if ($action == 'save_price') {
+		$ref_fourn_price_id = GETPOSTINT('ref_fourn_price_id');
 		$id_fourn = GETPOST("id_fourn");
 		if (empty($id_fourn)) {
 			$id_fourn = GETPOST("search_id_fourn");
@@ -267,7 +270,7 @@ if (empty($reshook)) {
 		if (!$error) {
 			$db->begin();
 
-			if (!$error) {
+			if (empty($ref_fourn_price_id)) {
 				$ret = $object->add_fournisseur($user, $id_fourn, $ref_fourn_old, $quantity); // This insert record with no value for price. Values are update later with update_buyprice
 				if ($ret == -3) {
 					$error++;
@@ -288,8 +291,8 @@ if (empty($reshook)) {
 			if (!$error) {
 				$supplier = new Fournisseur($db);
 				$result = $supplier->fetch($id_fourn);
-				if (GETPOSTISSET('ref_fourn_price_id')) {
-					$object->fetch_product_fournisseur_price(GETPOST('ref_fourn_price_id', 'int'));
+				if ($ref_fourn_price_id > 0) {
+					$object->fetch_product_fournisseur_price($ref_fourn_price_id);
 				}
 				$extralabels = $extrafields->fetch_name_optionals_label("product_fournisseur_price");
 				$extrafield_values = $extrafields->getOptionalsFromPost("product_fournisseur_price");
@@ -388,15 +391,15 @@ if ($id > 0 || $ref) {
 
 			print dol_get_fiche_head($head, 'suppliers', $titre, -1, $picto);
 
-			$linkback = '<a href="'.DOL_URL_ROOT.'/product/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
-			$object->next_prev_filter = " fk_product_type = ".$object->type;
+			$linkback = '<a href="'.DOL_URL_ROOT.'/product/list.php?restore_lastsearch_values=1&type='.$object->type.'">'.$langs->trans("BackToList").'</a>';
+			$object->next_prev_filter = "fk_product_type = ".((int) $object->type);
 
 			$shownav = 1;
 			if ($user->socid && !in_array('product', explode(',', $conf->global->MAIN_MODULES_FOR_EXTERNAL))) {
 				$shownav = 0;
 			}
 
-			dol_banner_tab($object, 'ref', $linkback, $shownav, 'ref');
+			dol_banner_tab($prod, 'ref', $linkback, $shownav, 'ref');
 
 			print '<div class="fichecenter">';
 

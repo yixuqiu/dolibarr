@@ -163,7 +163,7 @@ class doc_generic_myobject_odt extends ModelePDFMyObject
 
 		// Scan directories
 		$nbofiles = count($listoffiles);
-		if (!empty(getDolGlobalString('MYMODULE_MYOBJECT_ADDON_PDF_ODT_PATH'))) {
+		if (getDolGlobalString('MYMODULE_MYOBJECT_ADDON_PDF_ODT_PATH')) {
 			$texte .= $langs->trans("NumberOfModelFilesFound").': <b>';
 			//$texte.=$nbofiles?'<a id="a_'.get_class($this).'" href="#">':'';
 			$texte .= count($listoffiles);
@@ -283,8 +283,8 @@ class doc_generic_myobject_odt extends ModelePDFMyObject
 
 				// Get extension (ods or odt)
 				$newfileformat = substr($newfile, strrpos($newfile, '.') + 1);
-				if (getDolGlobalInt('MAIN_DOC_USE_TIMING')) {
-					$format = getDolGlobalInt('MAIN_DOC_USE_TIMING');
+				if (getDolGlobalString('MAIN_DOC_USE_TIMING')) {
+					$format = getDolGlobalString('MAIN_DOC_USE_TIMING');
 					if ($format == '1') {
 						$format = '%Y%m%d%H%M%S';
 					}
@@ -473,7 +473,7 @@ class doc_generic_myobject_odt extends ModelePDFMyObject
 				$reshook = $hookmanager->executeHooks('beforeODTSave', $parameters, $this, $action); // Note that $action and $object may have been modified by some hooks
 
 				// Write new file
-				if (getDolGlobalInt('MAIN_ODT_AS_PDF')) {
+				if (getDolGlobalString('MAIN_ODT_AS_PDF')) {
 					try {
 						$odfHandler->exportAsAttachedPDF($file);
 					} catch (Exception $e) {

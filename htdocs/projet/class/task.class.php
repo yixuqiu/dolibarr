@@ -209,6 +209,8 @@ class Task extends CommonObjectLine
 		// Clean parameters
 		$this->label = trim($this->label);
 		$this->description = trim($this->description);
+		$this->note_public = trim($this->note_public);
+		$this->note_private = trim($this->note_private);
 
 		if (!empty($this->date_start) && !empty($this->date_end) && $this->date_start > $this->date_end) {
 			$this->errors[] = $langs->trans('StartDateCannotBeAfterEndDate');
@@ -226,6 +228,8 @@ class Task extends CommonObjectLine
 		$sql .= ", fk_task_parent";
 		$sql .= ", label";
 		$sql .= ", description";
+		$sql .= ", note_public";
+		$sql .= ", note_private";
 		$sql .= ", datec";
 		$sql .= ", fk_user_creat";
 		$sql .= ", dateo";
@@ -233,6 +237,7 @@ class Task extends CommonObjectLine
 		$sql .= ", planned_workload";
 		$sql .= ", progress";
 		$sql .= ", budget_amount";
+		$sql .= ", priority";
 		$sql .= ") VALUES (";
 		$sql .= (!empty($this->entity) ? (int) $this->entity : (int) $conf->entity);
 		$sql .= ", ".((int) $this->fk_project);
@@ -240,6 +245,8 @@ class Task extends CommonObjectLine
 		$sql .= ", ".((int) $this->fk_task_parent);
 		$sql .= ", '".$this->db->escape($this->label)."'";
 		$sql .= ", '".$this->db->escape($this->description)."'";
+		$sql .= ", '".$this->db->escape($this->note_public)."'";
+		$sql .= ", '".$this->db->escape($this->note_private)."'";
 		$sql .= ", '".$this->db->idate($now)."'";
 		$sql .= ", ".((int) $user->id);
 		$sql .= ", ".($this->date_start ? "'".$this->db->idate($this->date_start)."'" : 'null');
@@ -247,6 +254,7 @@ class Task extends CommonObjectLine
 		$sql .= ", ".(($this->planned_workload != '' && $this->planned_workload >= 0) ? ((int) $this->planned_workload) : 'null');
 		$sql .= ", ".(($this->progress != '' && $this->progress >= 0) ? ((int) $this->progress) : 'null');
 		$sql .= ", ".(($this->budget_amount != '' && $this->budget_amount >= 0) ? ((int) $this->budget_amount) : 'null');
+		$sql .= ", ".(($this->priority != '' && $this->priority >= 0) ? (int) $this->priority : 'null');
 		$sql .= ")";
 
 		$this->db->begin();
@@ -426,6 +434,12 @@ class Task extends CommonObjectLine
 		if (isset($this->description)) {
 			$this->description = trim($this->description);
 		}
+		if (isset($this->note_public)) {
+			$this->note_public = trim($this->note_public);
+		}
+		if (isset($this->note_private)) {
+			$this->note_private = trim($this->note_private);
+		}
 		if (isset($this->duration_effective)) {
 			$this->duration_effective = trim($this->duration_effective);
 		}
@@ -451,13 +465,16 @@ class Task extends CommonObjectLine
 		$sql .= " fk_task_parent=".(isset($this->fk_task_parent) ? $this->fk_task_parent : "null").",";
 		$sql .= " label=".(isset($this->label) ? "'".$this->db->escape($this->label)."'" : "null").",";
 		$sql .= " description=".(isset($this->description) ? "'".$this->db->escape($this->description)."'" : "null").",";
+		$sql .= " note_public=".(isset($this->note_public) ? "'".$this->db->escape($this->note_public)."'" : "null").",";
+		$sql .= " note_private=".(isset($this->note_private) ? "'".$this->db->escape($this->note_private)."'" : "null").",";
 		$sql .= " duration_effective=".(isset($this->duration_effective) ? $this->duration_effective : "null").",";
 		$sql .= " planned_workload=".((isset($this->planned_workload) && $this->planned_workload != '') ? $this->planned_workload : "null").",";
 		$sql .= " dateo=".($this->date_start != '' ? "'".$this->db->idate($this->date_start)."'" : 'null').",";
 		$sql .= " datee=".($this->date_end != '' ? "'".$this->db->idate($this->date_end)."'" : 'null').",";
 		$sql .= " progress=".(($this->progress != '' && $this->progress >= 0) ? $this->progress : 'null').",";
 		$sql .= " budget_amount=".(($this->budget_amount != '' && $this->budget_amount >= 0) ? $this->budget_amount : 'null').",";
-		$sql .= " rang=".((!empty($this->rang)) ? $this->rang : "0");
+		$sql .= " rang=".((!empty($this->rang)) ? ((int) $this->rang) : "0").",";
+		$sql .= " priority=".((!empty($this->priority)) ? ((int) $this->priority) : "0");
 		$sql .= " WHERE rowid=".((int) $this->id);
 
 		$this->db->begin();
@@ -858,6 +875,7 @@ class Task extends CommonObjectLine
 		$this->duration_effective = '';
 		$this->fk_user_creat = null;
 		$this->progress = '25';
+		$this->priority = 0;
 		$this->fk_statut = null;
 		$this->note = 'This is a specimen task not';
 	}
@@ -900,15 +918,20 @@ class Task extends CommonObjectLine
 		}
 		$sql .= " p.rowid as projectid, p.ref, p.title as plabel, p.public, p.fk_statut as projectstatus, p.usage_bill_time,";
 		$sql .= " t.rowid as taskid, t.ref as taskref, t.label, t.description, t.fk_task_parent, t.duration_effective, t.progress, t.fk_statut as status,";
-		$sql .= " t.dateo as date_start, t.datee as date_end, t.planned_workload, t.rang,";
-		$sql .= " t.description, ";
-		$sql .= " t.budget_amount, ";
+		$sql .= " t.dateo as date_start, t.datee as date_end, t.planned_workload, t.rang, t.priority,";
+		$sql .= " t.budget_amount,";
+		$sql .= " t.note_public, t.note_private,";
 		$sql .= " s.rowid as thirdparty_id, s.nom as thirdparty_name, s.email as thirdparty_email,";
 		$sql .= " p.fk_opp_status, p.opp_amount, p.opp_percent, p.budget_amount as project_budget_amount";
 		if ($loadextras) {	// TODO Replace this with a fetch_optionnal() on the project after the fetch_object of line.
 			if (!empty($extrafields->attributes['projet']['label'])) {
 				foreach ($extrafields->attributes['projet']['label'] as $key => $val) {
 					$sql .= ($extrafields->attributes['projet']['type'][$key] != 'separate' ? ",efp.".$key." as options_".$key : '');
+				}
+			}
+			if (!empty($extrafields->attributes['projet_task']['label'])) {
+				foreach ($extrafields->attributes['projet_task']['label'] as $key => $val) {
+					$sql .= ($extrafields->attributes['projet_task']['type'][$key] != 'separate' ? ",efpt.".$key." as options_".$key : '');
 				}
 			}
 		}
@@ -928,6 +951,9 @@ class Task extends CommonObjectLine
 				$sql .= ", ".MAIN_DB_PREFIX."c_type_contact as ctc";
 			}
 			$sql .= ", ".MAIN_DB_PREFIX."projet_task as t";
+			if ($loadextras) {
+				$sql .= " LEFT JOIN ".MAIN_DB_PREFIX."projet_task_extrafields as efpt ON (t.rowid = efpt.fk_object)";
+			}
 			if ($includebilltime) {
 				$sql .= " LEFT JOIN ".MAIN_DB_PREFIX."element_time as tt ON (tt.fk_element = t.rowid AND tt.elementtype='task')";
 			}
@@ -1005,15 +1031,20 @@ class Task extends CommonObjectLine
 			$sql .= " GROUP BY p.rowid, p.ref, p.title, p.public, p.fk_statut, p.usage_bill_time,";
 			$sql .= " t.datec, t.dateo, t.datee, t.tms,";
 			$sql .= " t.rowid, t.ref, t.label, t.description, t.fk_task_parent, t.duration_effective, t.progress, t.fk_statut,";
-			$sql .= " t.dateo, t.datee, t.planned_workload, t.rang,";
-			$sql .= " t.description, ";
-			$sql .= " t.budget_amount, ";
+			$sql .= " t.dateo, t.datee, t.planned_workload, t.rang, t.priority,";
+			$sql .= " t.budget_amount,";
+			$sql .= " t.note_public, t.note_private,";
 			$sql .= " s.rowid, s.nom, s.email,";
 			$sql .= " p.fk_opp_status, p.opp_amount, p.opp_percent, p.budget_amount";
 			if ($loadextras) {
 				if (!empty($extrafields->attributes['projet']['label'])) {
 					foreach ($extrafields->attributes['projet']['label'] as $key => $val) {
 						$sql .= ($extrafields->attributes['projet']['type'][$key] != 'separate' ? ",efp.".$key : '');
+					}
+				}
+				if (!empty($extrafields->attributes['projet_task']['label'])) {
+					foreach ($extrafields->attributes['projet_task']['label'] as $key => $val) {
+						$sql .= ($extrafields->attributes['projet_task']['type'][$key] != 'separate' ? ",efpt.".$key : '');
 					}
 				}
 			}
@@ -1069,7 +1100,10 @@ class Task extends CommonObjectLine
 
 					$tasks[$i]->label = $obj->label;
 					$tasks[$i]->description = $obj->description;
+
 					$tasks[$i]->fk_task_parent = $obj->fk_task_parent;
+					$tasks[$i]->note_public = $obj->note_public;
+					$tasks[$i]->note_private = $obj->note_private;
 					$tasks[$i]->duration_effective = $obj->duration_effective;
 					$tasks[$i]->planned_workload = $obj->planned_workload;
 
@@ -1085,6 +1119,7 @@ class Task extends CommonObjectLine
 					$tasks[$i]->date_start = $this->db->jdate($obj->date_start);
 					$tasks[$i]->date_end		= $this->db->jdate($obj->date_end);
 					$tasks[$i]->rang	   		= $obj->rang;
+					$tasks[$i]->priority   		= $obj->priority;
 
 					$tasks[$i]->socid           = $obj->thirdparty_id; // For backward compatibility
 					$tasks[$i]->thirdparty_id = $obj->thirdparty_id;
@@ -1102,20 +1137,11 @@ class Task extends CommonObjectLine
 						}
 					}
 
-					/* Removed, already included into the $tasks[$i]->fetch_optionals(); just after
-					if (!empty($extrafields->attributes['projet_task']['label'])) {
-						foreach ($extrafields->attributes['projet_task']['label'] as $key => $val) {
-							if ($extrafields->attributes['projet_task']['type'][$key] != 'separate') {
-								$tmpvar = 'options_'.$key;
-								$tasks[$i]->array_options['options_'.$key] = $obj->$tmpvar;
-							}
-						}
-					}
-					*/
-
 					if ($loadextras) {
 						$tasks[$i]->fetch_optionals();
 					}
+
+					$tasks[$i]->obj = $obj; // Needed for tpl/extrafields_list_print
 				}
 
 				$i++;
@@ -1598,8 +1624,8 @@ class Task extends CommonObjectLine
 		if ($timespent->id > 0) {
 			$this->timespent_id = $timespent->id;
 			$this->id = $timespent->fk_element;
-			$this->timespent_date = $this->db->jdate($timespent->element_date);
-			$this->timespent_datehour   = $this->db->jdate($timespent->element_datehour);
+			$this->timespent_date = $timespent->element_date;
+			$this->timespent_datehour   = $timespent->element_datehour;
 			$this->timespent_withhour   = $timespent->element_date_withhour;
 			$this->timespent_duration = $timespent->element_duration;
 			$this->timespent_fk_user	= $timespent->fk_user;
@@ -1951,21 +1977,22 @@ class Task extends CommonObjectLine
 		$clone_task->date_c = $datec;
 		$clone_task->planned_workload = $origin_task->planned_workload;
 		$clone_task->rang = $origin_task->rang;
+		$clone_task->priority = $origin_task->priority;
 
 		//Manage Task Date
 		if ($clone_change_dt) {
 			$projectstatic = new Project($this->db);
 			$projectstatic->fetch($ori_project_id);
 
-			//Origin project strat date
-			$orign_project_dt_start = $projectstatic->date_start;
+			// Origin project start date
+			$orign_project_dt_start = (!isset($projectstatic->date_start) || $projectstatic->date_start == '') ? $projectstatic->date_c : $projectstatic->date_start;
 
-			//Calcultate new task start date with difference between origin proj start date and origin task start date
+			// Calculate new task start date with difference between origin proj start date and origin task start date
 			if (!empty($clone_task->date_start)) {
 				$clone_task->date_start = $now + $clone_task->date_start - $orign_project_dt_start;
 			}
 
-			//Calcultate new task end date with difference between origin proj end date and origin task end date
+			// Calculate new task end date with difference between origin proj start date and origin task end date
 			if (!empty($clone_task->date_end)) {
 				$clone_task->date_end = $now + $clone_task->date_end - $orign_project_dt_start;
 			}

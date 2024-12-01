@@ -191,7 +191,7 @@ th.wrapcolumntitle dl dt a span.fas.fa-list {
 .liste_titre input[name=search_day_date_when], .liste_titre input[name=search_month_date_when], .liste_titre input[name=search_year_date_when],
 .liste_titre input[name=search_dtstartday], .liste_titre input[name=search_dtendday], .liste_titre input[name=search_dtstartmonth], .liste_titre input[name=search_dtendmonth],
 */
-.liste_titre input[name=search_month] {
+.liste_titre input[name=search_month], .liste_titre input[name=search_month_start], .liste_titre input[name=search_month_end] {
 	margin-right: 4px;
 }
 
@@ -1732,11 +1732,11 @@ maxscreenheightless200 {
 	.minwidth500imp { min-width: 250px !important; }
 }
 
-select.widthcentpercentminusx, span.widthcentpercentminusx:not(.select2-selection), input.widthcentpercentminusx {
+select.widthcentpercentminusx, span.widthcentpercentminusx:not(.select2-selection):not(.select2-dropdown), input.widthcentpercentminusx {
 	width: calc(100% - 52px) !important;
 	display: inline-block;
 }
-select.widthcentpercentminusxx, span.widthcentpercentminusxx:not(.select2-selection), input.widthcentpercentminusxx {
+select.widthcentpercentminusxx, span.widthcentpercentminusxx:not(.select2-selection):not(.select2-dropdown), input.widthcentpercentminusxx {
 	width: calc(100% - 70px) !important;
 	display: inline-block;
 }
@@ -2611,7 +2611,7 @@ span.mainmenuaspan.tmenudisabled {
 	cursor: not-allowed;
 }
 
-a.disabled {
+a.disabled, span.tmenu {
 	color: #aaa;
 	text-decoration: none !important;
 	cursor: default;
@@ -5070,7 +5070,9 @@ div#card-errors {
 .ui-dialog.ui-corner-all.ui-widget.ui-widget-content.ui-front.ui-draggable {
 	z-index: 1005 !important;		/* Default 101 with ui-jquery, top menu have a z-index of 1000 */
 }
-
+.ui-menu.ui-widget.ui-widget-content.ui-autocomplete.ui-front {
+	z-index:1006 !important; /* To always be over the dialog box */
+}
 
 /* ============================================================================== */
 /* For content of image preview                                                   */
@@ -5116,7 +5118,7 @@ table.valid {
 }
 
 div.ui-tooltip {
-	max-width: <?php print dol_size(600, 'width'); ?>px !important;
+	max-width: <?php print dol_size(700, 'width'); ?>px !important;
 }
 div.ui-tooltip.mytooltip {
 	border: none !important;
@@ -5133,6 +5135,7 @@ div.ui-tooltip.mytooltip {
 	color: var(--tooltipfontcolor);
 	line-height: 1.6em;
 	min-width: 550px;
+	pointer-events: none;
 }
 
 <?php

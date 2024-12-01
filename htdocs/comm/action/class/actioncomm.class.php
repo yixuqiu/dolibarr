@@ -841,9 +841,6 @@ class ActionComm extends CommonObject
 				$this->type_color = $obj->type_color;
 				$this->type_picto = $obj->type_picto;
 				$this->type       = $obj->type_type;
-				/*$transcode = $langs->trans("Action".$obj->type_code);
-				$this->type       = (($transcode != "Action".$obj->type_code) ? $transcode : $obj->type_label); */
-				$transcode = $langs->trans("Action".$obj->type_code.'Short');
 
 				$this->code = $obj->code;
 				$this->label = $obj->label;
@@ -1816,7 +1813,7 @@ class ActionComm extends CommonObject
 
 		$result .= $linkstart;
 		if ($withpicto) {
-			$result .= img_object(($notooltip ? '' : $langs->trans("ShowAction").': '.$label), ($overwritepicto ? $overwritepicto : 'action'), (($this->type_color && $overwritepicto) ? 'style="color: #'.$this->type_color.' !important;" ' : '').($notooltip ? 'class="'.(($withpicto != 2) ? 'paddingright ' : '').'"' : $dataparams.' class="'.(($withpicto != 2) ? 'paddingright ' : '').$classfortooltip.'"'), 0, 0, $notooltip ? 0 : 1);
+			$result .= img_object(($notooltip ? '' : $langs->trans("ShowAction").': '.$label), ($overwritepicto ? $overwritepicto : 'action'), (($this->type_color && $overwritepicto) ? 'style="color: #'.$this->type_color.' !important;" ' : '').($notooltip ? (($withpicto != 2) ? 'class="paddingright"' : '') : ' class="'.(($withpicto != 2) ? 'paddingright ' : '').'"'), 0, 0, $notooltip ? 0 : 1);
 		}
 		$result .= dol_escape_htmltag($labelshort);
 		$result .= $linkend;
@@ -2414,23 +2411,23 @@ class ActionComm extends CommonObject
 		$this->reminders = array();
 
 		//Select all action comm reminders for event
-		$sql = "SELECT rowid as id, typeremind, dateremind, status, offsetvalue, offsetunit, fk_user";
+		$sql = "SELECT rowid as id, typeremind, dateremind, status, offsetvalue, offsetunit, fk_user, fk_email_template, lasterror";
 		$sql .= " FROM ".MAIN_DB_PREFIX."actioncomm_reminder";
 		$sql .= " WHERE fk_actioncomm = ".((int) $this->id);
 		if ($onlypast) {
 			$sql .= " AND dateremind <= '".$this->db->idate(dol_now())."'";
 		}
 		if ($type) {
-			$sql .= " AND typeremind ='".$this->db->escape($type)."'";
+			$sql .= " AND typeremind = '".$this->db->escape($type)."'";
 		}
 		if ($fk_user > 0) {
 			$sql .= " AND fk_user = ".((int) $fk_user);
 		}
 		if (empty($conf->global->AGENDA_REMINDER_EMAIL)) {
-			$sql .= " AND typeremind != 'email'";
+			$sql .= " AND typeremind <> 'email'";
 		}
 		if (empty($conf->global->AGENDA_REMINDER_BROWSER)) {
-			$sql .= " AND typeremind != 'browser'";
+			$sql .= " AND typeremind <> 'browser'";
 		}
 
 		$sql .= $this->db->order("dateremind", "ASC");
@@ -2446,6 +2443,8 @@ class ActionComm extends CommonObject
 				$tmpactioncommreminder->offsetunit = $obj->offsetunit;
 				$tmpactioncommreminder->status = $obj->status;
 				$tmpactioncommreminder->fk_user = $obj->fk_user;
+				$tmpactioncommreminder->fk_email_template = $obj->fk_email_template;
+				$tmpactioncommreminder->lasterror = $obj->lasterror;
 
 				$this->reminders[$obj->id] = $tmpactioncommreminder;
 			}
@@ -2488,13 +2487,14 @@ class ActionComm extends CommonObject
 		$now = dol_now();
 		$actionCommReminder = new ActionCommReminder($this->db);
 
-		dol_syslog(__METHOD__, LOG_DEBUG);
+		dol_syslog(__METHOD__." start", LOG_INFO);
 
 		$this->db->begin();
 
 		//Select all action comm reminders
 		$sql = "SELECT rowid as id FROM ".MAIN_DB_PREFIX."actioncomm_reminder";
-		$sql .= " WHERE typeremind = 'email' AND status = 0";
+		$sql .= " WHERE typeremind = 'email'";
+		$sql .= " AND status = 0";	// 0=No yet sent, -1=Error. TODO Include reminder in error once we can count number of error, so we can try 5 times and not more on errors.
 		$sql .= " AND dateremind <= '".$this->db->idate($now)."'";
 		$sql .= " AND entity IN (".getEntity('actioncomm').")";
 		$sql .= $this->db->order("dateremind", "ASC");
@@ -2517,6 +2517,7 @@ class ActionComm extends CommonObject
 
 					// Load event
 					$res = $this->fetch($actionCommReminder->fk_actioncomm);
+					if ($res > 0) $res = $this->fetch_thirdparty();
 					if ($res > 0) {
 						// PREPARE EMAIL
 						$errormesg = '';
@@ -2565,7 +2566,7 @@ class ActionComm extends CommonObject
 							if ($cMailFile->sendfile()) {
 								$nbMailSend++;
 							} else {
-								$errormesg = $cMailFile->error.' : '.$to;
+								$errormesg = 'Failed to send email to: '.$to.' '.$cMailFile->error.join(',', $cMailFile->errors);
 								$error++;
 							}
 						}
@@ -2618,10 +2619,16 @@ class ActionComm extends CommonObject
 		if (!$error) {
 			$this->output = 'Nb of emails sent : '.$nbMailSend;
 			$this->db->commit();
+
+			dol_syslog(__METHOD__." end - ".$this->output, LOG_INFO);
+
 			return 0;
 		} else {
 			$this->db->commit(); // We commit also on error, to have the error message recorded.
 			$this->error = 'Nb of emails sent : '.$nbMailSend.', '.(!empty($errorsMsg)) ? join(', ', $errorsMsg) : $error;
+
+			dol_syslog(__METHOD__." end - ".$this->error, LOG_INFO);
+
 			return $error;
 		}
 	}

@@ -365,6 +365,7 @@ if (empty($reshook)) {
 		$validate_invoices = GETPOST('validate_invoices', 'int');
 
 		$TFact = array();
+		/** @var FactureFournisseur[] $TFactThird */
 		$TFactThird = array();
 
 		$nb_bills_created = 0;
@@ -383,13 +384,14 @@ if (empty($reshook)) {
 
 			$objecttmp = new FactureFournisseur($db);
 			if (!empty($createbills_onebythird) && !empty($TFactThird[$cmd->socid])) {
-				$objecttmp = $TFactThird[$cmd->socid]; // If option "one bill per third" is set, we use already created order.
+				$objecttmp = $TFactThird[$cmd->socid]; // If option "one bill per third" is set, we use already created supplier invoice.
 			} else {
 				// Search if the VAT reverse-charge is activated by default in supplier card to resume the information
 				if (!empty($cmd->socid) > 0) {
 					$societe = new Societe($db);
 					$societe->fetch($cmd->socid);
 					$objecttmp->vat_reverse_charge = $societe->vat_reverse_charge;
+					$objecttmp->thirdparty = $societe;
 				}
 				$objecttmp->socid = $cmd->socid;
 				$objecttmp->type = $objecttmp::TYPE_STANDARD;
@@ -495,10 +497,16 @@ if (empty($reshook)) {
 							if (($lines[$i]->product_type != 9 && empty($lines[$i]->fk_parent_line)) || $lines[$i]->product_type == 9) {
 								$fk_parent_line = 0;
 							}
+
+							$tva_tx = $lines[$i]->tva_tx;
+							if (!empty($lines[$i]->vat_src_code) && !preg_match('/\(/', $tva_tx)) {
+								$tva_tx .= ' ('.$lines[$i]->vat_src_code.')';
+							}
+
 							$result = $objecttmp->addline(
 								$desc,
 								$lines[$i]->subprice,
-								$lines[$i]->tva_tx,
+								$tva_tx,
 								$lines[$i]->localtax1_tx,
 								$lines[$i]->localtax2_tx,
 								$lines[$i]->qty,
@@ -510,11 +518,13 @@ if (empty($reshook)) {
 								$lines[$i]->info_bits,
 								'HT',
 								$product_type,
-								$lines[$i]->rang,
+								// we dont use the rank from orderline because we may have lines from several orders
+								-1,
 								false,
 								$lines[$i]->array_options,
 								$lines[$i]->fk_unit,
-								$objecttmp->origin_id,
+								// we use the id of each order, not the id of the first one stored in $objecttmp->origin_id
+								$lines[$i]->fk_commande,
 								$lines[$i]->pa_ht,
 								$lines[$i]->ref_supplier,
 								$lines[$i]->special_code,
@@ -866,10 +876,10 @@ if ($search_date_delivery_end) {
 	$sql .= " AND cf.date_livraison <= '".$db->idate($search_date_delivery_end)."'";
 }
 if ($search_date_valid_start) {
-	$sql .= " AND cf.date_commande >= '".$db->idate($search_date_valid_start)."'";
+	$sql .= " AND cf.date_valid >= '".$db->idate($search_date_valid_start)."'";
 }
 if ($search_date_valid_end) {
-	$sql .= " AND cf.date_commande <= '".$db->idate($search_date_valid_end)."'";
+	$sql .= " AND cf.date_valid <= '".$db->idate($search_date_valid_end)."'";
 }
 if ($search_date_approve_start) {
 	$sql .= " AND cf.date_livraison >= '".$db->idate($search_date_approve_start)."'";
@@ -1235,7 +1245,7 @@ if ($resql) {
 		//var_dump($_REQUEST);
 		print '<input type="hidden" name="massaction" value="confirm_createsupplierbills">';
 
-		print '<table class="noborder" width="100%" >';
+		print '<table class="noborder centpercent">';
 		print '<tr>';
 		print '<td class="titlefield">';
 		print $langs->trans('DateInvoice');
@@ -1262,11 +1272,11 @@ if ($resql) {
 		print '</tr>';
 		print '</table>';
 
-		print '<br>';
 		print '<div class="center">';
 		print '<input type="submit" class="button" id="createbills" name="createbills" value="'.$langs->trans('CreateInvoiceForThisCustomer').'">  ';
 		print '<input type="submit" class="button button-cancel" id="cancel" name="cancel" value="'.$langs->trans("Cancel").'">';
 		print '</div>';
+		print '<br>';
 		print '<br>';
 	}
 
@@ -1332,7 +1342,7 @@ if ($resql) {
 	}
 
 	print '<div class="div-table-responsive">';
-	print '<table class="tagtable liste'.($moreforfilter ? " listwithfilterbefore" : "").'">'."\n";
+	print '<table class="tagtable nobottomiftotal liste'.($moreforfilter ? " listwithfilterbefore" : "").'">'."\n";
 
 	print '<tr class="liste_titre_filter">';
 	// Action column

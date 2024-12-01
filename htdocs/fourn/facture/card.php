@@ -4,7 +4,7 @@
  * Copyright (C) 2004		Christophe Combelles	<ccomb@free.fr>
  * Copyright (C) 2005		Marc Barilley			<marc@ocebo.fr>
  * Copyright (C) 2005-2013	Regis Houssin			<regis.houssin@inodbox.com>
- * Copyright (C) 2010-2019	Juanjo Menent			<jmenent@2byte.es>
+ * Copyright (C) 2010-2023	Juanjo Menent			<jmenent@simnandez.es>
  * Copyright (C) 2013-2022	Philippe Grand			<philippe.grand@atoo-net.com>
  * Copyright (C) 2013		Florian Henry			<florian.henry@open-concept.pro>
  * Copyright (C) 2014-2016  Marcos García			<marcosgdf@gmail.com>
@@ -226,10 +226,16 @@ if (empty($reshook)) {
 		}
 
 		if (!$error) {
+			$db->begin();
+
 			$result = $object->validate($user, '', $idwarehouse);
 			if ($result < 0) {
+				$db->rollback();
+
 				setEventMessages($object->error, $object->errors, 'errors');
 			} else {
+				$db->commit();
+
 				// Define output language
 				if (empty($conf->global->MAIN_DISABLE_PDF_AUTOUPDATE)) {
 					$outputlangs = $langs;
@@ -383,9 +389,8 @@ if (empty($reshook)) {
 		}
 
 		if (!$error) {
-			$old_date_echeance = $object->date_echeance;
 			$new_date_echeance = $object->calculate_date_lim_reglement();
-			if ($new_date_echeance > $old_date_echeance) {
+			if ($new_date_echeance) {
 				$object->date_echeance = $new_date_echeance;
 			}
 			if ($object->date_echeance < $object->date) {
@@ -449,7 +454,7 @@ if (empty($reshook)) {
 
 		$object->date = $newdate;
 		$date_echence_calc = $object->calculate_date_lim_reglement();
-		if (!empty($object->date_echeance) && $object->date_echeance < $date_echence_calc) {
+		if (!empty($object->date_echeance)) {
 			$object->date_echeance = $date_echence_calc;
 		}
 		if ($object->date_echeance && $object->date_echeance < $object->date) {
@@ -696,8 +701,11 @@ if (empty($reshook)) {
 			$paiementfourn = new PaiementFourn($db);
 			$result = $paiementfourn->fetch(GETPOST('paiement_id'));
 			if ($result > 0) {
-				$result = $paiementfourn->delete(); // If fetch ok and found
-				header("Location: ".$_SERVER['PHP_SELF']."?id=".$id);
+				$result = $paiementfourn->delete();
+				if ($result > 0) {
+					header("Location: ".$_SERVER['PHP_SELF']."?id=".$id);
+					exit;
+				}
 			}
 			if ($result < 0) {
 				setEventMessages($paiementfourn->error, $paiementfourn->errors, 'errors');
@@ -1247,6 +1255,11 @@ if (empty($reshook)) {
 									$date_end = $lines[$i]->date_end;
 								}
 
+								$tva_tx = $lines[$i]->tva_tx;
+								if (!empty($lines[$i]->vat_src_code) && !preg_match('/\(/', $tva_tx)) {
+									$tva_tx .= ' ('.$lines[$i]->vat_src_code.')';
+								}
+
 								// FIXME Missing special_code  into addline and updateline methods
 								$object->special_code = $lines[$i]->special_code;
 
@@ -1263,7 +1276,7 @@ if (empty($reshook)) {
 								$result = $object->addline(
 									$desc,
 									$pu,
-									$lines[$i]->tva_tx,
+									$tva_tx,
 									$lines[$i]->localtax1_tx,
 									$lines[$i]->localtax2_tx,
 									$lines[$i]->qty,
@@ -1639,14 +1652,6 @@ if (empty($reshook)) {
 
 				$ref_supplier = $productsupplier->ref_supplier;
 
-				$tva_tx = get_default_tva($object->thirdparty, $mysoc, $productsupplier->id, GETPOST('idprodfournprice', 'alpha'));
-				$tva_npr = get_default_npr($object->thirdparty, $mysoc, $productsupplier->id, GETPOST('idprodfournprice', 'alpha'));
-				if (empty($tva_tx)) {
-					$tva_npr = 0;
-				}
-				$localtax1_tx = get_localtax($tva_tx, 1, $mysoc, $object->thirdparty, $tva_npr);
-				$localtax2_tx = get_localtax($tva_tx, 2, $mysoc, $object->thirdparty, $tva_npr);
-
 				if (empty($pu)) {
 					$pu = 0; // If pu is '' or null, we force to have a numeric value
 				}
@@ -1713,7 +1718,7 @@ if (empty($reshook)) {
 				$pu_ht = price2num($pu_ttc / (1 + ($tva_tx / 100)), 'MU'); // $pu_ht must be rounded according to settings
 			}
 			$price_base_type = 'HT';
-			$pu_devise = price2num($price_devise, 'CU');
+			$pu_devise = price2num($price_ht_devise, 'CU');
 
 			$result = $object->addline($product_desc, $pu_ht, $tva_tx, $localtax1_tx, $localtax2_tx, $qty, 0, $remise_percent, $date_start, $date_end, 0, $tva_npr, $price_base_type, $type, -1, 0, $array_options, $fk_unit, 0, $pu_devise, $ref_supplier);
 		}
@@ -2596,6 +2601,7 @@ if ($action == 'create') {
 
 	// Vat reverse-charge by default
 	if (!empty($conf->global->ACCOUNTING_FORCE_ENABLE_VAT_REVERSE_CHARGE)) {
+		require_once DOL_DOCUMENT_ROOT . '/core/lib/company.lib.php';
 		print '<tr><td>' . $langs->trans('VATReverseCharge') . '</td><td>';
 		// Try to propose to use VAT reverse charge even if the VAT reverse charge is not activated in the supplier card, if this corresponds to the context of use, the activation is proposed
 		if ($vat_reverse_charge == 1 || $societe->vat_reverse_charge == 1 || ($societe->country_code != 'FR' && isInEEC($societe) && !empty($societe->tva_intra))) {
@@ -3024,14 +3030,12 @@ if ($action == 'create') {
 			$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"].'?id='.$object->id.'&lineid='.$lineid, $langs->trans('DeleteProductLine'), $langs->trans('ConfirmDeleteProductLine'), 'confirm_deleteline', '', 0, 1);
 		}
 
-		if (!$formconfirm) {
-			$parameters = array('formConfirm' => $formconfirm, 'lineid'=>$lineid);
-			$reshook = $hookmanager->executeHooks('formConfirm', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
-			if (empty($reshook)) {
-				$formconfirm .= $hookmanager->resPrint;
-			} elseif ($reshook > 0) {
-				$formconfirm = $hookmanager->resPrint;
-			}
+		$parameters = array('formConfirm' => $formconfirm, 'lineid'=>$lineid);
+		$reshook = $hookmanager->executeHooks('formConfirm', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
+		if (empty($reshook)) {
+			$formconfirm .= $hookmanager->resPrint;
+		} elseif ($reshook > 0) {
+			$formconfirm = $hookmanager->resPrint;
 		}
 
 		// Print form confirm
@@ -3541,7 +3545,10 @@ if ($action == 'create') {
 					}
 					print '<td class="right">'.price($sign * $objp->amount).'</td>';
 					print '<td class="center">';
-					if ($object->statut == FactureFournisseur::STATUS_VALIDATED && $object->paye == 0 && $user->socid == 0) {
+
+					$paiementfourn = new PaiementFourn($db);
+					$paiementfourn->fetch($objp->rowid);
+					if ($object->statut == FactureFournisseur::STATUS_VALIDATED && $object->paye == 0 && $user->socid == 0 && !$paiementfourn->isReconciled()) {
 						print '<a href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&action=deletepayment&token='.newToken().'&paiement_id='.$objp->rowid.'">';
 						print img_delete();
 						print '</a>';
@@ -3798,7 +3805,7 @@ if ($action == 'create') {
 			$senderissupplier = 1;
 		}
 
-		// Show object lines
+		// Show object lines (result may vary according to hidden option MAIN_NO_INPUT_PRICE_WITH_TAX)
 		if (!empty($object->lines)) {
 			$object->printObjectLines($action, $societe, $mysoc, $lineid, 1);
 		}

@@ -373,6 +373,20 @@ class Mo extends CommonObject
 		unset($object->fk_user_creat);
 		unset($object->import_key);
 
+		// We make $object->lines empty to sort it without produced and consumed lines
+		$TLines = $object->lines;
+		$object->lines = array();
+
+		// Remove produced and consumed lines
+		foreach ($TLines as $key => $line) {
+			if (in_array($line->role, array('consumed', 'produced'))) {
+				unset($object->lines[$key]);
+			} else {
+				$object->lines[] = $line;
+			}
+		}
+
+
 		// Clear fields
 		$object->ref = empty($this->fields['ref']['default']) ? "copy_of_".$object->ref : $this->fields['ref']['default'];
 		$object->label = empty($this->fields['label']['default']) ? $langs->trans("CopyOf")." ".$object->label : $this->fields['label']['default'];
@@ -771,7 +785,7 @@ class Mo extends CommonObject
 	}
 
 	/**
-	 * Update quantities in lines to consume and to produce.
+	 * Update quantities in lines to consume and/or lines to produce.
 	 *
 	 * @param  User $user      User that modifies
 	 * @param  bool $notrigger false=launch triggers after, true=disable triggers
@@ -799,7 +813,7 @@ class Mo extends CommonObject
 					if ($moLine->role == 'toconsume' || $moLine->role == 'toproduce') {
 						if (empty($moLine->qty_frozen)) {
 							$qty = $newQty * $moLine->qty / $oldQty;
-							$moLine->qty = price2num($qty * (!empty($line->efficiency) ? $line->efficiency : 1 ), 'MS'); // Calculate with Qty to produce and  more presition
+							$moLine->qty = price2num($qty * (!empty($line->efficiency) ? $line->efficiency : 1 ), 'MS'); // Calculate with Qty to produce and efficiency
 							$res = $moLine->update($user);
 							if (!$res) $error++;
 						}
@@ -1040,6 +1054,12 @@ class Mo extends CommonObject
 				// Now we rename also files into index
 				$sql = 'UPDATE '.MAIN_DB_PREFIX."ecm_files set filename = CONCAT('".$this->db->escape($this->newref)."', SUBSTR(filename, ".(strlen($this->ref) + 1).")), filepath = 'mrp/".$this->db->escape($this->newref)."'";
 				$sql .= " WHERE filename LIKE '".$this->db->escape($this->ref)."%' AND filepath = 'mrp/".$this->db->escape($this->ref)."' and entity = ".$conf->entity;
+				$resql = $this->db->query($sql);
+				if (!$resql) {
+					$error++; $this->error = $this->db->lasterror();
+				}
+				$sql = 'UPDATE '.MAIN_DB_PREFIX."ecm_files set filepath = 'mrp/".$this->db->escape($this->newref)."'";
+				$sql .= " WHERE filepath = 'mrp/".$this->db->escape($this->ref)."' and entity = ".$conf->entity;
 				$resql = $this->db->query($sql);
 				if (!$resql) {
 					$error++; $this->error = $this->db->lasterror();

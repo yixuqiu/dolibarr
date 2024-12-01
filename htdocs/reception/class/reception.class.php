@@ -366,7 +366,7 @@ class Reception extends CommonObject
 			return -1;
 		}
 
-		$sql = "SELECT e.rowid, e.ref, e.fk_soc as socid, e.date_creation, e.ref_supplier, e.ref_ext, e.fk_user_author, e.fk_statut";
+		$sql = "SELECT e.rowid, e.entity, e.ref, e.fk_soc as socid, e.date_creation, e.ref_supplier, e.ref_ext, e.fk_user_author, e.fk_statut";
 		$sql .= ", e.weight, e.weight_units, e.size, e.size_units, e.width, e.height";
 		$sql .= ", e.date_reception as date_reception, e.model_pdf,  e.date_delivery";
 		$sql .= ", e.fk_shipping_method, e.tracking_number";
@@ -395,6 +395,7 @@ class Reception extends CommonObject
 				$obj = $this->db->fetch_object($result);
 
 				$this->id                   = $obj->rowid;
+				$this->entity               = $obj->entity;
 				$this->ref                  = $obj->ref;
 				$this->socid                = $obj->socid;
 				$this->ref_supplier = $obj->ref_supplier;
@@ -471,7 +472,7 @@ class Reception extends CommonObject
 				return 1;
 			} else {
 				dol_syslog(get_class($this).'::Fetch no reception found', LOG_ERR);
-				$this->error = 'Delivery with id '.$id.' not found';
+				$this->error = 'Reception with id '.$id.' not found';
 				return 0;
 			}
 		} else {
@@ -655,6 +656,12 @@ class Reception extends CommonObject
 				if (!$resql) {
 					$error++; $this->error = $this->db->lasterror();
 				}
+				$sql = 'UPDATE '.MAIN_DB_PREFIX."ecm_files set filepath = 'reception/".$this->db->escape($this->newref)."'";
+				$sql .= " WHERE filepath = 'reception/".$this->db->escape($this->ref)."' and entity = ".$conf->entity;
+				$resql = $this->db->query($sql);
+				if (!$resql) {
+					$error++; $this->error = $this->db->lasterror();
+				}
 
 				// We rename directory ($this->ref = old ref, $num = new ref) in order not to lose the attachments
 				$oldref = dol_sanitizeFileName($this->ref);
@@ -741,13 +748,15 @@ class Reception extends CommonObject
 				foreach ($supplierorderdispatch->lines as $dispatch_line) {
 					if (array_key_exists($dispatch_line->fk_product, $qty_received)) {
 						$qty_received[$dispatch_line->fk_product] += $dispatch_line->qty;
+					} else {
+						$qty_received[$dispatch_line->fk_product] = $dispatch_line->qty;
 					}
 				}
 
 				// qty wished in order supplier (origin)
 				foreach ($this->commandeFournisseur->lines as $origin_line) {
 					// exclude lines not qualified for reception
-					if (empty($conf->global->STOCK_SUPPORTS_SERVICES) && $origin_line->product_type > 0) {
+					if ((!getDolGlobalString('STOCK_SUPPORTS_SERVICES') && $origin_line->product_type > 0) || $origin_line->product_type > 1) {
 						continue;
 					}
 
@@ -1049,6 +1058,11 @@ class Reception extends CommonObject
 					$mouvS->origin = null;
 
 					$result = $mouvS->livraison($user, $obj->fk_product, $obj->fk_entrepot, $obj->qty, 0, $langs->trans("ReceptionDeletedInDolibarr", $this->ref), '', $obj->eatby, $obj->sellby, $obj->batch); // Price is set to 0, because we don't want to see WAP changed
+					if ($result < 0) {
+						$error++;
+						$this->error = $mouvS->error;
+						$this->errors = $mouvS->errors;
+					}
 				}
 			} else {
 				$error++; $this->errors[] = "Error ".$this->db->lasterror();
@@ -1529,6 +1543,12 @@ class Reception extends CommonObject
 
 		$error = 0;
 
+		// Protection
+		if ($this->statut == Reception::STATUS_CLOSED) {
+			dol_syslog(get_class($this)."::Already in closed status", LOG_WARNING);
+			return 0;
+		}
+
 		$this->db->begin();
 
 		$sql = 'UPDATE '.MAIN_DB_PREFIX.'reception SET fk_statut='.self::STATUS_CLOSED;
@@ -1652,7 +1672,7 @@ class Reception extends CommonObject
 	}
 
 	/**
-	 *	Classify the reception as invoiced (used when WORKFLOW_EXPEDITION_CLASSIFY_CLOSED_INVOICE is on)
+	 *	Classify the reception as invoiced (used when WORKFLOW_RECEPTION_CLASSIFY_CLOSED_INVOICE is on)
 	 *
 	 *	@return     int     <0 if ko, >0 if ok
 	 */
@@ -1663,7 +1683,10 @@ class Reception extends CommonObject
 
 		$this->db->begin();
 
-		$this->setClosed();
+		if ($this->statut == Reception::STATUS_VALIDATED) {
+			// do not close if already closed
+			$this->setClosed();
+		}
 
 		$sql = 'UPDATE '.MAIN_DB_PREFIX.'reception SET  billed=1';
 		$sql .= " WHERE rowid = ".((int) $this->id).' AND fk_statut > 0';

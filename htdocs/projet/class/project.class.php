@@ -897,14 +897,19 @@ class Project extends CommonObject
 
 		// Set fk_projet into elements to null
 		$listoftables = array(
-			'propal'=>'fk_projet', 'commande'=>'fk_projet', 'facture'=>'fk_projet',
-			'supplier_proposal'=>'fk_projet', 'commande_fournisseur'=>'fk_projet', 'facture_fourn'=>'fk_projet',
-			'expensereport_det'=>'fk_projet', 'contrat'=>'fk_projet',
-			'fichinter'=>'fk_projet',
-			'don'=>array('field'=>'fk_projet', 'module'=>'don'),
-			'actioncomm'=>'fk_project',
-			'mrp_mo'=>'fk_project',
-			'entrepot'=>'fk_project'
+			'propal' => 'fk_projet',
+			'commande' => 'fk_projet',
+			'facture' => 'fk_projet',
+			'supplier_proposal' => 'fk_projet',
+			'commande_fournisseur' => 'fk_projet',
+			'facture_fourn' => 'fk_projet',
+			'expensereport_det' => 'fk_projet',
+			'contrat' => 'fk_projet',
+			'fichinter' => 'fk_projet',
+			'don' => array('field' => 'fk_projet', 'module' => 'don'),
+			'actioncomm' => 'fk_project',
+			'mrp_mo' => array('field' => 'fk_project', 'module' => 'mrp'),
+			'entrepot' => 'fk_project',
 		);
 		foreach ($listoftables as $key => $value) {
 			if (is_array($value)) {
@@ -1313,9 +1318,10 @@ class Project extends CommonObject
 	 *  @param	int   	$notooltip		          1=Disable tooltip
 	 *  @param  int     $save_lastsearch_value    -1=Auto, 0=No save of lastsearch_values when clicking, 1=Save lastsearch_values whenclicking
 	 *  @param	string	$morecss				  More css on a link
+	 *  @param	string	$save_pageforbacktolist		  Back to this page 'context:url'
 	 * 	@return	string					          String with URL
 	 */
-	public function getNomUrl($withpicto = 0, $option = '', $addlabel = 0, $moreinpopup = '', $sep = ' - ', $notooltip = 0, $save_lastsearch_value = -1, $morecss = '')
+	public function getNomUrl($withpicto = 0, $option = '', $addlabel = 0, $moreinpopup = '', $sep = ' - ', $notooltip = 0, $save_lastsearch_value = -1, $morecss = '', $save_pageforbacktolist = '')
 	{
 		global $conf, $langs, $user, $hookmanager;
 
@@ -1363,6 +1369,10 @@ class Project extends CommonObject
 			}
 			if ($add_save_lastsearch_values) {
 				$url .= '&save_lastsearch_values=1';
+			}
+			$add_save_backpagefor = ($save_pageforbacktolist ? 1 : 0);
+			if ($add_save_backpagefor) {
+				$url .= "&save_pageforbacktolist=".urlencode($save_pageforbacktolist);
 			}
 		}
 

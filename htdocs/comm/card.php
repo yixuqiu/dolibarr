@@ -868,9 +868,9 @@ if ($object->id > 0) {
 				$filedir = $conf->propal->multidir_output[$objp->entity].'/'.dol_sanitizeFileName($objp->ref);
 				$file_list = null;
 				if (!empty($filedir)) {
-					$file_list = dol_dir_list($filedir, 'files', 0, '', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
+					$file_list = dol_dir_list($filedir, 'files', 0, dol_sanitizeFileName($objp->ref).'.pdf', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
 				}
-				if (is_array($file_list)) {
+				if (is_array($file_list) && !empty($file_list)) {
 					// Defined relative dir to DOL_DATA_ROOT
 					$relativedir = '';
 					if ($filedir) {
@@ -980,9 +980,9 @@ if ($object->id > 0) {
 				$filedir = $conf->commande->multidir_output[$objp->entity].'/'.dol_sanitizeFileName($objp->ref);
 				$file_list = null;
 				if (!empty($filedir)) {
-					$file_list = dol_dir_list($filedir, 'files', 0, '', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
+					$file_list = dol_dir_list($filedir, 'files', 0, dol_sanitizeFileName($objp->ref).'.pdf', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
 				}
-				if (is_array($file_list)) {
+				if (is_array($file_list) && !empty($file_list)) {
 					// Defined relative dir to DOL_DATA_ROOT
 					$relativedir = '';
 					if ($filedir) {
@@ -1074,9 +1074,9 @@ if ($object->id > 0) {
 				$filedir = $conf->expedition->multidir_output[$objp->entity].'/'.dol_sanitizeFileName($objp->ref);
 				$file_list = null;
 				if (!empty($filedir)) {
-					$file_list = dol_dir_list($filedir, 'files', 0, '', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
+					$file_list = dol_dir_list($filedir, 'files', 0, dol_sanitizeFileName($objp->ref).'.pdf', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
 				}
-				if (is_array($file_list)) {
+				if (is_array($file_list) && !empty($file_list)) {
 					// Defined relative dir to DOL_DATA_ROOT
 					$relativedir = '';
 					if ($filedir) {
@@ -1180,9 +1180,9 @@ if ($object->id > 0) {
 					$filedir = $conf->contrat->multidir_output[$objp->entity].'/'.dol_sanitizeFileName($objp->ref);
 					$file_list = null;
 					if (!empty($filedir)) {
-						$file_list = dol_dir_list($filedir, 'files', 0, '', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
+						$file_list = dol_dir_list($filedir, 'files', 0, dol_sanitizeFileName($objp->ref).'.pdf', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
 					}
-					if (is_array($file_list)) {
+					if (is_array($file_list) && !empty($file_list)) {
 						// Defined relative dir to DOL_DATA_ROOT
 						$relativedir = '';
 						if ($filedir) {
@@ -1271,9 +1271,9 @@ if ($object->id > 0) {
 				$filedir = $conf->ficheinter->multidir_output[$objp->entity].'/'.dol_sanitizeFileName($objp->ref);
 				$file_list = null;
 				if (!empty($filedir)) {
-					$file_list = dol_dir_list($filedir, 'files', 0, '', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
+					$file_list = dol_dir_list($filedir, 'files', 0, dol_sanitizeFileName($objp->ref).'.pdf', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
 				}
-				if (is_array($file_list)) {
+				if (is_array($file_list) && !empty($file_list)) {
 					// Defined relative dir to DOL_DATA_ROOT
 					$relativedir = '';
 					if ($filedir) {
@@ -1471,9 +1471,9 @@ if ($object->id > 0) {
 				$filedir = $conf->facture->multidir_output[$objp->entity].'/'.dol_sanitizeFileName($objp->ref);
 				$file_list = null;
 				if (!empty($filedir)) {
-					$file_list = dol_dir_list($filedir, 'files', 0, '', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
+					$file_list = dol_dir_list($filedir, 'files', 0, dol_sanitizeFileName($objp->ref).'.pdf', '(\.meta|_preview.*.*\.png)$', 'date', SORT_DESC);
 				}
-				if (is_array($file_list)) {
+				if (is_array($file_list) && !empty($file_list)) {
 					// Defined relative dir to DOL_DATA_ROOT
 					$relativedir = '';
 					if ($filedir) {
@@ -1589,6 +1589,7 @@ if ($object->id > 0) {
 
 			if (isModEnabled('facture') && $object->status == 1) {
 				if (empty($user->rights->facture->creer)) {
+					$langs->load("bills");
 					print '<div class="inline-block divButAction"><a class="butActionRefused classfortooltip" title="'.dol_escape_js($langs->trans("NotAllowed")).'" href="#">'.$langs->trans("AddBill").'</a></div>';
 				} else {
 					$langs->loadLangs(array("orders", "bills"));
@@ -1601,7 +1602,7 @@ if ($object->id > 0) {
 								print '<div class="inline-block divButAction"><a class="butActionRefused classfortooltip" title="'.dol_escape_js($langs->trans("NoOrdersToInvoice")).'" href="#">'.$langs->trans("CreateInvoiceForThisCustomer").'</a></div>';
 							}
 						} else {
-							print '<div class="inline-block divButAction"><a class="butActionRefused classfortooltip" title="'.dol_escape_js($langs->trans("ThirdPartyMustBeEditAsCustomer")).'" href="#">'.$langs->trans("AddBill").'</a></div>';
+							print '<div class="inline-block divButAction"><a class="butActionRefused classfortooltip" title="'.dol_escape_js($langs->trans("ThirdPartyMustBeEditAsCustomer")).'" href="#">'.$langs->trans("CreateInvoiceForThisCustomer").'</a></div>';
 						}
 					}
 

@@ -34,31 +34,32 @@
 function get_tz_array()
 {
 	$tzarray = array(
-		-11=>"Pacific/Midway",
-		-10=>"Pacific/Fakaofo",
-		-9=>"America/Anchorage",
-		-8=>"America/Los_Angeles",
-		-7=>"America/Dawson_Creek",
-		-6=>"America/Chicago",
-		-5=>"America/Bogota",
-		-4=>"America/Anguilla",
-		-3=>"America/Araguaina",
-		-2=>"America/Noronha",
-		-1=>"Atlantic/Azores",
-		0=>"Africa/Abidjan",
-		1=>"Europe/Paris",
-		2=>"Europe/Helsinki",
-		3=>"Europe/Moscow",
-		4=>"Asia/Dubai",
-		5=>"Asia/Karachi",
-		6=>"Indian/Chagos",
-		7=>"Asia/Jakarta",
-		8=>"Asia/Hong_Kong",
-		9=>"Asia/Tokyo",
-		10=>"Australia/Sydney",
-		11=>"Pacific/Noumea",
-		12=>"Pacific/Auckland",
-		13=>"Pacific/Enderbury"
+		-11 => "Pacific/Pago_Pago",
+		-10 => "Pacific/Honolulu",
+		-9 => "America/Anchorage",
+		-8 => "America/Los_Angeles",
+		-7 => "America/Dawson_Creek",
+		-6 => "America/Chicago",
+		-5 => "America/Bogota",
+		-4 => "America/Asuncion",
+		-3 => "America/Araguaina",
+		-2 => "America/Noronha",
+		-1 => "Atlantic/Azores",
+		0 => "Europe/London",
+		1 => "Europe/Paris",
+		2 => "Europe/Helsinki",
+		3 => "Europe/Moscow",
+		4 => "Asia/Dubai",
+		5 => "Asia/Karachi",
+		6 => "Indian/Chagos",
+		7 => "Asia/Jakarta",
+		8 => "Asia/Hong_Kong",
+		9 => "Asia/Tokyo",
+		10 => "Australia/Sydney",
+		11 => "Pacific/Noumea",
+		12 => "Pacific/Auckland",
+		13 => "Pacific/Fakaofo",
+		14 => "Pacific/Kiritimati"
 	);
 	return $tzarray;
 }
@@ -789,6 +790,7 @@ function num_public_holiday($timestampStart, $timestampEnd, $country_code = '', 
 		$sql = "SELECT code, entity, fk_country, dayrule, year, month, day, active";
 		$sql .= " FROM ".MAIN_DB_PREFIX."c_hrm_public_holiday";
 		$sql .= " WHERE active = 1 and fk_country IN (0".($country_id > 0 ? ", ".$country_id : 0).")";
+		$sql .= " AND entity IN (0," .getEntity('holiday') .")";
 
 		$resql = $db->query($sql);
 		if ($resql) {

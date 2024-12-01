@@ -215,6 +215,9 @@ if (isModEnabled('facture') && $user->hasRight('facture', 'lire')) {
 				$thirdpartystatic->code_compta = $obj->code_compta;
 				//$thirdpartystatic->code_compta_fournisseur = $obj->code_compta_fournisseur;
 
+				$totalallpayments = $tmpinvoice->getSommePaiement(0);
+				$totalallpayments += $tmpinvoice->getSumCreditNotesUsed(0);
+				$totalallpayments += $tmpinvoice->getSumDepositsUsed(0);
 				print '<tr class="oddeven">';
 				print '<td class="nowrap">';
 
@@ -247,7 +250,7 @@ if (isModEnabled('facture') && $user->hasRight('facture', 'lire')) {
 
 				print '<td class="right" title="'.dol_escape_htmltag($langs->trans("DateModificationShort").' : '.dol_print_date($db->jdate($obj->tms), 'dayhour', 'tzuserrel')).'">'.dol_print_date($db->jdate($obj->tms), 'day', 'tzuserrel').'</td>';
 
-				print '<td>'.$tmpinvoice->getLibStatut(3, $obj->am).'</td>';
+				print '<td>'.$tmpinvoice->getLibStatut(3, $totalallpayments).'</td>';
 
 				print '</tr>';
 
@@ -270,7 +273,7 @@ if (isModEnabled('facture') && $user->hasRight('facture', 'lire')) {
 			if (!empty($conf->global->MAIN_SHOW_HT_ON_SUMMARY)) {
 				$colspan++;
 			}
-			print '<tr class="oddeven"><td colspan="'.$colspan.'" class="opacitymedium">'.$langs->trans("NoInvoice").'</td></tr>';
+			print '<tr class="oddeven"><td colspan="'.$colspan.'"><span class="opacitymedium">'.$langs->trans("NoInvoice").'</span></td></tr>';
 		}
 		print '</table></div><br>';
 		$db->free($resql);
@@ -377,6 +380,8 @@ if ((isModEnabled('fournisseur') && empty($conf->global->MAIN_USE_NEW_SUPPLIERMO
 				print '<td class="nowrap right"><span class="amount">'.price($obj->total_ttc).'</span></td>';
 				print '<td class="right" title="'.dol_escape_htmltag($langs->trans("DateModificationShort").' : '.dol_print_date($db->jdate($obj->tms), 'dayhour', 'tzuserrel')).'">'.dol_print_date($db->jdate($obj->tms), 'day', 'tzuserrel').'</td>';
 				$alreadypaid = $facstatic->getSommePaiement();
+				$alreadypaid += $facstatic->getSumCreditNotesUsed();
+				$alreadypaid += $facstatic->getSumDepositsUsed();
 				print '<td>'.$facstatic->getLibStatut(3, $alreadypaid).'</td>';
 				print '</tr>';
 				$total_ht += $obj->total_ht;
@@ -397,7 +402,7 @@ if ((isModEnabled('fournisseur') && empty($conf->global->MAIN_USE_NEW_SUPPLIERMO
 			if (!empty($conf->global->MAIN_SHOW_HT_ON_SUMMARY)) {
 				$colspan++;
 			}
-			print '<tr class="oddeven"><td colspan="'.$colspan.'" class="opacitymedium">'.$langs->trans("NoInvoice").'</td></tr>';
+			print '<tr class="oddeven"><td colspan="'.$colspan.'"><span class="opacitymedium">'.$langs->trans("NoInvoice").'</span></td></tr>';
 		}
 		print '</table></div><br>';
 	} else {
@@ -488,7 +493,7 @@ if (isModEnabled('don') && $user->hasRight('don', 'lire')) {
 				print "</tr>\n";
 			}
 		} else {
-			print '<tr class="oddeven"><td colspan="5" class="opacitymedium">'.$langs->trans("None").'</td></tr>';
+			print '<tr class="oddeven"><td colspan="5"><span class="opacitymedium">'.$langs->trans("None").'</span></td></tr>';
 		}
 		print '</table></div><br>';
 	} else {
@@ -578,7 +583,7 @@ if (isModEnabled('tax') && !empty($user->rights->tax->charges->lire)) {
 				print '<td class="right">&nbsp;</td>';
 				print '</tr>';
 			} else {
-				print '<tr class="oddeven"><td colspan="5" class="opacitymedium">'.$langs->trans("None").'</td></tr>';
+				print '<tr class="oddeven"><td colspan="5"><span class="opacitymedium">'.$langs->trans("None").'</span></td></tr>';
 			}
 			print "</table></div><br>";
 			$db->free($resql);

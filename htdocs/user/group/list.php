@@ -94,7 +94,7 @@ if (!empty($conf->global->MAIN_USE_ADVANCED_PERMS)) {
 }
 
 // Users/Groups management only in master entity if transverse mode
-if (isModEnabled('multicompany') && $conf->entity > 1 && $conf->global->MULTICOMPANY_TRANSVERSE_MODE) {
+if (isModEnabled('multicompany') && $conf->entity > 1 && getDolGlobalString('MULTICOMPANY_TRANSVERSE_MODE')) {
 	accessforbidden();
 }
 
@@ -174,6 +174,9 @@ $morecss = array();
 // Build and execute select
 // --------------------------------------------------------------------
 $sql = "SELECT g.rowid, g.nom as name, g.note, g.entity, g.datec, g.tms, COUNT(DISTINCT ugu.fk_user) as nb, COUNT(DISTINCT ugr.fk_id) as nbpermissions";
+
+$sqlfields = $sql;
+
 $sql .= " FROM ".MAIN_DB_PREFIX."usergroup as g";
 $sql .= " LEFT JOIN ".MAIN_DB_PREFIX."usergroup_user as ugu ON ugu.fk_usergroup = g.rowid";
 $sql .= " LEFT JOIN ".MAIN_DB_PREFIX."usergroup_rights as ugr ON ugr.fk_usergroup = g.rowid";
@@ -190,11 +193,29 @@ if ($search_all) {
 }
 $sql .= " GROUP BY g.rowid, g.nom, g.note, g.entity, g.datec, g.tms";
 
+// Count total nb of records
+$nbtotalofrecords = '';
+if (!getDolGlobalInt('MAIN_DISABLE_FULL_SCANLIST')) {
+	/* The fast and low memory method to get and count full list converts the sql into a sql count */
+	$sqlforcount = preg_replace('/^'.preg_quote($sqlfields, '/').'/', 'SELECT COUNT(DISTINCT g.rowid) as nbtotalofrecords', $sql);
+	$sqlforcount = preg_replace('/GROUP BY .*$/', '', $sqlforcount);
+	$resql = $db->query($sqlforcount);
+	if ($resql) {
+		$objforcount = $db->fetch_object($resql);
+		$nbtotalofrecords = $objforcount->nbtotalofrecords;
+	} else {
+		dol_print_error($db);
+	}
+
+	if (($page * $limit) > $nbtotalofrecords) {	// if total resultset is smaller than paging size (filtering), goto and load page 0
+		$page = 0;
+		$offset = 0;
+	}
+	$db->free($resql);
+}
+
 // Complete request and execute it with limit
 $sql .= $db->order($sortfield, $sortorder);
-if ($limit) {
-	$sql .= $db->plimit($limit + 1, $offset);
-}
 
 $resql = $db->query($sql);
 if (!$resql) {
@@ -203,9 +224,6 @@ if (!$resql) {
 }
 
 $num = $db->num_rows($resql);
-
-
-$nbtotalofrecords = $num;
 
 $i = 0;
 
@@ -440,7 +458,7 @@ while ($i < $imaxinloop) {
 			}
 		}
 
-		print '<td>';
+		print '<td class="tdoverflowmax125">';
 		print $object->getNomUrl(1);
 		if (isModEnabled('multicompany') && !$obj->entity) {
 			print img_picto($langs->trans("GlobalGroup"), 'redstar');
@@ -457,12 +475,12 @@ while ($i < $imaxinloop) {
 				$totalarray['nbfield']++;
 			}
 		}
-		print '<td class="center">'.$obj->nb.'</td>';
+		print '<td class="center">'.dol_escape_htmltag($obj->nb).'</td>';
 		if (!$i) {
 			$totalarray['nbfield']++;
 		}
 		print '<td class="center">';
-		print '<a href="'.DOL_URL_ROOT.'/user/group/perms.php?id='.$obj->rowid.'">'.$obj->nbpermissions.'</a>';
+		print '<a href="'.DOL_URL_ROOT.'/user/group/perms.php?id='.$obj->rowid.'">'.dol_escape_htmltag($obj->nbpermissions).'</a>';
 		print '</td>';
 		if (!$i) {
 			$totalarray['nbfield']++;
@@ -513,12 +531,7 @@ if ($num == 0) {
 			$colspan++;
 		}
 	}*/
-	$colspan = 1;
-	foreach ($arrayfields as $key => $val) {
-		if (!empty($val['checked'])) {
-			$colspan++;
-		}
-	}
+	$colspan = $savnbfield;
 	print '<tr><td colspan="'.$colspan.'"><span class="opacitymedium">'.$langs->trans("NoRecordFound").'</span></td></tr>';
 }
 

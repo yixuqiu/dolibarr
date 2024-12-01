@@ -131,7 +131,7 @@ $cancel != $langs->trans("Cancel") &&
 
 	foreach ($object->multilangs as $key => $value) {     // recording of new values in the object
 		$libelle = GETPOST('libelle-'.$key, 'alpha');
-		$desc = GETPOST('desc-'.$key);
+		$desc = GETPOST('desc-'.$key, 'restricthtml');
 
 		if (empty($libelle)) {
 			$error++;
@@ -189,7 +189,7 @@ print dol_get_fiche_head($head, 'translation', $langs->trans($title), -1, 'categ
 
 $backtolist = (GETPOST('backtolist') ? GETPOST('backtolist') : DOL_URL_ROOT.'/categories/index.php?leftmenu=cat&type='.urlencode($type));
 $linkback = '<a href="'.dol_sanitizeUrl($backtolist).'">'.$langs->trans("BackToList").'</a>';
-$object->next_prev_filter = ' type = '.$object->type;
+$object->next_prev_filter = 'type = '.((int) $object->type);
 $object->ref = $object->label;
 $morehtmlref = '<br><div class="refidno"><a href="'.DOL_URL_ROOT.'/categories/index.php?leftmenu=cat&type='.$type.'">'.$langs->trans("Root").'</a> >> ';
 $ways = $object->print_all_ways(" &gt;&gt; ", '', 1);

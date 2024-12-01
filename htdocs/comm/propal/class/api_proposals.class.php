@@ -278,7 +278,7 @@ class Proposals extends DolibarrApi
 			throw new RestException(500, "Error creating order", array_merge(array($this->propal->error), $this->propal->errors));
 		}
 
-		return $this->propal->id;
+		return ((int) $this->propal->id);
 	}
 
 	/**
@@ -293,8 +293,6 @@ class Proposals extends DolibarrApi
 	 */
 	public function getLines($id, $sqlfilters = '')
 	{
-		$filters = "";
-
 		if (!DolibarrApiAccess::$user->hasRight('propal', 'lire')) {
 			throw new RestException(401);
 		}
@@ -308,6 +306,7 @@ class Proposals extends DolibarrApi
 			throw new RestException(401, 'Access not allowed for login '.DolibarrApiAccess::$user->login);
 		}
 
+		$sql = '';
 		if (!empty($sqlfilters)) {
 			$errormessage = '';
 			$sql = forgeSQLFromUniversalSearchCriteria($sqlfilters, $errormessage);

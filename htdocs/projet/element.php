@@ -211,7 +211,13 @@ print dol_get_fiche_head($head, 'element', $langs->trans("Project"), -1, ($objec
 
 // Project card
 
-$linkback = '<a href="'.DOL_URL_ROOT.'/projet/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
+if (!empty($_SESSION['pageforbacktolist']) && !empty($_SESSION['pageforbacktolist']['project'])) {
+	$tmpurl = $_SESSION['pageforbacktolist']['project'];
+	$tmpurl = preg_replace('/__SOCID__/', $object->socid, $tmpurl);
+	$linkback = '<a href="'.$tmpurl.(preg_match('/\?/', $tmpurl) ? '&' : '?'). 'restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
+} else {
+	$linkback = '<a href="'.DOL_URL_ROOT.'/projet/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
+}
 
 $morehtmlref = '<div class="refidno">';
 // Title
@@ -225,7 +231,7 @@ $morehtmlref .= '</div>';
 // Define a complementary filter for search of next/prev ref.
 if (empty($user->rights->projet->all->lire)) {
 	$objectsListId = $object->getProjectsAuthorizedForUser($user, 0, 0);
-	$object->next_prev_filter = " te.rowid IN (".$db->sanitize(count($objectsListId) ?join(',', array_keys($objectsListId)) : '0').")";
+	$object->next_prev_filter = "te.rowid IN (".$db->sanitize(count($objectsListId) ?join(',', array_keys($objectsListId)) : '0').")";
 }
 
 dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref);
@@ -903,12 +909,18 @@ foreach ($listofreferent as $key => $value) {
 					$total_ttc_by_line = $element->total_ttc;
 				}
 
-				// Change sign of $total_ht_by_line and $total_ttc_by_line for some cases
+				// Change sign of $total_ht_by_line and $total_ttc_by_line for various payments
 				if ($tablename == 'payment_various') {
 					if ($element->sens == 1) {
 						$total_ht_by_line = -$total_ht_by_line;
 						$total_ttc_by_line = -$total_ttc_by_line;
 					}
+				}
+
+				// Change sign of $total_ht_by_line and $total_ttc_by_line for supplier proposal and supplier order
+				if ($tablename == 'commande_fournisseur' || $tablename == 'supplier_proposal') {
+					$total_ht_by_line = -$total_ht_by_line;
+					$total_ttc_by_line = -$total_ttc_by_line;
 				}
 
 				// Add total if we have to
@@ -1272,8 +1284,8 @@ foreach ($listofreferent as $key => $value) {
 						$filedir = $conf->fournisseur->commande->multidir_output[$element->entity].'/'.dol_sanitizeFileName($element->ref);
 					} elseif ($element_doc === 'invoice_supplier') {
 						$element_doc = 'facture_fournisseur';
-						$filename = get_exdir($element->id, 2, 0, 0, $element, 'product').dol_sanitizeFileName($element->ref);
-						$filedir = $conf->fournisseur->facture->multidir_output[$element->entity].'/'.get_exdir($element->id, 2, 0, 0, $element, 'invoice_supplier').dol_sanitizeFileName($element->ref);
+						$filename = get_exdir($element->id, 2, 0, 0, $element, 'invoice_supplier').dol_sanitizeFileName($element->ref);
+						$filedir = $conf->fournisseur->facture->multidir_output[$element->entity].'/'.$filename;
 					}
 
 					print '<div class="inline-block valignmiddle">';

@@ -619,6 +619,19 @@ abstract class CommonObject
 	public $user_modification_id;
 
 
+	/**
+	 * @var int ID
+	 * @deprecated	Use $user_creation_id
+	 */
+	public $fk_user_creat;
+
+	/**
+	 * @var int ID
+	 * @deprecated 	Use $user_modification_id
+	 */
+	public $fk_user_modif;
+
+
 	public $next_prev_filter;
 
 	/**
@@ -1173,22 +1186,34 @@ abstract class CommonObject
 		// phpcs:enable
 		global $user;
 
+		$error = 0;
 
 		$this->db->begin();
 
-		$sql = "DELETE FROM ".$this->db->prefix()."element_contact";
-		$sql .= " WHERE rowid = ".((int) $rowid);
-
-		dol_syslog(get_class($this)."::delete_contact", LOG_DEBUG);
-		if ($this->db->query($sql)) {
-			if (!$notrigger) {
-				$result = $this->call_trigger(strtoupper($this->element).'_DELETE_CONTACT', $user);
-				if ($result < 0) {
-					$this->db->rollback();
-					return -1;
-				}
+		if (!$error && empty($notrigger)) {
+			// Call trigger
+			$this->context['contact_id'] = ((int) $rowid);
+			$result = $this->call_trigger(strtoupper($this->element).'_DELETE_CONTACT', $user);
+			if ($result < 0) {
+				$error++;
 			}
+			// End call triggers
+		}
 
+		if (!$error) {
+			dol_syslog(get_class($this)."::delete_contact", LOG_DEBUG);
+
+			$sql = "DELETE FROM ".MAIN_DB_PREFIX."element_contact";
+			$sql .= " WHERE rowid = ".((int) $rowid);
+
+			$result = $this->db->query($sql);
+			if (!$result) {
+				$error++;
+				$this->errors[] = $this->db->lasterror();
+			}
+		}
+
+		if (!$error) {
 			$this->db->commit();
 			return 1;
 		} else {
@@ -2046,7 +2071,8 @@ abstract class CommonObject
 	/**
 	 *      Load properties id_previous and id_next by comparing $fieldid with $this->ref
 	 *
-	 *      @param	string	$filter		Optional filter. Example: " AND (t.field1 = 'aa' OR t.field2 = 'bb')". Do not allow user input data here.
+	 *      @param	string	$filter		Optional SQL filter. Example: "(t.field1 = 'aa' OR t.field2 = 'bb')". Do not allow user input data here.
+	 *      							Use SQL and not Universal Search Filter. @TODO Replace this with an USF string after changing all ->next_prev_filter
 	 *	 	@param  string	$fieldid   	Name of field to use for the select MAX and MIN
 	 *		@param	int		$nodbprefix	Do not include DB prefix to forge table name
 	 *      @return int         		<0 if KO, >0 if OK
@@ -2065,7 +2091,7 @@ abstract class CommonObject
 		}
 
 		// For backward compatibility
-		if ($this->table_element == 'facture_rec' && $fieldid == 'title') {
+		if (in_array($this->table_element, array('facture_rec', 'facture_fourn_rec')) && $fieldid == 'title') {
 			$fieldid = 'titre';
 		}
 
@@ -2085,7 +2111,9 @@ abstract class CommonObject
 		$sql = "SELECT MAX(te.".$fieldid.")";
 		$sql .= " FROM ".(empty($nodbprefix) ?$this->db->prefix():'').$this->table_element." as te";
 		if ($this->element == 'user' && !empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
-			$sql .= ",".$this->db->prefix()."usergroup_user as ug";
+			if (empty($user->admin) || !empty($user->entity) || $conf->entity != 1) {
+				$sql .= " INNER JOIN ".MAIN_DB_PREFIX."usergroup_user as ug ON ug.fk_user = te.rowid";
+			}
 		}
 		if (isset($this->ismultientitymanaged) && !is_numeric($this->ismultientitymanaged)) {
 			$tmparray = explode('@', $this->ismultientitymanaged);
@@ -2107,7 +2135,7 @@ abstract class CommonObject
 		}
 		if (!empty($filter)) {
 			if (!preg_match('/^\s*AND/i', $filter)) {
-				$sql .= " AND "; // For backward compatibility
+				$sql .= " AND ";
 			}
 			$sql .= $filter;
 		}
@@ -2122,7 +2150,6 @@ abstract class CommonObject
 				if (!empty($user->admin) && empty($user->entity) && $conf->entity == 1) {
 					$sql .= " AND te.entity IS NOT NULL"; // Show all users
 				} else {
-					$sql .= " AND ug.fk_user = te.rowid";
 					$sql .= " AND ug.entity IN (".getEntity('usergroup').")";
 				}
 			} else {
@@ -2155,7 +2182,9 @@ abstract class CommonObject
 		$sql = "SELECT MIN(te.".$fieldid.")";
 		$sql .= " FROM ".(empty($nodbprefix) ?$this->db->prefix():'').$this->table_element." as te";
 		if ($this->element == 'user' && !empty($conf->global->MULTICOMPANY_TRANSVERSE_MODE)) {
-			$sql .= ",".$this->db->prefix()."usergroup_user as ug";
+			if (empty($user->admin) || !empty($user->entity) || $conf->entity != 1) {
+				$sql .= " INNER JOIN ".MAIN_DB_PREFIX."usergroup_user as ug ON ug.fk_user = te.rowid";
+			}
 		}
 		if (isset($this->ismultientitymanaged) && !is_numeric($this->ismultientitymanaged)) {
 			$tmparray = explode('@', $this->ismultientitymanaged);
@@ -2192,7 +2221,6 @@ abstract class CommonObject
 				if (!empty($user->admin) && empty($user->entity) && $conf->entity == 1) {
 					$sql .= " AND te.entity IS NOT NULL"; // Show all users
 				} else {
-					$sql .= " AND ug.fk_user = te.rowid";
 					$sql .= " AND ug.entity IN (".getEntity('usergroup').")";
 				}
 			} else {
@@ -3101,7 +3129,7 @@ abstract class CommonObject
 				while ($row = $this->db->fetch_row($resql)) {
 					$rows[] = $row[0];
 					if (!empty($includealltree)) {
-						$rows = array_merge($rows, $this->getChildrenOfLine($row[0]), $includealltree);
+						$rows = array_merge($rows, $this->getChildrenOfLine($row[0], $includealltree));
 					}
 				}
 			}
@@ -3392,9 +3420,10 @@ abstract class CommonObject
 	 *
 	 *  @param      string		$note		New value for note
 	 *  @param		string		$suffix		'', '_public' or '_private'
+	 *  @param      int         $notrigger  1=Does not execute triggers, 0=execute triggers
 	 *  @return     int      		   		<0 if KO, >0 if OK
 	 */
-	public function update_note($note, $suffix = '')
+	public function update_note($note, $suffix = '', $notrigger = 0)
 	{
 		// phpcs:enable
 		global $user;
@@ -3437,6 +3466,34 @@ abstract class CommonObject
 			} else {
 				$this->note = $note; // deprecated
 				$this->note_private = $note;
+			}
+			if (empty($notrigger)) {
+				switch ($this->element) {
+					case 'societe':
+						$trigger_name = 'COMPANY_MODIFY';
+						break;
+					case 'commande':
+						$trigger_name = 'ORDER_MODIFY';
+						break;
+					case 'facture':
+						$trigger_name = 'BILL_MODIFY';
+						break;
+					case 'invoice_supplier':
+						$trigger_name = 'BILL_SUPPLIER_MODIFY';
+						break;
+					case 'facturerec':
+						$trigger_name = 'BILLREC_MODIFIY';
+						break;
+					case 'expensereport':
+						$trigger_name = 'EXPENSE_REPORT_MODIFY';
+						break;
+					default:
+						$trigger_name = strtoupper($this->element) . '_MODIFY';
+				}
+				$ret = $this->call_trigger($trigger_name, $user);
+				if ($ret < 0) {
+					return -1;
+				}
 			}
 			return 1;
 		} else {
@@ -4486,7 +4543,7 @@ abstract class CommonObject
 		$resql = $this->db->query($sql);
 		if ($resql) {
 			$row = $this->db->fetch_row($resql);
-			return $row[0];
+			return (!empty($row[0]) ? $row[0] : 0);
 		}
 
 		return 0;
@@ -4908,10 +4965,10 @@ abstract class CommonObject
 			//if (is_object($hookmanager) && (($line->product_type == 9 && !empty($line->special_code)) || !empty($line->fk_parent_line)))
 			if (is_object($hookmanager)) {   // Old code is commented on preceding line.
 				if (empty($line->fk_parent_line)) {
-					$parameters = array('line'=>$line, 'num'=>$num, 'i'=>$i, 'dateSelector'=>$dateSelector, 'seller'=>$seller, 'buyer'=>$buyer, 'selected'=>$selected, 'table_element_line'=>$line->table_element);
+					$parameters = array('line'=>$line, 'num'=>$num, 'i'=>$i, 'dateSelector'=>$dateSelector, 'seller'=>$seller, 'buyer'=>$buyer, 'selected'=>$selected, 'table_element_line'=>$line->table_element, 'defaulttpldir'=>$defaulttpldir);
 					$reshook = $hookmanager->executeHooks('printObjectLine', $parameters, $this, $action); // Note that $action and $object may have been modified by some hooks
 				} else {
-					$parameters = array('line'=>$line, 'num'=>$num, 'i'=>$i, 'dateSelector'=>$dateSelector, 'seller'=>$seller, 'buyer'=>$buyer, 'selected'=>$selected, 'table_element_line'=>$line->table_element, 'fk_parent_line'=>$line->fk_parent_line);
+					$parameters = array('line'=>$line, 'num'=>$num, 'i'=>$i, 'dateSelector'=>$dateSelector, 'seller'=>$seller, 'buyer'=>$buyer, 'selected'=>$selected, 'table_element_line'=>$line->table_element, 'fk_parent_line'=>$line->fk_parent_line, 'defaulttpldir'=>$defaulttpldir);
 					$reshook = $hookmanager->executeHooks('printObjectSubLine', $parameters, $this, $action); // Note that $action and $object may have been modified by some hooks
 				}
 			}
@@ -5343,7 +5400,9 @@ abstract class CommonObject
 		if (isset($this->lines) && is_array($this->lines)) {
 			$nboflines = count($this->lines);
 			for ($i = 0; $i < $nboflines; $i++) {
-				$this->lines[$i] = clone $this->lines[$i];
+				if (is_object($this->lines[$i])) {
+					$this->lines[$i] = clone $this->lines[$i];
+				}
 			}
 		}
 	}
@@ -6171,7 +6230,7 @@ abstract class CommonObject
 			foreach ($new_array_options as $key => $value) {
 				$attributeKey      = substr($key, 8); // Remove 'options_' prefix
 				$attributeType     = $extrafields->attributes[$this->table_element]['type'][$attributeKey];
-				$attributeLabel    = $extrafields->attributes[$this->table_element]['label'][$attributeKey];
+				$attributeLabel    = $langs->transnoentities($extrafields->attributes[$this->table_element]['label'][$attributeKey]);
 				$attributeParam    = $extrafields->attributes[$this->table_element]['param'][$attributeKey];
 				$attributeRequired = $extrafields->attributes[$this->table_element]['required'][$attributeKey];
 				$attributeUnique   = $extrafields->attributes[$this->table_element]['unique'][$attributeKey];
@@ -6606,6 +6665,7 @@ abstract class CommonObject
 						$this->array_options["options_".$key] = null;
 					}
 					break;
+				case 'price':
 				case 'double':
 					$value = price2num($value);
 					if (!is_numeric($value) && $value != '') {
@@ -6624,9 +6684,6 @@ abstract class CommonObject
 						 $this->array_options[$key] = null;
 					 }
 					 break;*/
-				case 'price':
-					$this->array_options["options_".$key] = price2num($this->array_options["options_".$key]);
-					break;
 				case 'date':
 				case 'datetime':
 					if (empty($this->array_options["options_".$key])) {
@@ -8274,7 +8331,7 @@ abstract class CommonObject
 								}
 							}
 							$datekey = $keyprefix.'options_'.$key.$keysuffix;
-							$value = (GETPOSTISSET($datekey)) ? dol_mktime(12, 0, 0, GETPOST($datekey.'month', 'int', 3), GETPOST($datekey.'day', 'int', 3), GETPOST($datekey.'year', 'int', 3)) : $datenotinstring;
+							$value = (GETPOSTISSET($datekey) && $this->id == GETPOST('elrowid', 'int')) ? dol_mktime(12, 0, 0, GETPOST($datekey.'month', 'int', 3), GETPOST($datekey.'day', 'int', 3), GETPOST($datekey.'year', 'int', 3)) : $datenotinstring;
 						}
 						if (in_array($extrafields->attributes[$this->table_element]['type'][$key], array('datetime'))) {
 							$datenotinstring = null;
@@ -8297,7 +8354,7 @@ abstract class CommonObject
 						}
 
 						// HTML, text, select, integer and varchar: take into account default value in database if in create mode
-						if (in_array($extrafields->attributes[$this->table_element]['type'][$key], array('html', 'text', 'varchar', 'select', 'int', 'boolean'))) {
+						if (in_array($extrafields->attributes[$this->table_element]['type'][$key], array('html', 'text', 'varchar', 'select', 'radio', 'int', 'boolean'))) {
 							if ($action == 'create') {
 								$value = (GETPOSTISSET($keyprefix.'options_'.$key.$keysuffix) || $value) ? $value : $extrafields->attributes[$this->table_element]['default'][$key];
 							}
@@ -8409,8 +8466,8 @@ abstract class CommonObject
 							var val = $("select[name=\""+parent_list+"\"]").val();
 							var parentVal = parent_list + ":" + val;
 							if(typeof val == "string"){
-				    		    if(val != "") {
-					    			var options = orig_select.find("option[parent=\""+parentVal+"\"]").clone();
+								if(val != "") {
+									var options = orig_select.find("option[parent=\""+parentVal+"\"]").clone();
 									$("select[name=\""+child_list+"\"] option[parent]").remove();
 									$("select[name=\""+child_list+"\"]").append(options);
 								} else {
@@ -8418,7 +8475,7 @@ abstract class CommonObject
 									$("select[name=\""+child_list+"\"] option[parent]").remove();
 									$("select[name=\""+child_list+"\"]").append(options);
 								}
-				    		} else if(val > 0) {
+							} else if(val > 0) {
 								var options = orig_select.find("option[parent=\""+parentVal+"\"]").clone();
 								$("select[name=\""+child_list+"\"] option[parent]").remove();
 								$("select[name=\""+child_list+"\"]").append(options);
@@ -8439,15 +8496,15 @@ abstract class CommonObject
 
 								//Hide daughters lists
 								if ($("#"+child_list).val() == 0 && $("#"+parent_list).val() == 0){
-								    $("#"+child_list).hide();
+									$("#"+child_list).hide();
 								//Show mother lists
 								} else if ($("#"+parent_list).val() != 0){
-								    $("#"+parent_list).show();
+									$("#"+parent_list).show();
 								}
 								//Show the child list if the parent list value is selected
 								$("select[name=\""+parent_list+"\"]").click(function() {
-								    if ($(this).val() != 0){
-								        $("#"+child_list).show()
+									if ($(this).val() != 0){
+										$("#"+child_list).show()
 									}
 								});
 
@@ -8472,19 +8529,20 @@ abstract class CommonObject
 
 	/**
 	 * Returns the rights used for this class
-	 * @return stdClass
+	 *
+	 * @return stdClass		Object of permission for the module
 	 */
 	public function getRights()
 	{
 		global $user;
 
-		$module = $this->module;
+		$module = empty($this->module) ? '' : $this->module;
 		$element = $this->element;
 
 		if ($element == 'facturerec') {
 			$element = 'facture';
 		} elseif ($element == 'invoice_supplier_rec') {
-			return $user->rights->fournisseur->facture;
+			return empty($user->rights->fournisseur->facture) ? null : $user->rights->fournisseur->facture;
 		} elseif ($module && !empty($user->rights->$module->$element)) {
 			// for modules built with ModuleBuilder
 			return $user->rights->$module->$element;
@@ -9015,9 +9073,9 @@ abstract class CommonObject
 
 
 	/**
-	 * Function to prepare a part of the query for insert by returning an array with all properties of object.
+	 * Function to return the array of data key-value from the ->fields and all the ->properties of an object.
 	 *
-	 * Note $this->${field} are set by the page that make the createCommon() or the updateCommon().
+	 * Note: $this->${field} are set by the page that make the createCommon() or the updateCommon().
 	 * $this->${field} should be a clean and string value (so date are formated for SQL insert).
 	 *
 	 * @return array		Array with all values of each properties to update
@@ -9096,7 +9154,7 @@ abstract class CommonObject
 
 		foreach ($this->fields as $field => $info) {
 			if ($this->isDate($info)) {
-				if (is_null($obj->$field) || $obj->$field === '' || $obj->$field === '0000-00-00 00:00:00' || $obj->$field === '1000-01-01 00:00:00') {
+				if (!isset($obj->$field) || is_null($obj->$field) || $obj->$field === '' || $obj->$field === '0000-00-00 00:00:00' || $obj->$field === '1000-01-01 00:00:00') {
 					$this->$field = '';
 				} else {
 					$this->$field = $db->jdate($obj->$field);
@@ -9112,7 +9170,7 @@ abstract class CommonObject
 							$this->$field = (double) $obj->$field;
 						}
 					} else {
-						if (!is_null($obj->$field) || (isset($info['notnull']) && $info['notnull'] == 1)) {
+						if (isset($obj->$field) && (!is_null($obj->$field) || (isset($info['notnull']) && $info['notnull'] == 1))) {
 							$this->$field = (int) $obj->$field;
 						} else {
 							$this->$field = null;
@@ -9127,7 +9185,7 @@ abstract class CommonObject
 						$this->$field = (double) $obj->$field;
 					}
 				} else {
-					if (!is_null($obj->$field) || (isset($info['notnull']) && $info['notnull'] == 1)) {
+					if (isset($obj->$field) && (!is_null($obj->$field) || (isset($info['notnull']) && $info['notnull'] == 1))) {
 						$this->$field = (double) $obj->$field;
 					} else {
 						$this->$field = null;
@@ -9147,15 +9205,21 @@ abstract class CommonObject
 	/**
 	 * Function to concat keys of fields
 	 *
-	 * @param   string   $alias   	String of alias of table for fields. For example 't'. It is recommended to use '' and set alias into fields defintion.
-	 * @return  string				list of alias fields
+	 * @param   string  $alias   		String of alias of table for fields. For example 't'. It is recommended to use '' and set alias into fields defintion.
+	 * @param	array	$excludefields	Array of fields to exclude
+	 * @return  string					List of alias fields
 	 */
-	public function getFieldList($alias = '')
+	public function getFieldList($alias = '', $excludefields = array())
 	{
 		$keys = array_keys($this->fields);
 		if (!empty($alias)) {
 			$keys_with_alias = array();
 			foreach ($keys as $fieldname) {
+				if (!empty($excludefields)) {
+					if (in_array($fieldname, $excludefields)) {	// The field is excluded and must not be in output
+						continue;
+					}
+				}
 				$keys_with_alias[] = $alias . '.' . $fieldname;
 			}
 			return implode(',', $keys_with_alias);
@@ -9214,6 +9278,11 @@ abstract class CommonObject
 		}
 		if (array_key_exists('fk_user_creat', $fieldvalues) && !($fieldvalues['fk_user_creat'] > 0)) {
 			$fieldvalues['fk_user_creat'] = $user->id;
+			$this->fk_user_creat = $user->id;
+		}
+		if (array_key_exists('user_modification_id', $fieldvalues) && !($fieldvalues['user_modification_id'] > 0)) {
+			$fieldvalues['user_modification_id'] = $user->id;
+			$this->user_modification_id = $user->id;
 		}
 		unset($fieldvalues['rowid']); // The field 'rowid' is reserved field name for autoincrement field so we don't need it into insert.
 		if (array_key_exists('ref', $fieldvalues)) {
@@ -9327,7 +9396,12 @@ abstract class CommonObject
 					$line = (object) $line;
 				}
 
-				$result = $line->create($user, 1);
+				$result = 0;
+				if (method_exists($line, 'insert')) {
+					$result = $line->insert($user, 1);
+				} elseif (method_exists($line, 'create')) {
+					$result = $line->create($user, 1);
+				}
 				if ($result < 0) {
 					$this->error = $line->error;
 					$this->db->rollback();
@@ -9445,6 +9519,7 @@ abstract class CommonObject
 		if ($resql) {
 			$num_rows = $this->db->num_rows($resql);
 			$i = 0;
+			$this->lines = array();
 			while ($i < $num_rows) {
 				$obj = $this->db->fetch_object($resql);
 				if ($obj) {
