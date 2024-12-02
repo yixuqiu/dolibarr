@@ -637,8 +637,6 @@ class Invoices extends DolibarrApi
 		} else {
 			throw new RestException(500, $this->invoice->error);
 		}
-
-		return false;
 	}
 
 	/**
