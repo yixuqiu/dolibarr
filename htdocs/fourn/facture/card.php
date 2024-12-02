@@ -1324,6 +1324,11 @@ if (empty($reshook)) {
 									$date_end = $lines[$i]->date_end;
 								}
 
+								$tva_tx = $lines[$i]->tva_tx;
+								if (!empty($lines[$i]->vat_src_code) && !preg_match('/\(/', $tva_tx)) {
+									$tva_tx .= ' ('.$lines[$i]->vat_src_code.')';
+								}
+
 								// FIXME Missing special_code  into addline and updateline methods
 								$object->special_code = $lines[$i]->special_code;
 
@@ -1340,7 +1345,7 @@ if (empty($reshook)) {
 								$result = $object->addline(
 									$desc,
 									$pu,
-									$lines[$i]->tva_tx,
+									$tva_tx,
 									$lines[$i]->localtax1_tx,
 									$lines[$i]->localtax2_tx,
 									$lines[$i]->qty,
@@ -3171,14 +3176,12 @@ if ($action == 'create') {
 			$formconfirm = $form->formconfirm($_SERVER["PHP_SELF"].'?id='.$object->id.'&lineid='.$lineid, $langs->trans('DeleteProductLine'), $langs->trans('ConfirmDeleteProductLine'), 'confirm_deleteline', '', 0, 1);
 		}
 
-		if (!$formconfirm) {
-			$parameters = array('formConfirm' => $formconfirm, 'lineid'=>$lineid);
-			$reshook = $hookmanager->executeHooks('formConfirm', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
-			if (empty($reshook)) {
-				$formconfirm .= $hookmanager->resPrint;
-			} elseif ($reshook > 0) {
-				$formconfirm = $hookmanager->resPrint;
-			}
+		$parameters = array('formConfirm' => $formconfirm, 'lineid'=>$lineid);
+		$reshook = $hookmanager->executeHooks('formConfirm', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
+		if (empty($reshook)) {
+			$formconfirm .= $hookmanager->resPrint;
+		} elseif ($reshook > 0) {
+			$formconfirm = $hookmanager->resPrint;
 		}
 
 		// Print form confirm
