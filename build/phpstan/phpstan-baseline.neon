@@ -18697,12 +18697,6 @@ parameters:
 			path: ../../htdocs/eventorganization/conferenceorboothattendee_card.php
 
 		-
-			message: '#^Variable \$dolibarr_main_url_root might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../htdocs/eventorganization/conferenceorboothattendee_card.php
-
-		-
 			message: '#^Variable \$text might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
@@ -18764,12 +18758,6 @@ parameters:
 
 		-
 			message: '#^Variable \$deliveryreceipt might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/eventorganization/core/actions_massactions_mail.inc.php
-
-		-
-			message: '#^Variable \$dolibarr_main_url_root might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/eventorganization/core/actions_massactions_mail.inc.php
@@ -21545,6 +21533,12 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/ftp/index.php
+
+		-
+			message: '#^If condition is always false\.$#'
+			identifier: if.alwaysFalse
+			count: 1
+			path: ../../htdocs/holiday/card.php
 
 		-
 			message: '#^If condition is always false\.$#'
@@ -27713,12 +27707,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/projet/admin/project.php
-
-		-
-			message: '#^Variable \$dolibarr_main_url_root might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/projet/admin/website.php
 
 		-
 			message: '#^Call to function method_exists\(\) with Project and ''fetchComments'' will always evaluate to true\.$#'
