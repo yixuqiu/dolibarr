@@ -18697,12 +18697,6 @@ parameters:
 			path: ../../htdocs/eventorganization/conferenceorboothattendee_card.php
 
 		-
-			message: '#^Variable \$dolibarr_main_url_root might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../htdocs/eventorganization/conferenceorboothattendee_card.php
-
-		-
 			message: '#^Variable \$text might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
@@ -18764,12 +18758,6 @@ parameters:
 
 		-
 			message: '#^Variable \$deliveryreceipt might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/eventorganization/core/actions_massactions_mail.inc.php
-
-		-
-			message: '#^Variable \$dolibarr_main_url_root might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/eventorganization/core/actions_massactions_mail.inc.php
@@ -21359,6 +21347,18 @@ parameters:
 			identifier: if.alwaysFalse
 			count: 1
 			path: ../../htdocs/fourn/facture/note.php
+
+		-
+			message: '#^Call to function is_numeric\(\) with float will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: ../../htdocs/fourn/facture/paiement.php
+
+		-
+			message: '#^Variable \$moreforfilter might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: ../../htdocs/fourn/facture/paiement.php
 
 		-
 			message: '#^Variable \$obj might not be defined\.$#'
@@ -27689,12 +27689,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/projet/admin/project.php
-
-		-
-			message: '#^Variable \$dolibarr_main_url_root might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/projet/admin/website.php
 
 		-
 			message: '#^Call to function method_exists\(\) with Project and ''fetchComments'' will always evaluate to true\.$#'
