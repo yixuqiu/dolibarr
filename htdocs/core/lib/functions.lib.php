@@ -10581,6 +10581,7 @@ function dol_eval($s, $returnvalue = 1, $hideerrors = 1, $onlysimplestring = '1'
 				$scheck = preg_replace('/\s!\(/', '__NOTANDPARENTHESIS__', $scheck); // accept parenthesis in '... !('
 				$scheck = preg_replace('/(\^|\')\(/', '__REGEXSTART__', $scheck);	// To allow preg_match('/^(aaa|bbb)/'...  or  isStringVarMatching('leftmenu', '(aaa|bbb)')
 			}
+			//print 'scheck='.$scheck." : ".strpos($scheck, '(')."<br>\n";
 
 			if (strpos($scheck, '(') !== false) {
 				if ($returnvalue) {
