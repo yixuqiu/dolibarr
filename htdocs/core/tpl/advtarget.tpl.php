@@ -314,7 +314,7 @@ if (!getDolGlobalString('MAIN_EXTRAFIELDS_DISABLED')) {
 					$array_query['options_'.$key]
 				);
 				print '</td><td>'."\n";
-			} elseif (($extrafields->attributes[$elementtype]['type'][$key] == 'select')) {
+			} elseif ($extrafields->attributes[$elementtype]['type'][$key] == 'select') {
 				print $formadvtargetemaling->advMultiselectarray('options_'.$key, $extrafields->attributes[$elementtype]['param'][$key]['options'], $array_query['options_'.$key]);
 				print '</td><td>'."\n";
 			} elseif ($extrafields->attributes[$elementtype]['type'][$key] == 'sellist') {
@@ -512,10 +512,10 @@ if (!getDolGlobalString('MAIN_EXTRAFIELDS_DISABLED')) {
 					$array_query['options_'.$key.'_cnct']
 				);
 				print '</td><td>'."\n";
-			} elseif (($extrafields->attributes[$elementtype]['type'][$key] == 'select')) {
+			} elseif ($extrafields->attributes[$elementtype]['type'][$key] == 'select') {
 				print $formadvtargetemaling->advMultiselectarray('options_'.$key.'_cnct', $extrafields->attributes[$elementtype]['param'][$key]['options'], $array_query['options_'.$key.'_cnct']);
 				print '</td><td>'."\n";
-			} elseif (($extrafields->attributes[$elementtype]['type'][$key] == 'sellist')) {
+			} elseif ($extrafields->attributes[$elementtype]['type'][$key] == 'sellist') {
 				print $formadvtargetemaling->advMultiselectarraySelllist('options_'.$key.'_cnct', $extrafields->attributes[$elementtype]['param'][$key]['options'], $array_query['options_'.$key.'_cnct']);
 				print '</td><td>'."\n";
 			} else {
