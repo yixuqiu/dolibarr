@@ -22,7 +22,7 @@
 
 /**
  *    \file	      htdocs/fourn/commande/index.php
- *    \ingroup    order fournisseur
+ *    \ingroup    supplier order
  *    \brief      Home page of supplier's orders area
  */
 
