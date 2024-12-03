@@ -296,9 +296,9 @@ if (!getDolGlobalString('MAIN_EXTRAFIELDS_DISABLED')) {
 			} elseif (($extrafields->attributes[$elementtype]['type'][$key] == 'date') || ($extrafields->attributes[$elementtype]['type'][$key] == 'datetime')) {
 				print '<table class="nobordernopadding"><tr>';
 				print '<td>'.$langs->trans("AdvTgtStartDt").'</td><td>';
-				print $form->selectDate('', 'options_'.$key.'_st_dt',0,0,1);
+				print $form->selectDate('', 'options_'.$key.'_st_dt', 0, 0, 1);
 				print '</td><td>'.$langs->trans("AdvTgtEndDt").'</td><td>';
-				print $form->selectDate('', 'options_'.$key.'_end_dt',0,0,1);
+				print $form->selectDate('', 'options_'.$key.'_end_dt', 0, 0, 1);
 				print '</td></tr></table>';
 
 				print '</td><td>'."\n";
@@ -324,9 +324,9 @@ if (!getDolGlobalString('MAIN_EXTRAFIELDS_DISABLED')) {
 				print '<table class="nobordernopadding"><tr>';
 				print '<td></td><td>';
 				if (is_array($array_query['options_'.$key])) {
-					print $extrafields->showInputField($key, implode(',', $array_query['options_'.$key]),'','','','',0,'societe',1);
+					print $extrafields->showInputField($key, implode(',', $array_query['options_'.$key]), '', '', '', '', 0, 'societe', 1);
 				} else {
-					print $extrafields->showInputField($key, $array_query['options_'.$key],'','','','',0,'societe',1);
+					print $extrafields->showInputField($key, $array_query['options_'.$key], '', '', '', '', 0, 'societe', 1);
 				}
 				print '</td></tr></table>';
 
@@ -495,9 +495,9 @@ if (!getDolGlobalString('MAIN_EXTRAFIELDS_DISABLED')) {
 			} elseif (($extrafields->attributes[$elementtype]['type'][$key] == 'date') || ($extrafields->attributes[$elementtype]['type'][$key] == 'datetime')) {
 				print '<table class="nobordernopadding"><tr>';
 				print '<td>'.$langs->trans("AdvTgtStartDt").'</td><td>';
-				print $form->selectDate('', 'options_'.$key.'_st_dt_cnct',0,0,1);
+				print $form->selectDate('', 'options_'.$key.'_st_dt_cnct', 0, 0, 1);
 				print '</td><td>'.$langs->trans("AdvTgtEndDt").'</td><td>';
-				print $form->selectDate('', 'options_'.$key.'_end_dt_cnct',0,0,1);
+				print $form->selectDate('', 'options_'.$key.'_end_dt_cnct', 0, 0, 1);
 				print '</td></tr></table>';
 				print '</td><td>'."\n";
 				print $form->textwithpicto('', $langs->trans("AdvTgtSearchDtHelp"), 1, 'help');
@@ -520,9 +520,9 @@ if (!getDolGlobalString('MAIN_EXTRAFIELDS_DISABLED')) {
 				print '</td><td>'."\n";
 			} else {
 				if (is_array($array_query['options_'.$key.'_cnct'])) {
-					print $extrafields->showInputField($key, implode(',', $array_query['options_'.$key.'_cnct']), '', '_cnct','','',0,'socpeople',1);
+					print $extrafields->showInputField($key, implode(',', $array_query['options_'.$key.'_cnct']), '', '_cnct', '', '', 0, 'socpeople', 1);
 				} else {
-					print $extrafields->showInputField($key, $array_query['options_'.$key.'_cnct'], '', '_cnct','','',0,'socpeople',1);
+					print $extrafields->showInputField($key, $array_query['options_'.$key.'_cnct'], '', '_cnct', '', '', 0, 'socpeople', 1);
 				}
 				print '</td><td>'."\n";
 			}
