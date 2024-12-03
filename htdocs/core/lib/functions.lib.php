@@ -1148,8 +1148,10 @@ function GETPOSTFLOAT($paramname, $rounding = '')
  * @param 	string 		$hourTime	'getpost' to include hour, minute, second values from the HTTP request,
  * 									or 'XX:YY:ZZ' to set hour, minute, second respectively (for instance '23:59:59')
  * 									or '' means '00:00:00' (default)
- * @param 	string 		$gm 		Passed to dol_mktime
+ * @param 	int|string 	$gm 		Passed to dol_mktime
  * @return 	int|string  			Date as a timestamp, '' or false if error
+ *
+ * @see dol_mktime()
  */
 function GETPOSTDATE($prefix, $hourTime = '', $gm = 'auto')
 {
@@ -3647,7 +3649,7 @@ function dol_getdate($timestamp, $fast = false, $forcetimezone = '')
  *	@param	int			$month			Month (1 to 12)
  *	@param	int			$day			Day (1 to 31)
  *	@param	int			$year			Year
- *	@param	mixed		$gm				True or 1 or 'gmt'=Input information are GMT values
+ *	@param	int|string	$gm				True or 1 or 'gmt'=Input information are GMT values
  *										False or 0 or 'tzserver' = local to server TZ
  *										'auto'
  *										'tzuser' = local to user TZ taking dst into account at the current date. Not yet implemented.
