@@ -331,6 +331,8 @@ class FormAdvTargetEmailing extends Form
 	{
 		global $conf, $langs;
 
+
+
 		$form = new Form($this->db);
 		foreach ($options_array as $okey => $val) {
 			if ((string) $okey == '') {
