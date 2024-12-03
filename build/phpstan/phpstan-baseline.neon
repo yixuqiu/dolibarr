@@ -24379,12 +24379,6 @@ parameters:
 			path: ../../htdocs/modulebuilder/template/core/modules/mymodule/doc/pdf_standard_myobject.modules.php
 
 		-
-			message: '#^Parameter \#3 \$tab_height of method pdf_standard_myobject\:\:_tableau\(\) expects int, float given\.$#'
-			identifier: argument.type
-			count: 6
-			path: ../../htdocs/modulebuilder/template/core/modules/mymodule/doc/pdf_standard_myobject.modules.php
-
-		-
 			message: '#^Property pdf_standard_myobject\:\:\$cols \(array\<string, array\{rank\: int, width\: float\|int, status\: bool, title\: array\{textkey\: string, label\: string, align\: string, padding\: array\{float, float, float, float\}\}, content\: array\{align\: string, padding\: array\{float, float, float, float\}\}\}\>\) does not accept non\-empty\-array\<string, array\{rank\: 0, width\: false, status\: true, title\: array\{textkey\: ''Designation'', align\: ''L'', padding\: array\{0\.5, 0\.5, 0\.5, 0\.5\}\}, content\: array\{align\: ''L'', padding\: array\{1, 0\.5, 1, 1\.5\}\}\}\|array\{rank\: int, width\: float\|int, status\: bool, title\: array\{textkey\: string, label\: string, align\: string, padding\: array\{float, float, float, float\}\}, content\: array\{align\: string, padding\: array\{float, float, float, float\}\}\}\>\.$#'
 			identifier: assign.propertyType
 			count: 1
