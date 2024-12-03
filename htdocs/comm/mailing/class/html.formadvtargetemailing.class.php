@@ -255,7 +255,7 @@ class FormAdvTargetEmailing extends Form
 				}
 			}
 			if (!empty($InfoFieldList[1])) {
-				$sql .= " ORDER BY nom";
+				$sql .= $this->db->order($InfoFieldList[1]);
 			}
 			// $sql.= ' WHERE entity = '.$conf->entity;
 
@@ -266,7 +266,7 @@ class FormAdvTargetEmailing extends Form
 				if ($num) {
 					while ($i < $num) {
 						$obj = $this->db->fetch_object($resql);
-						$labeltoshow = dol_trunc($obj->$InfoFieldList[1], 90);
+						$labeltoshow = dol_trunc($obj->{$InfoFieldList[1]}, 90);
 						$options_array[$obj->rowid] = $labeltoshow;
 						$i++;
 					}
