@@ -134,11 +134,6 @@ class Societe extends CommonObject
 	public $restrictiononfksoc = 1;
 
 	/**
-	 * @var static To store a cloned copy of object before to edit it and keep track of old properties
-	 */
-	public $oldcopy;
-
-	/**
 	 * array of supplier categories
 	 * @var string[]
 	 */
@@ -5294,7 +5289,7 @@ class Societe extends CommonObject
 			$dbs->query('DELETE FROM '.MAIN_DB_PREFIX.'societe_commerciaux WHERE rowid = '.((int) $obj->rowid));
 		}
 
-		// llx_societe_extrafields table must not be here because we don't care about the old thirdparty extrafields that are managed directly into mergeCompany.
+		// The table llx_societe_extrafields must NOT be in this list because we don't care about the old thirdparty extrafields that are managed directly into mergeCompany.
 		// Do not include llx_societe because it will be replaced later.
 		$tables = array(
 			'societe_account',
@@ -5304,6 +5299,8 @@ class Societe extends CommonObject
 			'societe_remise_except',
 			'societe_rib'
 		);
+
+		// TODO When we merge societe_account, we may get 2 lines for the stripe account. Must fix this.
 
 		return CommonObject::commonReplaceThirdparty($dbs, $origin_id, $dest_id, $tables);
 	}
