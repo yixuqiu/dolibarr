@@ -340,7 +340,7 @@ if (!GETPOST('code') && !GETPOST('error')) {
 					$storage->clearToken($genericstring);	// Delete the token called ("Generic-".$storage->keyforprovider)
 
 					$tmpuser = new User($db);
-					$res = $tmpuser->fetch(0, '', '', 0, $entitytosearchuser, $useremail, -1, 1);	// Load user. Can load with email_oauth2.
+					$res = $tmpuser->fetch(0, '', '', 0, $entitytosearchuser, $useremail, 0, 1);	// Load user. Can load with email_oauth2.
 
 					if ($res > 0) {
 						$username = $tmpuser->login;
