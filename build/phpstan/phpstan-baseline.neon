@@ -20935,42 +20935,6 @@ parameters:
 			path: ../../htdocs/fourn/commande/document.php
 
 		-
-			message: '#^Variable \$badgeStatus0 might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/fourn/commande/index.php
-
-		-
-			message: '#^Variable \$badgeStatus1 might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/fourn/commande/index.php
-
-		-
-			message: '#^Variable \$badgeStatus4 might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/fourn/commande/index.php
-
-		-
-			message: '#^Variable \$badgeStatus6 might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/fourn/commande/index.php
-
-		-
-			message: '#^Variable \$badgeStatus9 might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/fourn/commande/index.php
-
-		-
-			message: '#^Variable \$socid might not be defined\.$#'
-			identifier: variable.undefined
-			count: 4
-			path: ../../htdocs/fourn/commande/index.php
-
-		-
 			message: '#^If condition is always false\.$#'
 			identifier: if.alwaysFalse
 			count: 1
@@ -21483,42 +21447,6 @@ parameters:
 		-
 			message: '#^If condition is always false\.$#'
 			identifier: if.alwaysFalse
-			count: 2
-			path: ../../htdocs/holiday/card.php
-
-		-
-			message: '#^Parameter \#4 \$month of function dol_mktime expects int, array\<mixed\>\|string given\.$#'
-			identifier: argument.type
-			count: 8
-			path: ../../htdocs/holiday/card.php
-
-		-
-			message: '#^Parameter \#5 \$day of function dol_mktime expects int, array\<mixed\>\|string given\.$#'
-			identifier: argument.type
-			count: 8
-			path: ../../htdocs/holiday/card.php
-
-		-
-			message: '#^Parameter \#6 \$year of function dol_mktime expects int, array\<mixed\>\|string given\.$#'
-			identifier: argument.type
-			count: 8
-			path: ../../htdocs/holiday/card.php
-
-		-
-			message: '#^Variable \$canread might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/holiday/card.php
-
-		-
-			message: '#^Variable \$endhalfdaykey might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/holiday/card.php
-
-		-
-			message: '#^Variable \$starthalfdaykey might not be defined\.$#'
-			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/holiday/card.php
 
@@ -24361,12 +24289,6 @@ parameters:
 			path: ../../htdocs/modulebuilder/template/core/modules/mymodule/doc/pdf_standard_myobject.modules.php
 
 		-
-			message: '#^Parameter \#3 \$tab_height of method pdf_standard_myobject\:\:_tableau\(\) expects int, float given\.$#'
-			identifier: argument.type
-			count: 6
-			path: ../../htdocs/modulebuilder/template/core/modules/mymodule/doc/pdf_standard_myobject.modules.php
-
-		-
 			message: '#^Property pdf_standard_myobject\:\:\$cols \(array\<string, array\{rank\: int, width\: float\|int, status\: bool, title\: array\{textkey\: string, label\: string, align\: string, padding\: array\{float, float, float, float\}\}, content\: array\{align\: string, padding\: array\{float, float, float, float\}\}\}\>\) does not accept non\-empty\-array\<string, array\{rank\: 0, width\: false, status\: true, title\: array\{textkey\: ''Designation'', align\: ''L'', padding\: array\{0\.5, 0\.5, 0\.5, 0\.5\}\}, content\: array\{align\: ''L'', padding\: array\{1, 0\.5, 1, 1\.5\}\}\}\|array\{rank\: int, width\: float\|int, status\: bool, title\: array\{textkey\: string, label\: string, align\: string, padding\: array\{float, float, float, float\}\}, content\: array\{align\: string, padding\: array\{float, float, float, float\}\}\}\>\.$#'
 			identifier: assign.propertyType
 			count: 1
@@ -24425,12 +24347,6 @@ parameters:
 			identifier: assign.propertyType
 			count: 1
 			path: ../../htdocs/modulebuilder/template/core/modules/mymodule/doc/pdf_standard_myobject.modules.php
-
-		-
-			message: '#^Variable \$object might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/modulebuilder/template/core/tpl/linkedobjectblock_myobject.tpl.php
 
 		-
 			message: '#^Negated boolean expression is always true\.$#'
