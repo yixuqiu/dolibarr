@@ -6011,7 +6011,7 @@ span[phptag] {
 	border: none;
 	font-weight: normal;
 }
-.websitebar .button.bordertransp {
+.websitebar .button.bordertransp, .websitebar .fa-plus-circle.btnTitle-icon {
 	color: unset;
 	text-decoration: unset !important;
 	margin: 0px 4px 0px 4px  !important
@@ -7401,9 +7401,11 @@ span#select2-boxbookmark-container {
 }
 span.select2-dropdown--below {
 	margin-top: -1px;
+	min-width: 100px;
 }
 span.select2-dropdown--above {
 	margin-bottom: -1px;
+	min-width: 100px;
 }
 
 .parentonrightofpage {
