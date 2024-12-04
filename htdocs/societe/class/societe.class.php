@@ -1011,7 +1011,7 @@ class Societe extends CommonObject
 		}
 
 		if (empty($this->country_id) && !empty($this->country_code)) {
-			$country_id = getCountry($this->country_code, 3);
+			$country_id = getCountry($this->country_code, '3');
 			$this->country_id = is_int($country_id) ? $country_id : 0;
 		}
 
