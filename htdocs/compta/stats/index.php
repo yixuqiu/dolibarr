@@ -487,16 +487,13 @@ for ($mois = 1 + $nb_mois_decalage; $mois <= 12 + $nb_mois_decalage; $mois++) {
 			//var_dump($annee.' '.$year_end.' '.$mois.' '.$month_end);
 			if ($annee < $year_end || ($annee == $year_end && $mois <= $month_end)) {
 				if ($annee_decalage > $minyear && $case <= $casenow) {
-					if ($modecompta=='BOOKKEEPING') {
-						$cumulative_previous_year = (!empty($cumulative[$caseprev])?$cumulative[$caseprev]:0);
-						$cumulative_year = (!empty($cumulative[$caseprev])?$cumulative[$caseprev]:0);
-					} else {
+					if ($modecompta=='CREANCES-DETTES') {
 						$cumulative_previous_year = (!empty($cumulative_ht[$caseprev])?$cumulative_ht[$caseprev]:0);
 						$cumulative_year = (!empty($cumulative_ht[$case])?$cumulative_ht[$case]:0);
+					} else {
+						$cumulative_previous_year = (!empty($cumulative[$caseprev])?$cumulative[$caseprev]:0);
+						$cumulative_year = (!empty($cumulative[$case])?$cumulative[$case]:0);
 					}
-					//var_dump($annee, $cumulative_previous_year,$cumulative_year);
-
-
 					if (!empty($cumulative_previous_year) && !empty($cumulative_year)) {
 						$percent = (round(($cumulative_year - $cumulative_previous_year) / $cumulative_previous_year, 4) * 100);
 						//print "X $cumulative_year - $cumulative_previous_year - $cumulative_previous_year - $percent X";
@@ -637,12 +634,12 @@ for ($annee = $year_start; $annee <= $year_end; $annee++) {
 
 	// Pourcentage total
 	if ($annee > $minyear && $annee <= max($nowyear, $maxyear)) {
-		if ($modecompta=='BOOKKEEPING') {
-			$total_previous_year = (!empty($total[$annee - 1])?$total[$annee - 1]:0);
-			$total_year = (!empty($total[$annee])?$total[$annee]:0);
-		} else {
+		if ($modecompta == 'CREANCES-DETTES') {
 			$total_previous_year = (!empty($total_ht[$annee - 1])?$total_ht[$annee - 1]:0);
 			$total_year = (!empty($total_ht[$annee])?$total_ht[$annee]:0);
+		} else {
+			$total_previous_year = (!empty($total[$annee - 1])?$total[$annee - 1]:0);
+			$total_year = (!empty($total[$annee])?$total[$annee]:0);
 		}
 		if (!empty($total_previous_year) && !empty($total_year)) {
 			$percent = (round(($total_year - $total_previous_year) / $total_previous_year, 4) * 100);
