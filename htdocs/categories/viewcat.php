@@ -1103,7 +1103,7 @@ if ($type == Categorie::TYPE_USER) {
 		require_once DOL_DOCUMENT_ROOT.'/user/class/user.class.php';
 		$showclassifyform = $user->hasRight("user", "user", "creer");
 
-		$users = $object->getObjectsInCateg($type, 0, 0, 'lastname');
+		$users = $object->getObjectsInCateg($type, 0, 0, 0, 'lastname');
 		if ($users < 0) {
 			dol_print_error($db, $object->error, $object->errors);
 		} else {
