@@ -8725,21 +8725,9 @@ parameters:
 			path: ../../htdocs/core/boxes/box_actions.php
 
 		-
-			message: '#^Variable \$nblines might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/core/boxes/box_actions.php
-
-		-
 			message: '#^Constructor of class box_actions_future has an unused parameter \$param\.$#'
 			identifier: constructor.unusedParameter
 			count: 1
-			path: ../../htdocs/core/boxes/box_actions_future.php
-
-		-
-			message: '#^Variable \$nblines might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
 			path: ../../htdocs/core/boxes/box_actions_future.php
 
 		-
@@ -8851,12 +8839,6 @@ parameters:
 			path: ../../htdocs/core/boxes/box_dolibarr_state_board.php
 
 		-
-			message: '#^Property box_external_rss\:\:\$paramdef has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../htdocs/core/boxes/box_external_rss.php
-
-		-
 			message: '#^Constructor of class box_factures has an unused parameter \$param\.$#'
 			identifier: constructor.unusedParameter
 			count: 1
@@ -8953,12 +8935,6 @@ parameters:
 			path: ../../htdocs/core/boxes/box_graph_invoices_supplier_permonth.php
 
 		-
-			message: '#^Variable \$mesg might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/core/boxes/box_graph_invoices_supplier_permonth.php
-
-		-
 			message: '#^Constructor of class box_graph_nb_ticket_last_x_days has an unused parameter \$param\.$#'
 			identifier: constructor.unusedParameter
 			count: 1
@@ -8995,12 +8971,6 @@ parameters:
 			path: ../../htdocs/core/boxes/box_graph_orders_permonth.php
 
 		-
-			message: '#^Variable \$mesg might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/core/boxes/box_graph_orders_permonth.php
-
-		-
 			message: '#^Constructor of class box_graph_orders_supplier_permonth has an unused parameter \$param\.$#'
 			identifier: constructor.unusedParameter
 			count: 1
@@ -9015,12 +8985,6 @@ parameters:
 		-
 			message: '#^Property ModeleBoxes\:\:\$info_box_contents \(array\<array\<array\{td\?\: string, text\: string, asis\?\: int\<0, 1\>, maxlength\?\: int\}\|int\|string\>\>\) does not accept non\-empty\-array\<array\<array\{td\?\: string, text\: string, asis\?\: int\<0, 1\>, maxlength\?\: int\}\|array\{tr\: ''class\="oddeven…'', td\: ''class\="nohover…'', textnoformat\: non\-falsy\-string\}\|int\|string\>\>\.$#'
 			identifier: assign.propertyType
-			count: 1
-			path: ../../htdocs/core/boxes/box_graph_orders_supplier_permonth.php
-
-		-
-			message: '#^Variable \$mesg might not be defined\.$#'
-			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/core/boxes/box_graph_orders_supplier_permonth.php
 
@@ -9043,30 +9007,6 @@ parameters:
 			path: ../../htdocs/core/boxes/box_graph_product_distribution.php
 
 		-
-			message: '#^Variable \$mesg might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/core/boxes/box_graph_product_distribution.php
-
-		-
-			message: '#^Variable \$px1 might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../htdocs/core/boxes/box_graph_product_distribution.php
-
-		-
-			message: '#^Variable \$px2 might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../htdocs/core/boxes/box_graph_product_distribution.php
-
-		-
-			message: '#^Variable \$px3 might not be defined\.$#'
-			identifier: variable.undefined
-			count: 4
-			path: ../../htdocs/core/boxes/box_graph_product_distribution.php
-
-		-
 			message: '#^Constructor of class box_graph_propales_permonth has an unused parameter \$param\.$#'
 			identifier: constructor.unusedParameter
 			count: 1
@@ -9075,12 +9015,6 @@ parameters:
 		-
 			message: '#^Property ModeleBoxes\:\:\$info_box_contents \(array\<array\<array\{td\?\: string, text\: string, asis\?\: int\<0, 1\>, maxlength\?\: int\}\|int\|string\>\>\) does not accept non\-empty\-array\<array\<array\{td\?\: string, text\: string, asis\?\: int\<0, 1\>, maxlength\?\: int\}\|array\{tr\: ''class\="oddeven…'', td\: ''class\="nohover…'', textnoformat\: non\-falsy\-string\}\|int\|string\>\>\.$#'
 			identifier: assign.propertyType
-			count: 1
-			path: ../../htdocs/core/boxes/box_graph_propales_permonth.php
-
-		-
-			message: '#^Variable \$mesg might not be defined\.$#'
-			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/core/boxes/box_graph_propales_permonth.php
 
@@ -9193,20 +9127,8 @@ parameters:
 			path: ../../htdocs/core/boxes/box_project.php
 
 		-
-			message: '#^Variable \$num might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/core/boxes/box_project.php
-
-		-
 			message: '#^Constructor of class box_project_opportunities has an unused parameter \$param\.$#'
 			identifier: constructor.unusedParameter
-			count: 1
-			path: ../../htdocs/core/boxes/box_project_opportunities.php
-
-		-
-			message: '#^Variable \$num might not be defined\.$#'
-			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/core/boxes/box_project_opportunities.php
 
@@ -9783,24 +9705,6 @@ parameters:
 		-
 			message: '#^Call to function property_exists\(\) with \$this\(CommonOrder\) and ''total_ht'' will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
-			count: 1
-			path: ../../htdocs/core/class/commonorder.class.php
-
-		-
-			message: '#^Property CommonOrderLine\:\:\$localtax1_type has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../htdocs/core/class/commonorder.class.php
-
-		-
-			message: '#^Property CommonOrderLine\:\:\$localtax2_type has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../htdocs/core/class/commonorder.class.php
-
-		-
-			message: '#^Property CommonOrderLine\:\:\$price has no type specified\.$#'
-			identifier: missingType.property
 			count: 1
 			path: ../../htdocs/core/class/commonorder.class.php
 
@@ -11686,12 +11590,6 @@ parameters:
 			message: '#^Loose comparison using \!\= between ''view'' and ''kanban'' will always evaluate to true\.$#'
 			identifier: notEqual.alwaysTrue
 			count: 1
-			path: ../../htdocs/core/lib/company.lib.php
-
-		-
-			message: '#^Property Contact\:\:\$fields .*$#'
-			identifier: assign.propertyType
-			count: 3
 			path: ../../htdocs/core/lib/company.lib.php
 
 		-
@@ -31717,12 +31615,6 @@ parameters:
 			path: ../../htdocs/societe/class/societe.class.php
 
 		-
-			message: '#^Property Societe\:\:\$fields .*$#'
-			identifier: assign.propertyType
-			count: 3
-			path: ../../htdocs/societe/class/societe.class.php
-
-		-
 			message: '#^Property Societe\:\:\$fournisseur \(int\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
@@ -32807,12 +32699,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/theme/md/flags-sprite.inc.php
-
-		-
-			message: '#^Variable \$conf might not be defined\.$#'
-			identifier: variable.undefined
-			count: 4
-			path: ../../htdocs/theme/md/info-box.inc.php
 
 		-
 			message: '#^Variable \$left might not be defined\.$#'
