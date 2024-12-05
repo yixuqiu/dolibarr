@@ -263,8 +263,10 @@ class pdf_standard_myobject extends ModelePDFMyObject
 		*/
 
 		//if (count($realpatharray) == 0) $this->posxpicture=$this->posxtva;
-		$dir_output = getMultidirOutput($object, $object->module) . '/' . $object->element;
+		$dir_output = getMultidirOutput($object, $object->module);
 		if (!empty($dir_output)) {
+			$dir_output .= '/' . $object->element;
+
 			$object->fetch_thirdparty();
 
 			$dir = null;
