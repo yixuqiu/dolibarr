@@ -1329,7 +1329,11 @@ class FormSetupItem
 			$out.= '<input type="color" class="colorthumb" disabled="disabled" style="padding: 1px; margin-top: 0; margin-bottom: 0; " value="#'.$color.'">';
 		}
 
-		if ($useDefaultColor) $out.= ' '.$langs->trans("Default");
+		if ($useDefaultColor) {
+			$out.= ' '.$langs->trans("Default");
+		} else {
+			$out.= ' #'.$color;
+		}
 
 		return $out;
 	}
