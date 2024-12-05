@@ -202,6 +202,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 	$object->fetch_product();
 	$manufacturedvalued = '';
 	if (!empty($object->product)) {
+		global $mysoc;
 		$tmparray = $object->product->getSellPrice($mysoc, $mysoc);
 		$manufacturedvalued = $tmparray['pu_ht'] * $object->qty;
 	}
