@@ -1193,6 +1193,7 @@ foreach ($listofreferent as $key => $value) {
 			}
 
 			$num = count($elementarray);
+			$total_time = 0;
 			for ($i = 0; $i < $num; $i++) {
 				$tmp = explode('_', $elementarray[$i]);
 				$idofelement = $tmp[0];
@@ -1310,7 +1311,7 @@ foreach ($listofreferent as $key => $value) {
 				print "</td>\n";
 
 				// Date or TimeSpent
-				$date = ''; $total_time_by_line = null; $total_time = 0;
+				$date = ''; $total_time_by_line = null;
 				if ($tablename == 'expensereport_det') {
 					$date = $element->date; // No draft status on lines
 				} elseif ($tablename == 'stock_mouvement') {
