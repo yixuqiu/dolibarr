@@ -863,8 +863,8 @@ class Facture extends CommonInvoice
 						);
 
 						if ($result < 0) {
-							$this->error = $this->db->lasterror();
-							$this->errors = array_merge($this->errors, $newinvoiceline->errors);
+							$this->error = $newinvoiceline->error;
+							$this->errors = $newinvoiceline->errors;
 							$error++;
 							break;
 						}
