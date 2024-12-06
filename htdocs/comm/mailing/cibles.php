@@ -977,14 +977,14 @@ if ($object->fetch($id) >= 0) {
 
 				// Date last update
 				print '<td class="center nowraponall">';
-				print dol_print_date(dol_stringtotime($obj->tms), 'dayhour');
+				print dol_print_date($db->jdate($obj->tms), 'dayhour', 'tzuserrel');
 				print '</td>';
 
 				// Date sent
 				print '<td class="center nowraponall">';
 				if ($obj->status != $object::STATUS_DRAFT) {		// If status of target line is not draft
 					// Date sent
-					print $obj->date_envoi;		// @TODO Must store date in date format
+					print dol_print_date($db->jdate($obj->date_envoi), 'dayhour', 'tzuserrel');		// @TODO Must store date in date format
 				}
 				print '</td>';
 
