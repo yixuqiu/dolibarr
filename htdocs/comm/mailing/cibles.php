@@ -915,7 +915,7 @@ if ($object->fetch($id) >= 0) {
 
 				// Action column
 				if (getDolGlobalString('MAIN_CHECKBOX_LEFT_COLUMN')) {
-					print '<td class="center">';
+					print '<td class="center nowraponall">';
 					print '<!-- ID mailing_cibles = '.$obj->rowid.' -->';
 					if ($massactionbutton || $massaction) { // If we are in select mode (massactionbutton defined) or if we have already selected and sent an action ($massaction) defined
 						$selected = 0;
@@ -926,7 +926,7 @@ if ($object->fetch($id) >= 0) {
 					}
 					if ($obj->status == $object::STATUS_DRAFT) {	// Not sent yet
 						if ($user->hasRight('mailing', 'creer')) {
-							print '<a class="reposition" href="'.$_SERVER['PHP_SELF'].'?action=delete&token='.newToken().'&rowid='.((int) $obj->rowid).$param.'">'.img_delete($langs->trans("RemoveRecipient")).'</a>';
+							print '<a class="reposition marginleftonly" href="'.$_SERVER['PHP_SELF'].'?action=delete&token='.newToken().'&rowid='.((int) $obj->rowid).$param.'">'.img_delete($langs->trans("RemoveRecipient")).'</a>';
 						}
 					}
 					/*if ($obj->status == -1)	// Sent with error
@@ -999,11 +999,11 @@ if ($object->fetch($id) >= 0) {
 
 				// Action column
 				if (!getDolGlobalString('MAIN_CHECKBOX_LEFT_COLUMN')) {
-					print '<td class="center">';
+					print '<td class="center nowraponall">';
 					print '<!-- ID mailing_cibles = '.$obj->rowid.' -->';
 					if ($obj->status == $object::STATUS_DRAFT) {	// If status of target line is not sent yet
 						if ($user->hasRight('mailing', 'creer')) {
-							print '<a class="reposition" href="'.$_SERVER['PHP_SELF'].'?action=delete&token='.newToken().'&rowid='.((int) $obj->rowid).$param.'">'.img_delete($langs->trans("RemoveRecipient")).'</a>';
+							print '<a class="reposition marginleftonly" href="'.$_SERVER['PHP_SELF'].'?action=delete&token='.newToken().'&rowid='.((int) $obj->rowid).$param.'">'.img_delete($langs->trans("RemoveRecipient")).'</a>';
 						}
 					}
 					/*if ($obj->status == -1)	// Sent with error
