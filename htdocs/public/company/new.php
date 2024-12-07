@@ -8,7 +8,7 @@
  * Copyright (C) 2018       Alexandre Spangaro      <aspangaro@open-dsi.fr>
  * Copyright (C) 2021       Waël Almoman            <info@almoman.com>
  * Copyright (C) 2022       Udo Tamm                <dev@dolibit.de>
- * Copyright (C) 2024		MDW							<mdeweerd@users.noreply.github.com>
+ * Copyright (C) 2024		MDW						<mdeweerd@users.noreply.github.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -69,6 +69,7 @@ require_once DOL_DOCUMENT_ROOT . '/core/lib/public.lib.php';
  * @var DoliDB $db
  * @var HookManager $hookmanager
  * @var Translate $langs
+ * @var User $user
  */
 // Init vars
 $backtopage = GETPOST('backtopage', 'alpha');
@@ -91,7 +92,7 @@ if (!getDolGlobalString('SOCIETE_ENABLE_PUBLIC')) {
 }
 
 
-//permissions
+// permissions
 
 $permissiontoadd 	= $user->hasRight('societe', 'creer');
 
@@ -139,16 +140,16 @@ function llxHeaderVierge($title, $head = "", $disablejs = 0, $disablehead = 0, $
 	print '<header class="center">';
 
 	// Output html code for logo
-	if ($urllogo) {
-		print '<div class="backgreypublicpayment">';
-		print '<div class="logopublicpayment">';
-		print '<img id="dolpaymentlogo" src="' . $urllogo . '">';
-		print '</div>';
-		if (!getDolGlobalString('MAIN_HIDE_POWERED_BY')) {
-			print '<div class="poweredbypublicpayment opacitymedium right"><a class="poweredbyhref" href="https://www.dolibarr.org?utm_medium=website&utm_source=poweredby" target="dolibarr" rel="noopener">' . $langs->trans("PoweredBy") . '<br><img class="poweredbyimg" src="' . DOL_URL_ROOT . '/theme/dolibarr_logo.svg" width="80px"></a></div>';
-		}
-		print '</div>';
+	// if ($urllogo) { // test always true
+	print '<div class="backgreypublicpayment">';
+	print '<div class="logopublicpayment">';
+	print '<img id="dolpaymentlogo" src="' . $urllogo . '">';
+	print '</div>';
+	if (!getDolGlobalString('MAIN_HIDE_POWERED_BY')) {
+		print '<div class="poweredbypublicpayment opacitymedium right"><a class="poweredbyhref" href="https://www.dolibarr.org?utm_medium=website&utm_source=poweredby" target="dolibarr" rel="noopener">' . $langs->trans("PoweredBy") . '<br><img class="poweredbyimg" src="' . DOL_URL_ROOT . '/theme/dolibarr_logo.svg" width="80px"></a></div>';
 	}
+	print '</div>';
+	// }
 
 	if (getDolGlobalString('MEMBER_IMAGE_PUBLIC_REGISTRATION')) {
 		print '<div class="backimagepublicregistration">';
@@ -170,15 +171,13 @@ function llxFooterVierge()
 {
 	global $conf, $langs;
 
-	$ext = '';
-
 	print '</div>';
 
 	printCommonFooter('public');
 
 	if (!empty($conf->use_javascript_ajax)) {
 		print "\n" . '<!-- Includes JS Footer of Dolibarr -->' . "\n";
-		print '<script src="' . DOL_URL_ROOT . '/core/js/lib_foot.js.php?lang=' . $langs->defaultlang . (!empty($ext) ? '&' . $ext : '') . '"></script>' . "\n";
+		print '<script src="' . DOL_URL_ROOT . '/core/js/lib_foot.js.php?lang=' . $langs->defaultlang . '"></script>' . "\n";
 	}
 
 	print "</body>\n";
@@ -436,7 +435,7 @@ if (isModEnabled('mailing') && getDolGlobalString('THIRDPARTY_SUGGEST_ALSO_ADDRE
 		print '</tr><tr>';
 	}
 	print '<td class="individualline noemail">' . $form->editfieldkey($langs->trans('No_Email') . ' (' . $langs->trans('Contact') . ')', 'contact_no_email', '', $objectsoc, 0) . '</td>';
-	print '<td class="individualline" ' . (($conf->browser->layout == 'phone') || !isModEnabled('mailing') ? ' colspan="3"' : '') . '>' . $form->selectyesno('contact_no_email', (GETPOSTISSET("contact_no_email") ? GETPOST("contact_no_email", 'alpha') : (empty($objectsoc->no_email) ? 0 : 1)), 1, false, 1) . '</td>';
+	print '<td class="individualline" ' . (($conf->browser->layout == 'phone') /* || !isModEnabled('mailing') */ ? ' colspan="3"' : '') . '>' . $form->selectyesno('contact_no_email', (GETPOSTISSET("contact_no_email") ? GETPOST("contact_no_email", 'alpha') : (empty($objectsoc->no_email) ? 0 : 1)), 1, false, 1) . '</td>';
 }
 print '</tr>';
 
