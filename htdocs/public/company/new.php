@@ -63,6 +63,13 @@ require_once DOL_DOCUMENT_ROOT . '/core/class/cunits.class.php';
 require_once DOL_DOCUMENT_ROOT . '/core/lib/date.lib.php';
 require_once DOL_DOCUMENT_ROOT . '/core/class/html.formadmin.class.php';
 require_once DOL_DOCUMENT_ROOT . '/core/lib/public.lib.php';
+
+/**
+ * @var Conf $conf
+ * @var DoliDB $db
+ * @var HookManager $hookmanager
+ * @var Translate $langs
+ */
 // Init vars
 $backtopage = GETPOST('backtopage', 'alpha');
 $action = GETPOST('action', 'aZ09');
@@ -219,13 +226,13 @@ if (empty($reshook) && $action == 'add') {	// Test on permission not required he
 
 		$societe->name = GETPOST('name', 'alphanohtml');
 		$societe->client = GETPOSTINT('client') ? GETPOSTINT('client') : $societe->client;
-		$societe->address	= GETPOST('address', 'alphanohtml');
-		$societe->country_id				= GETPOSTINT('country_id');
-		$societe->phone					= GETPOST('phone', 'alpha');
-		$societe->fax				= GETPOST('fax', 'alpha');
-		$societe->email					= trim(GETPOST('email', 'custom', 0, FILTER_SANITIZE_EMAIL));
+		$societe->address = GETPOST('address', 'alphanohtml');
+		$societe->country_id = GETPOSTINT('country_id');
+		$societe->phone = GETPOST('phone', 'alpha');
+		$societe->fax = GETPOST('fax', 'alpha');
+		$societe->email = trim(GETPOST('email', 'custom', 0, FILTER_SANITIZE_EMAIL));
 		$societe->client = 2 ; // our client is a prospect
-		$societe->code_client		= '-1';
+		$societe->code_client = '-1';
 		$societe->name_alias = GETPOST('name_alias', 'alphanohtml');
 		$societe->note_private = GETPOST('note_private', 'alphanohtml');
 
@@ -460,7 +467,7 @@ if (getDolGlobalString('MAIN_SECURITY_ENABLECAPTCHA')) {
 	print '</span>';
 	print '<span class="nowrap inline-block">';
 	print '<img class="inline-block valignmiddle" src="' . DOL_URL_ROOT . '/core/antispamimage.php" border="0" width="80" height="32" id="img_securitycode" />';
-	print '<a class="inline-block valignmiddle" href="' . $php_self . '" tabindex="4" data-role="button">' . img_picto($langs->trans("Refresh"), 'refresh', 'id="captcha_refresh_img"') . '</a>';
+	print '<a class="inline-block valignmiddle" href="' . $_SERVER['PHP_SELF'] . '" tabindex="4" data-role="button">' . img_picto($langs->trans("Refresh"), 'refresh', 'id="captcha_refresh_img"') . '</a>';
 	print '</span>';
 	print '</td></tr>';
 }
