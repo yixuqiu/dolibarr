@@ -35,7 +35,7 @@ if (!defined('NOBROWSERNOTIF')) {
 require '../../main.inc.php';
 
 if (!getDolGlobalString('TAKEPOS_AUTO_ORDER')) {
-	accessforbidden('Auto order is not allwed'); // If Auto Order is disabled never allow access to this page (that is a NO LOGIN access)
+	accessforbidden('Auto order is not allowed'); // If Auto Order is disabled never allow access to this page (that is a NO LOGIN access)
 }
 
 $_SESSION["basiclayout"] = 1;	// For the simple layout for public submission
