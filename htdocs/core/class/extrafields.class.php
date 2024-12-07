@@ -1500,9 +1500,9 @@ class ExtraFields
 						$sqlwhere .= ' AND entity = '.((int) $conf->entity);
 					}
 					$sql .= $sqlwhere;
-					//print $sql;
 
 					$sql .= $this->db->order(implode(',', $fields_label));
+					//print $sql;
 
 					dol_syslog(get_class($this).'::showInputField type=sellist', LOG_DEBUG);
 					$resql = $this->db->query($sql);
