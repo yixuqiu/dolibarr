@@ -1325,7 +1325,7 @@ if ($id > 0) {
 		DICT_ACTIONCOMM => 'a.code',
 		DICT_CHARGESOCIALES => 'a.code',
 		DICT_TYPENT => 't.code',
-		DICT_CURRENCIES => 'code_iso',
+		DICT_CURRENCIES => 'c.code_iso',
 		DICT_ECOTAXE => 'e.code',
 		DICT_HOLIDAY_TYPES => 'h.code',
 		DICT_HRM_PUBLIC_HOLIDAY => 'a.code',
