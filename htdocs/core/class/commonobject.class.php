@@ -6611,7 +6611,7 @@ abstract class CommonObject
 	 */
 	public function insertExtraFields($trigger = '', $userused = null)
 	{
-		global $conf, $langs, $user;
+		global $langs, $user;
 
 		if (getDolGlobalString('MAIN_EXTRAFIELDS_DISABLED')) {
 			return 0;
