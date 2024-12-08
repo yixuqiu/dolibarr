@@ -25,10 +25,10 @@ jobs:
         sudo apt update
         sudo apt install gh -y
 
-    #- name: Authenticate GitHub CLI
-    #  run: |
-    #    echo "GH_TOKEN=$GH_TOKEN"
-    #    gh auth login --with-token <<< "$GH_TOKEN"
+    - name: Authenticate GitHub CLI
+      run: |
+        echo "GH_TOKEN=$GH_TOKEN"
+        gh auth login --with-token <<< "$GH_TOKEN"
 
     - name: Assign reviewer
       env:
@@ -38,5 +38,6 @@ jobs:
         echo "GH_TOKEN=$GH_TOKEN"
         echo "GH_TOKENS=$GH_TOKENS"
         pr_number=$(jq --raw-output .number < $GITHUB_EVENT_PATH)
+        echo "pr_numer=$pr_number"
         gh pr edit $pr_number --add-reviewer "$REVIEWER"
       continue-on-error: true
