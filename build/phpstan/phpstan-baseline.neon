@@ -3025,30 +3025,6 @@ parameters:
 			path: ../../htdocs/bom/tpl/objectline_title.tpl.php
 
 		-
-			message: '#^Cannot access property \$db on mixed\.$#'
-			identifier: property.nonObject
-			count: 2
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
-			message: '#^Cannot access property \$id on mixed\.$#'
-			identifier: property.nonObject
-			count: 4
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
-			message: '#^Cannot access property \$status on mixed\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
-			message: '#^Cannot access property \$total_cost on mixed\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
 			message: '#^Property CommonDict\:\:\$label \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
@@ -3058,12 +3034,6 @@ parameters:
 			message: '#^Variable \$action might not be defined\.$#'
 			identifier: variable.undefined
 			count: 2
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
-			message: '#^Variable \$this might not be defined\.$#'
-			identifier: variable.undefined
-			count: 8
 			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
 
 		-
@@ -3115,36 +3085,6 @@ parameters:
 			path: ../../htdocs/bookcal/availabilities_card.php
 
 		-
-			message: '#^If condition is always false\.$#'
-			identifier: if.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_contact.php
-
-		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_contact.php
-
-		-
-			message: '#^Right side of && is always true\.$#'
-			identifier: booleanAnd.rightAlwaysTrue
-			count: 2
-			path: ../../htdocs/bookcal/availabilities_contact.php
-
-		-
-			message: '#^If condition is always false\.$#'
-			identifier: if.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_document.php
-
-		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_document.php
-
-		-
 			message: '#^Empty array passed to foreach\.$#'
 			identifier: foreach.emptyArray
 			count: 1
@@ -3167,18 +3107,6 @@ parameters:
 			identifier: empty.variable
 			count: 1
 			path: ../../htdocs/bookcal/availabilities_list.php
-
-		-
-			message: '#^If condition is always false\.$#'
-			identifier: if.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_note.php
-
-		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_note.php
 
 		-
 			message: '#^If condition is always false\.$#'
