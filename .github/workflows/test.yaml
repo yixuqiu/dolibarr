@@ -15,6 +15,7 @@ jobs:
     steps:
       - name: Log
         run: |
+          echo "repo-token: ${{ secrets.GITHUB_TOKEN }}"
           echo "variable org: ${{vars.AAA}}"
           echo "env prg: ${{env.AAA}}"
           echo "secret org: ${{secrets.BBB}}"
