@@ -134,7 +134,7 @@ class Facture extends CommonInvoice
 	public $ref_client;
 
 	/**
-	 * @var ?string customer ref
+	 * @var string customer ref
 	 */
 	public $ref_customer;
 
@@ -2517,10 +2517,10 @@ class Facture extends CommonInvoice
 			$this->ref_ext = trim($this->ref_ext);
 		}
 		// deprecated
-		if (isset($this->ref_client)) {
+		if (!empty($this->ref_client)) {
 			$this->ref_client = trim($this->ref_client);
 		}
-		if (isset($this->ref_customer)) {
+		if (!empty($this->ref_customer)) {
 			$this->ref_customer = trim($this->ref_customer);
 		}
 		if (isset($this->increment)) {
