@@ -501,9 +501,11 @@ for ($mois = 1 + $nb_mois_decalage; $mois <= 12 + $nb_mois_decalage; $mois++) {
 					if ($modecompta=='CREANCES-DETTES') {
 						$cumulative_previous_year = (!empty($cumulative_ht[$caseprev])?$cumulative_ht[$caseprev]:0);
 						$cumulative_year = (!empty($cumulative_ht[$case])?$cumulative_ht[$case]:0);
+						$isset_cumulative_previous_year = isset($cumulative_ht[$caseprev]);
 					} else {
 						$cumulative_previous_year = (!empty($cumulative[$caseprev])?$cumulative[$caseprev]:0);
 						$cumulative_year = (!empty($cumulative[$case])?$cumulative[$case]:0);
+						$isset_cumulative_previous_year = isset($cumulative_ht[$caseprev]);
 					}
 					if (!empty($cumulative_previous_year) && !empty($cumulative_year)) {
 						$percent = (round(($cumulative_year - $cumulative_previous_year) / $cumulative_previous_year, 4) * 100);
@@ -517,10 +519,10 @@ for ($mois = 1 + $nb_mois_decalage; $mois <= 12 + $nb_mois_decalage; $mois++) {
 						//print '<td class="right">+Inf%</td>';
 						print '-';
 					}
-					if (isset($cumulative_previous_year) && empty($cumulative_previous_year) && empty($cumulative_year)) {
+					if ($isset_cumulative_previous_year && empty($cumulative_previous_year) && empty($cumulative_year)) {
 						print '+0%';
 					}
-					if (!isset($cumulative_previous_year) && empty($cumulative_year)) {
+					if (!$isset_cumulative_previous_year && empty($cumulative_year)) {
 						print '-';
 					}
 				} else {
