@@ -1202,6 +1202,7 @@ foreach ($listofreferent as $key => $value) {
 			}
 
 			$num = count($elementarray);
+			$total_time = 0;
 			for ($i = 0; $i < $num; $i++) {
 				$tmp = explode('_', $elementarray[$i]);
 				$idofelement = $tmp[0];
