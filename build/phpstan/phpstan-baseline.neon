@@ -28333,12 +28333,6 @@ parameters:
 			path: ../../htdocs/public/bookcal/index.php
 
 		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 9
-			path: ../../htdocs/public/clicktodial/cidlookup.php
-
-		-
 			message: '#^Variable \$langs might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
@@ -28348,12 +28342,6 @@ parameters:
 			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
-			path: ../../htdocs/public/cron/cron_run_jobs_by_url.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 5
 			path: ../../htdocs/public/cron/cron_run_jobs_by_url.php
 
 		-
@@ -28383,30 +28371,6 @@ parameters:
 		-
 			message: '#^Variable \$conf might not be defined\.$#'
 			identifier: variable.undefined
-			count: 21
-			path: ../../htdocs/public/demo/index.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/public/demo/index.php
-
-		-
-			message: '#^Variable \$hookmanager might not be defined\.$#'
-			identifier: variable.undefined
-			count: 4
-			path: ../../htdocs/public/demo/index.php
-
-		-
-			message: '#^Variable \$langs might not be defined\.$#'
-			identifier: variable.undefined
-			count: 8
-			path: ../../htdocs/public/demo/index.php
-
-		-
-			message: '#^Variable \$conf might not be defined\.$#'
-			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/public/donations/donateurs_code.php
 
@@ -28427,18 +28391,6 @@ parameters:
 			identifier: variable.undefined
 			count: 7
 			path: ../../htdocs/public/donations/donateurs_code.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 9
-			path: ../../htdocs/public/emailing/mailing-read.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 12
-			path: ../../htdocs/public/emailing/mailing-unsubscribe.php
 
 		-
 			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
@@ -28531,12 +28483,6 @@ parameters:
 			path: ../../htdocs/public/fichinter/agendaexport.php
 
 		-
-			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: ../../htdocs/public/members/new.php
-
-		-
 			message: '#^Call to preg_quote\(\) is missing delimiter / to be effective\.$#'
 			identifier: argument.invalidPregQuote
 			count: 1
@@ -28555,12 +28501,6 @@ parameters:
 			path: ../../htdocs/public/members/new.php
 
 		-
-			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: ../../htdocs/public/members/public_card.php
-
-		-
 			message: '#^Property Adherent\:\:\$photo \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
@@ -28577,12 +28517,6 @@ parameters:
 			identifier: variable.undefined
 			count: 17
 			path: ../../htdocs/public/members/public_card.php
-
-		-
-			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: ../../htdocs/public/members/public_list.php
 
 		-
 			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
