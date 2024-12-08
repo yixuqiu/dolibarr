@@ -86,7 +86,7 @@ class Inventory extends CommonObject
 
 	// BEGIN MODULEBUILDER PROPERTIES
 	/**
-	 * @var array<string,array{type:string,label:string,enabled:int<0,2>|string,position:int,notnull?:int,visible:int<-2,5>|string,noteditable?:int<0,1>,default?:string,index?:int,foreignkey?:string,searchall?:int<0,1>,isameasure?:int<0,1>,css?:string,csslist?:string,help?:string,showoncombobox?:int<0,2>,disabled?:int<0,1>,arrayofkeyval?:array<int|string,string>,comment?:string,validate?:int<0,1>}>  Array with all fields and their property. Do not use it as a static var. It may be modified by constructor.
+	 * @var array<string,array{type:string,label:string,enabled:int<0,2>|string,position:int,notnull?:int,visible:int<-5,5>|string,alwayseditable?:int<0,1>,noteditable?:int<0,1>,default?:string,index?:int,foreignkey?:string,searchall?:int<0,1>,isameasure?:int<0,1>,css?:string,csslist?:string,help?:string,showoncombobox?:int<0,4>,disabled?:int<0,1>,arrayofkeyval?:array<int|string,string>,autofocusoncreate?:int<0,1>,comment?:string,copytoclipboard?:int<1,2>,validate?:int<0,1>,showonheader?:int<0,1>}>  Array with all fields and their property. Do not use it as a static var. It may be modified by constructor.
 	 */
 	public $fields = array(
 		'rowid'              => array('type' => 'integer', 'label' => 'TechnicalID', 'visible' => -1, 'enabled' => 1, 'position' => 1, 'notnull' => 1, 'index' => 1, 'comment' => 'Id',),
@@ -136,7 +136,13 @@ class Inventory extends CommonObject
 	 * @var string Categories id separated by comma
 	 */
 	public $categories_product;
+	/**
+	 * @var int|''
+	 */
 	public $date_inventory;
+	/**
+	 * @var string
+	 */
 	public $title;
 
 	/**
@@ -759,8 +765,8 @@ class Inventory extends CommonObject
 	 * Return the child warehouse of the current one
 	 *
 	 * @param int 	$id 				Id of warehouse
-	 * @param array	$TChildWarehouse  	Array of child warehouses
-	 * @return int             			Return integer <0 if KO, >0 if OK
+	 * @param int[]	$TChildWarehouse  	Array of child warehouses
+	 * @return int<-1,-1>|int<1,1>		Return integer <0 if KO, >0 if OK
 	 */
 	public function getChildWarehouse($id, &$TChildWarehouse)
 	{
@@ -829,7 +835,7 @@ class InventoryLine extends CommonObjectLine
 
 	// BEGIN MODULEBUILDER PROPERTIES
 	/**
-	 * @var array<string,array{type:string,label:string,enabled:int<0,2>|string,position:int,notnull?:int,visible:int<-2,5>|string,noteditable?:int<0,1>,default?:string,index?:int,foreignkey?:string,searchall?:int<0,1>,isameasure?:int<0,1>,css?:string,csslist?:string,help?:string,showoncombobox?:int<0,2>,disabled?:int<0,1>,arrayofkeyval?:array<int|string,string>,comment?:string,validate?:int<0,1>}>  Array with all fields and their property. Do not use it as a static var. It may be modified by constructor.
+	 * @var array<string,array{type:string,label:string,enabled:int<0,2>|string,position:int,notnull?:int,visible:int<-5,5>|string,alwayseditable?:int<0,1>,noteditable?:int<0,1>,default?:string,index?:int,foreignkey?:string,searchall?:int<0,1>,isameasure?:int<0,1>,css?:string,csslist?:string,help?:string,showoncombobox?:int<0,4>,disabled?:int<0,1>,arrayofkeyval?:array<int|string,string>,autofocusoncreate?:int<0,1>,comment?:string,copytoclipboard?:int<1,2>,validate?:int<0,1>,showonheader?:int<0,1>}>  Array with all fields and their property. Do not use it as a static var. It may be modified by constructor.
 	 */
 	public $fields = array(
 		'rowid'         => array('type' => 'integer', 'label' => 'TechnicalID', 'visible' => -1, 'enabled' => 1, 'position' => 1, 'notnull' => 1, 'index' => 1, 'comment' => 'Id',),
@@ -851,10 +857,25 @@ class InventoryLine extends CommonObjectLine
 	 */
 	public $rowid;
 
+	/**
+	 * @var int
+	 */
 	public $fk_inventory;
+	/**
+	 * @var int
+	 */
 	public $fk_warehouse;
+	/**
+	 * @var int
+	 */
 	public $fk_product;
+	/**
+	 * @var string
+	 */
 	public $batch;
+	/**
+	 * @var int
+	 */
 	public $datec;
 
 	/**
@@ -863,7 +884,7 @@ class InventoryLine extends CommonObjectLine
 	public $qty_stock;
 
 	/**
-	 * @var float|null Quantity viewed
+	 * @var ?float Quantity viewed
 	 */
 	public $qty_view;
 
@@ -872,7 +893,13 @@ class InventoryLine extends CommonObjectLine
 	 */
 	public $qty_regulated;
 
+	/**
+	 * @var string
+	 */
 	public $pmp_real;
+	/**
+	 * @var string
+	 */
 	public $pmp_expected;
 
 	/**
