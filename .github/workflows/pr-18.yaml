@@ -34,6 +34,8 @@ jobs:
         echo "GH_TOKENS=$GH_TOKENS"
         echo Get the pr_number
         pr_number=$(jq --raw-output .number < $GITHUB_EVENT_PATH)
+        echo authenticatenv
+        gh auth login --with-token <<< "$GH_TOKEN"
         echo "pr_numer=$pr_number"
         echo Authenticate login gh
         gh auth login --with-token <<< "$GH_TOKEN"
