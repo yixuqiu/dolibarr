@@ -1,4 +1,4 @@
-name: Test
+name: Test github actions
 on:
   workflow_dispatch:
   pull_request:
@@ -6,8 +6,13 @@ on:
     branches:
       - "18.0"
 
-#permissions: write-all
-#permissions: {} # none
+env:
+  ENVGHT: ${{ secrets.GITHUB_TOKEN }}
+  ENVGHU: ${{ github.token }}
+  VARAAA: ${{ vars.AAA }}
+  SECBBB: ${{ secrets.BBB }}
+  VARREPORGCCC: ${{ vars.CCC }}
+  ENVFIX: "abc"
 
 jobs:
   testjob:
@@ -15,8 +20,15 @@ jobs:
     steps:
       - name: Log
         run: |
-          echo "repo-token: ${{ secrets.GITHUB_TOKEN }}"
+          echo "repo-token: ${{secrets.GITHUB_TOKEN}}"
           echo "variable org: ${{vars.AAA}}"
           echo "env prg: ${{env.AAA}}"
+          echo "env prg: ${{env.VARAAA}}"
           echo "secret org: ${{secrets.BBB}}"
           echo "variable repository of orga: ${{vars.CCC}}"
+          echo "ENVGHT: ${{env.ENVGHT}}"
+          echo "ENVGHU: ${{env.ENVGHU}}"
+          echo "VARAAA: ${{env.VARAAA}}"
+          echo "ENVAAA: ${{env.VARAAA}}"
+          echo "VARREPORGCCC: ${{env.VARREPORGCCC}}"
+          echo "ENVFIX: ${{env.abc}}"
