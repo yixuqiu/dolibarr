@@ -239,6 +239,7 @@ if (empty($reshook)) {
 
 $form = new Form($db);
 $proj = null;
+$accountingaccount = new AccountingAccount($db);
 $bankline = new AccountLine($db);
 $variousstatic = new PaymentVarious($db);
 $accountstatic = null;
@@ -253,9 +254,6 @@ if ($arrayfields['bank']['checked']) {
 }
 if ($arrayfields['project']['checked']) {
 	$proj = new Project($db);
-}
-if ($arrayfields['account']['checked']) {
-	$accountingaccount = new AccountingAccount($db);
 }
 
 $title = $langs->trans("VariousPayments");
