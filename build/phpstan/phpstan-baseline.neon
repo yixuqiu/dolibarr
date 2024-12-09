@@ -2983,30 +2983,6 @@ parameters:
 			path: ../../htdocs/bom/tpl/objectline_title.tpl.php
 
 		-
-			message: '#^Cannot access property \$db on mixed\.$#'
-			identifier: property.nonObject
-			count: 2
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
-			message: '#^Cannot access property \$id on mixed\.$#'
-			identifier: property.nonObject
-			count: 4
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
-			message: '#^Cannot access property \$status on mixed\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
-			message: '#^Cannot access property \$total_cost on mixed\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
 			message: '#^Property CommonDict\:\:\$label \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
@@ -3016,12 +2992,6 @@ parameters:
 			message: '#^Variable \$action might not be defined\.$#'
 			identifier: variable.undefined
 			count: 2
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
-			message: '#^Variable \$this might not be defined\.$#'
-			identifier: variable.undefined
-			count: 8
 			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
 
 		-
@@ -3073,36 +3043,6 @@ parameters:
 			path: ../../htdocs/bookcal/availabilities_card.php
 
 		-
-			message: '#^If condition is always false\.$#'
-			identifier: if.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_contact.php
-
-		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_contact.php
-
-		-
-			message: '#^Right side of && is always true\.$#'
-			identifier: booleanAnd.rightAlwaysTrue
-			count: 2
-			path: ../../htdocs/bookcal/availabilities_contact.php
-
-		-
-			message: '#^If condition is always false\.$#'
-			identifier: if.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_document.php
-
-		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_document.php
-
-		-
 			message: '#^Empty array passed to foreach\.$#'
 			identifier: foreach.emptyArray
 			count: 1
@@ -3125,18 +3065,6 @@ parameters:
 			identifier: empty.variable
 			count: 1
 			path: ../../htdocs/bookcal/availabilities_list.php
-
-		-
-			message: '#^If condition is always false\.$#'
-			identifier: if.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_note.php
-
-		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
-			count: 1
-			path: ../../htdocs/bookcal/availabilities_note.php
 
 		-
 			message: '#^If condition is always false\.$#'
@@ -4669,12 +4597,6 @@ parameters:
 			path: ../../htdocs/comm/propal/tpl/linkedobjectblock.tpl.php
 
 		-
-			message: '#^Variable \$id might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/comm/recap-client.php
-
-		-
 			message: '#^If condition is always false\.$#'
 			identifier: if.alwaysFalse
 			count: 1
@@ -6105,7 +6027,7 @@ parameters:
 		-
 			message: '#^Property Facture\:\:\$ref_client \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
-			count: 2
+			count: 1
 			path: ../../htdocs/compta/facture/class/facture.class.php
 
 		-
@@ -21115,99 +21037,9 @@ parameters:
 			path: ../../htdocs/fourn/facture/paiement.php
 
 		-
-			message: '#^Left side of && is always true\.$#'
-			identifier: booleanAnd.leftAlwaysTrue
-			count: 2
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Parameter \#4 \$month of function dol_mktime expects int, array\<mixed\>\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Parameter \#5 \$day of function dol_mktime expects int, array\<mixed\>\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Parameter \#6 \$year of function dol_mktime expects int, array\<mixed\>\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Variable \$formquestion might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Variable \$i might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
 			message: '#^Variable \$moreforfilter might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Variable \$multicurrency_creditnotes might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Variable \$multicurrency_deposits might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Variable \$multicurrency_payment might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Variable \$multicurrency_remaintopay might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Variable \$objcanvas might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Variable \$ref might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Variable \$sign might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../htdocs/fourn/facture/paiement.php
-
-		-
-			message: '#^Variable \$text might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
 			path: ../../htdocs/fourn/facture/paiement.php
 
 		-
@@ -28453,12 +28285,6 @@ parameters:
 			path: ../../htdocs/public/bookcal/index.php
 
 		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 9
-			path: ../../htdocs/public/clicktodial/cidlookup.php
-
-		-
 			message: '#^Variable \$langs might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
@@ -28468,12 +28294,6 @@ parameters:
 			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
-			path: ../../htdocs/public/cron/cron_run_jobs_by_url.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 5
 			path: ../../htdocs/public/cron/cron_run_jobs_by_url.php
 
 		-
@@ -28503,30 +28323,6 @@ parameters:
 		-
 			message: '#^Variable \$conf might not be defined\.$#'
 			identifier: variable.undefined
-			count: 21
-			path: ../../htdocs/public/demo/index.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/public/demo/index.php
-
-		-
-			message: '#^Variable \$hookmanager might not be defined\.$#'
-			identifier: variable.undefined
-			count: 4
-			path: ../../htdocs/public/demo/index.php
-
-		-
-			message: '#^Variable \$langs might not be defined\.$#'
-			identifier: variable.undefined
-			count: 8
-			path: ../../htdocs/public/demo/index.php
-
-		-
-			message: '#^Variable \$conf might not be defined\.$#'
-			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/public/donations/donateurs_code.php
 
@@ -28547,18 +28343,6 @@ parameters:
 			identifier: variable.undefined
 			count: 7
 			path: ../../htdocs/public/donations/donateurs_code.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 9
-			path: ../../htdocs/public/emailing/mailing-read.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 12
-			path: ../../htdocs/public/emailing/mailing-unsubscribe.php
 
 		-
 			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
@@ -28651,12 +28435,6 @@ parameters:
 			path: ../../htdocs/public/fichinter/agendaexport.php
 
 		-
-			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: ../../htdocs/public/members/new.php
-
-		-
 			message: '#^Call to preg_quote\(\) is missing delimiter / to be effective\.$#'
 			identifier: argument.invalidPregQuote
 			count: 1
@@ -28675,12 +28453,6 @@ parameters:
 			path: ../../htdocs/public/members/new.php
 
 		-
-			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: ../../htdocs/public/members/public_card.php
-
-		-
 			message: '#^Property Adherent\:\:\$photo \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
@@ -28697,12 +28469,6 @@ parameters:
 			identifier: variable.undefined
 			count: 17
 			path: ../../htdocs/public/members/public_card.php
-
-		-
-			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: ../../htdocs/public/members/public_list.php
 
 		-
 			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
@@ -32243,18 +32009,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/takepos/printbox.php
-
-		-
-			message: '#^Path in require\(\) "//takepos/invoice\.php" is not a file or it does not exist\.$#'
-			identifier: require.fileNotFound
-			count: 1
-			path: ../../htdocs/takepos/public/auto_order.php
-
-		-
-			message: '#^Path in require\(\) "//takepos/phone\.php" is not a file or it does not exist\.$#'
-			identifier: require.fileNotFound
-			count: 1
-			path: ../../htdocs/takepos/public/auto_order.php
 
 		-
 			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
