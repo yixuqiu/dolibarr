@@ -2798,10 +2798,10 @@ class BookKeeping extends CommonObject
 						$bookkeeping = new BookKeeping($this->db);
 						$bookkeeping->doc_date = $new_fiscal_period->date_start;
 						$bookkeeping->date_lim_reglement = '';
-						$bookkeeping->doc_ref = $new_fiscal_period->label;
+						$bookkeeping->doc_ref = $fiscal_period->label;
 						$bookkeeping->date_creation = $now;
 						$bookkeeping->doc_type = 'closure';
-						$bookkeeping->fk_doc = $new_fiscal_period->id;
+						$bookkeeping->fk_doc = $fiscal_period->id;
 						$bookkeeping->fk_docdet = 0; // Useless, can be several lines that are source of this record to add
 						$bookkeeping->thirdparty_code = '';
 
