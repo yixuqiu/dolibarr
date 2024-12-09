@@ -243,6 +243,7 @@ $accountingaccount = new AccountingAccount($db);
 $bankline = new AccountLine($db);
 $variousstatic = new PaymentVarious($db);
 $accountstatic = null;
+$accountingjournal = null;
 if ($arrayfields['account']['checked'] || $arrayfields['subledger']['checked']) {
 	$formaccounting = new FormAccounting($db);
 }
@@ -716,7 +717,8 @@ while ($i < $imaxinloop) {
 	$variousstatic->datep = $obj->datep;
 	$variousstatic->type_payment = $obj->payment_code;
 	$bankline->fetch($obj->fk_bank);
-	$variousstatic->fk_bank = $bankline->getNomUrl(1);
+	// @phpstan-ignore-next-line
+	$variousstatic->fk_bank = $bankline->getNomUrl(1); // hack for kanban view TODO to remove
 	$variousstatic->amount = $obj->amount;
 
 	$accountingaccount->fetch(0, $obj->accountancy_code, 1);
@@ -819,7 +821,7 @@ while ($i < $imaxinloop) {
 				$accountstatic->ref = $obj->bref;
 				$accountstatic->number = $obj->bnumber;
 
-				if (isModEnabled('accounting')) {
+				if (isModEnabled('accounting') && is_object($accountingjournal)) {
 					$accountstatic->account_number = $obj->bank_account_number;
 					$accountingjournal->fetch($obj->accountancy_journal);
 					$accountstatic->accountancy_journal = $accountingjournal->getNomUrl(0, 1, 1, '', 1);
