@@ -239,23 +239,20 @@ if (empty($reshook)) {
 
 $form = new Form($db);
 $proj = null;
+$bankline = new AccountLine($db);
+$variousstatic = new PaymentVarious($db);
+$accountstatic = null;
 if ($arrayfields['account']['checked'] || $arrayfields['subledger']['checked']) {
 	$formaccounting = new FormAccounting($db);
 }
 if ($arrayfields['bank']['checked'] && isModEnabled('accounting')) {
 	$accountingjournal = new AccountingJournal($db);
 }
-if ($arrayfields['ref']['checked']) {
-	$variousstatic		= new PaymentVarious($db);
-}
 if ($arrayfields['bank']['checked']) {
-	$accountstatic		= new Account($db);
+	$accountstatic = new Account($db);
 }
 if ($arrayfields['project']['checked']) {
 	$proj = new Project($db);
-}
-if ($arrayfields['entry']['checked']) {
-	$bankline = new AccountLine($db);
 }
 if ($arrayfields['account']['checked']) {
 	$accountingaccount = new AccountingAccount($db);
@@ -817,7 +814,7 @@ while ($i < $imaxinloop) {
 		}
 
 		// Bank account
-		if ($arrayfields['bank']['checked']) {
+		if ($arrayfields['bank']['checked'] && is_object($accountstatic)) {
 			print '<td class="nowraponall">';
 			if ($obj->bid > 0) {
 				$accountstatic->id = $obj->bid;
