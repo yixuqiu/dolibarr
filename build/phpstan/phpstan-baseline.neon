@@ -34219,30 +34219,6 @@ parameters:
 			path: ../../htdocs/zapier/class/api_zapier.class.php
 
 		-
-			message: '#^Variable \$conf might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../scripts/bank/export-bank-receipts.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 27
-			path: ../../scripts/bank/export-bank-receipts.php
-
-		-
-			message: '#^Variable \$hookmanager might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../scripts/bank/export-bank-receipts.php
-
-		-
-			message: '#^Variable \$langs might not be defined\.$#'
-			identifier: variable.undefined
-			count: 9
-			path: ../../scripts/bank/export-bank-receipts.php
-
-		-
 			message: '#^Variable \$num in isset\(\) always exists and is not nullable\.$#'
 			identifier: isset.variable
 			count: 1
@@ -34293,18 +34269,6 @@ parameters:
 		-
 			message: '#^Negated boolean expression is always true\.$#'
 			identifier: booleanNot.alwaysTrue
-			count: 1
-			path: ../../scripts/emailings/reset-invalid-emails.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 21
-			path: ../../scripts/emailings/reset-invalid-emails.php
-
-		-
-			message: '#^Variable \$hookmanager might not be defined\.$#'
-			identifier: variable.undefined
 			count: 1
 			path: ../../scripts/emailings/reset-invalid-emails.php
 
