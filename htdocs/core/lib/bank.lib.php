@@ -133,7 +133,7 @@ function bank_prepare_head(Account $object)
 	$h++;
 
 	$head[$h][0] = DOL_URL_ROOT."/compta/bank/annuel.php?account=".$object->id;
-	$head[$h][1] = $langs->trans("Report");
+	$head[$h][1] = $langs->trans("Reports");
 	$head[$h][2] = 'annual';
 	$h++;
 
