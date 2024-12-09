@@ -1093,7 +1093,7 @@ if (empty($reshook)) {
 				$object->fk_incoterms       = GETPOSTINT('incoterm_id');
 				$object->location_incoterms = GETPOST('location_incoterms', 'alpha');
 				$object->multicurrency_code = GETPOST('multicurrency_code', 'alpha');
-				$object->multicurrency_tx   = GETPOST('originmulticurrency_tx');
+				$object->multicurrency_tx   = GETPOSTFLOAT('originmulticurrency_tx');
 
 				// Special properties of replacement invoice
 				$object->fk_facture_source = GETPOSTINT('fac_replacement');
