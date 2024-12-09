@@ -6075,7 +6075,7 @@ parameters:
 		-
 			message: '#^Property Facture\:\:\$ref_client \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
-			count: 2
+			count: 1
 			path: ../../htdocs/compta/facture/class/facture.class.php
 
 		-
@@ -32057,18 +32057,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/takepos/printbox.php
-
-		-
-			message: '#^Path in require\(\) "//takepos/invoice\.php" is not a file or it does not exist\.$#'
-			identifier: require.fileNotFound
-			count: 1
-			path: ../../htdocs/takepos/public/auto_order.php
-
-		-
-			message: '#^Path in require\(\) "//takepos/phone\.php" is not a file or it does not exist\.$#'
-			identifier: require.fileNotFound
-			count: 1
-			path: ../../htdocs/takepos/public/auto_order.php
 
 		-
 			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
