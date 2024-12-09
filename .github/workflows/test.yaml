@@ -20,6 +20,10 @@ jobs:
     steps:
       - name: Log
         run: |
+          echo "Run action by ${{ github.actor }}"        
+          echo "github.token=${{ github.token }}"
+          echo "secrets.GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}"
+          echo "GITHUB_EVENT_PATH=$GITHUB_EVENT_PATH"
           echo "repo-token: ${{secrets.GITHUB_TOKEN}}"
           echo "variable org: ${{vars.AAA}}"
           echo "env prg: ${{env.AAA}}"
