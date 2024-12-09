@@ -34,7 +34,13 @@ include_once DOL_DOCUMENT_ROOT.'/core/lib/date.lib.php';
  */
 class FactureStats extends Stats
 {
+	/**
+	 * @var int
+	 */
 	public $socid;
+	/**
+	 * @var int
+	 */
 	public $userid;
 
 	/**
@@ -42,9 +48,21 @@ class FactureStats extends Stats
 	 */
 	public $table_element;
 
+	/**
+	 * @var string
+	 */
 	public $from;
+	/**
+	 * @var string
+	 */
 	public $field;
+	/**
+	 * @var string
+	 */
 	public $where = '';
+	/**
+	 * @var string
+	 */
 	public $join;
 
 
@@ -118,7 +136,7 @@ class FactureStats extends Stats
 		}
 
 		if ($categid) {
-			$this->where .= ' AND EXISTS (SELECT rowid FROM '.MAIN_DB_PREFIX.'categorie_societe as cats WHERE cats.fk_soc = f.fk_soc AND cats.fk_categorie = '.((int) $categid).')';
+			$this->where .= ' AND EXISTS (SELECT cats.fk_categorie FROM '.MAIN_DB_PREFIX.'categorie_societe as cats WHERE cats.fk_soc = f.fk_soc AND cats.fk_categorie = '.((int) $categid).')';
 		}
 	}
 
