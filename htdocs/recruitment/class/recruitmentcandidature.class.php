@@ -224,7 +224,7 @@ class RecruitmentCandidature extends CommonObject
 	 */
 	public function __construct(DoliDB $db)
 	{
-		global $conf, $langs;
+		global $langs;
 
 		$this->db = $db;
 
@@ -259,16 +259,6 @@ class RecruitmentCandidature extends CommonObject
 						$this->fields[$key]['arrayofkeyval'][$key2] = $langs->trans($val2);
 					}
 				}
-			}
-		}
-
-		if (GETPOST("action", "aZ09") == 'create') {
-			$reg = array();
-			preg_match('/^(integer|link):(.*):(.*):(.*):(.*)/i', $this->fields['fk_recruitmentjobposition']['type'], $reg);
-			if (!empty($reg)) {
-				$this->fields['fk_recruitmentjobposition']['type'] .= " AND (t.status:=:1)";
-			} else {
-				$this->fields['fk_recruitmentjobposition']['type'] .= ":(t.status:=:1)";
 			}
 		}
 	}

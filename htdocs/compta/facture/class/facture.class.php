@@ -2517,10 +2517,10 @@ class Facture extends CommonInvoice
 			$this->ref_ext = trim($this->ref_ext);
 		}
 		// deprecated
-		if (isset($this->ref_client)) {
+		if (!empty($this->ref_client)) {
 			$this->ref_client = trim($this->ref_client);
 		}
-		if (isset($this->ref_customer)) {
+		if (!empty($this->ref_customer)) {
 			$this->ref_customer = trim($this->ref_customer);
 		}
 		if (isset($this->increment)) {
@@ -2551,7 +2551,6 @@ class Facture extends CommonInvoice
 			$this->retained_warranty = (float) $this->retained_warranty;
 		}
 
-
 		// Check parameters
 		// Put here code to add control on parameters values
 
@@ -2561,7 +2560,7 @@ class Facture extends CommonInvoice
 		$sql .= " ref_ext=".(isset($this->ref_ext) ? "'".$this->db->escape($this->ref_ext)."'" : "null").",";
 		$sql .= " type=".(isset($this->type) ? $this->db->escape($this->type) : "null").",";
 		$sql .= " subtype=".(isset($this->subtype) ? $this->db->escape($this->subtype) : "null").",";
-		$sql .= " ref_client=".(isset($this->ref_customer) ? "'".$this->db->escape($this->ref_customer)."'" : (isset($this->ref_client) ? "'".$this->db->escape($this->ref_client)."'" : "null")).",";
+		$sql .= " ref_client=".(!empty($this->ref_customer) ? "'".$this->db->escape($this->ref_customer)."'" : (isset($this->ref_client) ? "'".$this->db->escape($this->ref_client)."'" : "null")).",";
 		$sql .= " increment=".(isset($this->increment) ? "'".$this->db->escape($this->increment)."'" : "null").",";
 		$sql .= " fk_soc=".(isset($this->socid) ? $this->db->escape($this->socid) : "null").",";
 		$sql .= " datec=".(strval($this->date_creation) != '' ? "'".$this->db->idate($this->date_creation)."'" : 'null').",";
