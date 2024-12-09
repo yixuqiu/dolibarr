@@ -716,21 +716,25 @@ while ($i < $imaxinloop) {
 	$variousstatic->label = $obj->label;
 	$variousstatic->datep = $obj->datep;
 	$variousstatic->type_payment = $obj->payment_code;
-	$bankline->fetch($obj->fk_bank);
-	// @phpstan-ignore-next-line
-	$variousstatic->fk_bank = $bankline->getNomUrl(1); // hack for kanban view TODO to remove
+
 	$variousstatic->amount = $obj->amount;
 
 	$accountingaccount->fetch(0, $obj->accountancy_code, 1);
 	$variousstatic->accountancy_code = $accountingaccount->getNomUrl(0, 0, 1, $obj->accountingaccount, 1);
 
 	if ($mode == 'kanban') {
+		if ($obj->fk_bank > 0) {
+			$bankline->fetch($obj->fk_bank);
+		} else {
+			$bankline->id = 0;
+		}
+
 		if ($i == 0) {
 			print '<tr class="trkanban"><td colspan="'.$savnbfield.'">';
 			print '<div class="box-flex-container kanban">';
 		}
 		// Output Kanban
-		print $variousstatic->getKanbanView('', array('selected' => in_array($object->id, $arrayofselected)));
+		print $variousstatic->getKanbanView('', array('selected' => in_array($object->id, $arrayofselected), 'bankline' => $bankline));
 		if ($i == ($imaxinloop) - 1) {
 			print '</div>';
 			print '</td></tr>';
@@ -814,9 +818,9 @@ while ($i < $imaxinloop) {
 		}
 
 		// Bank account
-		if ($arrayfields['bank']['checked'] && is_object($accountstatic)) {
+		if ($arrayfields['bank']['checked']) {
 			print '<td class="nowraponall">';
-			if ($obj->bid > 0) {
+			if (is_object($accountstatic) && $obj->bid > 0) {
 				$accountstatic->id = $obj->bid;
 				$accountstatic->ref = $obj->bref;
 				$accountstatic->number = $obj->bnumber;
@@ -829,8 +833,6 @@ while ($i < $imaxinloop) {
 
 				$accountstatic->label = $obj->blabel;
 				print $accountstatic->getNomUrl(1);
-			} else {
-				print '&nbsp;';
 			}
 			print '</td>';
 			if (!$i) {
