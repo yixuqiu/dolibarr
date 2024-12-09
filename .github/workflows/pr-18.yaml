@@ -49,7 +49,7 @@ jobs:
         # shellcheck disable=2086
         gh auth login --with-token <<< "${{ secrets.GITHUB_TOKEN }}"
         # shellcheck disable=2086
-        echo Set the reviewere
+        gh auth setup-git
         # shellcheck disable=2086
         gh pr edit $pr_number --add-reviewer "$REVIEWER"
       continue-on-error: true
