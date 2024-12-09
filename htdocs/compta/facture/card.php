@@ -2742,7 +2742,7 @@ if (empty($reshook)) {
 		// Invoice situation
 		if (getDolGlobalInt('INVOICE_USE_SITUATION') == 2) {
 			$previousprogress = $line->get_allprev_progress($line->fk_facture);
-			$fullprogress = price2num(GETPOST('progress', 'alpha'));
+			$fullprogress = price2num(GETPOST('progress', 'alpha'), 2);
 
 			if ($fullprogress < $previousprogress) {
 				$error++;
