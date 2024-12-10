@@ -824,7 +824,6 @@ while ($i < $imaxinloop) {
 			}
 		}
 
-
 		print '</tr>'."\n";
 	}
 
