@@ -1615,30 +1615,6 @@ parameters:
 			path: ../../htdocs/admin/security_file.php
 
 		-
-			message: '#^Parameter \#4 \$deliveryreceipt of class CSMSFile constructor expects int, array\<mixed\>\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../htdocs/admin/sms.php
-
-		-
-			message: '#^Parameter \#5 \$deferred of class CSMSFile constructor expects int, array\<mixed\>\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../htdocs/admin/sms.php
-
-		-
-			message: '#^Parameter \#6 \$priority of class CSMSFile constructor expects int, array\<mixed\>\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../htdocs/admin/sms.php
-
-		-
-			message: '#^Parameter \#7 \$class of class CSMSFile constructor expects int, array\<mixed\>\|string given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../htdocs/admin/sms.php
-
-		-
 			message: '#^Variable \$smsfile might not be defined\.$#'
 			identifier: variable.undefined
 			count: 5
