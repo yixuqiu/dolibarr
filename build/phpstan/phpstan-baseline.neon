@@ -1585,24 +1585,6 @@ parameters:
 			path: ../../htdocs/admin/oauthlogintokens.php
 
 		-
-			message: '#^Negated boolean expression is always false\.$#'
-			identifier: booleanNot.alwaysFalse
-			count: 5
-			path: ../../htdocs/admin/openid_connect.php
-
-		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 5
-			path: ../../htdocs/admin/openid_connect.php
-
-		-
-			message: '#^Variable \$bc might not be defined\.$#'
-			identifier: variable.undefined
-			count: 10
-			path: ../../htdocs/admin/openid_connect.php
-
-		-
 			message: '#^Negated boolean expression is always true\.$#'
 			identifier: booleanNot.alwaysTrue
 			count: 1
