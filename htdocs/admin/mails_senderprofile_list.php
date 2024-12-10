@@ -803,10 +803,10 @@ while ($i < $imaxinloop) {
 				$url .= '&limit='.((int) $limit);
 			}
 			if ($page) {
-				$url .= '&page='.urlencode((string) ($page));
+				$url .= '&page='.urlencode((string) $page);
 			}
-			$url .= '&sortfield='.urlencode($sortfield);
-			$url .= '&page='.urlencode($sortorder);
+			$url .= '&sortfield='.urlencode((string) $sortfield);
+			$url .= '&page='.urlencode((string) $sortorder);
 
 			print '<a class="editfielda reposition marginrightonly marginleftonly" href="'.$url.'&action=edit&token='.newToken().'&rowid='.$obj->rowid.'">'.img_edit().'</a>';
 			//print ' &nbsp; ';
