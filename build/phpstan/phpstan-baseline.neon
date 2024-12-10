@@ -5281,12 +5281,6 @@ parameters:
 			path: ../../htdocs/compta/bank/class/paymentvarious.class.php
 
 		-
-			message: '#^Call to function property_exists\(\) with \$this\(PaymentVarious\) and ''fk_bank'' will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: ../../htdocs/compta/bank/class/paymentvarious.class.php
-
-		-
 			message: '#^Property PaymentVarious\:\:\$accountid \(int\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
@@ -34241,48 +34235,6 @@ parameters:
 			identifier: booleanNot.alwaysTrue
 			count: 1
 			path: ../../scripts/emailings/reset-invalid-emails.php
-
-		-
-			message: '#^Variable \$conf might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../scripts/invoices/email_unpaid_invoices_to_customers.php
-
-		-
-			message: '#^Variable \$hookmanager might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../scripts/invoices/email_unpaid_invoices_to_customers.php
-
-		-
-			message: '#^Variable \$langs might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../scripts/invoices/email_unpaid_invoices_to_customers.php
-
-		-
-			message: '#^Variable \$conf might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../scripts/invoices/email_unpaid_invoices_to_representatives.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 6
-			path: ../../scripts/invoices/email_unpaid_invoices_to_representatives.php
-
-		-
-			message: '#^Variable \$hookmanager might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../scripts/invoices/email_unpaid_invoices_to_representatives.php
-
-		-
-			message: '#^Variable \$langs might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../scripts/invoices/email_unpaid_invoices_to_representatives.php
 
 		-
 			message: '#^Variable \$conf might not be defined\.$#'
