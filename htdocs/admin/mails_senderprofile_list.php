@@ -1,8 +1,8 @@
 <?php
-/* Copyright (C) 2007-2017 Laurent Destailleur  <eldy@users.sourceforge.net>
- * Copyright (C) 2018	   Ferran Marcet 		<fmarcet@2byte.es>
+/* Copyright (C) 2007-2017  Laurent Destailleur     <eldy@users.sourceforge.net>
+ * Copyright (C) 2018	    Ferran Marcet 		    <fmarcet@2byte.es>
  * Copyright (C) 2024		Frédéric France			<frederic.france@free.fr>
- * Copyright (C) 2024		MDW							<mdeweerd@users.noreply.github.com>
+ * Copyright (C) 2024		MDW						<mdeweerd@users.noreply.github.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -805,12 +805,9 @@ while ($i < $imaxinloop) {
 			if ($page) {
 				$url .= '&page='.urlencode((string) ($page));
 			}
-			if ($sortfield) {
-				$url .= '&sortfield='.urlencode($sortfield);
-			}
-			if ($sortorder) {
-				$url .= '&page='.urlencode($sortorder);
-			}
+			$url .= '&sortfield='.urlencode($sortfield);
+			$url .= '&page='.urlencode($sortorder);
+
 			print '<a class="editfielda reposition marginrightonly marginleftonly" href="'.$url.'&action=edit&token='.newToken().'&rowid='.$obj->rowid.'">'.img_edit().'</a>';
 			//print ' &nbsp; ';
 			print '<a class=" marginrightonly marginleftonly" href="'.$url.'&action=delete&token='.newToken().'">'.img_delete().'</a>  &nbsp; ';
