@@ -651,9 +651,25 @@ class Product extends CommonObject
 	 * @var array{}|array{nb_toproduce:int,nb_toconsume:int,qty_toproduce:float,qty_toconsume:float}
 	 */
 	public $stats_bom = array();
+
+	/**
+	 * @var array{}
+	 */
 	public $stats_mrptoconsume = array();
+
+	/**
+	 * @var array{}
+	 */
 	public $stats_mrptoproduce = array();
+
+	/**
+	 * @var array{}
+	 */
 	public $stats_facturerec = array();
+
+	/**
+	 * @var array{}
+	 */
 	public $stats_facture_fournisseur = array();
 
 	/**
