@@ -181,6 +181,12 @@ $error = 0;
 // Check if we have redirtodomain to do.
 if ($ws) {
 	$doactionsthenredirect = 1;
+	include_once DOL_DOCUMENT_ROOT.'/website/class/website.class.php';
+	$website = new Website($db);
+	$result = $website->fetch(0, $ws);
+	if ($result > 0) {
+		$ws_virtuelhost = $website->virtualhost;
+	}
 }
 
 
@@ -2124,12 +2130,20 @@ if (!empty($doactionsthenredirect)) {
 	if ($ispaymentok) {
 		// Redirect to a success page
 		// Paymentok page must be created for the specific website
-		$ext_urlok = DOL_URL_ROOT.'/public/website/index.php?website='.urlencode($ws).'&pageref=paymentok&fulltag='.$FULLTAG;
+		if (!defined('USEDOLIBARRSERVER') && $ws_virtuelhost) {
+			$ext_urlok = $ws_virtuelhost . '/paymentok.php?fulltag='.$FULLTAG;
+		} else {
+			$ext_urlok = DOL_URL_ROOT.'/public/website/index.php?website='.urlencode($ws).'&pageref=paymentok&fulltag='.$FULLTAG;
+		}
 		print "<script>window.top.location.href = '".dol_escape_js($ext_urlok) ."';</script>";
 	} else {
 		// Redirect to an error page
 		// Paymentko page must be created for the specific website
-		$ext_urlko = DOL_URL_ROOT.'/public/website/index.php?website='.urlencode($ws).'&pageref=paymentko&fulltag='.$FULLTAG;
+		if (!defined('USEDOLIBARRSERVER') && $ws_virtuelhost) {
+			$ext_urlko = $ws_virtuelhost . '/paymentko.php?fulltag='.$FULLTAG;
+		} else {
+			$ext_urlko = DOL_URL_ROOT.'/public/website/index.php?website='.urlencode($ws).'&pageref=paymentko&fulltag='.$FULLTAG;
+		}
 		print "<script>window.top.location.href = '".dol_escape_js($ext_urlko)."';</script>";
 	}
 }
