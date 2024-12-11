@@ -653,12 +653,12 @@ class Product extends CommonObject
 	public $stats_bom = array();
 
 	/**
-	 * @var array{}
+	 * @var array{}|array{customers:int,nb:int,rows:int,qty:float}
 	 */
 	public $stats_mrptoconsume = array();
 
 	/**
-	 * @var array{}
+	 * @var array{}|array{customers:int,nb:int,rows:int,qty:float}
 	 */
 	public $stats_mrptoproduce = array();
 
@@ -3940,25 +3940,25 @@ class Product extends CommonObject
 		if ($result) {
 			while ($obj = $this->db->fetch_object($result)) {
 				if ($obj->role == 'toconsume' && empty($warehouseid)) {
-					$this->stats_mrptoconsume['customers'] += $obj->nb_customers;
-					$this->stats_mrptoconsume['nb'] += $obj->nb;
-					$this->stats_mrptoconsume['rows'] += $obj->nb_rows;
-					$this->stats_mrptoconsume['qty'] += ($obj->qty ? $obj->qty : 0);
+					$this->stats_mrptoconsume['customers'] += (int) $obj->nb_customers;
+					$this->stats_mrptoconsume['nb'] += (int) $obj->nb;
+					$this->stats_mrptoconsume['rows'] += (int) $obj->nb_rows;
+					$this->stats_mrptoconsume['qty'] += ($obj->qty ? (float) $obj->qty : 0.0);
 				}
 				if ($obj->role == 'consumed' && empty($warehouseid)) {
 					//$this->stats_mrptoconsume['customers'] += $obj->nb_customers;
 					//$this->stats_mrptoconsume['nb'] += $obj->nb;
 					//$this->stats_mrptoconsume['rows'] += $obj->nb_rows;
-					$this->stats_mrptoconsume['qty'] -= ($obj->qty ? $obj->qty : 0);
+					$this->stats_mrptoconsume['qty'] -= ($obj->qty ? (float) $obj->qty : 0.0);
 				}
 				if ($obj->role == 'toproduce') {
 					if ($warehouseid) {
-						$this->stock_warehouse[$warehouseid]->stats_mrptoproduce['qty'] += ($obj->qty ? $obj->qty : 0);
+						$this->stock_warehouse[$warehouseid]->stats_mrptoproduce['qty'] += ($obj->qty ? (float) $obj->qty : 0.0);
 					} else {
-						$this->stats_mrptoproduce['customers'] += $obj->nb_customers;
-						$this->stats_mrptoproduce['nb'] += $obj->nb;
-						$this->stats_mrptoproduce['rows'] += $obj->nb_rows;
-						$this->stats_mrptoproduce['qty'] += ($obj->qty ? $obj->qty : 0);
+						$this->stats_mrptoproduce['customers'] += (int) $obj->nb_customers;
+						$this->stats_mrptoproduce['nb'] += (int) $obj->nb;
+						$this->stats_mrptoproduce['rows'] += (int) $obj->nb_rows;
+						$this->stats_mrptoproduce['qty'] += ($obj->qty ? (float) $obj->qty : 0.0);
 					}
 				}
 				if ($obj->role == 'produced') {
