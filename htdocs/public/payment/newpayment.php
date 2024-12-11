@@ -290,14 +290,9 @@ $urlko = preg_replace('/&$/', '', $urlko); // Remove last &
 @phan-var-force string $PAYPAL_API_OK
 @phan-var-force string $PAYPAL_API_KO
 ';
-/**
- * @var string $PAYPAL_API_SANDBOX
- * @var string $PAYPAL_API_OK
- * @var string $PAYPAL_API_KO
- * @var string $PAYPAL_API_PASSWORD
- * @var string $PAYPAL_API_SIGNATURE
- */
+
 if ((empty($paymentmethod) || $paymentmethod == 'paypal') && isModEnabled('paypal')) {
+	global $PAYPAL_API_SANDBOX, $PAYPAL_API_OK, $PAYPAL_API_KO, $PAYPAL_API_PASSWORD, $PAYPAL_API_SIGNATURE;
 	require_once DOL_DOCUMENT_ROOT.'/paypal/lib/paypal.lib.php';
 	require_once DOL_DOCUMENT_ROOT.'/paypal/lib/paypalfunctions.lib.php';
 
