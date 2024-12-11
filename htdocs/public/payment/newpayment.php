@@ -231,6 +231,8 @@ $ref = $REF = GETPOST('ref', 'alpha');
 $TAG = GETPOST("tag", 'alpha');
 $FULLTAG = GETPOST("fulltag", 'alpha'); // fulltag is tag with more information
 $SECUREKEY = GETPOST("securekey"); // Secure key
+$PAYPAL_API_OK = "";
+$PAYPAL_API_KO = "";
 
 if ($paymentmethod && !preg_match('/'.preg_quote('PM='.$paymentmethod, '/').'/', $FULLTAG)) {
 	$FULLTAG .= ($FULLTAG ? '.' : '').'PM='.$paymentmethod;
