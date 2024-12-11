@@ -3083,7 +3083,7 @@ class Product extends CommonObject
 							$this->multiprices_min_ttc[$i] = $result ? $result["price_min_ttc"] : null;
 							$this->multiprices_base_type[$i] = $result ? $result["price_base_type"] : null;
 							// Next two fields are used only if PRODUIT_MULTIPRICES_USE_VAT_PER_LEVEL is on
-							$this->multiprices_tva_tx[$i] = $result ? $result["tva_tx"].($result ? ' ('.$result['default_vat_code'].')' : '') : null;
+							$this->multiprices_tva_tx[$i] = $result ? $result["tva_tx"].(!empty($result['default_vat_code']) ? ' ('.$result['default_vat_code'].')' : '') : null;
 							$this->multiprices_recuperableonly[$i] = $result ? $result["recuperableonly"] : null;
 
 							// Price by quantity
