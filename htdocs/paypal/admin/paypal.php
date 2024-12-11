@@ -267,7 +267,7 @@ if (isModEnabled("bank")) {
 print '<tr class="oddeven"><td>';
 print $langs->trans("CSSUrlForPaymentForm").'</td><td>';
 print '<input size="64" type="text" name="ONLINE_PAYMENT_CSS_URL" value="'.getDolGlobalString('ONLINE_PAYMENT_CSS_URL').'">';
-print ' &nbsp; <span class="opacitymedium">'.$langs->trans("Example").': http://mysite/mycss.css</span>';
+print ' &nbsp; <span class="opacitymedium">'.$langs->trans("Example").': https://mysite/mycss.css</span>';
 print '</td></tr>';
 
 
