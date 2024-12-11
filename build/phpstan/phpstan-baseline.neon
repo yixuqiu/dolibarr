@@ -25471,12 +25471,6 @@ parameters:
 			path: ../../htdocs/product/class/product.class.php
 
 		-
-			message: '#^Ternary operator condition is always true\.$#'
-			identifier: ternary.alwaysTrue
-			count: 1
-			path: ../../htdocs/product/class/product.class.php
-
-		-
 			message: '#^Negated boolean expression is always true\.$#'
 			identifier: booleanNot.alwaysTrue
 			count: 1
