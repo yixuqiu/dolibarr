@@ -44,7 +44,7 @@ class modStock extends DolibarrModules
 	 */
 	public function __construct($db)
 	{
-		global $conf, $langs; // do not remove $conf
+		global $conf, $langs;	// $conf is used by inc.php
 
 		$this->db = $db;
 		$this->numero = 52;
