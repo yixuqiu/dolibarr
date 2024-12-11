@@ -653,12 +653,12 @@ class Product extends CommonObject
 	public $stats_bom = array();
 
 	/**
-	 * @var array{}|array{customers:int,nb:int,rows:int,qty:float}
+	 * @var array{}|array{customers:int,nb:int,rows:int,qty:float} stats mrp to consume
 	 */
 	public $stats_mrptoconsume = array();
 
 	/**
-	 * @var array{}|array{customers:int,nb:int,rows:int,qty:float}
+	 * @var array{}|array{customers:int,nb:int,rows:int,qty:float} stats mrp to produce
 	 */
 	public $stats_mrptoproduce = array();
 
