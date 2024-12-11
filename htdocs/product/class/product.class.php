@@ -646,6 +646,10 @@ class Product extends CommonObject
 	 * @var array{}|array{customers_toconsume:int,nb_toconsume:int,qty_toconsume:float,customers_consumed:int,nb_consumed:int,qty_consumed:float,customers_toproduce:int,nb_toproduce:int,qty_toproduce:float,customers_produced:int,nb_produced:int,qty_produced:float} stats by role toconsume, consumed, toproduce, produced
 	 */
 	public $stats_mo = array();
+
+	/**
+	 * @var array{}|array{nb_toproduce:int,nb_toconsume:int,qty_toproduce:float,qty_toconsume:float}
+	 */
 	public $stats_bom = array();
 	public $stats_mrptoconsume = array();
 	public $stats_mrptoproduce = array();
