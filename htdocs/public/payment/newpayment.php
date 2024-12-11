@@ -234,6 +234,9 @@ $SECUREKEY = GETPOST("securekey"); // Secure key
 $PAYPAL_API_OK = "";
 $PAYPAL_API_KO = "";
 $PAYPAL_API_SANDBOX = "";
+$PAYPAL_API_USER = "";
+$PAYPAL_API_PASSWORD = "";
+$PAYPAL_API_SIGNATURE = "";
 
 if ($paymentmethod && !preg_match('/'.preg_quote('PM='.$paymentmethod, '/').'/', $FULLTAG)) {
 	$FULLTAG .= ($FULLTAG ? '.' : '').'PM='.$paymentmethod;
@@ -288,10 +291,12 @@ $urlko = preg_replace('/&$/', '', $urlko); // Remove last &
 @phan-var-force string $PAYPAL_API_KO
 ';
 /**
-* @var string $PAYPAL_API_SANDBOX
-* @var string $PAYPAL_API_OK
-* @var string $PAYPAL_API_KO
-*/
+ * @var string $PAYPAL_API_SANDBOX
+ * @var string $PAYPAL_API_OK
+ * @var string $PAYPAL_API_KO
+ * @var string $PAYPAL_API_PASSWORD
+ * @var string $PAYPAL_API_SIGNATURE
+ */
 if ((empty($paymentmethod) || $paymentmethod == 'paypal') && isModEnabled('paypal')) {
 	require_once DOL_DOCUMENT_ROOT.'/paypal/lib/paypal.lib.php';
 	require_once DOL_DOCUMENT_ROOT.'/paypal/lib/paypalfunctions.lib.php';
