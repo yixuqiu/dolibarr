@@ -98,7 +98,7 @@ function dol_setcache($memoryid, $data, $expire = 0, $replace = 0)
 		$rescode = $dolmemcache->getResultCode();
 		if ($rescode == 0) {
 			return is_array($data) ? count($data) : (is_scalar($data) ? strlen($data) : 0);
-		} else if (!empty($replace) && $rescode == Memcached::RES_NOTSTORED) {
+		} elseif (!empty($replace) && $rescode == Memcached::RES_NOTSTORED) {
 			$dolmemcache->replace($memoryid, $data, $expire); // This fails if key does not exists
 			$rescode = $dolmemcache->getResultCode();
 			if ($rescode == 0) {
