@@ -63,10 +63,11 @@ $shmoffset = 1000; // Max number of entries found into a language file. If too l
  *  @param	string      $memoryid		Memory id of shared area
  * 	@param	mixed		$data			Data to save. It must not be a null value.
  *  @param 	int			$expire			ttl in seconds, 0 never expire
+ *  @param 	int			$replace		add possibility to replace cache for memecached module if != 0
  * 	@return	int							Return integer <0 if KO, 0 if nothing is done, Nb of bytes written if OK
  *  @see dol_getcache()
  */
-function dol_setcache($memoryid, $data, $expire = 0)
+function dol_setcache($memoryid, $data, $expire = 0, $replace = 0)
 {
 	global $conf;
 
@@ -97,6 +98,14 @@ function dol_setcache($memoryid, $data, $expire = 0)
 		$rescode = $dolmemcache->getResultCode();
 		if ($rescode == 0) {
 			return is_array($data) ? count($data) : (is_scalar($data) ? strlen($data) : 0);
+		} else if (!empty($replace) && $rescode == Memcached::RES_NOTSTORED) {
+			$dolmemcache->replace($memoryid, $data, $expire); // This fails if key does not exists
+			$rescode = $dolmemcache->getResultCode();
+			if ($rescode == 0) {
+				return is_array($data) ? count($data) : (is_scalar($data) ? strlen($data) : 0);
+			} else {
+				return -$rescode;
+			}
 		} else {
 			return -$rescode;
 		}
