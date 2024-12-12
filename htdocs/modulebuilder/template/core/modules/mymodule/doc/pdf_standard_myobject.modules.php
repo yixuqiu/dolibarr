@@ -279,9 +279,9 @@ class pdf_standard_myobject extends ModelePDFMyObject
 				$dir = $dir_output."/".$objectref;
 				$file = $dir."/".$objectref.".pdf";
 			}
-			if ($dir === null) {
-				return 0;
-			}
+			// if ($dir === null) {
+			// 	return 0;
+			// }
 			if (!file_exists($dir)) {
 				if (dol_mkdir($dir) < 0) {
 					$this->error = $langs->transnoentities("ErrorCanNotCreateDir", $dir);
