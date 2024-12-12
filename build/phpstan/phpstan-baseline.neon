@@ -17395,18 +17395,6 @@ parameters:
 			path: ../../htdocs/cron/class/cronjob.class.php
 
 		-
-			message: '#^Variable \$ExecTimeLimit in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: ../../htdocs/cron/class/cronjob.class.php
-
-		-
-			message: '#^Variable \$MemoryLimit in empty\(\) always exists and is always falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: ../../htdocs/cron/class/cronjob.class.php
-
-		-
 			message: '#^Ternary operator condition is always true\.$#'
 			identifier: ternary.alwaysTrue
 			count: 10
