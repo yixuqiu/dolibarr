@@ -1231,7 +1231,7 @@ class Cronjob extends CommonObject
 			@set_time_limit($ExecTimeLimit); // Need more than 240 on Windows 7/64
 			error_reporting($err);
 		}
-		$MemoryLimit = getDolGlobalString('MAIN_CRON_EXEC_TIME_LIMIT');
+		$MemoryLimit = getDolGlobalString('MAIN_CRON_MEMORY_LIMIT');
 		if (!empty($MemoryLimit)) {
 			@ini_set('memory_limit', $MemoryLimit);
 		}
