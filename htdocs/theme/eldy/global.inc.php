@@ -4695,12 +4695,11 @@ table.hidepaginationnext .paginationnext {
 }
 
 
-
 /* Set the color for hover lines */
-.oddeven:hover, .evenodd:hover, .oddevenimport:hover, .evenoddimport:hover, .impair:hover, .pair:hover
-{
+.oddeven:hover:not(.nohover), .evenodd:hover:not(.nohover), .oddevenimport:hover:not(.nohover), .evenoddimport:hover:not(.nohover), .impair:hover:not(.nohover), .pair:hover:not(.nohover) {
 	background: var(--colorbacklinepairhover) !important;		/* Must be background to be stronger than background of odd or even */
 }
+
 .tredited, .tredited td {
 	background: var(--colorbacklinepairchecked) !important;   /* Must be background to be stronger than background of odd or even */
 	border-bottom: 0 !important;
