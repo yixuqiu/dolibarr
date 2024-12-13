@@ -2131,7 +2131,7 @@ if (!empty($doactionsthenredirect)) {
 	if ($ispaymentok) {
 		// Redirect to a success page
 		// Paymentok page must be created for the specific website
-		if (!defined('USEDOLIBARRSERVER') && $ws_virtuelhost) {
+		if (!defined('USEDOLIBARRSERVER') && !empty($ws_virtuelhost)) {
 			$ext_urlok = $ws_virtuelhost . '/paymentok.php?fulltag='.$FULLTAG;
 		} else {
 			$ext_urlok = DOL_URL_ROOT.'/public/website/index.php?website='.urlencode($ws).'&pageref=paymentok&fulltag='.$FULLTAG;
@@ -2140,7 +2140,7 @@ if (!empty($doactionsthenredirect)) {
 	} else {
 		// Redirect to an error page
 		// Paymentko page must be created for the specific website
-		if (!defined('USEDOLIBARRSERVER') && $ws_virtuelhost) {
+		if (!defined('USEDOLIBARRSERVER') && !empty($ws_virtuelhost)) {
 			$ext_urlko = $ws_virtuelhost . '/paymentko.php?fulltag='.$FULLTAG;
 		} else {
 			$ext_urlko = DOL_URL_ROOT.'/public/website/index.php?website='.urlencode($ws).'&pageref=paymentko&fulltag='.$FULLTAG;
