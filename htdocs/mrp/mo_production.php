@@ -494,7 +494,15 @@ if (empty($reshook)) {
 				$moline->array_options["options_".$key] = $value;
 			}
 			$moline->qty = GETPOSTFLOAT('qty_lineProduce');
+			if (GETPOSTISSET('warehouse_lineProduce')) {
+				$moline->fk_warehouse = (GETPOSTINT('warehouse_lineProduce') > 0 ? GETPOSTINT('warehouse_lineProduce') : 0);
+			}
+			if (GETPOSTISSET('workstation_lineProduce')) {
+				$moline->fk_default_workstation = (GETPOSTINT('workstation_lineProduce') > 0 ? GETPOSTINT('workstation_lineProduce') : 0);
+			}
+
 			$res = $moline->update($user);
+
 			if ($res < 0) {
 				setEventMessages($moline->error, $moline->errors, 'errors');
 				header("Location: ".$_SERVER["PHP_SELF"].'?id='.$object->id);
@@ -1085,8 +1093,13 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 						print ' ' . price2num($alreadyconsumed, 'MS');
 						print '</td>';
 
-						// Entrepot
+						// Warehouse / Workstation
 						print '<td>';
+						if ($tmpproduct->type == Product::TYPE_PRODUCT) {
+							print $formproduct->selectWarehouses($line->fk_warehouse, 'warehouse_lineProduce', 'warehouseopen', 1);
+						} elseif (isModEnabled('workstation')) {
+							print $formproduct->selectWorkstations($line->fk_default_workstation, 'workstation_lineProduce', 1);
+						}
 						print '</td>';
 
 						// Stock
@@ -1198,9 +1211,16 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 						print '</td>';
 
 						// Warehouse and/or workstation
-						print '<td>';
-						if (getDolGlobalString('STOCK_CONSUMPTION_FROM_MANUFACTURING_WAREHOUSE') && $tmpwarehouse->id > 0) {
-							print img_picto('', $tmpwarehouse->picto) . " " . $tmpwarehouse->label;
+						print '<td class="tdoverflowmax100">';
+						if ($tmpproduct->isStockManaged()) {
+							// When STOCK_CONSUMPTION_FROM_MANUFACTURING_WAREHOUSE is set, we always use the warehouse of the MO, the same than production.
+							if (getDolGlobalString('STOCK_CONSUMPTION_FROM_MANUFACTURING_WAREHOUSE') && $tmpwarehouse->id > 0) {
+								print img_picto('', $tmpwarehouse->picto) . " " . $tmpwarehouse->label;
+							} else {
+								$warehouseline = new Entrepot($db);
+								$warehouseline->fetch($line->fk_warehouse);
+								print $warehouseline->getNomUrl(1);
+							}
 						}
 						if (isModEnabled('workstation') && $line->fk_default_workstation > 0) {
 							$tmpworkstation = new Workstation($db);
