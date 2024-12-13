@@ -543,7 +543,13 @@ class BlockedLog
 						$lineid++;
 						foreach ($tmpline as $keyline => $valueline) {
 							if (!in_array($keyline, array(
-								'ref', 'multicurrency_code', 'multicurrency_total_ht', 'multicurrency_total_tva', 'multicurrency_total_ttc', 'qty', 'product_type', 'product_label', 'vat_src_code', 'tva_tx', 'info_bits', 'localtax1_tx', 'localtax2_tx', 'total_ht', 'total_tva', 'total_ttc', 'total_localtax1', 'total_localtax2'
+								'ref', 'product_type', 'product_label',
+								'qty',
+								'subprice',
+								'vat_src_code', 'tva_tx', 'localtax1_tx', 'localtax2_tx',
+								'total_ht', 'total_tva', 'total_ttc', 'total_localtax1', 'total_localtax2',
+								'multicurrency_code', 'multicurrency_total_ht', 'multicurrency_total_tva', 'multicurrency_total_ttc',
+								'info_bits', 'special_code',
 							))) {
 								continue; // Discard if not into a dedicated list
 							}
