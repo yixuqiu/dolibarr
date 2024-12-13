@@ -180,6 +180,7 @@ $error = 0;
 
 // Check if we have redirtodomain to do.
 if ($ws) {
+	$ws_virtuelhost = null;
 	$doactionsthenredirect = 1;
 	include_once DOL_DOCUMENT_ROOT.'/website/class/website.class.php';
 	$website = new Website($db);
