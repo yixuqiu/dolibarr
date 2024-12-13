@@ -1959,7 +1959,7 @@ function dol_add_file_process($upload_dir, $allowoverwrite = 0, $updatesessionor
 				if (!empty($info['extension']) && !empty($fileextensionrestriction)) {
 					$fileextensionrestrictionarr = explode(",", $fileextensionrestriction);
 					foreach ($fileextensionrestrictionarr as $key => $fileextension) {
-						if (preg_match('/'.trim($fileextension).'/', $info['extension'])) {
+						if (preg_match('/'.preg_quote($fileextension, '/').'/i', $info['extension'])) {
 							$langs->load("errors"); // key must be loaded because we can't rely on loading during output, we need var substitution to be done now.
 							setEventMessages($langs->trans("ErrorFilenameExtensionNotAllowed", $filenameto), null, 'errors');
 							return -1;
