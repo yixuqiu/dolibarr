@@ -285,11 +285,11 @@ if (empty($doactionsthenredirect)) {
 
 // Another step to validate the payment (for payment modes like Paypal that need another step after the callback return for this).
 if (isModEnabled('paypal') && $paymentmethod === 'paypal') {	// We call this page only if payment is ok on payment system
-	if ($PAYPALTOKEN) {
+	if (!empty($PAYPALTOKEN)) {
 		// Get on url call
 		$onlinetoken        = $PAYPALTOKEN;
 		$fulltag            = $FULLTAG;
-		$payerID            = $PAYPALPAYERID;
+		$payerID 			= !empty($PAYPALPAYERID) ? $PAYPALPAYERID : '';
 		// Set by newpayment.php
 		$currencyCodeType   = $_SESSION['currencyCodeType'];
 		$FinalPaymentAmt    = $_SESSION["FinalPaymentAmt"];
