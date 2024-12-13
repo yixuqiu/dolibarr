@@ -223,7 +223,7 @@ print '<td>'.$langs->trans("UploadExtensionRestriction").'<br>';
 print '<span class="opacitymedium">'.$langs->trans("UploadExtensionRestrictionExemple").'</span>';
 print '</td>';
 print '<td>';
-print '<input type="text" name="MAIN_FILE_EXTENSION_UPLOAD_RESTRICTION" class="minwidth500imp" value="'.getDolGlobalString('MAIN_FILE_EXTENSION_UPLOAD_RESTRICTION').'">';
+print '<input type="text" name="MAIN_FILE_EXTENSION_UPLOAD_RESTRICTION" class="minwidth500imp" value="'.getDolGlobalString('MAIN_FILE_EXTENSION_UPLOAD_RESTRICTION', 'htm,html,shtml,js,php').'">';
 print "</td>";
 print '</tr>';
 
