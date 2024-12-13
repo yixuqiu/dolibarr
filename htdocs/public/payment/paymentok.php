@@ -173,14 +173,9 @@ $object = new stdClass(); // For triggers
 
 $error = 0;
 
-
-/*
- * Actions and view
- */
-
 // Check if we have redirtodomain to do.
+$ws_virtuelhost = null;
 if ($ws) {
-	$ws_virtuelhost = null;
 	$doactionsthenredirect = 1;
 	include_once DOL_DOCUMENT_ROOT.'/website/class/website.class.php';
 	$website = new Website($db);
@@ -190,6 +185,10 @@ if ($ws) {
 	}
 }
 
+
+/*
+ * Actions and view
+ */
 
 $now = dol_now();
 
