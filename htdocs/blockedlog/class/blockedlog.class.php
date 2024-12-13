@@ -853,12 +853,12 @@ class BlockedLog
 	 */
 	public function dolEncodeBlockedData($data, $mode = 0)
 	{
+		$aaa = '';
 		try {
 			$aaa = json_encode($data);
 		} catch (Exception $e) {
-			//print $e->getErrs);
+			// print $e->getErrs);
 		}
-		//var_dump($aaa);
 
 		return $aaa;
 	}
@@ -873,12 +873,12 @@ class BlockedLog
 	 */
 	public function dolDecodeBlockedData($data, $mode = 0)
 	{
+		$aaa = null;
 		try {
 			$aaa = (object) jsonOrUnserialize($data);
 		} catch (Exception $e) {
-			//print $e->getErrs);
+			// print $e->getErrs);
 		}
-		//var_dump($aaa);
 
 		return $aaa;
 	}

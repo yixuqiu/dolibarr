@@ -2653,12 +2653,6 @@ parameters:
 			path: ../../htdocs/blockedlog/class/blockedlog.class.php
 
 		-
-			message: '#^Variable \$aaa might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/blockedlog/class/blockedlog.class.php
-
-		-
 			message: '#^Property BOM\:\:\$status \(int\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
