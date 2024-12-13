@@ -351,8 +351,8 @@ if (!getDolGlobalString('MAIN_OPTIMIZEFORTEXTBROWSER')) {
 		$tooltiponprice .= '<br>';
 		$tooltiponpricemultiprice .= '<br>';
 		if (!empty($line->special_code)) {
-			$tooltiponprice .= '<br>'.$langs->trans("SpecialLine").' : '.getLabelSpecialcode($line->special_code);
-			$tooltiponpricemultiprice .= '<br>'.$langs->trans("SpecialLine").' : '.getLabelSpecialcode($line->special_code);
+			$tooltiponprice .= '<br>'.$langs->trans("SpecialLine").' : '.getLabelSpecialCode($line->special_code);
+			$tooltiponpricemultiprice .= '<br>'.$langs->trans("SpecialLine").' : '.getLabelSpecialCode($line->special_code);
 		}
 		if ($line->product_type == 9) {
 			$tooltiponprice .= '<br>'.$langs->trans("SpecialLine").' : '.$langs->trans("GroupingLine");
