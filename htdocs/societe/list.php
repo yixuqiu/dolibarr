@@ -612,7 +612,7 @@ if (!$user->hasRight('fournisseur', 'lire')) {
 	$sql .= " AND (s.fournisseur <> 1 OR s.client <> 0)"; // client=0, fournisseur=0 must be visible
 }
 
-//Force the sales representative if they don't have permissions
+// Force the sales representative if they don't have permissions
 if (!$user->hasRight('societe', 'client', 'voir') && !$socid) {
 	$search_sale = $user->id;
 }
