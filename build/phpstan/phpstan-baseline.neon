@@ -25375,36 +25375,6 @@ parameters:
 			path: ../../htdocs/product/class/product.class.php
 
 		-
-			message: '#^Property Product\:\:\$stats_bom has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../htdocs/product/class/product.class.php
-
-		-
-			message: '#^Property Product\:\:\$stats_facture_fournisseur has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../htdocs/product/class/product.class.php
-
-		-
-			message: '#^Property Product\:\:\$stats_facturerec has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../htdocs/product/class/product.class.php
-
-		-
-			message: '#^Property Product\:\:\$stats_mrptoconsume has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../htdocs/product/class/product.class.php
-
-		-
-			message: '#^Property Product\:\:\$stats_mrptoproduce has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../htdocs/product/class/product.class.php
-
-		-
 			message: '#^Property Product\:\:\$status \(int\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
@@ -25432,12 +25402,6 @@ parameters:
 			message: '#^Ternary operator condition is always false\.$#'
 			identifier: ternary.alwaysFalse
 			count: 2
-			path: ../../htdocs/product/class/product.class.php
-
-		-
-			message: '#^Ternary operator condition is always true\.$#'
-			identifier: ternary.alwaysTrue
-			count: 1
 			path: ../../htdocs/product/class/product.class.php
 
 		-
