@@ -1217,9 +1217,11 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 							if (getDolGlobalString('STOCK_CONSUMPTION_FROM_MANUFACTURING_WAREHOUSE') && $tmpwarehouse->id > 0) {
 								print img_picto('', $tmpwarehouse->picto) . " " . $tmpwarehouse->label;
 							} else {
-								$warehouseline = new Entrepot($db);
-								$warehouseline->fetch($line->fk_warehouse);
-								print $warehouseline->getNomUrl(1);
+								if ($line->fk_warehouse > 0) {
+									$warehouseline = new Entrepot($db);
+									$warehouseline->fetch($line->fk_warehouse);
+									print $warehouseline->getNomUrl(1);
+								}
 							}
 						}
 						if (isModEnabled('workstation') && $line->fk_default_workstation > 0) {
