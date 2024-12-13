@@ -873,6 +873,7 @@ class BlockedLog
 	 */
 	public function dolDecodeBlockedData($data, $mode = 0)
 	{
+		$aaa = null;
 		try {
 			$aaa = (object) jsonOrUnserialize($data);
 		} catch (Exception $e) {
