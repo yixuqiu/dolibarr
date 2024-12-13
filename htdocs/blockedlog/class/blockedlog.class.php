@@ -902,11 +902,9 @@ class BlockedLog
 	 */
 	public function create($user, $forcesignature = '')
 	{
-		global $conf, $langs, $hookmanager;
+		global $conf, $langs;
 
 		$langs->load('blockedlog');
-
-		$error = 0;
 
 		// Clean data
 		$this->amounts = (float) $this->amounts;
@@ -942,9 +940,9 @@ class BlockedLog
 
 		$this->db->begin();
 
-		$previoushash = $this->getPreviousHash(1, 0); // This get last record and lock database until insert is done
+		$previoushash = $this->getPreviousHash(1, 0); // This get last record and lock database until insert is done and transaction closed
 
-		$keyforsignature = $this->buildKeyForSignature();
+		$keyforsignature = $this->buildKeyForSignature();	// All the information for the has (meta data + data saved)
 
 		include_once DOL_DOCUMENT_ROOT.'/core/lib/security.lib.php';
 
