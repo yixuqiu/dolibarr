@@ -1141,17 +1141,17 @@ class BlockedLog
 	/**
 	 *	Return array of log objects (with criteria)
 	 *
-	 *	@param	string 		$element      	element to search
-	 *	@param	int		 	$fk_object		id of object to search
-	 *	@param	int<0,max> 	$limit      	max number of element, 0 for all
-	 *	@param	string 		$sortfield     	sort field
-	 *	@param	string 		$sortorder     	sort order
-	 *	@param	int 		$search_fk_user id of user(s)
-	 *	@param	int 		$search_start   start time limit
-	 *	@param	int 		$search_end     end time limit
-	 *  @param	string		$search_ref		search ref
-	 *  @param	string		$search_amount	search amount
-	 *  @param	string		$search_code	search code
+	 *	@param	string 			$element      	element to search
+	 *	@param	int		 		$fk_object		id of object to search
+	 *	@param	int<0,max> 		$limit      	max number of element, 0 for all
+	 *	@param	string 			$sortfield     	sort field
+	 *	@param	string 			$sortorder     	sort order
+	 *	@param	int 			$search_fk_user id of user(s)
+	 *	@param	int 			$search_start   start time limit
+	 *	@param	int 			$search_end     end time limit
+	 *  @param	string			$search_ref		search ref
+	 *  @param	string			$search_amount	search amount
+	 *  @param	string|array	$search_code	search code
 	 *	@return	BlockedLog[]|int<-2,-1>		Array of object log or <0 if error
 	 */
 	public function getLog($element, $fk_object, $limit = 0, $sortfield = '', $sortorder = '', $search_fk_user = -1, $search_start = -1, $search_end = -1, $search_ref = '', $search_amount = '', $search_code = '')
@@ -1194,8 +1194,14 @@ class BlockedLog
 		if ($search_amount != '') {
 			$sql .= natural_search("amounts", $search_amount, 1);
 		}
-		if ($search_code != '' && $search_code != '-1') {
-			$sql .= natural_search("action", $search_code, 3);
+		if (is_array($search_code)) {
+			if (!empty($search_code)) {
+				$sql .= natural_search("action", implode(',', $search_code), 3);
+			}
+		} else {
+			if ($search_code != '' && $search_code != '-1') {
+				$sql .= natural_search("action", $search_code, 3);
+			}
 		}
 
 		$sql .= $this->db->order($sortfield, $sortorder);

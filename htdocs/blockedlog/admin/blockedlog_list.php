@@ -80,7 +80,7 @@ $search_end = -1;
 if (GETPOST('search_endyear') != '') {
 	$search_end = dol_mktime(23, 59, 59, $search_endmonth, $search_endday, $search_endyear);
 }
-$search_code = GETPOST('search_code', 'alpha');
+$search_code = GETPOST('search_code', 'array:alpha');
 $search_ref = GETPOST('search_ref', 'alpha');
 $search_amount = GETPOST('search_amount', 'alpha');
 
@@ -138,7 +138,7 @@ if (GETPOST('button_removefilter_x', 'alpha') || GETPOST('button_removefilter.x'
 	$search_fk_user = '';
 	$search_start = -1;
 	$search_end = -1;
-	$search_code = '';
+	$search_code = array();
 	$search_ref = '';
 	$search_amount = '';
 	$search_showonlyerrors = 0;
@@ -496,7 +496,8 @@ print '</td>';
 
 // Actions code
 print '<td class="liste_titre">';
-print $form->selectarray('search_code', $block_static->trackedevents, $search_code, 1, 0, 0, '', 1, 0, 0, 'ASC', 'maxwidth150', 1);
+//print $form->selectarray('search_code', $block_static->trackedevents, $search_code, 1, 0, 0, '', 1, 0, 0, 'ASC', 'maxwidth150', 1);
+print $form->multiselectarray('search_code', $block_static->trackedevents, $search_code, 0, 0, 'maxwidth150', 1);
 print '</td>';
 
 // Ref
