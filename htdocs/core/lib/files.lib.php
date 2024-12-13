@@ -1955,7 +1955,7 @@ function dol_add_file_process($upload_dir, $allowoverwrite = 0, $updatesessionor
 				$info = pathinfo($destfile);
 				$destfile = dol_sanitizeFileName($info['filename'].($info['extension'] != '' ? ('.'.strtolower($info['extension'])) : ''));
 
-				$fileextensionrestriction = getDolGlobalString("MAIN_FILE_EXTENSION_UPLOAD_RESTRICTION");
+				$fileextensionrestriction = getDolGlobalString("MAIN_FILE_EXTENSION_UPLOAD_RESTRICTION", 'htm,html,shtml,js,php');
 				if (!empty($info['extension']) && !empty($fileextensionrestriction)) {
 					$fileextensionrestrictionarr = explode(",", $fileextensionrestriction);
 					foreach ($fileextensionrestrictionarr as $key => $fileextension) {
