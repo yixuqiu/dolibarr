@@ -853,12 +853,12 @@ class BlockedLog
 	 */
 	public function dolEncodeBlockedData($data, $mode = 0)
 	{
+		$aaa = '';
 		try {
 			$aaa = json_encode($data);
 		} catch (Exception $e) {
-			//print $e->getErrs);
+			// print $e->getErrs);
 		}
-		//var_dump($aaa);
 
 		return $aaa;
 	}
@@ -873,12 +873,12 @@ class BlockedLog
 	 */
 	public function dolDecodeBlockedData($data, $mode = 0)
 	{
+		$aaa = null;
 		try {
 			$aaa = (object) jsonOrUnserialize($data);
 		} catch (Exception $e) {
-			//print $e->getErrs);
+			// print $e->getErrs);
 		}
-		//var_dump($aaa);
 
 		return $aaa;
 	}
@@ -1157,7 +1157,7 @@ class BlockedLog
 	 *	@param	int 					$search_end     end time limit
 	 *  @param	string					$search_ref		search ref
 	 *  @param	string					$search_amount	search amount
-	 *  @param	string|array<string>	$search_code	search code
+	 *  @param	string|string[]	        $search_code	search code
 	 *	@return	BlockedLog[]|int<-2,-1>					Array of object log or <0 if error
 	 */
 	public function getLog($element, $fk_object, $limit = 0, $sortfield = '', $sortorder = '', $search_fk_user = -1, $search_start = -1, $search_end = -1, $search_ref = '', $search_amount = '', $search_code = '')
