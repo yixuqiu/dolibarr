@@ -8197,12 +8197,6 @@ parameters:
 			path: ../../htdocs/core/actions_massactions.inc.php
 
 		-
-			message: '#^Variable \$action might not be defined\.$#'
-			identifier: variable.undefined
-			count: 14
-			path: ../../htdocs/core/actions_massactions.inc.php
-
-		-
 			message: '#^Variable \$from might not be defined\.$#'
 			identifier: variable.undefined
 			count: 5
@@ -8218,12 +8212,6 @@ parameters:
 			message: '#^Variable \$listofobjectthirdparties in empty\(\) always exists and is not falsy\.$#'
 			identifier: empty.variable
 			count: 1
-			path: ../../htdocs/core/actions_massactions.inc.php
-
-		-
-			message: '#^Variable \$month might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
 			path: ../../htdocs/core/actions_massactions.inc.php
 
 		-
@@ -8254,12 +8242,6 @@ parameters:
 			message: '#^Variable \$triggername in empty\(\) always exists and is not falsy\.$#'
 			identifier: empty.variable
 			count: 1
-			path: ../../htdocs/core/actions_massactions.inc.php
-
-		-
-			message: '#^Variable \$year might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
 			path: ../../htdocs/core/actions_massactions.inc.php
 
 		-
@@ -17392,18 +17374,6 @@ parameters:
 			message: '#^Property Cronjob\:\:\$unitfrequency \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 4
-			path: ../../htdocs/cron/class/cronjob.class.php
-
-		-
-			message: '#^Variable \$ExecTimeLimit in empty\(\) always exists and is not falsy\.$#'
-			identifier: empty.variable
-			count: 1
-			path: ../../htdocs/cron/class/cronjob.class.php
-
-		-
-			message: '#^Variable \$MemoryLimit in empty\(\) always exists and is always falsy\.$#'
-			identifier: empty.variable
-			count: 1
 			path: ../../htdocs/cron/class/cronjob.class.php
 
 		-
@@ -27814,12 +27784,6 @@ parameters:
 			message: '#^Variable \$massactionbutton might not be defined\.$#'
 			identifier: variable.undefined
 			count: 2
-			path: ../../htdocs/projet/tasks.php
-
-		-
-			message: '#^Variable \$param might not be defined\.$#'
-			identifier: variable.undefined
-			count: 17
 			path: ../../htdocs/projet/tasks.php
 
 		-
