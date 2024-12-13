@@ -1387,7 +1387,7 @@ class FormFile
 			// Show title of list of existing files
 			$morehtmlright = '';
 			if (!empty($moreoptions['showhideaddbutton']) && $conf->use_javascript_ajax) {
-				$tmpurlforbutton = 'javascript:console.log("open add file form");jQuery(".divattachnewfile").toggle(); if (!jQuery(".divattachnewfile").is(":hidden")) { jQuery("input[type=\'file\']").click(); void(0);}';
+				$tmpurlforbutton = 'javascript:console.log("open add file form");jQuery(".divattachnewfile").toggle(); if (!jQuery(".divattachnewfile").is(":hidden")) { jQuery("input[type=\'file\']").click();}void(0);';
 				$morehtmlright .= dolGetButtonTitle($langs->trans('New'), '', 'fa fa-plus-circle', $tmpurlforbutton, '', $permtoeditline);
 			}
 
