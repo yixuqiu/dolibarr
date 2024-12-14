@@ -32941,12 +32941,6 @@ parameters:
 			path: ../../htdocs/variants/list.php
 
 		-
-			message: '#^Variable \$rowid might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/variants/list.php
-
-		-
 			message: '#^Call to function is_numeric\(\) with int will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
