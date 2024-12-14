@@ -10539,7 +10539,7 @@ class Form
 	// phpcs:disable PEAR.NamingConventions.ValidFunctionName.ScopeNotCamelCaps
 
 	/**
-	 * Return select list of groups
+	 * Return select list of user groups
 	 *
 	 * @param int|object|object[] 	$selected 		Id group or group(s) preselected
 	 * @param string 				$htmlname 		Field name in form
