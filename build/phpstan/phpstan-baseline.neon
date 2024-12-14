@@ -2563,40 +2563,10 @@ parameters:
 			path: ../../htdocs/asset/tpl/depreciation_options_view.tpl.php
 
 		-
-			message: '#^Variable \$langs might not be defined\.$#'
-			identifier: variable.undefined
-			count: 7
-			path: ../../htdocs/asset/tpl/depreciation_options_view.tpl.php
-
-		-
 			message: '#^Variable \$parameters might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/asset/tpl/depreciation_options_view.tpl.php
-
-		-
-			message: '#^Unable to resolve the template type T in call to function dol_sort_array$#'
-			identifier: argument.templateType
-			count: 1
-			path: ../../htdocs/asset/tpl/depreciation_view.tpl.php
-
-		-
-			message: '#^Variable \$assetdepreciationoptions might not be defined\.$#'
-			identifier: variable.undefined
-			count: 7
-			path: ../../htdocs/asset/tpl/depreciation_view.tpl.php
-
-		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/asset/tpl/depreciation_view.tpl.php
-
-		-
-			message: '#^Variable \$langs might not be defined\.$#'
-			identifier: variable.undefined
-			count: 7
-			path: ../../htdocs/asset/tpl/depreciation_view.tpl.php
 
 		-
 			message: '#^Variable \$parameters might not be defined\.$#'
@@ -2857,18 +2827,6 @@ parameters:
 			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
 
 		-
-			message: '#^Variable \$hookmanager might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
-
-		-
-			message: '#^Variable \$langs might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
@@ -2878,12 +2836,6 @@ parameters:
 			message: '#^Property CommonDict\:\:\$label \(string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
-			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
-
-		-
-			message: '#^Variable \$action might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
 			path: ../../htdocs/bom/tpl/objectline_view.tpl.php
 
 		-
