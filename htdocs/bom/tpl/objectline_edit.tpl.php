@@ -35,11 +35,13 @@
 
 require_once DOL_DOCUMENT_ROOT."/product/class/html.formproduct.class.php";
 /**
+ * @var BOMLine $line
  * @var CommonObject $this
  * @var CommonObject $object
- * @var BOMLine $line
+ * @var HookManager $hookmanager
  * @var Societe $buyer
  * @var Societe $seller
+ * @var Translate $langs
  *
  * @var string $action
  * @var int $i
