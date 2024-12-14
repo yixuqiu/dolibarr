@@ -2851,24 +2851,6 @@ parameters:
 			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
 
 		-
-			message: '#^Cannot access property \$db on mixed\.$#'
-			identifier: property.nonObject
-			count: 1
-			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
-
-		-
-			message: '#^Variable \$action might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
-
-		-
-			message: '#^Variable \$buyer might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
-
-		-
 			message: '#^Variable \$dateSelector might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
@@ -2881,39 +2863,9 @@ parameters:
 			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
 
 		-
-			message: '#^Variable \$i might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
-
-		-
 			message: '#^Variable \$langs might not be defined\.$#'
 			identifier: variable.undefined
 			count: 2
-			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
-
-		-
-			message: '#^Variable \$line might not be defined\.$#'
-			identifier: variable.undefined
-			count: 20
-			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
-
-		-
-			message: '#^Variable \$seller might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
-
-		-
-			message: '#^Variable \$this might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
-
-		-
-			message: '#^Variable \$var might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
 			path: ../../htdocs/bom/tpl/objectline_edit.tpl.php
 
 		-
