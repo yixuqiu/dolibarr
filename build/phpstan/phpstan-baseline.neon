@@ -1177,18 +1177,6 @@ parameters:
 			path: ../../htdocs/admin/agenda.php
 
 		-
-			message: '#^Variable \$label might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/admin/agenda_other.php
-
-		-
-			message: '#^Variable \$label might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/admin/agenda_reminder.php
-
-		-
 			message: '#^Variable \$errorsaved in empty\(\) always exists and is always falsy\.$#'
 			identifier: empty.variable
 			count: 1
