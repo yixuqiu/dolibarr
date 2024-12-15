@@ -12427,12 +12427,6 @@ parameters:
 			path: ../../htdocs/core/modules/asset/doc/pdf_standard_asset.modules.php
 
 		-
-			message: '#^Variable \$outputlangsbis might not be defined\.$#'
-			identifier: variable.undefined
-			count: 7
-			path: ../../htdocs/core/modules/asset/doc/pdf_standard_asset.modules.php
-
-		-
 			message: '#^Property mod_asset_standard\:\:\$prefix has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -29896,12 +29890,6 @@ parameters:
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1
-			path: ../../htdocs/recruitment/core/modules/recruitment/doc/pdf_standard_recruitmentjobposition.modules.php
-
-		-
-			message: '#^Variable \$outputlangsbis might not be defined\.$#'
-			identifier: variable.undefined
-			count: 7
 			path: ../../htdocs/recruitment/core/modules/recruitment/doc/pdf_standard_recruitmentjobposition.modules.php
 
 		-
