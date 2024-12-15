@@ -29841,7 +29841,7 @@ parameters:
 		-
 			message: '#^Negated boolean expression is always true\.$#'
 			identifier: booleanNot.alwaysTrue
-			count: 2
+			count: 1
 			path: ../../htdocs/recruitment/class/recruitmentjobposition.class.php
 
 		-
@@ -29853,12 +29853,6 @@ parameters:
 		-
 			message: '#^Property RecruitmentJobPosition\:\:\$status \(int\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
-			count: 1
-			path: ../../htdocs/recruitment/class/recruitmentjobposition.class.php
-
-		-
-			message: '#^Variable \$error in empty\(\) always exists and is always falsy\.$#'
-			identifier: empty.variable
 			count: 1
 			path: ../../htdocs/recruitment/class/recruitmentjobposition.class.php
 

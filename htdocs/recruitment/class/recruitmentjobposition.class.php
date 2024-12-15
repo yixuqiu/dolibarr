@@ -765,14 +765,12 @@ class RecruitmentJobPosition extends CommonObject
 				$this->generateDocument($modelpdf, $outputlangs, $hidedetails, $hidedesc, $hideref);
 			}
 
-			if (!$error) {
-				$this->oldcopy = clone $this;
-				$this->status = $status;
-				$this->date_cloture = $now;
-				$this->note_private = $newprivatenote;
-			}
+			$this->oldcopy = clone $this;
+			$this->status = $status;
+			$this->date_cloture = $now;
+			$this->note_private = $newprivatenote;
 
-			if (!$notrigger && empty($error)) {
+			if (!$notrigger /* && empty($error) */) {
 				// Call trigger
 				$result = $this->call_trigger($triggerName, $user);
 				if ($result < 0) {
