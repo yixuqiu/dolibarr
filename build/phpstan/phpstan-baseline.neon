@@ -29839,12 +29839,6 @@ parameters:
 			path: ../../htdocs/recruitment/class/recruitmentjobposition.class.php
 
 		-
-			message: '#^Negated boolean expression is always true\.$#'
-			identifier: booleanNot.alwaysTrue
-			count: 1
-			path: ../../htdocs/recruitment/class/recruitmentjobposition.class.php
-
-		-
 			message: '#^Property CommonObject\:\:\$ismultientitymanaged \(int\<0, 1\>\|string\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 1
