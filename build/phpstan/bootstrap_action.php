@@ -32,6 +32,7 @@ define('DOL_DATA_ROOT', __DIR__ . '/../../documents');
 define('DOL_URL_ROOT', '/');
 define('DOL_MAIN_URL_ROOT', '/');
 define('MAIN_DB_PREFIX', 'llx_');
+define('ODTPHP_PATHTOPCLZIP', DOL_DOCUMENT_ROOT.'/includes/odtphp/zip/pclzip/');
 
 /**
  * @var Conf $conf
