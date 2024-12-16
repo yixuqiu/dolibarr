@@ -13819,12 +13819,6 @@ parameters:
 			path: ../../htdocs/core/modules/member/doc/pdf_standard_member.class.php
 
 		-
-			message: '#^Parameter \#1 \$substitutionarray of function complete_substitutions_array expects array\<string, string\>, array\<string, int\|string\> given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../htdocs/core/modules/member/doc/pdf_standard_member.class.php
-
-		-
 			message: '#^Parameter \#6 \$epaisseur of method CommonStickerGenerator\:\:_Croix\(\) expects int, float given\.$#'
 			identifier: argument.type
 			count: 1
