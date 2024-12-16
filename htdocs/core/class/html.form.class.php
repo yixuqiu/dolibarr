@@ -743,11 +743,11 @@ class Form
 	 * @param 	string 		$extracss 			Add a CSS style to td, div or span tag
 	 * @param 	int 		$noencodehtmltext 	Do not encode into html entity the htmltext
 	 * @param 	int 		$notabs 			0=Include table and tr tags, 1=Do not include table and tr tags, 2=use div, 3=use span
-	 * @param 	string 		$triggerfortooltip 	''=Tooltip on hover and hidden on smartphone, 'abconsmartphone'=Tooltip on hover and on click on smartphone, 'abc'=Tooltip on click (abc is a unique key, clickable link is on image or on link if param $type='none' or on both if $type='xxxclickable')
+	 * @param 	string 		$tooltiptrigger 	''=Tooltip on hover and hidden on smartphone, 'abconsmartphone'=Tooltip on hover and on click on smartphone, 'abc'=Tooltip on click (abc is a unique key, clickable link is on image or on link if param $type='none' or on both if $type='xxxclickable')
 	 * @param 	int 		$forcenowrap 		Force no wrap between text and picto (works with notabs=2 only)
 	 * @return	string                        	HTML code of text, picto, tooltip
 	 */
-	public function textwithpicto($text, $htmltext, $direction = 1, $type = 'help', $extracss = 'valignmiddle', $noencodehtmltext = 0, $notabs = 3, $triggerfortooltip = '', $forcenowrap = 0)
+	public function textwithpicto($text, $htmltext, $direction = 1, $type = 'help', $extracss = 'valignmiddle', $noencodehtmltext = 0, $notabs = 3, $tooltiptrigger = '', $forcenowrap = 0)
 	{
 		global $conf, $langs;
 
@@ -758,13 +758,13 @@ class Form
 			$type = 'help';
 		}
 		// Clean parameters
-		$triggerfortooltip = preg_replace('/[^a-z0-9]/i', '', $triggerfortooltip);
+		$tooltiptrigger = preg_replace('/[^a-z0-9]/i', '', $tooltiptrigger);
 
-		if (preg_match('/onsmartphone$/', $triggerfortooltip) && empty($conf->dol_no_mouse_hover)) {
-			$triggerfortooltip = preg_replace('/^.*onsmartphone$/', '', $triggerfortooltip);
+		if (preg_match('/onsmartphone$/', $tooltiptrigger) && empty($conf->dol_no_mouse_hover)) {
+			$tooltiptrigger = preg_replace('/^.*onsmartphone$/', '', $tooltiptrigger);
 		}
 		$alt = '';
-		if ($triggerfortooltip) {
+		if ($tooltiptrigger) {
 			$alt = $langs->transnoentitiesnoconv("ClickToShowHelp");
 		}
 
@@ -779,13 +779,13 @@ class Form
 		}
 
 		// If info or help with smartphone, show only text (tooltip hover can't works)
-		if (!empty($conf->dol_no_mouse_hover) && empty($triggerfortooltip)) {
+		if (!empty($conf->dol_no_mouse_hover) && empty($tooltiptrigger)) {
 			if ($type == 'info' || $type == 'infoclickable' || $type == 'help' || $type == 'helpclickable') {
 				return $text;
 			}
 		}
 		// If info or help with smartphone, show only text (tooltip on click does not works with dialog on smaprtphone)
-		//if (!empty($conf->dol_no_mouse_hover) && !empty($triggerfortooltip))
+		//if (!empty($conf->dol_no_mouse_hover) && !empty($tooltiptrigger))
 		//{
 		//if ($type == 'info' || $type == 'help') return '<a href="'..'">'.$text.'</a>';
 		//}
@@ -794,9 +794,9 @@ class Form
 		if ($type == 'info') {
 			$img = img_help(0, $alt);
 		} elseif ($type == 'help') {
-			$img = img_help(($triggerfortooltip != '' ? 2 : 1), $alt);
+			$img = img_help(($tooltiptrigger != '' ? 2 : 1), $alt);
 		} elseif ($type == 'helpclickable') {
-			$img = img_help(($triggerfortooltip != '' ? 2 : 1), $alt);
+			$img = img_help(($tooltiptrigger != '' ? 2 : 1), $alt);
 		} elseif ($type == 'superadmin') {
 			// @phan-suppress-next-line PhanPluginSuspiciousParamPosition
 			$img = img_picto($alt, 'redstar');
@@ -810,7 +810,7 @@ class Form
 			$img = img_picto($alt, $type); // $type can be an image path
 		}
 
-		return $this->textwithtooltip($text, $htmltext, ((($triggerfortooltip && !$img) || strpos($type, 'clickable')) ? 3 : 2), $direction, $img, $extracss, $notabs, '', $noencodehtmltext, $triggerfortooltip, $forcenowrap);
+		return $this->textwithtooltip($text, $htmltext, ((($tooltiptrigger && !$img) || strpos($type, 'clickable')) ? 3 : 2), $direction, $img, $extracss, $notabs, '', $noencodehtmltext, $tooltiptrigger, $forcenowrap);
 	}
 
 	/**
