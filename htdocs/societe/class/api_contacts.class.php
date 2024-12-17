@@ -229,7 +229,7 @@ class Contacts extends DolibarrApi
 					}
 				}
 				if ($listofcategoryid) {
-					$searchCategoryContactSqlList[] = " EXISTS (SELECT ck.fk_socpeople FROM ".MAIN_DB_PREFIX."categorie_contact as ck WHERE t.rowid = ck.fk_socpeople AND ck.fk_categorie IN (".$db->sanitize($listofcategoryid)."))";
+					$searchCategoryContactSqlList[] = " EXISTS (SELECT ck.fk_socpeople FROM ".MAIN_DB_PREFIX."categorie_contact as ck WHERE t.rowid = ck.fk_socpeople AND ck.fk_categorie IN (".$this->db->sanitize($listofcategoryid)."))";
 				}
 				if ($searchCategoryContactOperator == 1) {
 					if (!empty($searchCategoryContactSqlList)) {
