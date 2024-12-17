@@ -1661,7 +1661,7 @@ function dol_syslog($message, $level = LOG_INFO, $ident = 0, $suffixinfilename =
 
 		if (!array_key_exists($level, $logLevels)) {
 			dol_syslog($langs->trans('ErrorBadLogLevel', $level), LOG_ERR);
-			$level = getDolGlobalInt('DEFAULT_SYSLOG_LEVEL', $logLevels[LOG_ERR]);
+			$level = $logLevels[LOG_ERR];
 		}
 		if ($level > $conf->global->SYSLOG_LEVEL) {
 			return;
