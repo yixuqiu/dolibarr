@@ -30427,12 +30427,6 @@ parameters:
 			path: ../../htdocs/societe/ajax/company.php
 
 		-
-			message: '#^Variable \$canvas might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/societe/canvas/company/tpl/card_view.tpl.php
-
-		-
 			message: '#^Variable \$db might not be defined\.$#'
 			identifier: variable.undefined
 			count: 3
