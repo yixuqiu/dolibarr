@@ -99,12 +99,12 @@ class BookKeeping extends CommonObject
 	public $thirdparty_code;
 
 	/**
-	 * @var string subledger account
+	 * @var string|null subledger account
 	 */
 	public $subledger_account;
 
 	/**
-	 * @var string subledger label
+	 * @var string|null subledger label
 	 */
 	public $subledger_label;
 
