@@ -193,8 +193,8 @@ if ($massaction == 'withdrawrequest') {
 			$objecttmp = new Salary($db);
 			$result = $objecttmp->fetch($toselectid);
 			if ($result > 0) {
-				$totalpaid = $objecttmp->getSommePaiement();
-				$objecttmp->resteapayer = price2num((float) $objecttmp->amount - $totalpaid, 'MT');
+				$totalpaid = (float) $objecttmp->getSommePaiement();
+				$objecttmp->resteapayer = (float) price2num((float) $objecttmp->amount - $totalpaid, 'MT');
 
 				// hook to finalize the remaining amount, considering e.g. cash discount agreements
 				$parameters = array('remaintopay' => $objecttmp->resteapayer);
