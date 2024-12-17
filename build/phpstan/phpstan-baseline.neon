@@ -30343,12 +30343,6 @@ parameters:
 			path: ../../htdocs/salaries/paiement_salary.php
 
 		-
-			message: '#^Variable \$sumpaid might not be defined\.$#'
-			identifier: variable.undefined
-			count: 3
-			path: ../../htdocs/salaries/paiement_salary.php
-
-		-
 			message: '#^Negated boolean expression is always false\.$#'
 			identifier: booleanNot.alwaysFalse
 			count: 2
