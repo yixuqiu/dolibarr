@@ -2877,7 +2877,7 @@ class BookKeeping extends CommonObject
 								$result = $this->db->query($sql);
 								if (!$result) {
 									$this->errors[] = 'Error: ' . $this->db->lasterror();
-									dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
+									dol_syslog(__METHOD__ . ' ' . implode(',', $this->errors), LOG_ERR);
 									$error++;
 								}
 								$objtmp = $this->db->fetch_object($result);
