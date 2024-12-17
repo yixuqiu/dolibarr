@@ -16,6 +16,7 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
+ * @var Canvas $this
  * @var Conf $conf
  * @var CommonObject $this
  * @var Translate $langs

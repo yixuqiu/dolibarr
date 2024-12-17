@@ -30429,18 +30429,6 @@ parameters:
 		-
 			message: '#^Variable \$canvas might not be defined\.$#'
 			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/societe/canvas/company/tpl/card_create.tpl.php
-
-		-
-			message: '#^Variable \$canvas might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/societe/canvas/company/tpl/card_edit.tpl.php
-
-		-
-			message: '#^Variable \$canvas might not be defined\.$#'
-			identifier: variable.undefined
 			count: 2
 			path: ../../htdocs/societe/canvas/company/tpl/card_view.tpl.php
 
