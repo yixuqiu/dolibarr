@@ -69,7 +69,7 @@ class BookKeeping extends CommonObject
 	public $doc_date;
 
 	/**
-	 * @var int 	Deadline for payment
+	 * @var int|'' 	Deadline for payment
 	 */
 	public $date_lim_reglement;
 
