@@ -30319,12 +30319,6 @@ parameters:
 			path: ../../htdocs/salaries/list.php
 
 		-
-			message: '#^Variable \$resteapayer might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/salaries/list.php
-
-		-
 			message: '#^Variable \$selected might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1

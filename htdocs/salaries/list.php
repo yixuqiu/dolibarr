@@ -211,7 +211,7 @@ if ($massaction == 'withdrawrequest') {
 				if ($objecttmp->status == Salary::STATUS_PAID || $objecttmp->resteapayer == 0) {
 					$error++;
 					setEventMessages($langs->trans("Salary").' '.$objecttmp->ref.' : '.$langs->trans("AlreadyPaid"), $objecttmp->errors, 'errors');
-				} elseif ($resteapayer < 0) {
+				} elseif ($objecttmp->resteapayer < 0) {
 					$error++;
 					setEventMessages($langs->trans("Salary").' '.$objecttmp->ref.' : '.$langs->trans("AmountMustBePositive"), $objecttmp->errors, 'errors');
 				}
