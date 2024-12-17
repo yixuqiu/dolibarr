@@ -2747,9 +2747,12 @@ function dol_check_secure_access_document($modulepart, $original_file, $entity, 
 	if (empty($modulepart)) {
 		return 'ErrorBadParameter';
 	}
-	// entity can't be empty
 	if (empty($entity)) {
-		$entity = $conf->entity;
+		if (!isModEnabled('multicompany')) {
+			$entity = 1;
+		} else {
+			$entity = 0;
+		}
 	}
 	// Fix modulepart for backward compatibility
 	if ($modulepart == 'facture') {
@@ -2800,6 +2803,9 @@ function dol_check_secure_access_document($modulepart, $original_file, $entity, 
 		if (isModEnabled('multicompany') && (empty($entity) || empty($conf->medias->multidir_output[$entity]))) {
 			return array('accessallowed' => 0, 'error' => 'Value entity must be provided');
 		} */
+		if (empty($entity)) {
+			$entity = 1;
+		}
 		$accessallowed = 1;
 		$original_file = (empty($conf->medias->multidir_output[$entity]) ? $conf->medias->dir_output : $conf->medias->multidir_output[$entity]).'/'.$original_file;
 	} elseif ($modulepart == 'logs' && !empty($dolibarr_main_data_root)) {
