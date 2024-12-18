@@ -52,7 +52,6 @@ $langs->loadLangs(array("accountancy", "compta"));
 
 $action = GETPOST('action', 'aZ09');
 $socid = GETPOSTINT('socid');
-$userid = GETPOSTINT('userid');
 $mode = (GETPOST('mode', 'alpha') ? GETPOST('mode', 'alpha') : 'customer'); // Only for tab view
 $massaction = GETPOST('massaction', 'alpha');
 $confirm = GETPOST('confirm', 'alpha');
@@ -310,9 +309,6 @@ if (empty($reshook)) {
 
     if (!empty($socid)) {
         $param = '&socid='.$socid;
-    }
-    if (!empty($userid)) {
-        $param = '&userid='.$userid;
     }
 
 	if (!empty($search_date_start)) {
@@ -600,7 +596,7 @@ $title_page .= ')';
 $help_url = 'EN:Module_Double_Entry_Accounting|FR:Module_Comptabilit&eacute;_en_Partie_Double';
 llxHeader('', $title_page, $help_url, '', 0, 0, '', '', '', 'mod-accountancy accountancy-consultation page-'.(($type == 'sub') ? 'sub' : '').'ledger');
 
-if (!empty($socid) || !empty($userid)) {
+if (!empty($socid)) {
     $companystatic = new Societe($db);
     $res = $companystatic->fetch($socid);
     if ($res > 0) {
@@ -611,7 +607,9 @@ if (!empty($socid) || !empty($userid)) {
 
         print dol_get_fiche_head($head, 'accounting', $langs->trans("ThirdParty"), -1, 'company');
 
-        dol_banner_tab($companystatic, 'socid', '', ($user->socid ? 0 : 1), 'rowid', 'nom');
+		$linkback = '<a href="'.DOL_URL_ROOT.'/societe/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
+
+		dol_banner_tab($companystatic, 'socid', $linkback, ($user->socid ? 0 : 1), 'rowid', 'nom');
 
         print '<div class="fichecenter">';
 
@@ -652,6 +650,8 @@ if (!empty($socid) || !empty($userid)) {
         print '</div>';
         print dol_get_fiche_end();
 
+		print info_admin($langs->trans("WarningThisPageContainsOnlyEntriesTransferredInAccounting"));
+
         // Choice of mode (customer / supplier / employee)
         if (!empty($conf->dol_use_jmobile)) {
             print "\n".'<div class="fichecenter"><div class="nowrap">'."\n";
@@ -690,20 +690,6 @@ if (!empty($socid) || !empty($userid)) {
             }
             print $langs->trans("SupplierAccountancyCodeShort");
             if ($mode != 'supplier') {
-                print '</a>';
-            } else {
-                print '</span>';
-            }
-        }
-
-        if (!empty($userid) && !empty($userstatic->code_compta_user)) {
-            if ($mode != 'employee') {
-                print '<a class="a-mesure-disabled marginleftonly marginrightonly reposition" href="' . $_SERVER["PHP_SELF"] . '?mode=user' . $param . '">';
-            } else {
-                print '<span class="a-mesure marginleftonly marginrightonly">';
-            }
-            print $langs->trans("UserAccountancyCodeShort");
-            if ($mode != 'employee') {
                 print '</a>';
             } else {
                 print '</span>';
@@ -786,9 +772,6 @@ print '<input type="hidden" name="type" value="'.$type.'">';
 if (!empty($socid)) {
 	print '<input type="hidden" name="socid" value="' . $socid . '">';
 }
-if (!empty($userid)) {
-	print '<input type="hidden" name="userid" value="' . $userid . '">';
-}
 print '<input type="hidden" name="sortfield" value="'.$sortfield.'">';
 print '<input type="hidden" name="sortorder" value="'.$sortorder.'">';
 print '<input type="hidden" name="contextpage" value="'.$contextpage.'">';
@@ -803,7 +786,7 @@ $newcardbutton = empty($hookmanager->resPrint) ? '' : $hookmanager->resPrint;
 
 if (empty($reshook)) {
 	// Remove button navigation if in thirdparty tab mode
-	if (empty($socid) && empty($userid)) {
+	if (empty($socid)) {
 		$newcardbutton = dolGetButtonTitle($langs->trans('ViewFlatList'), '', 'fa fa-list paddingleft imgforviewmode', DOL_URL_ROOT . '/accountancy/bookkeeping/list.php?' . $param);
 		if ($type == 'sub') {
 			$newcardbutton .= dolGetButtonTitle($langs->trans('GroupByAccountAccounting'), '', 'fa fa-stream paddingleft imgforviewmode', DOL_URL_ROOT . '/accountancy/bookkeeping/listbyaccount.php?' . $url_param, '', 1, array('morecss' => 'marginleftonly'));

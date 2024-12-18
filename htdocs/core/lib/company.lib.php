@@ -145,13 +145,16 @@ function societe_prepare_head(Societe $object)
         // link to customer account by default
         if (!empty($object->code_compta_client)) {
             $subledger_start_account = $subledger_end_account = $object->code_compta_client;
-        } else if (!empty($object->code_compta_fournisseur)) {
+			$mode = 'customer';
+        } elseif (!empty($object->code_compta_fournisseur)) {
             $subledger_start_account = $subledger_end_account = $object->code_compta_fournisseur;
+			$mode = 'supplier';
         } else {
             $subledger_start_account = $subledger_end_account = '';
+			$mode = 'customer';
         }
 
-		$head[$h][0] = DOL_URL_ROOT.'/accountancy/bookkeeping/listbyaccount.php?socid='.$object->id.'&type=sub&search_accountancy_code_start='.$subledger_start_account.'&search_accountancy_code_end='.$subledger_end_account;
+		$head[$h][0] = DOL_URL_ROOT.'/accountancy/bookkeeping/listbyaccount.php?socid='.$object->id.'&mode='.$mode.'&type=sub&search_accountancy_code_start='.$subledger_start_account.'&search_accountancy_code_end='.$subledger_end_account;
 		$head[$h][1] = $langs->trans("Accounting");
 		$head[$h][2] = 'accounting';
 		$h++;
