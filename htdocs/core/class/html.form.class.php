@@ -2494,8 +2494,8 @@ class Form
 					if (!$canremoveowner) {
 						$canremoveassignee = 0;
 					}
-					if ($userstatic->id == $user->id && !$user->hasRight('agenda', 'allactions', 'create')) {
-						$canremoveassignee = 0;		// Can't remove myself if i am the owner
+					if (!$user->hasRight('agenda', 'allactions', 'create')) {
+						$canremoveassignee = 0;		// Can't remove the owner
 					}
 				} else {
 					// We are not on the owner of the event but on a secondary assignee
