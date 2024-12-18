@@ -307,10 +307,9 @@ if (empty($reshook)) {
 		$toselect = array();
 	}
 
-    if (!empty($socid)) {
-        $param = '&socid='.$socid;
-    }
-
+	if (!empty($socid)) {
+		$param = '&socid='.$socid;
+	}
 	if (!empty($search_date_start)) {
 		$filter['t.doc_date>='] = $search_date_start;
 		$param .= '&search_date_startmonth='.$search_date_startmonth.'&search_date_startday='.$search_date_startday.'&search_date_startyear='.$search_date_startyear;
@@ -597,112 +596,112 @@ $help_url = 'EN:Module_Double_Entry_Accounting|FR:Module_Comptabilit&eacute;_en_
 llxHeader('', $title_page, $help_url, '', 0, 0, '', '', '', 'mod-accountancy accountancy-consultation page-'.(($type == 'sub') ? 'sub' : '').'ledger');
 
 if (!empty($socid)) {
-    $companystatic = new Societe($db);
-    $res = $companystatic->fetch($socid);
-    if ($res > 0) {
-        $tmpobject = $object;
-        $object = $companystatic; // $object must be of type Societe when calling societe_prepare_head
-        $head = societe_prepare_head($companystatic);
-        $object = $tmpobject;
+	$companystatic = new Societe($db);
+	$res = $companystatic->fetch($socid);
+	if ($res > 0) {
+		$tmpobject = $object;
+		$object = $companystatic; // $object must be of type Societe when calling societe_prepare_head
+		$head = societe_prepare_head($companystatic);
+		$object = $tmpobject;
 
-        print dol_get_fiche_head($head, 'accounting', $langs->trans("ThirdParty"), -1, 'company');
+		print dol_get_fiche_head($head, 'accounting', $langs->trans("ThirdParty"), -1, 'company');
 
 		$linkback = '<a href="'.DOL_URL_ROOT.'/societe/list.php?restore_lastsearch_values=1">'.$langs->trans("BackToList").'</a>';
 
 		dol_banner_tab($companystatic, 'socid', $linkback, ($user->socid ? 0 : 1), 'rowid', 'nom');
 
-        print '<div class="fichecenter">';
+		print '<div class="fichecenter">';
 
-        print '<div class="underbanner clearboth"></div>';
-        print '<table class="border centpercent tableforfield">';
+		print '<div class="underbanner clearboth"></div>';
+		print '<table class="border centpercent tableforfield">';
 
-        // Type Prospect/Customer/Supplier
-        print '<tr><td class="titlefield">'.$langs->trans('NatureOfThirdParty').'</td><td>';
-        print $companystatic->getTypeUrl(1);
-        print '</td></tr>';
+		// Type Prospect/Customer/Supplier
+		print '<tr><td class="titlefield">'.$langs->trans('NatureOfThirdParty').'</td><td>';
+		print $companystatic->getTypeUrl(1);
+		print '</td></tr>';
 
-        // Customer code
-        if ($companystatic->client && !empty($companystatic->code_client)) {
-            print '<tr><td class="titlefield">';
-            print $langs->trans('CustomerCode').'</td><td>';
-            print showValueWithClipboardCPButton(dol_escape_htmltag($companystatic->code_client));
-            $tmpcheck = $companystatic->check_codeclient();
-            if ($tmpcheck != 0 && $tmpcheck != -5) {
-                print ' <span class="error">('.$langs->trans("WrongCustomerCode").')</span>';
-            }
-            print '</td>';
-            print '</tr>';
-        }
-        // Supplier code
-        if ($companystatic->fournisseur && !empty($companystatic->code_fournisseur)) {
-            print '<tr><td class="titlefield">';
-            print $langs->trans('SupplierCode').'</td><td>';
-            print showValueWithClipboardCPButton(dol_escape_htmltag($companystatic->code_fournisseur));
-            $tmpcheck = $companystatic->check_codefournisseur();
-            if ($tmpcheck != 0 && $tmpcheck != -5) {
-                print ' <span class="error">('.$langs->trans("WrongSupplierCode").')</span>';
-            }
-            print '</td>';
-            print '</tr>';
-        }
+		// Customer code
+		if ($companystatic->client && !empty($companystatic->code_client)) {
+			print '<tr><td class="titlefield">';
+			print $langs->trans('CustomerCode').'</td><td>';
+			print showValueWithClipboardCPButton(dol_escape_htmltag($companystatic->code_client));
+			$tmpcheck = $companystatic->check_codeclient();
+			if ($tmpcheck != 0 && $tmpcheck != -5) {
+				print ' <span class="error">('.$langs->trans("WrongCustomerCode").')</span>';
+			}
+			print '</td>';
+			print '</tr>';
+		}
+		// Supplier code
+		if ($companystatic->fournisseur && !empty($companystatic->code_fournisseur)) {
+			print '<tr><td class="titlefield">';
+			print $langs->trans('SupplierCode').'</td><td>';
+			print showValueWithClipboardCPButton(dol_escape_htmltag($companystatic->code_fournisseur));
+			$tmpcheck = $companystatic->check_codefournisseur();
+			if ($tmpcheck != 0 && $tmpcheck != -5) {
+				print ' <span class="error">('.$langs->trans("WrongSupplierCode").')</span>';
+			}
+			print '</td>';
+			print '</tr>';
+		}
 
-        print '</table>';
-        print '</div>';
-        print dol_get_fiche_end();
+		print '</table>';
+		print '</div>';
+		print dol_get_fiche_end();
 
 		print info_admin($langs->trans("WarningThisPageContainsOnlyEntriesTransferredInAccounting"));
 
-        // Choice of mode (customer / supplier / employee)
-        if (!empty($conf->dol_use_jmobile)) {
-            print "\n".'<div class="fichecenter"><div class="nowrap">'."\n";
-        }
+		// Choice of mode (customer / supplier)
+		if (!empty($conf->dol_use_jmobile)) {
+			print "\n".'<div class="fichecenter"><div class="nowrap">'."\n";
+		}
 
-        if (!empty($socid) && $companystatic->client && !empty($companystatic->code_compta_client)) {
-            if ($mode != 'customer') {
-                if (!empty($companystatic->code_compta_client)) {
-                    $subledger_start_account = $subledger_end_account = $companystatic->code_compta_client;
-                } else {
-                    $subledger_start_account = $subledger_end_account = '';
-                }
-                print '<a class="a-mesure-disabled marginleftonly marginrightonly reposition" href="' . $_SERVER["PHP_SELF"] . '?mode=customer&socid='.$socid.'&type=sub&search_accountancy_code_start='.$subledger_start_account.'&search_accountancy_code_end='.$subledger_end_account.'">';
-            } else {
-                print '<span class="a-mesure marginleftonly marginrightonly">';
-            }
+		if (!empty($socid) && $companystatic->client && !empty($companystatic->code_compta_client)) {
+			if ($mode != 'customer') {
+				if (!empty($companystatic->code_compta_client)) {
+					$subledger_start_account = $subledger_end_account = $companystatic->code_compta_client;
+				} else {
+					$subledger_start_account = $subledger_end_account = '';
+				}
+				print '<a class="a-mesure-disabled marginleftonly marginrightonly reposition" href="' . $_SERVER["PHP_SELF"] . '?mode=customer&socid='.$socid.'&type=sub&search_accountancy_code_start='.$subledger_start_account.'&search_accountancy_code_end='.$subledger_end_account.'">';
+			} else {
+				print '<span class="a-mesure marginleftonly marginrightonly">';
+			}
 
-            print $langs->trans("CustomerAccountancyCodeShort");
-            if ($mode != 'customer') {
-                print '</a>';
-            } else {
-                print '</span>';
-            }
-        }
+			print $langs->trans("CustomerAccountancyCodeShort");
+			if ($mode != 'customer') {
+				print '</a>';
+			} else {
+				print '</span>';
+			}
+		}
 
-        if (!empty($socid) && $companystatic->fournisseur && !empty($companystatic->code_compta_fournisseur)) {
-            if ($mode != 'supplier') {
-                if (!empty($companystatic->code_compta_fournisseur)) {
-                    $subledger_start_account = $subledger_end_account = $companystatic->code_compta_fournisseur;
-                } else {
-                    $subledger_start_account = $subledger_end_account = '';
-                }
-                print '<a class="a-mesure-disabled marginleftonly marginrightonly reposition" href="' . $_SERVER["PHP_SELF"] . '?mode=supplier&socid='.$socid.'&type=sub&search_accountancy_code_start='.$subledger_start_account.'&search_accountancy_code_end='.$subledger_end_account.'">';
-            } else {
-                print '<span class="a-mesure marginleftonly marginrightonly">';
-            }
-            print $langs->trans("SupplierAccountancyCodeShort");
-            if ($mode != 'supplier') {
-                print '</a>';
-            } else {
-                print '</span>';
-            }
-        }
+		if (!empty($socid) && $companystatic->fournisseur && !empty($companystatic->code_compta_fournisseur)) {
+			if ($mode != 'supplier') {
+				if (!empty($companystatic->code_compta_fournisseur)) {
+					$subledger_start_account = $subledger_end_account = $companystatic->code_compta_fournisseur;
+				} else {
+					$subledger_start_account = $subledger_end_account = '';
+				}
+				print '<a class="a-mesure-disabled marginleftonly marginrightonly reposition" href="' . $_SERVER["PHP_SELF"] . '?mode=supplier&socid='.$socid.'&type=sub&search_accountancy_code_start='.$subledger_start_account.'&search_accountancy_code_end='.$subledger_end_account.'">';
+			} else {
+				print '<span class="a-mesure marginleftonly marginrightonly">';
+			}
+			print $langs->trans("SupplierAccountancyCodeShort");
+			if ($mode != 'supplier') {
+				print '</a>';
+			} else {
+				print '</span>';
+			}
+		}
 
-        if (!empty($conf->dol_use_jmobile)) {
-            print '</div></div>';
-        } else {
-            print '<br>';
-        }
-        print '<br>';
-    }
+		if (!empty($conf->dol_use_jmobile)) {
+			print '</div></div>';
+		} else {
+			print '<br>';
+		}
+		print '<br>';
+	}
 }
 
 // List
