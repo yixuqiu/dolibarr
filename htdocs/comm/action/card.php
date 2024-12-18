@@ -2164,7 +2164,8 @@ if ($id > 0) {
 
 		print '<tr><td class="tdtop nowrap fieldrequired">'.$langs->trans("ActionAssignedTo").'</td><td colspan="3">';
 		print '<div class="assignedtouser">';
-		print $form->select_dolusers_forevent(($action == 'create' ? 'add' : 'update'), 'assignedtouser', 1, array(), 0, '', array(), 0, 0, 0, 'u.statut:<>:0', 1, $listofuserid, $listofcontactid, $listofotherid);
+		$canremoveowner = ($object->type != 'systemauto');
+		print $form->select_dolusers_forevent(($action == 'create' ? 'add' : 'update'), 'assignedtouser', 1, array(), 0, '', array(), 0, 0, 0, 'u.statut:<>:0', 1, $listofuserid, $listofcontactid, $listofotherid, $canremoveowner);
 		print '</div>';
 		/*if (in_array($user->id,array_keys($listofuserid)))
 		{
