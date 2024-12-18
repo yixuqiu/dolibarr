@@ -69,7 +69,7 @@ class BookKeeping extends CommonObject
 	public $doc_date;
 
 	/**
-	 * @var int Deadline for payment
+	 * @var int|null|'' Deadline for payment
 	 */
 	public $date_lim_reglement;
 
@@ -99,12 +99,12 @@ class BookKeeping extends CommonObject
 	public $thirdparty_code;
 
 	/**
-	 * @var string subledger account
+	 * @var string|null subledger account
 	 */
 	public $subledger_account;
 
 	/**
-	 * @var string subledger label
+	 * @var string|null subledger label
 	 */
 	public $subledger_label;
 
@@ -2877,7 +2877,7 @@ class BookKeeping extends CommonObject
 								$result = $this->db->query($sql);
 								if (!$result) {
 									$this->errors[] = 'Error: ' . $this->db->lasterror();
-									dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
+									dol_syslog(__METHOD__ . ' ' . implode(',', $this->errors), LOG_ERR);
 									$error++;
 								}
 								$objtmp = $this->db->fetch_object($result);
@@ -2941,7 +2941,7 @@ class BookKeeping extends CommonObject
 							$result = $this->db->query($sql);
 							if (!$result) {
 								$this->errors[] = 'Error: ' . $this->db->lasterror();
-								dol_syslog(__METHOD__ . ' ' . join(',', $this->errors), LOG_ERR);
+								dol_syslog(__METHOD__ . ' ' . implode(',', $this->errors), LOG_ERR);
 								$error++;
 							}
 							$objtmp = $this->db->fetch_object($result);
