@@ -7428,6 +7428,7 @@ class Form
 					$hourend = $hourstart;
 				}
 			}
+
 			// Show hour
 			$retstring .= '<select' . ($disabled ? ' disabled' : '') . ' class="flat valignmiddle maxwidth50 ' . ($fullday ? $fullday . 'hour' : '') . '" id="' . $prefix . 'hour" name="' . $prefix . 'hour">';
 			if ($emptyhours) {
@@ -7450,7 +7451,7 @@ class Form
 
 		if ($m) {
 			// Show minutes
-			$retstring .= '<select' . ($disabled ? ' disabled' : '') . ' class="flat valignmiddle maxwidth50 ' . ($fullday ? $fullday . 'min' : '') . '" id="' . $prefix . 'min" name="' . $prefix . 'min">';
+			$retstring .= '<select ' . ($disabled ? ' disabled' : '') . ' class="flat valignmiddle maxwidth50 ' . ($fullday ? $fullday . 'min' : '') . '" id="' . $prefix . 'min" name="' . $prefix . 'min">';
 			if ($emptyhours) {
 				$retstring .= '<option value="-1">&nbsp;</option>';
 			}
@@ -7468,7 +7469,7 @@ class Form
 		}
 
 		// Add a "Now" link
-		if (!empty($conf->use_javascript_ajax) && $addnowlink) {
+		if (!empty($conf->use_javascript_ajax) && $addnowlink && !$disabled) {
 			// Script which will be inserted in the onClick of the "Now" link
 			$reset_scripts = "";
 			if ($addnowlink == 2) { // local computer time
@@ -7555,7 +7556,7 @@ class Form
 		}
 
 		// Add a "Plus one hour" link
-		if ($conf->use_javascript_ajax && $addplusone) {
+		if ($conf->use_javascript_ajax && $addplusone && !$disabled) {
 			// Script which will be inserted in the onClick of the "Add plusone" link
 			$reset_scripts = "";
 
@@ -7593,7 +7594,7 @@ class Form
 		}
 
 		// Add a link to set data
-		if ($conf->use_javascript_ajax && !empty($adddateof)) {
+		if ($conf->use_javascript_ajax && !empty($adddateof) && !$disabled) {
 			if (!is_array($adddateof)) {
 				$arrayofdateof = array(array('adddateof' => $adddateof, 'labeladddateof' => $labeladddateof));
 			} else {
