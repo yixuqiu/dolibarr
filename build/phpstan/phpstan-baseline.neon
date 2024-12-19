@@ -30463,12 +30463,6 @@ parameters:
 			path: ../../htdocs/societe/canvas/individual/tpl/card_edit.tpl.php
 
 		-
-			message: '#^Variable \$canvas might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/societe/canvas/individual/tpl/card_view.tpl.php
-
-		-
 			message: '#^Variable \$objcanvas might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
