@@ -282,6 +282,7 @@ if ($disablenofollow) {
 <div class="tagtable left centpercent" title="<?php echo $langs->trans("EnterLoginDetail"); ?>">
 
 <!-- Login -->
+<?php if (!isset($conf->file->main_authentication) || $conf->file->main_authentication != 'googleoauth') { ?>
 <div class="trinputlogin">
 <div class="tagtd nowraponall center valignmiddle tdinputlogin">
 <?php if (getDolGlobalString('MAIN_OPTIMIZEFORTEXTBROWSER')) {
@@ -294,7 +295,6 @@ if ($disablenofollow) {
 </div>
 
 <!-- Password -->
-<?php if (!isset($conf->file->main_authentication) || $conf->file->main_authentication != 'googleoauth') { ?>
 <div class="trinputlogin">
 <div class="tagtd nowraponall center valignmiddle tdinputlogin">
 	<?php if (getDolGlobalString('MAIN_OPTIMIZEFORTEXTBROWSER')) {
