@@ -24,7 +24,6 @@ repos:
         exclude: |
           (?x)^(htdocs/includes/.*)$
       # This checks that yaml files are correct
-        args: [--branch, develop, --pattern, \d+.0$]
       - id: check-yaml
         args: [--unsafe]
       # This checks that json files are correct
