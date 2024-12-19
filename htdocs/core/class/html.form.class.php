@@ -1149,15 +1149,16 @@ class Form
 	 * Return list of types of lines (product or service)
 	 * Example: 0=product, 1=service, 9=other (for external module)
 	 *
-	 * @param 	string 				$selected 	Preselected type
-	 * @param 	string 				$htmlname 	Name of field in html form
-	 * @param 	int<0,1>|string 	$showempty 	Add an empty field
-	 * @param 	int 				$hidetext 	Do not show label 'Type' before combo box (used only if there is at least 2 choices to select)
-	 * @param 	integer 			$forceall 	1=Force to show products and services in combo list, whatever are activated modules, 0=No force, 2=Force to show only Products, 3=Force to show only services, -1=Force none (and set hidden field to 'service')
-	 * @param	string				$morecss	More css
+	 * @param 	string 				$selected 		Preselected type
+	 * @param 	string 				$htmlname 		Name of field in html form
+	 * @param 	int<0,1>|string 	$showempty 		Add an empty field
+	 * @param 	int 				$hidetext 		Do not show label 'Type' before combo box (used only if there is at least 2 choices to select)
+	 * @param 	integer 			$forceall 		1=Force to show products and services in combo list, whatever are activated modules, 0=No force, 2=Force to show only Products, 3=Force to show only services, -1=Force none (and set hidden field to 'service')
+	 * @param	string				$morecss		More css
+	 * @param	int					$useajaxcombo	1=Use ajaxcombo
 	 * @return  void
 	 */
-	public function select_type_of_lines($selected = '', $htmlname = 'type', $showempty = 0, $hidetext = 0, $forceall = 0, $morecss = "")
+	public function select_type_of_lines($selected = '', $htmlname = 'type', $showempty = 0, $hidetext = 0, $forceall = 0, $morecss = "", $useajaxcombo = 1)
 	{
 		// phpcs:enable
 		global $langs;
@@ -1166,11 +1167,11 @@ class Form
 		if ($forceall == 1 || (empty($forceall) && isModEnabled("product") && isModEnabled("service"))
 			|| (empty($forceall) && !isModEnabled('product') && !isModEnabled('service'))) {
 			if (empty($hidetext)) {
-				print $langs->trans("Type") . ': ';
+				print $langs->trans("Type").'...';
 			}
 			print '<select class="flat'.($morecss ? ' '.$morecss : '').'" id="select_' . $htmlname . '" name="' . $htmlname . '">';
 			if ($showempty) {
-				print '<option value="-1"';
+				print '<option value="-1" class="opacitymedium"'.($useajaxcombo ? '' : ' disabled="disabled"');
 				if ($selected == -1) {
 					print ' selected';
 				}
@@ -1196,7 +1197,10 @@ class Form
 			print '>' . $langs->trans("Service");
 
 			print '</select>';
-			print ajax_combobox('select_' . $htmlname);
+
+			if ($useajaxcombo) {
+				print ajax_combobox('select_' . $htmlname);
+			}
 			//if ($user->admin) print info_admin($langs->trans("YouCanChangeValuesForThisListFromDictionarySetup"),1);
 		}
 		if ((empty($forceall) && !isModEnabled('product') && isModEnabled("service")) || $forceall == 3) {
