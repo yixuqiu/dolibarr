@@ -16,10 +16,13 @@
  * along with this program. If not, see <https://www.gnu.org/licenses/>.
  */
 /**
+ * @var Canvas $this
  * @var Conf $conf
  * @var Form $form
  * @var Translate $langs
  * @var User $user
+ *
+ * @var string $canvas
  */
 // Protection to avoid direct call of template
 if (empty($conf) || !is_object($conf)) {
