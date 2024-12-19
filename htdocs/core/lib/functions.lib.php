@@ -1627,7 +1627,7 @@ function dol_ucwords($string, $encoding = "UTF-8")
  */
 function dol_syslog($message, $level = LOG_INFO, $ident = 0, $suffixinfilename = '', $restricttologhandler = '', $logcontext = null)
 {
-	global $conf, $user, $debugbar, $langs;
+	global $conf, $user, $debugbar;
 
 	// If syslog module enabled
 	if (empty($conf->syslog->enabled)) {
@@ -1660,7 +1660,7 @@ function dol_syslog($message, $level = LOG_INFO, $ident = 0, $suffixinfilename =
 		$logLevels = array(LOG_EMERG=>'EMERG', LOG_ALERT=>'ALERT', LOG_CRIT=>'CRITICAL', LOG_ERR=>'ERR', LOG_WARNING=>'WARN', LOG_NOTICE=>'NOTICE', LOG_INFO=>'INFO', LOG_DEBUG=>'DEBUG');
 
 		if (!array_key_exists($level, $logLevels)) {
-			dol_syslog($langs->trans('ErrorBadLogLevel', $level), LOG_ERR);
+			dol_syslog('Error Bad Log Level '.$level, LOG_ERR);
 			$level = $logLevels[LOG_ERR];
 		}
 		if ($level > $conf->global->SYSLOG_LEVEL) {
