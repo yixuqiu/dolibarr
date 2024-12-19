@@ -656,7 +656,7 @@ if (!empty($socid)) {
 			print "\n".'<div class="fichecenter"><div class="nowrap">'."\n";
 		}
 
-		if (!empty($socid) && $companystatic->client && !empty($companystatic->code_compta_client)) {
+		if ($companystatic->client && !empty($companystatic->code_compta_client)) {
 			if ($mode != 'customer') {
 				if (!empty($companystatic->code_compta_client)) {
 					$subledger_start_account = $subledger_end_account = $companystatic->code_compta_client;
@@ -676,7 +676,7 @@ if (!empty($socid)) {
 			}
 		}
 
-		if (!empty($socid) && $companystatic->fournisseur && !empty($companystatic->code_compta_fournisseur)) {
+		if ($companystatic->fournisseur && !empty($companystatic->code_compta_fournisseur)) {
 			if ($mode != 'supplier') {
 				if (!empty($companystatic->code_compta_fournisseur)) {
 					$subledger_start_account = $subledger_end_account = $companystatic->code_compta_fournisseur;
