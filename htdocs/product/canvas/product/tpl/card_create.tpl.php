@@ -23,6 +23,7 @@
  * @var User $user
  *
  * @var string $canvas
+ * @var int $refalreadyexists
  */
 // Protection to avoid direct call of template
 if (empty($conf) || !is_object($conf)) {

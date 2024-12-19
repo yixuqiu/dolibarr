@@ -1567,6 +1567,7 @@ function dol_get_object_properties($obj, $properties = [])
  * 	@param	T		          $object		Object to clone
  *  @param	int		          $native		0=Full isolation method, 1=Native PHP method, 2=Full isolation method keeping only scalar and array properties (recommended)
  *	@return T                				Clone object
+ *
  *  @see https://php.net/manual/language.oop5.cloning.php
  *  @phan-suppress PhanTypeExpectedObjectPropAccess
  */
