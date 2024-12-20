@@ -289,29 +289,29 @@ function rebuild_merge_pdf_usage()
 {
 	global $script_file;
 
-	print "Rebuild PDF files for some invoices and/or merge PDF files into one.\n";
+	print "Rebuild PDF files for some invoices/orders/proposals and/or merge PDF files into one.\n";
 	print "\n";
-	print "To build/merge PDF for invoices in a date range:\n";
-	print "Usage:   ".$script_file." filter=date dateafter datebefore\n";
+	print "To build/merge PDF for all documents, use filter=all\n";
+	print "Usage:   ".$script_file." mode=invoice filter=all\n";
+	print "To build/merge PDF for documents in a date range:\n";
+	print "Usage:   ".$script_file." mode=invoice filter=date dateafter datebefore\n";
 	print "To build/merge PDF for invoices with at least one payment in a date range:\n";
-	print "Usage:   ".$script_file." filter=payments dateafter datebefore\n";
+	print "Usage:   ".$script_file." mode=invoice filter=payments dateafter datebefore\n";
 	print "To build/merge PDF for invoices with at least one payment onto a bank account:\n";
-	print "Usage:   ".$script_file." filter=bank bankref\n";
-	print "To build/merge PDF for all invoices, use filter=all\n";
-	print "Usage:   ".$script_file." filter=all\n";
+	print "Usage:   ".$script_file." mode=invoice filter=bank bankref\n";
 	print "To build/merge PDF for invoices with no payments, use filter=nopayment\n";
-	print "Usage:   ".$script_file." filter=nopayment\n";
+	print "Usage:   ".$script_file." mode=invoice filter=nopayment\n";
 	print "To exclude credit notes, use filter=nocreditnote\n";
 	print "To exclude replacement invoices, use filter=noreplacement\n";
 	print "To exclude deposit invoices, use filter=nodeposit\n";
 	print "To exclude some thirdparties, use filter=excludethirdparties id1,id2...\n";
 	print "To limit to some thirdparties, use filter=onlythirdparties id1,id2...\n";
 	print "To regenerate existing PDF, use regenerate=templatename or regeneratenomerge=templatename\n";
-	print "To generate invoices in a language, use lang=xx_XX\n";
+	print "To generate documents in a given language, use lang=xx_XX\n";
 	print "To set prefix of generated file name, use prefix=myfileprefix\n";
 	print "\n";
-	print "Example: ".$script_file." filter=payments 20080101 20081231 lang=fr_FR regenerate=crabe\n";
-	print "Example: ".$script_file." filter=all lang=en_US\n";
+	print "Example: ".$script_file." mode=invoice filter=payments 20080101 20081231 lang=fr_FR regenerate=crabe\n";
+	print "Example: ".$script_file." mode=invoice filter=all lang=en_US\n";
 	print "\n";
 	print "Note that some filters can be cumulated.\n";
 }
