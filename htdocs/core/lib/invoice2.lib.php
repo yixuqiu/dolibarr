@@ -81,7 +81,7 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 
 		$table = "propal";
 		$dir_output = $conf->propal->dir_output;
-		$date = "date";
+		$date = "datep";
 
 		if ($diroutputpdf == 'auto') {
 			$diroutputpdf = $conf->propal->dir_output.'/temp';
@@ -107,7 +107,7 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 		$sqlwhere .= " f.fk_statut > 0";
 		$sqlwhere .= " AND f.".$db->sanitize($date)." >= '".$db->idate($dateafterdate)."'";
 		$sqlwhere .= " AND f.".$db->sanitize($date)." <= '".$db->idate($datebeforedate)."'";
-		$sqlorder = " ORDER BY f.datef ASC";
+		$sqlorder = " ORDER BY ".$db->sanitize($date)." ASC";
 	}
 	// Filter for invoices only
 	if (in_array('nopayment', $filter)) {
