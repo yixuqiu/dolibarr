@@ -48,12 +48,30 @@ require_once DOL_DOCUMENT_ROOT.'/core/lib/pdf.lib.php';
  * @param	int[]		$thirdpartiesid			List of thirdparties id when using filter=excludethirdpartiesid	or filter=onlythirdpartiesid
  * @param	string		$fileprefix				Prefix to add into filename of generated PDF
  * @param	int			$donotmerge				0=Default, 1=Disable the merge so do only the regeneration of PDFs.
+ * @param	string		$mode					'invoice' for invoices, 'proposal' for proposal, ...
  * @return	int									Error code
  */
-function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filter, $dateafterdate, $datebeforedate, $paymentdateafter, $paymentdatebefore, $usestdout, $regenerate = '', $filesuffix = '', $paymentbankid = '', $thirdpartiesid = [], $fileprefix = 'mergedpdf', $donotmerge = 0)
+function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filter, $dateafterdate, $datebeforedate, $paymentdateafter, $paymentdatebefore, $usestdout, $regenerate = '', $filesuffix = '', $paymentbankid = '', $thirdpartiesid = [], $fileprefix = 'mergedpdf', $donotmerge = 0, $mode = 'invoice')
 {
+	if ($mode == 'invoice') {
+		$table = "facture";
+		$dir_output = $conf->facture->dir_output;
+		$date = "datef";
+	} elseif ($mode == 'order') {
+		$table = "commande";
+		$dir_output = $conf->commande->dir_output;
+		$date = "date";
+	} elseif ($mode == 'proposal') {
+		$table = "propal";
+		$dir_output = $conf->propal->dir_output;
+		$date = "date";
+	} else {
+		print "Bad value for mode";
+		return -1;
+	}
+
 	$sql = "SELECT DISTINCT f.rowid, f.ref";
-	$sql .= " FROM ".MAIN_DB_PREFIX."facture as f";
+	$sql .= " FROM ".MAIN_DB_PREFIX.$table." as f";
 	$sqlwhere = '';
 	$sqlorder = '';
 	if (in_array('all', $filter)) {
@@ -66,10 +84,11 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 			$sqlwhere .= " AND";
 		}
 		$sqlwhere .= " f.fk_statut > 0";
-		$sqlwhere .= " AND f.datef >= '".$db->idate($dateafterdate)."'";
-		$sqlwhere .= " AND f.datef <= '".$db->idate($datebeforedate)."'";
+		$sqlwhere .= " AND f.".$db->sanitize($date)." >= '".$db->idate($dateafterdate)."'";
+		$sqlwhere .= " AND f.".$db->sanitize($date)." <= '".$db->idate($datebeforedate)."'";
 		$sqlorder = " ORDER BY f.datef ASC";
 	}
+	// Filter for invoices only
 	if (in_array('nopayment', $filter)) {
 		$sql .= " LEFT JOIN ".MAIN_DB_PREFIX."paiement_facture as pf ON f.rowid = pf.fk_facture";
 		if (empty($sqlwhere)) {
@@ -80,6 +99,7 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 		$sqlwhere .= " f.fk_statut > 0";
 		$sqlwhere .= " AND pf.fk_paiement IS NULL";
 	}
+	// Filter for invoices only
 	if (in_array('payments', $filter) || in_array('bank', $filter)) {
 		$sql .= ", ".MAIN_DB_PREFIX."paiement_facture as pf, ".MAIN_DB_PREFIX."paiement as p";
 		if (in_array('bank', $filter)) {
@@ -103,6 +123,7 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 		}
 		$sqlorder = " ORDER BY p.datep ASC";
 	}
+	// Filter for invoices only
 	if (in_array('nodeposit', $filter)) {
 		if (empty($sqlwhere)) {
 			$sqlwhere = ' WHERE ';
@@ -111,6 +132,7 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 		}
 		$sqlwhere .= ' type <> 3';
 	}
+	// Filter for invoices only
 	if (in_array('noreplacement', $filter)) {
 		if (empty($sqlwhere)) {
 			$sqlwhere = ' WHERE ';
@@ -119,6 +141,7 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 		}
 		$sqlwhere .= ' type <> 1';
 	}
+	// Filter for invoices only
 	if (in_array('nocreditnote', $filter)) {
 		if (empty($sqlwhere)) {
 			$sqlwhere = ' WHERE ';
@@ -168,9 +191,6 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 	if ($resql = $db->query($sql)) {
 		$num = $db->num_rows($resql);
 		$cpt = 0;
-		$oldemail = '';
-		$message = '';
-		$total = '';
 
 		if ($num) {
 			// First loop on each resultset to build PDF
@@ -179,7 +199,14 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 			while ($cpt < $num) {
 				$obj = $db->fetch_object($resql);
 
-				$fac = new Facture($db);
+				if ($mode == 'invoice') {
+					$fac = new Facture($db);
+				} elseif ($mode == 'order') {
+					$fac = new Commande($db);
+				} elseif ($mode == 'proposal') {
+					$fac = new Propal($db);
+				}
+
 				$result = $fac->fetch($obj->rowid);
 				if ($result > 0) {
 					$outputlangs = $langs;
@@ -189,7 +216,7 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 							$outputlangs->setDefaultLang($newlangid);
 						}
 					}
-					$filename = $conf->facture->dir_output.'/'.$fac->ref.'/'.$fac->ref.'.pdf';
+					$filename = $dir_output.'/'.$fac->ref.'/'.$fac->ref.'.pdf';
 					if ($regenerate || !dol_is_file($filename)) {
 						if ($usestdout) {
 							print "Build PDF for invoice ".$obj->ref." - Lang = ".$outputlangs->defaultlang."\n";
