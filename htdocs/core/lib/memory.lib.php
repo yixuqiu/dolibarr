@@ -64,7 +64,7 @@ $shmoffset = 1000; // Max number of entries found into a language file. If too l
  * 	@param	mixed		$data			Data to save. It must not be a null value.
  *  @param 	int			$expire			ttl in seconds, 0 never expire
  *  @param 	int			$filecache		1 Enable file cache if no other session cache available, 0 Disabled (default)
- *  @param 	int			$replace		add possibility to replace cache for memecached module if != 0
+ *  @param 	int			$replace		add possibility to replace cache for memecached module if > 0
  * 	@return	int							Return integer <0 if KO, 0 if nothing is done, Nb of bytes written if OK
  *  @see dol_getcache()
  */
@@ -154,7 +154,7 @@ function dol_setcache($memoryid, $data, $expire = 0, $filecache = 0, $replace = 
 
 		$cachedata = array("expire" => $expire, "data" => $data);
 		$cachejson = dolEncrypt(json_encode($cachedata));
-		if (!dol_is_file($pathcache.'/'.$memoryid.'.cache')) {
+		if (!dol_is_file($pathcache.'/'.$memoryid.'.cache') || $replace > 0) {
 			$result = file_put_contents($pathcache.'/'.$memoryid.'.cache', $cachejson);
 		} else {
 			return 0;
