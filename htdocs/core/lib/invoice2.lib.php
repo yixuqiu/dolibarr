@@ -86,6 +86,17 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 		if ($diroutputpdf == 'auto') {
 			$diroutputpdf = $conf->propal->dir_output.'/temp';
 		}
+	} elseif ($mode == 'shipment') {
+		require_once DOL_DOCUMENT_ROOT."/expedition/class/expedition.class.php";
+		require_once DOL_DOCUMENT_ROOT."/core/modules/expedition/modules_expedition.php";
+
+		$table = "propal";
+		$dir_output = $conf->shipment->dir_output;
+		$date = "date";
+
+		if ($diroutputpdf == 'auto') {
+			$diroutputpdf = $conf->shipment->dir_output.'/temp';
+		}
 	} else {
 		print "Bad value for mode";
 		return -1;
@@ -226,6 +237,8 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 					$fac = new Commande($db);
 				} elseif ($mode == 'proposal') {
 					$fac = new Propal($db);
+				} elseif ($mode == 'shipment') {
+					$fac = new Expedition($db);
 				}
 
 				$result = $fac->fetch($obj->rowid);
