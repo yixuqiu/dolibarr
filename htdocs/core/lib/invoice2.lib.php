@@ -47,9 +47,10 @@ require_once DOL_DOCUMENT_ROOT.'/core/lib/pdf.lib.php';
  * @param	string		$paymentbankid			Only if payment on this bank account id
  * @param	int[]		$thirdpartiesid			List of thirdparties id when using filter=excludethirdpartiesid	or filter=onlythirdpartiesid
  * @param	string		$fileprefix				Prefix to add into filename of generated PDF
+ * @param	int			$donotmerge				0=Default, 1=Disable the merge so do only the regeneration of PDFs.
  * @return	int									Error code
  */
-function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filter, $dateafterdate, $datebeforedate, $paymentdateafter, $paymentdatebefore, $usestdout, $regenerate = '', $filesuffix = '', $paymentbankid = '', $thirdpartiesid = [], $fileprefix = 'mergedpdf')
+function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filter, $dateafterdate, $datebeforedate, $paymentdateafter, $paymentdatebefore, $usestdout, $regenerate = '', $filesuffix = '', $paymentbankid = '', $thirdpartiesid = [], $fileprefix = 'mergedpdf', $donotmerge = 0)
 {
 	$sql = "SELECT DISTINCT f.rowid, f.ref";
 	$sql .= " FROM ".MAIN_DB_PREFIX."facture as f";
@@ -216,6 +217,9 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 				$cpt++;
 			}
 
+			if ($donotmerge) {
+				return 1;
+			}
 
 			// Define format of output PDF
 			$formatarray = pdf_getFormat($langs);
