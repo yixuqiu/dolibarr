@@ -43,10 +43,9 @@ if (substr($sapi_type, 0, 3) == 'cgi') {
 require_once $path."../../htdocs/master.inc.php";
 require_once DOL_DOCUMENT_ROOT.'/core/lib/functionscli.lib.php';
 // After this $db is an opened handler to database. We close it at end of file.
-require_once DOL_DOCUMENT_ROOT."/compta/facture/class/facture.class.php";
-require_once DOL_DOCUMENT_ROOT."/core/modules/facture/modules_facture.php";
 require_once DOL_DOCUMENT_ROOT."/core/lib/date.lib.php";
 require_once DOL_DOCUMENT_ROOT.'/core/lib/invoice2.lib.php';
+
 /**
  * @var Conf $conf
  * @var DoliDB $db
@@ -84,14 +83,14 @@ if (!empty($dolibarr_main_db_readonly)) {
 }
 
 
-$diroutputpdf = $conf->invoice->dir_output.'/temp';
-
 $newlangid = 'en_EN'; // To force a new lang id
 $filter = array();
 $regenerate = ''; // Ask regenerate (contains name of model to use)
 $option = '';
 $fileprefix = 'mergedpdf';
 $nomerge = 0;
+$mode = 'invoice';
+
 $dateafterdate = '';
 $datebeforedate = '';
 $paymentdateafter = '';
@@ -114,6 +113,13 @@ foreach ($argv as $key => $value) {
 		$valarray = explode('=', $value);
 		$fileprefix = $valarray[1];
 		print 'Use prefix for filename '.$fileprefix.".\n";
+	}
+
+	if (preg_match('/^mode=/i', $value)) {
+		$found = true;
+		$valarray = explode('=', $value);
+		$mode = $valarray[1];
+		print 'Use mode '.$fileprefix.".\n";
 	}
 
 	$reg = array();
@@ -254,10 +260,11 @@ if (in_array('bank', $filter) && in_array('nopayment', $filter)) {
 	exit(1);
 }
 
+$diroutputpdf = 'auto';
+
 // Define SQL and SQL request to select invoices
 // Use $filter, $dateafterdate, datebeforedate, $paymentdateafter, $paymentdatebefore
-
-$result = rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filter, $dateafterdate, $datebeforedate, $paymentdateafter, $paymentdatebefore, 1, $regenerate, $option, (string) $paymentonbankid, $thirdpartiesid, $fileprefix, $nomerge);
+$result = rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filter, $dateafterdate, $datebeforedate, $paymentdateafter, $paymentdatebefore, 1, $regenerate, $option, (string) $paymentonbankid, $thirdpartiesid, $fileprefix, $nomerge, $mode);
 
 // -------------------- END OF YOUR CODE --------------------
 

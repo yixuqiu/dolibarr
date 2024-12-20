@@ -54,17 +54,38 @@ require_once DOL_DOCUMENT_ROOT.'/core/lib/pdf.lib.php';
 function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filter, $dateafterdate, $datebeforedate, $paymentdateafter, $paymentdatebefore, $usestdout, $regenerate = '', $filesuffix = '', $paymentbankid = '', $thirdpartiesid = [], $fileprefix = 'mergedpdf', $donotmerge = 0, $mode = 'invoice')
 {
 	if ($mode == 'invoice') {
+		require_once DOL_DOCUMENT_ROOT."/compta/facture/class/facture.class.php";
+		require_once DOL_DOCUMENT_ROOT."/core/modules/facture/modules_facture.php";
+
 		$table = "facture";
 		$dir_output = $conf->facture->dir_output;
 		$date = "datef";
+
+		if ($diroutputpdf == 'auto') {
+			$diroutputpdf = $conf->invoice->dir_output.'/temp';
+		}
 	} elseif ($mode == 'order') {
+		require_once DOL_DOCUMENT_ROOT."/commande/class/commande.class.php";
+		require_once DOL_DOCUMENT_ROOT."/core/modules/commande/modules_commande.php";
+
 		$table = "commande";
-		$dir_output = $conf->commande->dir_output;
+		$dir_output = $conf->order->dir_output;
 		$date = "date";
+
+		if ($diroutputpdf == 'auto') {
+			$diroutputpdf = $conf->order->dir_output.'/temp';
+		}
 	} elseif ($mode == 'proposal') {
+		require_once DOL_DOCUMENT_ROOT."/comm/propal/class/propal.class.php";
+		require_once DOL_DOCUMENT_ROOT."/core/modules/propale/modules_propale.php";
+
 		$table = "propal";
 		$dir_output = $conf->propal->dir_output;
 		$date = "date";
+
+		if ($diroutputpdf == 'auto') {
+			$diroutputpdf = $conf->propal->dir_output.'/temp';
+		}
 	} else {
 		print "Bad value for mode";
 		return -1;
@@ -219,12 +240,12 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 					$filename = $dir_output.'/'.$fac->ref.'/'.$fac->ref.'.pdf';
 					if ($regenerate || !dol_is_file($filename)) {
 						if ($usestdout) {
-							print "Build PDF for invoice ".$obj->ref." - Lang = ".$outputlangs->defaultlang."\n";
+							print "Build PDF for document ".$obj->ref." - Lang = ".$outputlangs->defaultlang."\n";
 						}
 						$result = $fac->generateDocument($regenerate ? $regenerate : $fac->model_pdf, $outputlangs);
 					} else {
 						if ($usestdout) {
-							print "PDF for invoice ".$obj->ref." already exists\n";
+							print "PDF for document ".$obj->ref." already exists\n";
 						}
 					}
 
@@ -235,9 +256,9 @@ function rebuild_merge_pdf($db, $langs, $conf, $diroutputpdf, $newlangid, $filte
 				if ($result <= 0) {
 					$error++;
 					if ($usestdout) {
-						print "Error: Failed to build PDF for invoice ".($fac->ref ? $fac->ref : ' id '.$obj->rowid)."\n";
+						print "Error: Failed to build PDF for document ".($fac->ref ? $fac->ref : ' id '.$obj->rowid)."\n";
 					} else {
-						dol_syslog("Failed to build PDF for invoice ".($fac->ref ? $fac->ref : ' id '.$obj->rowid), LOG_ERR);
+						dol_syslog("Failed to build PDF for document ".($fac->ref ? $fac->ref : ' id '.$obj->rowid), LOG_ERR);
 					}
 				}
 
