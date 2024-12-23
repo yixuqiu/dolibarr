@@ -196,9 +196,9 @@ if ($action == 'set') {
 } elseif (preg_match('/set_(.*)/', $action, $reg)) {
 	$code = $reg[1];
 	if ($code == "SUPPLIER_PROPOSAL_FREE_TEXT") {
-	$value = (GETPOST($code,'restricthtml') ? GETPOST($code,'restricthtml') : 1);
+		$value = (GETPOST($code, 'restricthtml') ? GETPOST($code, 'restricthtml') : 1);
 	} else {
-	$value = (GETPOST($code) ? GETPOST($code) : 1);
+		$value = (GETPOST($code) ? GETPOST($code) : 1);
 	}
 	$res = dolibarr_set_const($db, $code, $value, 'chaine', 0, '', $conf->entity);
 	if (!($res > 0)) {
