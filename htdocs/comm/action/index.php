@@ -1967,7 +1967,7 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
 						}
 						if (isset($theme_datacolor[$colorindex])) {
 							$color = sprintf("%02x%02x%02x", $theme_datacolor[$colorindex][0], $theme_datacolor[$colorindex][1], $theme_datacolor[$colorindex][2]);
-						} elseif (!empty(getDolGlobalString('THEME_ELDY_BACKBODY'))) {
+						} elseif (getDolGlobalString('THEME_ELDY_BACKBODY')) {
 							require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
 							$color = colorArrayToHex(explode(',', getDolGlobalString('THEME_ELDY_BACKBODY')));
 						} else {
