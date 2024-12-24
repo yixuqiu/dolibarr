@@ -2033,7 +2033,7 @@ while ($i < $imaxinloop) {
 			}
 		}
 
-		// Number of buy prices
+		// Number of buy prices - Vendor prices
 		if (!empty($arrayfields['p.numbuyprice']['checked'])) {
 			print  '<td class="right">';
 			if ($product_static->status_buy && $usercancreadprice) {
