@@ -1506,6 +1506,8 @@ class Form
 		global $user, $langs;
 		global $hookmanager;
 
+		$langs->loadLangs(array("companies", "suppliers"));
+
 		$out = '';
 		$num = 0;
 		$outarray = array();
