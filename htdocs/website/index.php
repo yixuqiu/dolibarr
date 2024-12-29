@@ -4216,6 +4216,7 @@ if ($action == 'createsite') {
 	print '<br>';
 }
 
+// Page view to import a website template
 if ($action == 'importsite') {
 	print '<!-- action=importsite -->';
 	print '<div class="fiche">';
