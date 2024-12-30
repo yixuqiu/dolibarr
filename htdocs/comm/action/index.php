@@ -1947,9 +1947,9 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
 						//var_dump($cacheusers[$event->userownerid]->color);
 
 						// We decide to choose color of owner of event (event->userownerid is user id of owner, event->userassigned contains all users assigned to event)
-//						if (!empty($cacheusers[$event->userownerid]->color)) {
-//							$color = $cacheusers[$event->userownerid]->color;
-//						}
+						if (!empty($cacheusers[$event->userownerid]->color)) {
+							$color = $cacheusers[$event->userownerid]->color;
+						}
 					} elseif ($event->type_code == 'ICALEVENT') {      // Event come from external ical file
 						$numical++;
 						if (!empty($event->icalname)) {
