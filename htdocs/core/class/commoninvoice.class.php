@@ -514,6 +514,7 @@ abstract class CommonInvoice extends CommonObject
 		$sql .= " ORDER BY pfd.date_demande DESC";
 
 		$resql = $this->db->query($sql);
+		$num = 0;
 		if ($resql) {
 			$num = $this->db->num_rows($resql);
 			$i = 0;
