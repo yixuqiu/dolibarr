@@ -1947,9 +1947,9 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
 						//var_dump($cacheusers[$event->userownerid]->color);
 
 						// We decide to choose color of owner of event (event->userownerid is user id of owner, event->userassigned contains all users assigned to event)
-						if (!empty($cacheusers[$event->userownerid]->color)) {
-							$color = $cacheusers[$event->userownerid]->color;
-						}
+//						if (!empty($cacheusers[$event->userownerid]->color)) {
+//							$color = $cacheusers[$event->userownerid]->color;
+//						}
 					} elseif ($event->type_code == 'ICALEVENT') {      // Event come from external ical file
 						$numical++;
 						if (!empty($event->icalname)) {
@@ -2005,7 +2005,7 @@ function show_day_events($db, $day, $month, $year, $monthshown, $style, &$eventa
 							$color = sprintf("%02x%02x%02x", $theme_datacolor[$colorindex][0], $theme_datacolor[$colorindex][1], $theme_datacolor[$colorindex][2]);
 						} elseif (getDolGlobalString('THEME_ELDY_BACKBODY')) {
 							require_once DOL_DOCUMENT_ROOT.'/core/lib/functions2.lib.php';
-							$color = colorArrayToHex(explode(',', getDolGlobalString('THEME_ELDY_BACKBODY')));
+							$color = colorArrayToHex(colorStringToArray(getDolGlobalString('THEME_ELDY_BACKBODY'), array()), '');
 						} else {
 							$color = "ffffff";
 						}
