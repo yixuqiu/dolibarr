@@ -493,8 +493,8 @@ abstract class CommonInvoice extends CommonObject
 	/**
 	 *  Return list of open direct debit or credit transfer
 	 *
-	 *  @param		string		$type		'bank-transfer' or 'direct-debit'
-	 *  @return     array<array{amount:int|float,date:int,num:string,ref:string,ref_ext?:string,fk_bank_line?:int,type:string}>		 Array with list of payments
+	 *  @param		'bank-transfer'|'direct-debit'		$type		'bank-transfer' or 'direct-debit'
+	 *  @return     array<array{id:int,invoiceid:int,date:''|int,amount:float}>		 Array with list of payments
 	 */
 	public function getListOfOpenDirectDebitOrCreditTransfer($type)
 	{
@@ -522,10 +522,10 @@ abstract class CommonInvoice extends CommonObject
 				$obj = $this->db->fetch_object($resql);
 				if ($obj) {
 					$listofopendirectdebitorcredittransfer[] = array(
-						'id' => $obj->rowid,
+						'id' => (int) $obj->rowid,
 						'invoiceid' => (int) $this->id,
 						'date' => $this->db->jdate($obj->date_demande),
-						'amount' => $obj->amount
+						'amount' => (float) $obj->amount
 					);
 				}
 
