@@ -279,7 +279,7 @@ if ($result) {
 	$selectedfields = '';
 
 	print '<div class="div-table-responsive">';
-	print '<table class="tagtable liste'.($moreforfilter ? " listwithfilterbefore" : "").'">'."\n";
+	print '<table class="tagtable noborder nobottomiftotal liste'.($moreforfilter ? " listwithfilterbefore" : "").'">'."\n";
 
 	print '<tr class="liste_titre liste_titre_search">';
 	print '<td><input type="text" name="search_ref" value="'.dol_escape_htmltag($search_ref).'"></td>';
@@ -288,7 +288,7 @@ if ($result) {
 	print '<td></td>';
 	print '<td></td>';
 	print '<td></td>';
-	print '<td class="liste_titre" align="middle">';
+	print '<td class="liste_titre center">';
 	$searchpitco = $form->showFilterButtons();
 	print $searchpitco;
 	print '</td>';
