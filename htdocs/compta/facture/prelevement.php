@@ -1108,7 +1108,7 @@ if ($object->id > 0) {
 			}
 
 			// Date
-			print '<td class="nowraponall">'.dol_print_date($db->jdate($obj->date_demande), 'day')."</td>\n";
+			print '<td class="nowraponall">'.dol_print_date($db->jdate($obj->date_demande), 'day', 'tzuserrel')."</td>\n";
 
 			// User
 			print '<td class="tdoverflowmax125">';
