@@ -1820,6 +1820,8 @@ class Website extends CommonObject
 	 */
 	public function setTemplateName($name_template)
 	{
+		$this->db->begin();
+
 		$sql = "UPDATE ".$this->db->prefix()."website SET";
 		$sql .= " name_template = '".$this->db->escape($name_template)."'";
 		$sql .= " WHERE rowid = ".(int) $this->id;
