@@ -132,16 +132,16 @@ $morehtml .= ajax_combobox("search_project_user", array(), 0, 0, 'resolve', '-1'
 $morehtml .= '<input type="submit" class="button smallpaddingimp" name="refresh" value="'.$langs->trans("Refresh").'">';
 
 if ($mine) {
-	$tooltiphelp = $langs->trans("MyTasksDesc");
+	$htmltooltip = $langs->trans("MyTasksDesc");
 } else {
 	if ($user->hasRight('projet', 'all', 'lire') && !$socid) {
-		$tooltiphelp = $langs->trans("TasksDesc");
+		$htmltooltip = $langs->trans("TasksDesc");
 	} else {
-		$tooltiphelp = $langs->trans("TasksPublicDesc");
+		$htmltooltip = $langs->trans("TasksPublicDesc");
 	}
 }
 
-print_barre_liste($form->textwithpicto($title, $tooltiphelp), 0, $_SERVER["PHP_SELF"], '', '', '', '', 0, -1, 'projecttask', 0, $morehtml);
+print_barre_liste($form->textwithpicto($title, $htmltooltip), 0, $_SERVER["PHP_SELF"], '', '', '', '', 0, -1, 'projecttask', 0, $morehtml);
 
 print '<div class="fichecenter"><div class="fichethirdleft">';
 
