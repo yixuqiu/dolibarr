@@ -232,7 +232,7 @@ class HookManager
 
 		// Define type of hook ('output' or 'addreplace').
 		$hooktype = 'addreplace';
-		// TODO Remove hooks with type 'output' (example createFrom). All hooks must be converted into 'addreplace' hooks.
+		// TODO Remove hooks with type 'output' (example createFrom). All these hooks must be converted into 'addreplace' hooks.
 		if (in_array($method, array(
 			'createFrom',
 			'dashboardAccountancy',
@@ -346,7 +346,7 @@ class HookManager
 					} else {
 						// Generic hooks that return a string or array (printLeftBlock, formAddObjectLine, formBuilddocOptions, ...)
 
-						// TODO. this test should be done into the method of hook by returning nothing
+						// TODO. this test should be done into the method of hook by returning nothing @phan-suppress-next-line PhanTypeInvalidDimOffset
 						if (is_array($parameters) && !empty($parameters['special_code']) && $parameters['special_code'] > 3 && $parameters['special_code'] != $actionclassinstance->module_number) {
 							continue;
 						}
