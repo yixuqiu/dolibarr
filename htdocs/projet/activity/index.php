@@ -518,6 +518,7 @@ if (!getDolGlobalString('PROJECT_HIDE_TASKS') && getDolGlobalString('PROJECT_SHO
 			$taskstatic->dateo = $db->jdate($obj->date_start);
 			$taskstatic->datee = $db->jdate($obj->date_end);
 
+			/* username and userstatic not used + not defined
 			$username = '';
 			if ($obj->userid && $userstatic->id != $obj->userid) {	// We have a user and it is not last loaded user
 				$result = $userstatic->fetch($obj->userid);
@@ -528,6 +529,7 @@ if (!getDolGlobalString('PROJECT_HIDE_TASKS') && getDolGlobalString('PROJECT_SHO
 			if ($userstatic->id) {
 				$username = $userstatic->getNomUrl(0, 0);
 			}
+			*/
 
 			print '<tr class="oddeven">';
 			//print '<td>'.$username.'</td>';
