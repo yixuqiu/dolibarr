@@ -4133,8 +4133,8 @@ function migrate_delete_old_files($db, $langs, $conf)
 
 	foreach ($filetodeletearray as $filetodelete) {
 		//print '<b>'DOL_DOCUMENT_ROOT.$filetodelete."</b><br>\n";
-		if (file_exists(DOL_DOCUMENT_ROOT.$filetodelete) || preg_match('/\*/', $filetodelete)) {
-			//print "Process file ".$filetodelete."\n";
+		if (count(glob(DOL_DOCUMENT_ROOT.$filetodelete)) > 0) {
+			print "Process file ".$filetodelete."\n";
 			$result = dol_delete_file(DOL_DOCUMENT_ROOT.$filetodelete, 0, 0, 0, null, true, false);
 			if (!$result) {
 				$langs->load("errors");
