@@ -961,7 +961,7 @@ if ($object->id > 0 && (empty($action) || ($action != 'edit' && $action != 'crea
 
 			$colspan="3";
 			if (isModEnabled('stock')) {
-				$colspan++;;
+				$colspan++;
 			}
 			if (isModEnabled('productbatch')) {
 				$colspan++;
