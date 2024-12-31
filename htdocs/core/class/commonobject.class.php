@@ -3998,7 +3998,7 @@ abstract class CommonObject
 			$num = $this->db->num_rows($resql);
 			$i = 0;
 			while ($i < $num) {
-                $obj = $this->db->fetch_object($resql);
+                 $obj = $this->db->fetch_object($resql);
 				if ($justsource || $justtarget) {
 					if ($justsource) {
 						$this->linkedObjectsIds[$obj->targettype][$obj->rowid] = $obj->fk_target;
