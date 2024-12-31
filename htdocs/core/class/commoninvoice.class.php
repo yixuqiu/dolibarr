@@ -984,8 +984,6 @@ abstract class CommonInvoice extends CommonObject
 			return $hookmanager->resPrint;
 		}
 
-
-
 		return dolGetStatus($labelStatus, $labelStatusShort, '', $statusType, $mode);
 	}
 
