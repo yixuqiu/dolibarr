@@ -342,6 +342,6 @@ class WebPortalInvoice extends Facture
 	public function LibStatut($paye, $status, $mode = 0, $alreadypaid = -1, $type = -1, $nbofopendirectdebitorcredittransfer = 0)
 	{
 		// phpcs:enable
-		return $this->getInvoiceStatic()->LibStatut($paye, $status, $mode, $alreadypaid, $type);
+		return $this->getInvoiceStatic()->LibStatut($paye, $status, $mode, $alreadypaid, $type, $nbofopendirectdebitorcredittransfer);
 	}
 }
