@@ -266,13 +266,12 @@ class Website extends CommonObject
 				$result = symlink($pathtomedias, $pathtomediasinwebsite);
 				if (!$result) {
 					$langs->load("errors");
-					setEventMessages($langs->trans("ErrorFailedToCreateSymLinkToMedias", $pathtomediasinwebsite, $pathtomedias), null, 'errors');
+					//setEventMessages($langs->trans("ErrorFailedToCreateSymLinkToMedias", $pathtomediasinwebsite, $pathtomedias), null, 'errors');
+					$error++;
 				}
 			}
-			// Uncomment this and change WEBSITE to your own tag if you
-			// want this action to call a trigger.
-			// if (!$notrigger) {
 
+			// if (!$notrigger) {
 			//     // Call triggers
 			//     $result = $this->call_trigger('WEBSITE_CREATE',$user);
 			//     if ($result < 0) $error++;
