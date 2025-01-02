@@ -210,7 +210,7 @@ class DolEditor
 		$found = 0;
 		$out = '';
 
-		$content = (string) $this->content; // to avoid htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated
+		$this->content = ($this->content ?? ''); // to avoid htmlspecialchars(): Passing null to parameter #1 ($string) of type string is deprecated
 
 		if (in_array($this->tool, array('textarea', 'ckeditor'))) {
 			$found = 1;
@@ -223,7 +223,7 @@ class DolEditor
 			$out .= (preg_match('/%/', $this->cols) ? ' style="margin-top: 5px; width: '.$this->cols.'"' : ' cols="'.$this->cols.'"');
 			$out .= ' '.($moreparam ? $moreparam : '');
 			$out .= ' class="flat '.$morecss.'">';
-			$out .= htmlspecialchars($content);
+			$out .= htmlspecialchars($this->content);
 			$out .= '</textarea>';
 
 			if ($this->tool == 'ckeditor' && !empty($conf->use_javascript_ajax) && isModEnabled('fckeditor')) {
@@ -390,12 +390,12 @@ class DolEditor
 			$out .= ($this->height ? ' height: '.$this->height.'px; ' : '');
 			//$out.=" min-height: 100px;";
 			$out .= '">';
-			$out .= htmlspecialchars($content);
+			$out .= htmlspecialchars($this->content);
 			$out .= '</pre>';
 			$out .= '<input type="hidden" id="'.$this->htmlname.'_x" name="'.$this->htmlname.'_x">';
 			$out .= '<input type="hidden" id="'.$this->htmlname.'_y" name="'.$this->htmlname.'_y">';
 			$out .= '<textarea id="'.$this->htmlname.'" name="'.$this->htmlname.'" style="width:0px; height: 0px; display: none;">';
-			$out .= htmlspecialchars($content);
+			$out .= htmlspecialchars($this->content);
 			$out .= '</textarea>';
 
 			$out .= '<script nonce="'.getNonce().'" type="text/javascript">'."\n";
