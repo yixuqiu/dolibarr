@@ -2697,18 +2697,18 @@ class Product extends CommonObject
 				$this->net_measure = $obj->net_measure;
 				$this->net_measure_units = $obj->net_measure_units;
 				$this->weight = $obj->weight;
-				$this->weight_units = $obj->weight_units;
+				$this->weight_units = (is_null($obj->weight_units) ? 0 : $obj->weight_units);
 				$this->length = $obj->length;
-				$this->length_units = $obj->length_units;
+				$this->length_units = (is_null($obj->length_units) ? 0 : $obj->length_units);
 				$this->width = $obj->width;
-				$this->width_units = $obj->width_units;
+				$this->width_units = (is_null($obj->width_units) ? 0 : $obj->width_units);
 				$this->height = $obj->height;
-				$this->height_units = $obj->height_units;
+				$this->height_units = (is_null($obj->height_units) ? 0 : $obj->height_units);
 
 				$this->surface = $obj->surface;
-				$this->surface_units = $obj->surface_units;
+				$this->surface_units = (is_null($obj->surface_units) ? 0 : $obj->surface_units);
 				$this->volume = $obj->volume;
-				$this->volume_units = $obj->volume_units;
+				$this->volume_units = (is_null($obj->volume_units) ? 0 : $obj->volume_units);
 				$this->barcode = $obj->barcode;
 				$this->barcode_type = $obj->fk_barcode_type;
 
