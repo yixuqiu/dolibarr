@@ -87,7 +87,9 @@ class InterfaceTicketEmail extends DolibarrTriggers
 									$old_MAIN_MAIL_AUTOCOPY_TO = $conf->global->MAIN_MAIL_AUTOCOPY_TO;
 									$conf->global->MAIN_MAIL_AUTOCOPY_TO = '';
 								}
-
+								if (!empty($sendto)) {
+									$this->composeAndSendAssigneeMessage($sendto, $subject_assignee, $body_assignee, $see_ticket_assignee, $object, $langs);
+								}
 								if (!empty($conf->global->TICKET_DISABLE_MAIL_AUTOCOPY_TO)) {
 									$conf->global->MAIN_MAIL_AUTOCOPY_TO = $old_MAIN_MAIL_AUTOCOPY_TO;
 								}
