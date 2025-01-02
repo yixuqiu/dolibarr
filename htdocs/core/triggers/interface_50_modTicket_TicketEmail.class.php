@@ -77,48 +77,17 @@ class InterfaceTicketEmail extends DolibarrTriggers
 						if ($res > 0) {
 							// Send email to notification email
 							if (empty($conf->global->TICKET_DISABLE_ALL_MAILS)) {
-//								Init to avoid errors
-//								$filepath = array();
-//								$filename = array();
-//								$mimetype = array();
-
 								// Send email to assigned user
-//								$subject = '['.$conf->global->MAIN_INFO_SOCIETE_NOM.'] '.$langs->transnoentities('TicketAssignedToYou');
-//								$message = '<p>'.$langs->transnoentities('TicketAssignedEmailBody', $object->track_id, dolGetFirstLastname($user->firstname, $user->lastname))."</p>";
-//								$message .= '<ul><li>'.$langs->trans('Title').' : '.$object->subject.'</li>';
-//								$message .= '<li>'.$langs->trans('Type').' : '.$object->type_label.'</li>';
-//								$message .= '<li>'.$langs->trans('Category').' : '.$object->category_label.'</li>';
-//								$message .= '<li>'.$langs->trans('Severity').' : '.$object->severity_label.'</li>';
-//								// Extrafields
-//								if (is_array($object->array_options) && count($object->array_options) > 0) {
-//									foreach ($object->array_options as $key => $value) {
-//										$message .= '<li>'.$langs->trans($key).' : '.$value.'</li>';
-//									}
-//								}
-//
-//								$message .= '</ul>';
-//								$message .= '<p>'.$langs->trans('Message').' : <br>'.$object->message.'</p>';
-//								$message .= '<p><a href="'.dol_buildpath('/ticket/card.php', 2).'?track_id='.$object->track_id.'">'.$langs->trans('SeeThisTicketIntomanagementInterface').'</a></p>';
-
 								$sendto = $userstat->email;
 								$subject_assignee = 'TicketAssignedToYou';
 								$body_assignee = 'TicketAssignedEmailBody';
 								$see_ticket_assignee = 'SeeThisTicketIntomanagementInterface';
-//								$from = dolGetFirstLastname($user->firstname, $user->lastname).'<'.$user->email.'>';
-//
-//								$message = dol_nl2br($message);
 
 								if (!empty($conf->global->TICKET_DISABLE_MAIL_AUTOCOPY_TO)) {
 									$old_MAIN_MAIL_AUTOCOPY_TO = $conf->global->MAIN_MAIL_AUTOCOPY_TO;
 									$conf->global->MAIN_MAIL_AUTOCOPY_TO = '';
 								}
-//								include_once DOL_DOCUMENT_ROOT.'/core/class/CMailFile.class.php';
-//								$mailfile = new CMailFile($subject, $sendto, $from, $message, $filepath, $mimetype, $filename, '', '', 0, -1);
-//								if ($mailfile->error) {
-//									setEventMessages($mailfile->error, $mailfile->errors, 'errors');
-//								} else {
-//									$result = $mailfile->sendfile();
-//								}
+
 								if (!empty($conf->global->TICKET_DISABLE_MAIL_AUTOCOPY_TO)) {
 									$conf->global->MAIN_MAIL_AUTOCOPY_TO = $old_MAIN_MAIL_AUTOCOPY_TO;
 								}
