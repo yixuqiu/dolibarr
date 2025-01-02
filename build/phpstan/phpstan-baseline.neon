@@ -5461,12 +5461,6 @@ parameters:
 			path: ../../htdocs/compta/facture/card.php
 
 		-
-			message: '#^Variable \$newlang in empty\(\) always exists and is always falsy\.$#'
-			identifier: empty.variable
-			count: 10
-			path: ../../htdocs/compta/facture/card.php
-
-		-
 			message: '#^Variable \$num might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
