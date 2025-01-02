@@ -4209,8 +4209,9 @@ if ($action == 'create') {
 					$genallowed = $usercanread;
 					$delallowed = $usercancreate;
 					$modelpdf = (empty($object->model_pdf) ? getDolGlobalString('INVOICE_SUPPLIER_ADDON_PDF') : $object->model_pdf);
+					$genifempty = 0;
 
-					print $formfile->showdocuments('facture_fournisseur', $subdir, $filedir, $urlsource, $genallowed, $delallowed, $modelpdf, 1, 0, 0, 40, 0, '', '', '', $societe->default_lang);
+					print $formfile->showdocuments('facture_fournisseur', $subdir, $filedir, $urlsource, $genallowed, $delallowed, $modelpdf, $genifempty, 0, 0, 40, 0, '', '', '', $societe->default_lang);
 					$somethingshown = $formfile->numoffiles;
 
 					// Show links to link elements
