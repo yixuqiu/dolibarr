@@ -9,7 +9,7 @@
  * Copyright (C) 2013		Florian Henry			<florian.henry@open-concept.pro>
  * Copyright (C) 2014-2016  Marcos García			<marcosgdf@gmail.com>
  * Copyright (C) 2016-2023	Alexandre Spangaro		<aspangaro@open-dsi.fr>
- * Copyright (C) 2018-2024  Frédéric France         <frederic.france@free.fr>
+ * Copyright (C) 2018-2025  Frédéric France         <frederic.france@free.fr>
  * Copyright (C) 2019       Ferran Marcet	        <fmarcet@2byte.es>
  * Copyright (C) 2022       Gauthier VERDOL         <gauthier.verdol@atm-consulting.fr>
  * Copyright (C) 2023		Nick Fragoulis
@@ -4071,15 +4071,15 @@ if ($action == 'create') {
 				if ($action != 'confirm_edit' && $object->status == FactureFournisseur::STATUS_DRAFT && count($object->lines) > 0
 					&& ((($object->type == FactureFournisseur::TYPE_STANDARD || $object->type == FactureFournisseur::TYPE_REPLACEMENT || $object->type == FactureFournisseur::TYPE_DEPOSIT || $object->type == FactureFournisseur::TYPE_PROFORMA || $object->type == FactureFournisseur::TYPE_SITUATION) && (getDolGlobalString('SUPPLIER_INVOICE_ENABLE_NEGATIVE') || $object->total_ttc >= 0))  // @phan-suppress-current-line PhanDeprecatedClassConstant
 						|| ($object->type == FactureFournisseur::TYPE_CREDIT_NOTE && $object->total_ttc <= 0))) {
-					if (count($object->lines)) {
-						if ($usercanvalidate) {
-							print '<a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&action=valid&token='.newToken().'"';
-							print '>'.$langs->trans('Validate').'</a>';
-						} else {
-							print '<a class="butActionRefused classfortooltip" href="#" title="'.dol_escape_htmltag($langs->trans("NotAllowed")).'"';
-							print '>'.$langs->trans('Validate').'</a>';
-						}
+					// if (count($object->lines)) { // already tested in condition
+					if ($usercanvalidate) {
+						print '<a class="butAction" href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&action=valid&token='.newToken().'"';
+						print '>'.$langs->trans('Validate').'</a>';
+					} else {
+						print '<a class="butActionRefused classfortooltip" href="#" title="'.dol_escape_htmltag($langs->trans("NotAllowed")).'"';
+						print '>'.$langs->trans('Validate').'</a>';
 					}
+					//}
 				}
 
 				// Send by mail
