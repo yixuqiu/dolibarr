@@ -974,6 +974,16 @@ abstract class CommonDocGenerator
 			}
 		}
 
+		// Check if the current line belongs to a shipment
+		if (get_class($line) == 'ExpeditionLigne') {
+			$resarray['line_qty_shipped'] = $line->qty_shipped;
+			$resarray['line_qty_asked'] = $line->qty_asked;
+			$resarray['line_weight'] = empty($line->weight) ? '' : $line->weight * $line->qty_shipped.' '.measuringUnitString(0, 'weight', $line->weight_units);
+			$resarray['line_length'] = empty($line->length) ? '' : $line->length * $line->qty_shipped.' '.measuringUnitString(0, 'size', $line->length_units);
+			$resarray['line_surface'] = empty($line->surface) ? '' : $line->surface * $line->qty_shipped.' '.measuringUnitString(0, 'surface', $line->surface_units);
+			$resarray['line_volume'] = empty($line->volume) ? '' : $line->volume * $line->qty_shipped.' '.measuringUnitString(0, 'volume', $line->volume_units);
+		}
+
 		// Load product data optional fields to the line -> enables to use "line_options_{extrafield}"
 		if (isset($line->fk_product) && $line->fk_product > 0) {
 			$tmpproduct = new Product($this->db);
