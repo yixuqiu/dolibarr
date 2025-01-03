@@ -377,7 +377,7 @@ class ODFTest extends PHPUnit\Framework\TestCase
 			} else {
 				$res = $odf->convertVarToOdf($case['to_convert'], $case['encode']);
 			}
-			$this->assertEquals($res, $case['expected']);
+			$this->assertEquals($case['expected'], $res);
 		}
 
 		print __METHOD__." result=".$result."\n";
