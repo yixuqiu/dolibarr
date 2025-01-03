@@ -21865,12 +21865,6 @@ parameters:
 			path: ../../htdocs/install/check.php
 
 		-
-			message: '#^Variable \$dolibarr_main_db_encrypted_pass might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/install/check.php
-
-		-
 			message: '#^If condition is always true\.$#'
 			identifier: if.alwaysTrue
 			count: 1

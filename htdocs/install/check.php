@@ -6,7 +6,7 @@
  * Copyright (C) 2013-2014  Juanjo Menent           <jmenent@2byte.es>
  * Copyright (C) 2014       Marcos García           <marcosgdf@gmail.com>
  * Copyright (C) 2015-2016  Raphaël Doursenaud      <rdoursenaud@gpcsolutions.fr>
- * Copyright (C) 2024		MDW							<mdeweerd@users.noreply.github.com>
+ * Copyright (C) 2024		MDW						<mdeweerd@users.noreply.github.com>
  * Copyright (C) 2024-2025  Frédéric France         <frederic.france@free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -40,6 +40,7 @@ include_once 'inc.php';
  * @var string $dolibarr_main_db_name
  * @var string $dolibarr_main_db_user
  * @var string $dolibarr_main_db_pass
+ * @var string $dolibarr_main_db_encrypted_pass
  * @var string $conffile
  * @var string $conffiletoshow
  */
