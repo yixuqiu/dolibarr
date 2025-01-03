@@ -71,10 +71,10 @@ $search_categ_cus = GETPOST("search_categ_cus", 'intcomma', 3) ? GETPOST("search
 
 // If not choice done on calendar owner (like on left menu link "Agenda"), we filter on user.
 if (empty($filtert) && !getDolGlobalString('AGENDA_ALL_CALENDARS')) {
-	$filtert = $user->id;
+	$filtert = "".$user->id;
 }
 //TODO :  debug : if filtert ON : no bookcal -> nothing is altering filtert ???
-$filtert=-1;
+$filtert="-1";
 
 $newparam = '';
 
