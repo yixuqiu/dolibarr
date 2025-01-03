@@ -69,12 +69,10 @@ $usergroup = GETPOST("search_usergroup", "intcomma", 3) ? GETPOST("search_usergr
 $showbirthday = empty($conf->use_javascript_ajax) ? GETPOSTINT("showbirthday") : 1;
 $search_categ_cus = GETPOST("search_categ_cus", 'intcomma', 3) ? GETPOST("search_categ_cus", 'intcomma', 3) : 0;
 
-// If not choice done on calendar owner (like on left menu link "Agenda"), we filter on user.
+// If no choice done on calendar owner (like on left menu link "Agenda"), we filter on current user by default.
 if (empty($filtert) && !getDolGlobalString('AGENDA_ALL_CALENDARS')) {
-	$filtert = "".$user->id;
+	$filtert = (string) $user->id;
 }
-//TODO :  debug : if filtert ON : no bookcal -> nothing is altering filtert ???
-$filtert="-1";
 
 $newparam = '';
 
@@ -110,7 +108,7 @@ if (!$user->hasRight('agenda', 'allactions', 'read')) {
 	$canedit = 0;
 }
 if (!$user->hasRight('agenda', 'allactions', 'read') || $filter == 'mine') {  // If no permission to see all, we show only affected to me
-	$filtert = $user->id;
+	$filtert = (string) $user->id;
 }
 
 $action = GETPOST('action', 'aZ09');
@@ -601,9 +599,9 @@ if (isModEnabled("bookcal")) {
 	$sql .= " ON bc.rowid = ba.fk_bookcal_calendar";
 	$sql .= " WHERE bc.status = 1";
 	$sql .= " AND ba.status = 1";
-	$sql .= " AND bc.entity IN (".getEntity('agenda').")";
-	if (!empty($filtert) && $filtert != -1) {
-		$sql .= " AND bc.visibility = ".(int) $filtert ;
+	$sql .= " AND bc.entity IN (".getEntity('bookcal_calendar').")";
+	if (!empty($filtert) && $filtert != '-1') {
+		$sql .= " AND bc.visibility IN (".$db->sanitize($filtert, 0, 0, 0, 0).")";
 	}
 	$resql = $db->query($sql);
 	if ($resql) {
