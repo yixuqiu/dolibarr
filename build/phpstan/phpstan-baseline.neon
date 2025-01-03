@@ -21859,24 +21859,6 @@ parameters:
 			path: ../../htdocs/install/check.php
 
 		-
-			message: '#^Variable \$conf might not be defined\.$#'
-			identifier: variable.undefined
-			count: 19
-			path: ../../htdocs/install/check.php
-
-		-
-			message: '#^Variable \$conffile might not be defined\.$#'
-			identifier: variable.undefined
-			count: 19
-			path: ../../htdocs/install/check.php
-
-		-
-			message: '#^Variable \$conffiletoshow might not be defined\.$#'
-			identifier: variable.undefined
-			count: 13
-			path: ../../htdocs/install/check.php
-
-		-
 			message: '#^Variable \$db might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
