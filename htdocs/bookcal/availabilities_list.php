@@ -276,7 +276,7 @@ $reshook = $hookmanager->executeHooks('printFieldListFrom', $parameters, $object
 $sql .= $hookmanager->resPrint;
 if ($object->ismultientitymanaged == 1  || $object->ismultientitymanaged != '') { // value is fk_bookcal_calendar@bookcal_calendar
 	$sql .= " WHERE bc.rowid = t.fk_bookcal_calendar";
-	$sql .= " AND bc.entity IN (".getEntity($object->element, (GETPOSTINT('search_current_entity') ? 0 : 1)).")";
+	$sql .= " AND bc.entity IN (".getEntity('calendar', (GETPOSTINT('search_current_entity') ? 0 : 1)).")";
 } else {
 	$sql .= " WHERE 1 = 1";
 }
