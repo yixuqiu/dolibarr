@@ -73,6 +73,8 @@ $search_categ_cus = GETPOST("search_categ_cus", 'intcomma', 3) ? GETPOST("search
 if (empty($filtert) && !getDolGlobalString('AGENDA_ALL_CALENDARS')) {
 	$filtert = $user->id;
 }
+//TODO :  debug : if filtert ON : no bookcal -> nothing is altering filtert ???
+$filtert=-1;
 
 $newparam = '';
 
@@ -599,6 +601,7 @@ if (isModEnabled("bookcal")) {
 	$sql .= " ON bc.rowid = ba.fk_bookcal_calendar";
 	$sql .= " WHERE bc.status = 1";
 	$sql .= " AND ba.status = 1";
+	$sql .= " AND bc.entity IN (".getEntity('agenda').")";
 	if (!empty($filtert) && $filtert != -1) {
 		$sql .= " AND bc.visibility = ".(int) $filtert ;
 	}
