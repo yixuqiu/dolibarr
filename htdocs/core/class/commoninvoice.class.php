@@ -1547,7 +1547,7 @@ abstract class CommonInvoice extends CommonObject
 
 												$error++;
 												$errorforinvoice++;
-												$errmsg = $langs->trans("FailedToChargeCard");
+												$errmsg = $langs->trans("FailedToChargeSEPA");
 												if (!empty($charge)) {
 													if ($stripefailuredeclinecode == 'authentication_required') {
 														$errauthenticationmessage = $langs->trans("ErrSCAAuthentication");
