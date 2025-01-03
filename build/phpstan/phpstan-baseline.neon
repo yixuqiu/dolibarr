@@ -21889,30 +21889,6 @@ parameters:
 			path: ../../htdocs/install/fileconf.php
 
 		-
-			message: '#^Variable \$conffile might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/install/fileconf.php
-
-		-
-			message: '#^Variable \$conffiletoshow might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/install/fileconf.php
-
-		-
-			message: '#^Variable \$dolibarr_main_db_port might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/install/fileconf.php
-
-		-
-			message: '#^Variable \$dolibarr_main_db_user might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/install/fileconf.php
-
-		-
 			message: '#^Variable \$testclass might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
