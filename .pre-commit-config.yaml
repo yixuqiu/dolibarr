@@ -154,6 +154,7 @@ repos:
           ]
         pass_filenames: false # Run on all files
       - id: php-lint
+        stages: [manual]
       - id: php-stan
         stages: [manual]
         files: \.(php)$
