@@ -604,7 +604,7 @@ function Reduction() {
 
 function CloseBill() {
 	<?php
-	if (!empty($conf->global->TAKEPOS_FORBID_SALES_TO_DEFAULT_CUSTOMER)) {
+	if (getDolGlobalString('TAKEPOS_FORBID_SALES_TO_DEFAULT_CUSTOMER')) {
 		echo "customerAnchorTag = document.querySelector('a[id=\"customer\"]'); ";
 		echo "if (customerAnchorTag && customerAnchorTag.innerText.trim() === '".$langs->trans("Customer")."') { ";
 		echo "alert('".dol_escape_js($langs->trans("NoClientErrorMessage"))."'); ";
