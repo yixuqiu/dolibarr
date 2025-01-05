@@ -1033,7 +1033,7 @@ abstract class CommonDocGenerator
 			$array_key.'_ref' => $object->ref,
 			$array_key.'_ref_ext' => $object->ref_ext,
 			$array_key.'_ref_customer' => $object->ref_customer,
-			$array_key.'_date_delivery' => dol_print_date($object->date_delivery, 'day'),
+			$array_key.'_date_delivery' => dol_print_date($object->date_delivery, 'day'),	// note: for shipment, delivery and reception: date_delivery, for orders: delivery_date
 			$array_key.'_hour_delivery' => dol_print_date($object->date_delivery, 'hour'),
 			$array_key.'_date_creation' => dol_print_date($object->date_creation, 'day'),
 			$array_key.'_total_ht' => price($object->total_ht),

@@ -1298,9 +1298,13 @@ if ($id > 0 || !empty($ref)) {
 				// Date creation
 				print '<td class="center">'.dol_print_date($db->jdate($objp->datec), 'day').'</td>';
 
-				// Date delivery
-				if (property_exists($objp, "date_delivery")) {
-					print '<td class="center">' . dol_print_date($db->jdate($objp->date_delivery), 'day') . '</td>';
+				// Date delivery of reception
+				if (isModEnabled('reception')) {
+					print '<td class="center">';
+					if (!empty($objp->date_delivery)) {
+						print dol_print_date($db->jdate($objp->date_delivery), 'day');
+					}
+					print '</td>';
 				} else {
 					print '<td class="center"></td>';
 				}
