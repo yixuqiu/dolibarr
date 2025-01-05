@@ -4247,7 +4247,7 @@ class OrderLine extends CommonOrderLine
 
 	/**
 	 * Buy price without taxes
-	 * @var float
+	 * @var float|string|null
 	 */
 	public $pa_ht;
 	public $marge_tx;
