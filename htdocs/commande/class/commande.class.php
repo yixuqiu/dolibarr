@@ -1846,8 +1846,7 @@ class Commande extends CommonOrder
 			$this->lines[] = $line;
 
 			/** POUR AJOUTER AUTOMATIQUEMENT LES SOUSPRODUITS a LA COMMANDE
-			 if (!empty($conf->global->PRODUIT_SOUSPRODUITS))
-			 {
+			 if (getDolGlobalString('PRODUIT_SOUSPRODUITS')) {
 			 $prod = new Product($this->db);
 			 $prod->fetch($idproduct);
 			 $prod -> get_sousproduits_arbo();
