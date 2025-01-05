@@ -4465,6 +4465,7 @@ class OrderLine extends CommonOrderLine
 	{
 		$error = 0;
 
+		// @phpstan-ignore-next-line @phan-suppress-next-line PhanTypeMismatchProperty
 		$pa_ht_isemptystring = (empty($this->pa_ht) && $this->pa_ht == ''); // If true, we can use a default value. If this->pa_ht = '0', we must use '0'.
 		$this->pa_ht = (float) $this->pa_ht; // convert to float after check if empty value
 
