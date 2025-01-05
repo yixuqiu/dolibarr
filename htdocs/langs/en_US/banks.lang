@@ -195,3 +195,11 @@ SEPAXMLPlacePaymentTypeInformationInCreditTransfertransactionInformation=SEPA fi
 SEPAXMLPlacePaymentTypeInformationInCreditTransfertransactionInformationHelp=Yes = Store 'Payment Type' in 'Credit Transfer' section of SEPA file<br><br>When generating a SEPA XML file for Credit transfers, the section "PaymentTypeInformation" can now be placed inside the "CreditTransferTransactionInformation" section (instead of "Payment" section). We strongly recommend to keep this unchecked to place PaymentTypeInformation at Payment level, as all banks will not necessarily accept it at CreditTransferTransactionInformation level. Contact your bank before placing PaymentTypeInformation at CreditTransferTransactionInformation level.
 ToCreateRelatedRecordIntoBank=To create missing related bank record
 XNewLinesConciliated=%s new line(s) conciliated
+c_sepa_category_purposeCORE=CORE - Transaction is related to SEPA direct debit (default)
+c_sepa_category_purposeCORT=CORT - Transaction is related to settlement of a trade, eg a foreign exchange deal or a securities transaction
+c_sepa_category_purposeCASH=CASH - Transaction is a general cash management instruction
+c_sepa_category_purposeINST=INST - Transaction is related to an Instant Credit Transfer
+c_sepa_category_purposeSUPP=SUPP - Transaction is related to a payment to a supplier
+c_sepa_category_purposeTREA=TREA - Transaction is related to treasury operations
+c_sepa_community_instrumentCORE=CORE - Transaction is related to SEPA direct debit (default)
+c_sepa_community_instrumentINST=INST - Transaction is related to an Instant Credit Transfer

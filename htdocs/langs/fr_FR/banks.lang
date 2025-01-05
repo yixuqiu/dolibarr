@@ -195,3 +195,11 @@ SEPAXMLPlacePaymentTypeInformationInCreditTransfertransactionInformation=Variant
 SEPAXMLPlacePaymentTypeInformationInCreditTransfertransactionInformationHelp=Oui = Stocker le « Type de paiement » dans la section « Virement de crédit » du fichier SEPA<br><br>Lors de la génération d'un fichier XML SEPA pour les virements, la section "PaymentTypeInformation" peut désormais être placée dans la section "CreditTransferTransactionInformation" (au lieu de la section "Payment"). Nous vous recommandons fortement de laisser cette case décochée pour placer PaymentTypeInformation au niveau Payment, car toutes les banques ne l'accepteront pas nécessairement au niveau CreditTransferTransactionInformation. Contactez votre banque avant de placer PaymentTypeInformation au niveau CreditTransferTransactionInformation.
 ToCreateRelatedRecordIntoBank=Pour créer un enregistrement bancaire associé manquant
 XNewLinesConciliated=%s nouvelle(s) ligne(s) rapprochée(s)
+c_sepa_category_purposeCORE=CORE - Prélèvement SEPA (par défaut)
+c_sepa_category_purposeCORT=CORT - Opération de change
+c_sepa_category_purposeCASH=CASH - Instruction générale de gestion de trésorerie
+c_sepa_category_purposeINST=INST - Virement instantané
+c_sepa_category_purposeSUPP=SUPP - Paiement fournisseur
+c_sepa_category_purposeTREA=TREA - Virement de trésorerie
+c_sepa_community_instrumentCORE=CORE - Prélèvement SEPA (par défaut)
+c_sepa_community_instrumentINST=INST - Virement instantané
