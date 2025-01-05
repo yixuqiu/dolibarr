@@ -2,6 +2,25 @@
 English Dolibarr ChangeLog
 --------------------------------------------------------------
 
+
+***** ChangeLog for 22.0.0 compared to 21.0 *****
+
+For users:
+----------
+
+
+For developers:
+----------
+
+
+WARNING:
+--------
+
+The following changes may create regressions for some external modules, but were necessary to make Dolibarr better:
+* The directory /build has been moved into /dev/build.
+
+
+
 ***** ChangeLog for 21.0.0 compared to 20.0 *****
 
 For users:

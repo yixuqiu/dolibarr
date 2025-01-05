@@ -177,7 +177,7 @@ install:
   fi
 
   # Remove non expected files
-  rm -fr /home/travis/dev/build/Dolibarr/dolibarr/htdocs/includes/phpunit/php-code-coverage/src/Report/Html/Renderer/Template/js
+  rm -fr /home/travis/build/Dolibarr/dolibarr/htdocs/includes/phpunit/php-code-coverage/src/Report/Html/Renderer/Template/js
   echo
 
 - |

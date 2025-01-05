@@ -42,4 +42,4 @@ if (!defined("NOHTTPSREDIRECT")) {
 
 global $conf, $db, $hookmanager, $langs, $mysoc, $user;
 
-include_once __DIR__ . '/../../htdocs/main.inc.php';
+include_once __DIR__ . '/../../../htdocs/main.inc.php';
