@@ -1535,6 +1535,7 @@ class Commande extends CommonOrder
 			$pu_ht = price2num($pu_ht);
 			$pu_ht_devise = price2num($pu_ht_devise);
 			$pu_ttc = price2num($pu_ttc);
+			// @phpstan-ignore-next-line @phan-suppress-next-line PhanTypeMismatchProperty
 			$pa_ht = price2num($pa_ht); // do not convert to float here, it breaks the functioning of $pa_ht_isemptystring
 			if (!preg_match('/\((.*)\)/', (string) $txtva)) {
 				$txtva = price2num($txtva); // $txtva can have format '5,1' or '5.1' or '5.1(XXX)', we must clean only if '5,1'
@@ -4465,7 +4466,6 @@ class OrderLine extends CommonOrderLine
 	{
 		$error = 0;
 
-		// @phpstan-ignore-next-line @phan-suppress-next-line PhanTypeMismatchProperty
 		$pa_ht_isemptystring = (empty($this->pa_ht) && $this->pa_ht == ''); // If true, we can use a default value. If this->pa_ht = '0', we must use '0'.
 		$this->pa_ht = (float) $this->pa_ht; // convert to float after check if empty value
 
