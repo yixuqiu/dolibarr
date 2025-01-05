@@ -39,6 +39,7 @@
 require_once DOL_DOCUMENT_ROOT.'/core/class/commonobjectline.class.php';
 require_once DOL_DOCUMENT_ROOT.'/margin/lib/margins.lib.php';
 
+
 /**
  *  Class to manage order lines
  */
@@ -105,7 +106,7 @@ class OrderLine extends CommonOrderLine
 
 	/**
 	 * Buy price without taxes
-	 * @var float
+	 * @var int|float|string
 	 */
 	public $pa_ht;
 
