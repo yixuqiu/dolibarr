@@ -21853,31 +21853,7 @@ parameters:
 			path: ../../htdocs/install/check.php
 
 		-
-			message: '#^Variable \$conf might not be defined\.$#'
-			identifier: variable.undefined
-			count: 19
-			path: ../../htdocs/install/check.php
-
-		-
-			message: '#^Variable \$conffile might not be defined\.$#'
-			identifier: variable.undefined
-			count: 19
-			path: ../../htdocs/install/check.php
-
-		-
-			message: '#^Variable \$conffiletoshow might not be defined\.$#'
-			identifier: variable.undefined
-			count: 13
-			path: ../../htdocs/install/check.php
-
-		-
 			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/install/check.php
-
-		-
-			message: '#^Variable \$dolibarr_main_db_encrypted_pass might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
 			path: ../../htdocs/install/check.php
@@ -21904,30 +21880,6 @@ parameters:
 			message: '#^Strict comparison using \!\=\= between mixed and null will always evaluate to true\.$#'
 			identifier: notIdentical.alwaysTrue
 			count: 8
-			path: ../../htdocs/install/fileconf.php
-
-		-
-			message: '#^Variable \$conffile might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
-			path: ../../htdocs/install/fileconf.php
-
-		-
-			message: '#^Variable \$conffiletoshow might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/install/fileconf.php
-
-		-
-			message: '#^Variable \$dolibarr_main_db_port might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../htdocs/install/fileconf.php
-
-		-
-			message: '#^Variable \$dolibarr_main_db_user might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
 			path: ../../htdocs/install/fileconf.php
 
 		-
