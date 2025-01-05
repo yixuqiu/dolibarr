@@ -14635,12 +14635,6 @@ parameters:
 			path: ../../../htdocs/core/modules/mrp/doc/pdf_vinci.modules.php
 
 		-
-			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
-			identifier: argument.type
-			count: 3
-			path: ../../../htdocs/core/modules/mrp/doc/pdf_vinci.modules.php
-
-		-
 			message: '#^Parameter \#3 \$posy of method pdf_vinci\:\:_tableau_info\(\) expects int, float given\.$#'
 			identifier: argument.type
 			count: 1
@@ -15037,12 +15031,6 @@ parameters:
 			path: ../../../htdocs/core/modules/propale/doc/pdf_azur.modules.php
 
 		-
-			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
-			identifier: argument.type
-			count: 6
-			path: ../../../htdocs/core/modules/propale/doc/pdf_azur.modules.php
-
-		-
 			message: '#^Parameter \#3 \$posy of method pdf_azur\:\:_tableau_info\(\) expects int, float given\.$#'
 			identifier: argument.type
 			count: 1
@@ -15082,12 +15070,6 @@ parameters:
 			message: '#^Call to function is_object\(\) with object will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
-			path: ../../../htdocs/core/modules/propale/doc/pdf_cyan.modules.php
-
-		-
-			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
-			identifier: argument.type
-			count: 5
 			path: ../../../htdocs/core/modules/propale/doc/pdf_cyan.modules.php
 
 		-
@@ -15577,12 +15559,6 @@ parameters:
 			path: ../../../htdocs/core/modules/supplier_invoice/doc/doc_generic_supplier_invoice_odt.modules.php
 
 		-
-			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
-			identifier: argument.type
-			count: 3
-			path: ../../../htdocs/core/modules/supplier_invoice/doc/pdf_canelle.modules.php
-
-		-
 			message: '#^Parameter \#4 \$posy of method pdf_canelle\:\:_tableau_tot\(\) expects int, float given\.$#'
 			identifier: argument.type
 			count: 1
@@ -15658,12 +15634,6 @@ parameters:
 			message: '#^Left side of \|\| is always false\.$#'
 			identifier: booleanOr.leftAlwaysFalse
 			count: 1
-			path: ../../../htdocs/core/modules/supplier_order/doc/pdf_cornas.modules.php
-
-		-
-			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
-			identifier: argument.type
-			count: 3
 			path: ../../../htdocs/core/modules/supplier_order/doc/pdf_cornas.modules.php
 
 		-
@@ -15793,12 +15763,6 @@ parameters:
 			path: ../../../htdocs/core/modules/supplier_order/doc/pdf_muscadet.modules.php
 
 		-
-			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
-			identifier: argument.type
-			count: 3
-			path: ../../../htdocs/core/modules/supplier_order/doc/pdf_muscadet.modules.php
-
-		-
 			message: '#^Parameter \#3 \$posy of method pdf_muscadet\:\:_tableau_info\(\) expects int, float given\.$#'
 			identifier: argument.type
 			count: 1
@@ -15919,12 +15883,6 @@ parameters:
 			path: ../../../htdocs/core/modules/supplier_proposal/doc/pdf_aurore.modules.php
 
 		-
-			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
-			identifier: argument.type
-			count: 5
-			path: ../../../htdocs/core/modules/supplier_proposal/doc/pdf_aurore.modules.php
-
-		-
 			message: '#^Parameter \#5 \$w of function pdf_writelinedesc expects int, float given\.$#'
 			identifier: argument.type
 			count: 2
@@ -15946,12 +15904,6 @@ parameters:
 			message: '#^Left side of \|\| is always false\.$#'
 			identifier: booleanOr.leftAlwaysFalse
 			count: 1
-			path: ../../../htdocs/core/modules/supplier_proposal/doc/pdf_zenith.modules.php
-
-		-
-			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
-			identifier: argument.type
-			count: 3
 			path: ../../../htdocs/core/modules/supplier_proposal/doc/pdf_zenith.modules.php
 
 		-
@@ -31313,12 +31265,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: ../../../htdocs/takepos/printbox.php
-
-		-
-			message: '#^Parameter \#2 \$addpercent of function vatrate expects bool, int given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../../htdocs/takepos/receipt.php
 
 		-
 			message: '#^Right side of && is always true\.$#'
