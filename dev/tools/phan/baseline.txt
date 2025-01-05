@@ -11,7 +11,7 @@ return [
     // # Issue statistics:
     // PhanUndeclaredProperty : 560+ occurrences
     // PhanPossiblyUndeclaredGlobalVariable : 310+ occurrences
-    // PhanUndeclaredGlobalVariable : 290+ occurrences
+    // PhanUndeclaredGlobalVariable : 280+ occurrences
     // PhanTypeMismatchArgumentProbablyReal : 230+ occurrences
     // PhanPluginUnknownArrayMethodReturnType : 180+ occurrences
     // PhanTypeMismatchProperty : 130+ occurrences
@@ -34,7 +34,7 @@ return [
     // PhanPluginSuspiciousParamPosition : 7 occurrences
     // PhanTypeArraySuspiciousNull : 6 occurrences
     // PhanParamTooMany : 5 occurrences
-    // PhanPossiblyNullTypeMismatchProperty : 5 occurrences
+    // PhanPossiblyNullTypeMismatchProperty : 4 occurrences
     // PhanEmptyFQSENInClasslike : 3 occurrences
     // PhanInvalidFQSENInClasslike : 3 occurrences
     // PhanTypeMismatchReturn : 3 occurrences
@@ -310,7 +310,6 @@ return [
         'htdocs/fourn/class/fournisseur.commande.class.php' => ['PhanUndeclaredProperty'],
         'htdocs/fourn/commande/card.php' => ['PhanPossiblyUndeclaredGlobalVariable', 'PhanTypeMismatchDimAssignment', 'PhanTypeMismatchProperty', 'PhanTypeSuspiciousStringExpression', 'PhanUndeclaredProperty'],
         'htdocs/fourn/commande/contact.php' => ['PhanUndeclaredGlobalVariable'],
-        'htdocs/fourn/commande/dispatch.php' => ['PhanUndeclaredGlobalVariable'],
         'htdocs/fourn/commande/document.php' => ['PhanUndeclaredGlobalVariable'],
         'htdocs/fourn/commande/info.php' => ['PhanUndeclaredGlobalVariable'],
         'htdocs/fourn/commande/list.php' => ['PhanPossiblyUndeclaredGlobalVariable', 'PhanTypeMismatchArgumentProbablyReal'],
@@ -469,7 +468,7 @@ return [
         'htdocs/public/ticket/create_ticket.php' => ['PhanPossiblyUndeclaredGlobalVariable', 'PhanTypeMismatchDimFetchNullable', 'PhanTypeMismatchProperty'],
         'htdocs/public/ticket/view.php' => ['PhanPossiblyUndeclaredGlobalVariable', 'PhanTypeMismatchArgumentProbablyReal'],
         'htdocs/public/webportal/tpl/menu.tpl.php' => ['PhanUndeclaredProperty'],
-        'htdocs/public/webportal/webportal.main.inc.php' => ['PhanPossiblyNullTypeMismatchProperty', 'PhanPossiblyUndeclaredGlobalVariable', 'PhanRedefineFunction'],
+        'htdocs/public/webportal/webportal.main.inc.php' => ['PhanRedefineFunction'],
         'htdocs/public/website/index.php' => ['PhanRedefineFunction'],
         'htdocs/public/website/javascript.js.php' => ['PhanRedefineFunction'],
         'htdocs/public/website/styles.css.php' => ['PhanRedefineFunction'],
