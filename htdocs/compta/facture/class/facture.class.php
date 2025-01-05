@@ -3877,7 +3877,7 @@ class Facture extends CommonInvoice
 			$pu_ht = price2num($pu_ht);
 			$pu_ht_devise = price2num($pu_ht_devise);
 			$pu_ttc = price2num($pu_ttc);
-			$pa_ht = price2num($pa_ht);
+			$pa_ht = price2num($pa_ht); // do not convert to float here, it breaks the functioning of $pa_ht_isemptystring
 			if (!preg_match('/\((.*)\)/', (string) $txtva)) {
 				$txtva = price2num($txtva); // $txtva can have format '5.0(XXX)' or '5'
 			}
@@ -4137,7 +4137,7 @@ class Facture extends CommonInvoice
 			$qty			= price2num($qty);
 			$pu 			= price2num($pu);
 			$pu_ht_devise = price2num($pu_ht_devise);
-			$pa_ht = price2num($pa_ht);
+			$pa_ht = price2num($pa_ht); // do not convert to float here, it breaks the functioning of $pa_ht_isemptystring
 			if (!preg_match('/\((.*)\)/', (string) $txtva)) {
 				$txtva = price2num($txtva); // $txtva can have format '5.0(XXX)' or '5'
 			}
@@ -6089,6 +6089,11 @@ class FactureLigne extends CommonInvoiceLine
 	public $rang = 0;
 
 	public $fk_fournprice;
+
+	/**
+	 * Buy price without taxes
+	 * @var float|string|null
+	 */
 	public $pa_ht;
 	public $marge_tx;
 	public $marque_tx;
@@ -6256,6 +6261,7 @@ class FactureLigne extends CommonInvoiceLine
 		$error = 0;
 
 		$pa_ht_isemptystring = (empty($this->pa_ht) && $this->pa_ht == ''); // If true, we can use a default value. If this->pa_ht = '0', we must use '0'.
+		$this->pa_ht = (float) $this->pa_ht; // convert to float after check if empty value
 
 		dol_syslog(get_class($this)."::insert rang=".$this->rang, LOG_DEBUG);
 
@@ -6310,9 +6316,6 @@ class FactureLigne extends CommonInvoiceLine
 			$this->situation_percent = 100;
 		}
 
-		if (empty($this->pa_ht)) {
-			$this->pa_ht = 0;
-		}
 		if (empty($this->multicurrency_subprice)) {
 			$this->multicurrency_subprice = 0;
 		}
@@ -6496,6 +6499,7 @@ class FactureLigne extends CommonInvoiceLine
 		$error = 0;
 
 		$pa_ht_isemptystring = (empty($this->pa_ht) && $this->pa_ht == ''); // If true, we can use a default value. If this->pa_ht = '0', we must use '0'.
+		$this->pa_ht = (float) $this->pa_ht; // convert to float after check if empty value
 
 		// Clean parameters
 		$this->desc = trim($this->desc);
@@ -6540,9 +6544,6 @@ class FactureLigne extends CommonInvoiceLine
 		}
 		if (!isset($this->situation_percent) || $this->situation_percent > 100 || (string) $this->situation_percent == '') {
 			$this->situation_percent = 100;
-		}
-		if (empty($this->pa_ht)) {
-			$this->pa_ht = 0;
 		}
 
 		if (empty($this->multicurrency_subprice)) {
