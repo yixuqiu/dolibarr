@@ -733,6 +733,12 @@ class Reception extends CommonObject
 					if ($res < 0) {
 						return $res;
 					}
+				} elseif ($this->origin_object instanceof CommandeFournisseur && empty($this->origin_object->lines)) {
+					$res = $this->origin_object->fetch_lines();
+					$this->commandeFournisseur = $this->origin_object;	// deprecated
+					if ($res < 0) {
+						return $res;
+					}
 				}
 			}
 
