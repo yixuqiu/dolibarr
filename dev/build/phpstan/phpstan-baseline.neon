@@ -9097,12 +9097,6 @@ parameters:
 			path: ../../../htdocs/core/class/commonobject.class.php
 
 		-
-			message: '#^Parameter \#17 \$pa_ht of method Commande\:\:updateline\(\) expects int, float given\.$#'
-			identifier: argument.type
-			count: 1
-			path: ../../../htdocs/core/class/commonobject.class.php
-
-		-
 			message: '#^Parameter \#2 \$line of method CommonObject\:\:printObjectLine\(\) expects CommonObjectLine, CommonObject\|stdClass given\.$#'
 			identifier: argument.type
 			count: 1
@@ -20245,12 +20239,6 @@ parameters:
 			path: ../../../htdocs/fourn/commande/dispatch.php
 
 		-
-			message: '#^Variable \$reception might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../../htdocs/fourn/commande/dispatch.php
-
-		-
 			message: '#^If condition is always false\.$#'
 			identifier: if.alwaysFalse
 			count: 1
@@ -28732,12 +28720,6 @@ parameters:
 			message: '#^Variable \$langs might not be defined\.$#'
 			identifier: variable.undefined
 			count: 16
-			path: ../../../htdocs/public/webportal/webportal.main.inc.php
-
-		-
-			message: '#^Variable \$logged_partnership might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
 			path: ../../../htdocs/public/webportal/webportal.main.inc.php
 
 		-
