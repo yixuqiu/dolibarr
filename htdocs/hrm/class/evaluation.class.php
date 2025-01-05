@@ -185,7 +185,7 @@ class Evaluation extends CommonObject
 			$this->fields['entity']['enabled'] = 0;
 		}
 
-		if (!$user->hasRight('hrm', 'evaluation', 'readall') || 1) {
+		if (!$user->hasRight('hrm', 'evaluation', 'readall')) {
 			$this->fields['fk_user']['type'] .= ':t.rowid:IN:'.$this->db->sanitize(implode(",", $user->getAllChildIds(1)));
 		}
 
