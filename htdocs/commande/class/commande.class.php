@@ -36,7 +36,7 @@
  *  \brief      class for orders
  */
 
-include_once DOL_DOCUMENT_ROOT.'/core/class/commonorder.class.php';
+require_once DOL_DOCUMENT_ROOT.'/core/class/commonorder.class.php';
 require_once DOL_DOCUMENT_ROOT.'/commande/class/orderline.class.php';
 require_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
 require_once DOL_DOCUMENT_ROOT.'/margin/lib/margins.lib.php';
@@ -461,6 +461,7 @@ class Commande extends CommonOrder
 			}
 
 			$obj = new $classname();
+			/** @var ModeleNumRefCommandes $obj */
 			'@phan-var-force ModeleNumRefCommandes $obj';
 
 			$numref = $obj->getNextValue($soc, $this);
