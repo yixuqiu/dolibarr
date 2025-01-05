@@ -105,7 +105,7 @@ class OrderLine extends CommonOrderLine
 
 	/**
 	 * Buy price without taxes
-	 * @var float|string	Can be '' when we do not provide any buying price.
+	 * @var float|int|string	Can be '' when we do not provide any buying price.
 	 */
 	public $pa_ht;
 
