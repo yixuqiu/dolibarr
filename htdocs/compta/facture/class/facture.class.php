@@ -6089,6 +6089,11 @@ class FactureLigne extends CommonInvoiceLine
 	public $rang = 0;
 
 	public $fk_fournprice;
+
+	/**
+	 * Buy price without taxes
+	 * @var float|string|null
+	 */
 	public $pa_ht;
 	public $marge_tx;
 	public $marque_tx;
