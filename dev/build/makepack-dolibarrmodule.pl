@@ -285,10 +285,10 @@ foreach my $PROJECT (@PROJECTLIST) {
 
 				@timearray=localtime(time());
 				$fulldate=($timearray[5]+1900).'-'.($timearray[4]+1).'-'.$timearray[3].' '.$timearray[2].':'.$timearray[1];
-				open(VF,">$BUILDROOT/$PROJECTLC/build/version-".$PROJECTLC.".txt");
+				open(VF,">$BUILDROOT/$PROJECTLC/dev/build/version-".$PROJECTLC.".txt");
 
-				print "Create version file $BUILDROOT/$PROJECTLC/build/version-".$PROJECTLC.".txt with date ".$fulldate."\n";
-				$ret=`mkdir -p "$BUILDROOT/$PROJECTLC/build"`;
+				print "Create version file $BUILDROOT/$PROJECTLC/dev/build/version-".$PROJECTLC.".txt with date ".$fulldate."\n";
+				$ret=`mkdir -p "$BUILDROOT/$PROJECTLC/dev/build"`;
 				print VF "Version: ".$MAJOR.".".$MINOR.($BUILD ne ''?".$BUILD":"")."\n";
 				print VF "Build  : ".$fulldate."\n";
 				close VF;
@@ -299,7 +299,7 @@ foreach my $PROJECT (@PROJECTLIST) {
 		    $ret=`rm -fr $BUILDROOT/$PROJECTLC/.project`;
 		    $ret=`rm -fr $BUILDROOT/$PROJECTLC/.settings`;
 		    $ret=`rm -fr $BUILDROOT/$PROJECTLC/index.php`;
-		    $ret=`rm -fr $BUILDROOT/$PROJECTLC/build/html`;
+		    $ret=`rm -fr $BUILDROOT/$PROJECTLC/dev/build/html`;
 		    $ret=`rm -fr $BUILDROOT/$PROJECTLC/documents`;
 		    $ret=`rm -fr $BUILDROOT/$PROJECTLC/document`;
 		    $ret=`rm -fr $BUILDROOT/$PROJECTLC/htdocs/conf/conf.php.mysql`;

@@ -4,8 +4,8 @@
 .gitignore
 .scrutinizer.yml
 Thumbs.db
-build/exe
-build/html
+dev/build/exe
+dev/build/html
 dev/examples/zapier
 dev/initdemo
 dev/initdata

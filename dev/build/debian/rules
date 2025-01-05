@@ -81,16 +81,16 @@ override_dh_install:
 
 	rm -fr test
 
-	rm -fr build/aps
-	rm -fr build/dmg
-	rm -fr build/doap
-	rm -fr build/exe
-	rm -fr build/launchpad
-	rm -fr build/live
-	rm -fr build/patch
-	rm -fr build/perl
-	rm -fr build/rpm
-	rm -fr build/zip
+	rm -fr dev/build/aps
+	rm -fr dev/build/dmg
+	rm -fr dev/build/doap
+	rm -fr dev/build/exe
+	rm -fr dev/build/launchpad
+	rm -fr dev/build/live
+	rm -fr dev/build/patch
+	rm -fr dev/build/perl
+	rm -fr dev/build/rpm
+	rm -fr dev/build/zip
 
 	# clean from all PHP embedded libraries (we use package dependencies instead)
 #	rm -fr htdocs/includes/geoip

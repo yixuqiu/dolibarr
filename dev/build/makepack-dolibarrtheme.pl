@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 #-----------------------------------------------------------------------------
-# \file         build/makepack-dolibarrtheme.pl
+# \file         dev/build/makepack-dolibarrtheme.pl
 # \brief        Script to build a theme Package for Dolibarr
 # \author       (c)2005-2009 Laurent Destailleur  <eldy@users.sourceforge.net>
 #-----------------------------------------------------------------------------

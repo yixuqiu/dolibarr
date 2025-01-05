@@ -10,7 +10,7 @@ Before build/run, define the variable HOST_USER_ID as following:
 
 Go in repository build/docker :
 
-        cd build/docker
+        cd dev/build/docker
 
 And then, you can run :
 

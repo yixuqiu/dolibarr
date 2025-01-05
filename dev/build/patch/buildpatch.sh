@@ -1,6 +1,6 @@
 #!/bin/bash
 #----------------------------------------------------------------------------
-# \file         build/patch/buildpatch.sh
+# \file         dev/build/patch/buildpatch.sh
 # \brief        Create patch files
 # \author       (c)2009-2011 Laurent Destailleur  <eldy@users.sourceforge.net>
 #----------------------------------------------------------------------------

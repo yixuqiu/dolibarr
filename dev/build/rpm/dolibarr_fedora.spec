@@ -84,23 +84,23 @@ cui hai bisogno ed essere facile da usare.
 %{__rm} -rf $RPM_BUILD_ROOT
 
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
-%{__install} -m 644 build/rpm/conf.php $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/conf.php
-%{__install} -m 644 build/rpm/httpd-dolibarr.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/apache.conf
-%{__install} -m 644 build/rpm/file_contexts.dolibarr $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/file_contexts.dolibarr
-%{__install} -m 644 build/rpm/install.forced.php.fedora $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install.forced.php
+%{__install} -m 644 dev/build/rpm/conf.php $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/conf.php
+%{__install} -m 644 dev/build/rpm/httpd-dolibarr.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/apache.conf
+%{__install} -m 644 dev/build/rpm/file_contexts.dolibarr $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/file_contexts.dolibarr
+%{__install} -m 644 dev/build/rpm/install.forced.php.fedora $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install.forced.php
 
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
 %{__install} -m 644 doc/images/appicon_64.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/%{name}.png
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/applications
-#desktop-file-install --delete-original --dir=$RPM_BUILD_ROOT%{_datadir}/applications build/rpm/%{name}.desktop
-%{__install} -m 644 build/rpm/dolibarr.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+#desktop-file-install --delete-original --dir=$RPM_BUILD_ROOT%{_datadir}/applications dev/build/rpm/%{name}.desktop
+%{__install} -m 644 dev/build/rpm/dolibarr.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/build/rpm
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/build/tgz
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/dev/build/rpm
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/dev/build/tgz
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/htdocs
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/scripts
-%{__cp} -pr build/rpm/*     $RPM_BUILD_ROOT%{_datadir}/%{name}/build/rpm
-%{__cp} -pr build/tgz/*     $RPM_BUILD_ROOT%{_datadir}/%{name}/build/tgz
+%{__cp} -pr dev/build/rpm/*     $RPM_BUILD_ROOT%{_datadir}/%{name}/dev/build/rpm
+%{__cp} -pr dev/build/tgz/*     $RPM_BUILD_ROOT%{_datadir}/%{name}/dev/build/tgz
 %{__cp} -pr htdocs  $RPM_BUILD_ROOT%{_datadir}/%{name}
 %{__cp} -pr scripts $RPM_BUILD_ROOT%{_datadir}/%{name}
 %{__rm} -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/htdocs/includes/ckeditor/_source
@@ -146,13 +146,13 @@ done >>%{name}.lang
 %_datadir/pixmaps/dolibarr.png
 %_datadir/applications/dolibarr.desktop
 
-%dir %_datadir/dolibarr/build
+%dir %_datadir/dolibarr/dev/build
 
-%dir %_datadir/dolibarr/build/rpm
-%_datadir/dolibarr/build/rpm/*
+%dir %_datadir/dolibarr/dev/build/rpm
+%_datadir/dolibarr/dev/build/rpm/*
 
-%dir %_datadir/dolibarr/build/tgz
-%_datadir/dolibarr/build/tgz/*
+%dir %_datadir/dolibarr/dev/build/tgz
+%_datadir/dolibarr/dev/build/tgz/*
 
 %dir %_datadir/dolibarr/htdocs
 %_datadir/dolibarr/htdocs/accountancy

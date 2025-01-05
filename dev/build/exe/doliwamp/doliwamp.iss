@@ -8,7 +8,7 @@
 ; package contains only one user called root with no password.
 ; For this, you can edit the mysql.user table of the source database to keep
 ; only the root user with no password, stop server and catch
-; files user.MY* to put them in the Dolibarr build/exe/doliwamp/mysql directory.
+; files user.MY* to put them in the Dolibarr dev/build/exe/doliwamp/mysql directory.
 ;
 ;----------------------------------------------------------------------------------------
 

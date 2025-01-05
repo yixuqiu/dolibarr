@@ -19,7 +19,7 @@ my $dir = getcwd;
 print "Current dir is: $dir\n";
 #print "Running dir for doxygen must be: $DIR\n";
 
-if (! -s "build/doxygen/$CONFFILE")
+if (! -s "dev/build/doxygen/$CONFFILE")
 {
     print "Error: current directory for building Dolibarr doxygen documentation is not correct.\n";
     print "\n";
@@ -47,8 +47,8 @@ $version=$MAJOR.".".$MINOR.".".$BUILD;
 
 
 print "Running doxygen for version ".$version.", please wait...\n";
-print "cat build/doxygen/$CONFFILE | sed -e 's/x\.y\.z/".$version."/' | doxygen $OPTIONS - 2>&1\n";
-$result=`cat build/doxygen/$CONFFILE | sed -e 's/x\.y\.z/$version/' | doxygen $OPTIONS - 2>&1`;
+print "cat dev/build/doxygen/$CONFFILE | sed -e 's/x\.y\.z/".$version."/' | doxygen $OPTIONS - 2>&1\n";
+$result=`cat dev/build/doxygen/$CONFFILE | sed -e 's/x\.y\.z/$version/' | doxygen $OPTIONS - 2>&1`;
 
 print $result;
 

@@ -133,19 +133,19 @@ cui hai bisogno ed essere facile da usare.
 %{__mkdir} -p $RPM_BUILD_ROOT%{_sysconfdir}/%{name}
 %endif
 
-%{__install} -m 644 build/rpm/conf.php $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/conf.php
-%{__install} -m 644 build/rpm/httpd-dolibarr.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/apache.conf
-%{__install} -m 644 build/rpm/file_contexts.dolibarr $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/file_contexts.dolibarr
+%{__install} -m 644 dev/build/rpm/conf.php $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/conf.php
+%{__install} -m 644 dev/build/rpm/httpd-dolibarr.conf $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/apache.conf
+%{__install} -m 644 dev/build/rpm/file_contexts.dolibarr $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/file_contexts.dolibarr
 %if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos_version}
-%{__install} -m 644 build/rpm/install.forced.php.fedora $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install.forced.php
+%{__install} -m 644 dev/build/rpm/install.forced.php.fedora $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install.forced.php
 %else
 %if 0%{?mdkversion}
-%{__install} -m 644 build/rpm/install.forced.php.mandriva $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install.forced.php
+%{__install} -m 644 dev/build/rpm/install.forced.php.mandriva $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install.forced.php
 %else
 %if 0%{?suse_version}
-%{__install} -m 644 build/rpm/install.forced.php.opensuse $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install.forced.php
+%{__install} -m 644 dev/build/rpm/install.forced.php.opensuse $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install.forced.php
 %else
-%{__install} -m 644 build/rpm/install.forced.php.generic $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install.forced.php
+%{__install} -m 644 dev/build/rpm/install.forced.php.generic $RPM_BUILD_ROOT%{_sysconfdir}/%{name}/install.forced.php
 %endif
 %endif
 %endif
@@ -153,18 +153,18 @@ cui hai bisogno ed essere facile da usare.
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/pixmaps
 %{__install} -m 644 doc/images/appicon_64.png $RPM_BUILD_ROOT%{_datadir}/pixmaps/%{name}.png
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/applications
-%{__install} -m 644 build/rpm/dolibarr.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
+%{__install} -m 644 dev/build/rpm/dolibarr.desktop $RPM_BUILD_ROOT%{_datadir}/applications/%{name}.desktop
 %if 0%{?fedora} || 0%{?rhel_version} || 0%{?centos_version} || 0%{?mdkversion} || 0%{?suse_version}
-#Commented as it fails with error: /usr/bin/install: cannot stat build/rpm/dolibarr.desktop: No such file or directory
-#desktop-file-install --delete-original --dir=$RPM_BUILD_ROOT%{_datadir}/applications build/rpm/%{name}.desktop --vendor=""
+#Commented as it fails with error: /usr/bin/install: cannot stat dev/build/rpm/dolibarr.desktop: No such file or directory
+#desktop-file-install --delete-original --dir=$RPM_BUILD_ROOT%{_datadir}/applications dev/build/rpm/%{name}.desktop --vendor=""
 %endif
 
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/build/rpm
-%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/build/tgz
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/dev/build/rpm
+%{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/dev/build/tgz
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/htdocs
 %{__mkdir} -p $RPM_BUILD_ROOT%{_datadir}/%{name}/scripts
-%{__cp} -pr build/rpm/*     $RPM_BUILD_ROOT%{_datadir}/%{name}/build/rpm
-%{__cp} -pr build/tgz/*     $RPM_BUILD_ROOT%{_datadir}/%{name}/build/tgz
+%{__cp} -pr dev/build/rpm/*     $RPM_BUILD_ROOT%{_datadir}/%{name}/dev/build/rpm
+%{__cp} -pr dev/build/tgz/*     $RPM_BUILD_ROOT%{_datadir}/%{name}/dev/build/tgz
 %{__cp} -pr htdocs  $RPM_BUILD_ROOT%{_datadir}/%{name}
 %{__cp} -pr scripts $RPM_BUILD_ROOT%{_datadir}/%{name}
 %{__rm} -rf $RPM_BUILD_ROOT%{_datadir}/%{name}/htdocs/includes/ckeditor/_source
@@ -227,13 +227,13 @@ done >>%{name}.lang
 %_datadir/pixmaps/dolibarr.png
 %_datadir/applications/dolibarr.desktop
 
-%dir %_datadir/dolibarr/build
+%dir %_datadir/dolibarr/dev/build
 
-%dir %_datadir/dolibarr/build/rpm
-%_datadir/dolibarr/build/rpm/*
+%dir %_datadir/dolibarr/dev/build/rpm
+%_datadir/dolibarr/dev/build/rpm/*
 
-%dir %_datadir/dolibarr/build/tgz
-%_datadir/dolibarr/build/tgz/*
+%dir %_datadir/dolibarr/dev/build/tgz
+%_datadir/dolibarr/dev/build/tgz/*
 
 %dir %_datadir/dolibarr/htdocs
 %_datadir/dolibarr/htdocs/accountancy
@@ -413,7 +413,7 @@ then
     superuserpassword=$(/bin/grep --max-count=1 "password" %{_sysconfdir}/mysql/debian.cnf | /bin/sed -e 's/^password[ =]*//g')
   fi
   echo Mysql superuser found to use is $superuserlogin
-  %{__cat} /usr/share/dolibarr/build/rpm/install.forced.php.generic | sed -e 's/__SUPERUSERLOGIN__/'$superuserlogin'/g' | sed -e 's/__SUPERUSERPASSWORD__/'$superuserpassword'/g' > $installconfig
+  %{__cat} /usr/share/dolibarr/dev/build/rpm/install.forced.php.generic | sed -e 's/__SUPERUSERLOGIN__/'$superuserlogin'/g' | sed -e 's/__SUPERUSERPASSWORD__/'$superuserpassword'/g' > $installconfig
   %{__chmod} -R 660 $installconfig
 fi
 %endif

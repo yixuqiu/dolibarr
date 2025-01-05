@@ -18,7 +18,7 @@
  */
 
 /**
- *      \file       build/generate_filelist_xml.php
+ *      \file       dev/build/generate_filelist_xml.php
  *		\ingroup    dev
  * 		\brief      This script create a xml checksum file
  */

@@ -31,7 +31,7 @@ DEBEMAIL="<Your email address>"
 - Create a Bazaar directory
     mkdir bzr
 
-If you want to build/test package locally:
+If you want to build or test package locally:
 - Create a file ~/.pbuilderrc with content
     COMPONENTS="main universe multiverse restricted"
 - Create chroot ubuntu env
