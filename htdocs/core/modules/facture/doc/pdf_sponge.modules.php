@@ -1111,9 +1111,9 @@ class pdf_sponge extends ModelePDFFactures
 	 *
 	 *  @param	TCPDF		$pdf            Object PDF
 	 *  @param  Facture		$object         Object invoice
-	 *  @param  int			$posy           Position y in PDF
+	 *  @param  float		$posy           Position y in PDF
 	 *  @param  Translate	$outputlangs    Object langs for output
-	 *  @return int             			Return integer <0 if KO, >0 if OK
+	 *  @return float           			Return integer <0 if KO, >0 if OK
 	 */
 	public function drawPaymentsTable(&$pdf, $object, $posy, $outputlangs)
 	{
@@ -1253,10 +1253,10 @@ class pdf_sponge extends ModelePDFFactures
 	 *
 	 *   @param		TCPDF		$pdf     		Object PDF
 	 *   @param		Facture		$object			Object to show
-	 *   @param		int			$posy			Y
+	 *   @param		float		$posy			Y
 	 *   @param		Translate	$outputlangs	Langs object
 	 *   @param  	Translate	$outputlangsbis	Object lang for output bis
-	 *   @return	int							Pos y
+	 *   @return	float						Pos y
 	 */
 	protected function drawInfoTable(&$pdf, $object, $posy, $outputlangs, $outputlangsbis)
 	{
@@ -1568,11 +1568,11 @@ class pdf_sponge extends ModelePDFFactures
 	 *
 	 *  @param	TCPDF		$pdf            Object PDF
 	 *	@param  Facture		$object         Object invoice
-	 *	@param  int			$deja_regle     Amount already paid (in the currency of invoice)
-	 *	@param	int			$posy			Position depart
+	 *	@param  float		$deja_regle     Amount already paid (in the currency of invoice)
+	 *	@param	float		$posy			Position depart
 	 *	@param	Translate	$outputlangs	Object langs
 	 *  @param  Translate	$outputlangsbis	Object lang for output bis
-	 *	@return int							Position pour suite
+	 *	@return float						Position pour suite
 	 */
 	protected function drawTotalTable(&$pdf, $object, $deja_regle, $posy, $outputlangs, $outputlangsbis)
 	{

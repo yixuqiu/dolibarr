@@ -1008,9 +1008,9 @@ class pdf_cyan extends ModelePDFPropales
 	 *
 	 *   @param		TCPDF		$pdf     		Object PDF
 	 *   @param		Propal		$object			Object to show
-	 *   @param		int			$posy			Y
+	 *   @param		float		$posy			Y
 	 *   @param		Translate	$outputlangs	Langs object
-	 *   @return	int							Pos y
+	 *   @return	float						Pos y
 	 */
 	public function drawInfoTable(&$pdf, $object, $posy, $outputlangs)
 	{
@@ -1191,11 +1191,11 @@ class pdf_cyan extends ModelePDFPropales
 	 *
 	 *	@param	TCPDF		$pdf            Object PDF
 	 *	@param  Propal		$object         Object proposal
-	 *	@param  int			$deja_regle     Amount already paid (in the currency of invoice)
-	 *	@param	int			$posy			Position depart
+	 *	@param  float		$deja_regle     Amount already paid (in the currency of invoice)
+	 *	@param	float		$posy			Position depart
 	 *	@param	Translate	$outputlangs	Object langs
 	 *  @param  Translate	$outputlangsbis	Object lang for output bis
-	 *	@return int							Position pour suite
+	 *	@return float						Position pour suite
 	 */
 	protected function drawTotalTable(&$pdf, $object, $deja_regle, $posy, $outputlangs, $outputlangsbis = null)
 	{
@@ -1900,9 +1900,9 @@ class pdf_cyan extends ModelePDFPropales
 	 *
 	 *	@param	TCPDF		$pdf            Object PDF
 	 *	@param  Propal		$object         Object proposal
-	 *	@param	int			$posy			Position depart
+	 *	@param	float		$posy			Position depart
 	 *	@param	Translate	$outputlangs	Object langs
-	 *	@return int							Position pour suite
+	 *	@return float						Position pour suite
 	 */
 	protected function drawSignatureArea(&$pdf, $object, $posy, $outputlangs)
 	{
