@@ -1763,6 +1763,7 @@ if ($step == 5 && $datatoimport) {
 	print '</table>';
 	print '</div>';
 
+	print '<br>';
 
 	print load_fiche_titre($langs->trans("InformationOnTargetTables"), '', 'file-import');
 
