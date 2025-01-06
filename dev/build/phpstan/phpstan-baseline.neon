@@ -13429,51 +13429,9 @@ parameters:
 			path: ../../../htdocs/core/modules/fichinter/mod_pacific.php
 
 		-
-			message: '#^Parameter \#3 \$tab_height of method pdf_standard_evaluation\:\:_tableau\(\) expects int, float given\.$#'
-			identifier: argument.type
-			count: 6
-			path: ../../../htdocs/core/modules/hrm/doc/pdf_standard_evaluation.modules.php
-
-		-
 			message: '#^Property CommonObject\:\:\$entity \(int\) in isset\(\) is not nullable\.$#'
 			identifier: isset.property
 			count: 2
-			path: ../../../htdocs/core/modules/hrm/doc/pdf_standard_evaluation.modules.php
-
-		-
-			message: '#^Property pdf_standard_evaluation\:\:\$posxnotes has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../../htdocs/core/modules/hrm/doc/pdf_standard_evaluation.modules.php
-
-		-
-			message: '#^Property pdf_standard_evaluation\:\:\$posxpiece has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../../htdocs/core/modules/hrm/doc/pdf_standard_evaluation.modules.php
-
-		-
-			message: '#^Property pdf_standard_evaluation\:\:\$posxrankemp has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../../htdocs/core/modules/hrm/doc/pdf_standard_evaluation.modules.php
-
-		-
-			message: '#^Property pdf_standard_evaluation\:\:\$posxrequiredrank has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../../htdocs/core/modules/hrm/doc/pdf_standard_evaluation.modules.php
-
-		-
-			message: '#^Property pdf_standard_evaluation\:\:\$posxresult has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../../htdocs/core/modules/hrm/doc/pdf_standard_evaluation.modules.php
-
-		-
-			message: '#^Property pdf_standard_evaluation\:\:\$posxskill has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
 			path: ../../../htdocs/core/modules/hrm/doc/pdf_standard_evaluation.modules.php
 
 		-
