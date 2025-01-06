@@ -38,125 +38,10 @@
 
 
 -- Content / Contenu:
--- PCG99-ABREGE  -   50
--- PCG99-BASE    -  165
--- PCG14-DEV     -  510
--- PCG18-ASSOC   - 1490
--- PCGAFR14-DEV  - 1620
+-- PCG25-DEV     -   50
+-- PCG18-ASSOC   -  900
+-- PCGAFR14-DEV  - 1030
 
-
---
--- Descriptif des plans comptables FR PCG99-ABREGE
---
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__, 1401,'PCG99-ABREGE','CAPIT', 	         '1',    '0', 'Fonds propres, provisions pour risques et charges et dettes à plus d''un an', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__, 1402,'PCG99-ABREGE','IMMO',            '2',    '0', 'Frais d''établissement. Actifs immobilisés et créances à plus d''un an', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__, 1403,'PCG99-ABREGE','STOCK', 		       '3',    '0', 'Stock et commandes en cours d''exécution', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__, 1404,'PCG99-ABREGE','THIRDPARTY',      '4',    '0', 'Créances et dettes à un an au plus', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__, 1405,'PCG99-ABREGE','FINAN',           '5',    '0', 'Placement de trésorerie et de valeurs disponibles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__, 1406,'PCG99-ABREGE','EXPENSE', 	       '6',    '0', 'Charges', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__, 1407,'PCG99-ABREGE','INCOME',          '7',    '0', 'Produits', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,    1,'PCG99-ABREGE','CAPIT',         '101', '1401', 'Capital', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,    2,'PCG99-ABREGE','CAPIT',         '105', '1401', 'Ecarts de réévaluation', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,    3,'PCG99-ABREGE','CAPIT',        '1061', '1401', 'Réserve légale', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,    4,'PCG99-ABREGE','CAPIT',        '1063', '1401', 'Réserves statutaires ou contractuelles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,    5,'PCG99-ABREGE','CAPIT',        '1064', '1401', 'Réserves réglementées', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,    6,'PCG99-ABREGE','CAPIT',        '1068', '1401', 'Autres réserves', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,    7,'PCG99-ABREGE','CAPIT',         '108', '1401', 'Compte de l''exploitant', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,    8,'PCG99-ABREGE','CAPIT',          '12', '1401', 'Résultat de l''exercice', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,    9,'PCG99-ABREGE','CAPIT',         '145', '1401', 'Amortissements dérogatoires', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   10,'PCG99-ABREGE','CAPIT',         '146', '1401', 'Provision spéciale de réévaluation', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   11,'PCG99-ABREGE','CAPIT',         '147', '1401', 'Plus-values réinvesties', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   12,'PCG99-ABREGE','CAPIT',         '148', '1401', 'Autres provisions réglementées', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   13,'PCG99-ABREGE','CAPIT',          '15', '1401', 'Provisions pour risques et charges', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   14,'PCG99-ABREGE','CAPIT',          '16', '1401', 'Emprunts et dettes assimilees', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   15,'PCG99-ABREGE', 'IMMO',          '20', '1402', 'Immobilisations incorporelles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   16,'PCG99-ABREGE', 'IMMO',         '201',   '15', 'Frais d''établissement', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   17,'PCG99-ABREGE', 'IMMO',         '206',	  '15', 'Droit au bail', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   18,'PCG99-ABREGE', 'IMMO',         '207',	  '15', 'Fonds commercial', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   19,'PCG99-ABREGE', 'IMMO',         '208',	  '15', 'Autres immobilisations incorporelles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   20,'PCG99-ABREGE', 'IMMO',          '21', '1402', 'Immobilisations corporelles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   21,'PCG99-ABREGE', 'IMMO',          '23', '1402', 'Immobilisations en cours', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   22,'PCG99-ABREGE', 'IMMO',          '27', '1402', 'Autres immobilisations financieres', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   23,'PCG99-ABREGE', 'IMMO',         '280', '1402', 'Amortissements des immobilisations incorporelles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   24,'PCG99-ABREGE', 'IMMO',         '281', '1402', 'Amortissements des immobilisations corporelles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   25,'PCG99-ABREGE', 'IMMO',         '290', '1402', 'Provisions pour dépréciation des immobilisations incorporelles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   26,'PCG99-ABREGE', 'IMMO',         '291', '1402', 'Provisions pour dépréciation des immobilisations corporelles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   27,'PCG99-ABREGE', 'IMMO',         '297', '1402', 'Provisions pour dépréciation des autres immobilisations financières', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   28,'PCG99-ABREGE','STOCK',          '31', '1403', 'Matieres premières', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   29,'PCG99-ABREGE','STOCK',          '32', '1403', 'Autres approvisionnements', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   30,'PCG99-ABREGE','STOCK',          '33', '1403', 'En-cours de production de biens', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   31,'PCG99-ABREGE','STOCK',          '34', '1403', 'En-cours de production de services', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   32,'PCG99-ABREGE','STOCK',          '35', '1403', 'Stocks de produits', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   33,'PCG99-ABREGE','STOCK',          '37', '1403', 'Stocks de marchandises', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   34,'PCG99-ABREGE','STOCK',         '391', '1403', 'Provisions pour dépréciation des matières premières', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   35,'PCG99-ABREGE','STOCK',         '392', '1403', 'Provisions pour dépréciation des autres approvisionnements', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   36,'PCG99-ABREGE','STOCK',         '393', '1403', 'Provisions pour dépréciation des en-cours de production de biens', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   37,'PCG99-ABREGE','STOCK',         '394', '1403', 'Provisions pour dépréciation des en-cours de production de services', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   38,'PCG99-ABREGE','STOCK',         '395', '1403', 'Provisions pour dépréciation des stocks de produits', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   39,'PCG99-ABREGE','STOCK',         '397', '1403', 'Provisions pour dépréciation des stocks de marchandises', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   40,'PCG99-ABREGE','THIRDPARTY',	   '400', '1404', 'Fournisseurs et Comptes rattachés', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   41,'PCG99-ABREGE','THIRDPARTY',    '409', '1404', 'Fournisseurs débiteurs', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   42,'PCG99-ABREGE','THIRDPARTY', 	 '410', '1404', 'Clients et Comptes rattachés', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   43,'PCG99-ABREGE','THIRDPARTY',    '419', '1404', 'Clients créditeurs', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   44,'PCG99-ABREGE','THIRDPARTY',    '421', '1404', 'Personnel', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   45,'PCG99-ABREGE','THIRDPARTY',    '428', '1404', 'Personnel', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   46,'PCG99-ABREGE','THIRDPARTY',     '43', '1404', 'Sécurité sociale et autres organismes sociaux', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   47,'PCG99-ABREGE','THIRDPARTY',    '444', '1404', 'Etat - impôts sur bénéfice', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   48,'PCG99-ABREGE','THIRDPARTY',    '445', '1404', 'Etat - Taxes sur chiffre affaires', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   49,'PCG99-ABREGE','THIRDPARTY',    '447', '1404', 'Autres impôts, taxes et versements assimilés', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   50,'PCG99-ABREGE','THIRDPARTY',     '45', '1404', 'Groupe et associes', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   51,'PCG99-ABREGE','THIRDPARTY',    '455',   '50', 'Associés', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   52,'PCG99-ABREGE','THIRDPARTY',     '46', '1404', 'Débiteurs divers et créditeurs divers', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   53,'PCG99-ABREGE','THIRDPARTY',     '47', '1404', 'Comptes transitoires ou d''attente', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   54,'PCG99-ABREGE','THIRDPARTY',    '481', '1404', 'Charges à répartir sur plusieurs exercices', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   55,'PCG99-ABREGE','THIRDPARTY',    '486', '1404', 'Charges constatées d''avance', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   56,'PCG99-ABREGE','THIRDPARTY',    '487', '1404', 'Produits constatés d''avance', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   57,'PCG99-ABREGE','THIRDPARTY',    '491', '1404', 'Provisions pour dépréciation des comptes de clients', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   58,'PCG99-ABREGE','THIRDPARTY',    '496', '1404', 'Provisions pour dépréciation des comptes de débiteurs divers', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   59,'PCG99-ABREGE','FINAN',          '50', '1405', 'Valeurs mobilières de placement', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   60,'PCG99-ABREGE','FINAN',		      '51', '1405', 'Banques, établissements financiers et assimilés', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   61,'PCG99-ABREGE','FINAN', 	        '53', '1405', 'Caisse', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   62,'PCG99-ABREGE','FINAN',          '54', '1405', 'Régies d''avance et accréditifs', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   63,'PCG99-ABREGE','FINAN',          '58', '1405', 'Virements internes', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   64,'PCG99-ABREGE','FINAN',         '590', '1405', 'Provisions pour dépréciation des valeurs mobilières de placement', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   65,'PCG99-ABREGE','EXPENSE',		    '60', '1406', 'Achats', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   66,'PCG99-ABREGE','EXPENSE',       '603',   '65', 'Variations des stocks', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   67,'PCG99-ABREGE','EXPENSE',		    '61', '1406', 'Services extérieurs', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   68,'PCG99-ABREGE','EXPENSE',        '62', '1406', 'Autres services extérieurs', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   69,'PCG99-ABREGE','EXPENSE',        '63', '1406', 'Impôts, taxes et versements assimiles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   70,'PCG99-ABREGE','EXPENSE',	     '641', '1406', 'Rémunérations du personnel', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   71,'PCG99-ABREGE','EXPENSE',	     '644', '1406', 'Rémunération du travail de l''exploitant', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   72,'PCG99-ABREGE','EXPENSE',		   '645', '1406', 'Charges de sécurité sociale et de prévoyance', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   73,'PCG99-ABREGE','EXPENSE',       '646', '1406', 'Cotisations sociales personnelles de l''exploitant', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   74,'PCG99-ABREGE','EXPENSE',        '65', '1406', 'Autres charges de gestion courante', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   75,'PCG99-ABREGE','EXPENSE',        '66', '1406', 'Charges financières', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   76,'PCG99-ABREGE','EXPENSE',        '67', '1406', 'Charges exceptionnelles', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   77,'PCG99-ABREGE','EXPENSE',       '681', '1406', 'Dotations aux amortissements et aux provisions', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   78,'PCG99-ABREGE','EXPENSE',       '686', '1406', 'Dotations aux amortissements et aux provisions', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   79,'PCG99-ABREGE','EXPENSE',       '687', '1406', 'Dotations aux amortissements et aux provisions', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   80,'PCG99-ABREGE','EXPENSE',       '691', '1406', 'Participation des salariés aux résultats', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   81,'PCG99-ABREGE','EXPENSE',	     '695', '1406', 'Impôts sur les bénéfices', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   82,'PCG99-ABREGE','EXPENSE',		   '697', '1406', 'Imposition forfaitaire annuelle des sociétés', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   83,'PCG99-ABREGE','EXPENSE',       '699', '1406', 'Produits', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   84,'PCG99-ABREGE','INCOME',	    	 '701', '1407', 'Ventes de produits finis', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   85,'PCG99-ABREGE','INCOME',	 	     '706', '1407', 'Prestations de services', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   86,'PCG99-ABREGE','INCOME',		     '707', '1407', 'Ventes de marchandises', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   87,'PCG99-ABREGE','INCOME',		     '708', '1407', 'Produits des activités annexes', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   88,'PCG99-ABREGE','INCOME',        '709', '1407', 'Rabais, remises et ristournes accordés par l''entreprise', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   89,'PCG99-ABREGE','INCOME',        '713', '1407', 'Variation des stocks', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   90,'PCG99-ABREGE','INCOME',         '72', '1407', 'Production immobilisée', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   91,'PCG99-ABREGE','INCOME',         '73', '1407', 'Produits nets partiels sur opérations à long terme', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   92,'PCG99-ABREGE','INCOME',         '74', '1407', 'Subventions d''exploitation', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   93,'PCG99-ABREGE','INCOME',         '75', '1407', 'Autres produits de gestion courante', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   94,'PCG99-ABREGE','INCOME',        '753',   '93', 'Jetons de présence et rémunérations d''administrateurs, gérants,...', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   95,'PCG99-ABREGE','INCOME',        '754',   '93', 'Ristournes perçues des coopératives', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   96,'PCG99-ABREGE','INCOME',        '755',	  '93', 'Quotes-parts de résultat sur opérations faites en commun', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   97,'PCG99-ABREGE','INCOME',         '76', '1407', 'Produits financiers', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   98,'PCG99-ABREGE','INCOME',         '77', '1407', 'Produits exceptionnels', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,   99,'PCG99-ABREGE','INCOME',        '781', '1407', 'Reprises sur amortissements et provisions', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,  100,'PCG99-ABREGE','INCOME',        '786', '1407', 'Reprises sur provisions pour risques', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,  101,'PCG99-ABREGE','INCOME',        '787', '1407', 'Reprises sur provisions', 1);
-INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__,  102,'PCG99-ABREGE','INCOME',         '79', '1407', 'Transferts de charges', 1);
 
 
 --
@@ -1006,6 +891,8 @@ INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, acc
 INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__, 5960,'PCG25-DEV','INCOME',  '7874',5954,'Reprises sur autres provisions réglementées','1');
 INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__, 5961,'PCG25-DEV','INCOME'  ,'7875',5954,'Reprises sur provisions exceptionnelles','1');
 INSERT INTO llx_accounting_account (entity, rowid, fk_pcg_version, pcg_type, account_number, account_parent, label, active) VALUES (__ENTITY__, 5962,'PCG25-DEV','INCOME',  '7876',5954,'Reprises sur dépréciations exceptionnelles','1');
+
+
 
 --
 -- Descriptif des plans comptables FR PCG18-ASSOC
