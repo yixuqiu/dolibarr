@@ -95,7 +95,7 @@ class InterfaceNotification extends DolibarrTriggers
 
 		$notify = new Notify($this->db);
 		$resultSend = $notify->send($action, $object);
-		if ($resultSend<0) {
+		if ($resultSend < 0) {
 			$this->errors=array_merge($this->errors, $notify->errors);
 			return $resultSend;
 		}
