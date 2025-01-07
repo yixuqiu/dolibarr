@@ -2519,6 +2519,7 @@ AIPromptForFeatures=AI custom prompts for features
 EnterAnIP=Enter an IP address
 ConvertInto=Convert into
 YouAreHere=You are here
+SeeWikiDocForHelpInSetupOpenIDCOnnect=You can have a look at the wiki documentation to get information on how to setup an openid connect authentication
 BARCODE_ON_SHIPPING_PDF=Show the barcode on the shipping PDF document
 BARCODE_ON_RECEPTION_PDF=Show the barcode on the reception PDF document
 BARCODE_ON_STOCKTRANSFER_PDF=Show the barcode on the stock transfer PDF document
