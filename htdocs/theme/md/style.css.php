@@ -934,6 +934,7 @@ input[type=checkbox], input[type=radio] {
 /* CSS for placeholder */
 .placeholder { color: #ccc; }
 select.placeholder { color: #ccc; }
+.select2-selection__choice .placeholder { color: #aaa; }
 ::-webkit-input-placeholder { color:#ccc; }
 :-moz-placeholder { color:#bbb; } 			/* firefox 18- */
 ::-moz-placeholder { color:#bbb; } 			/* firefox 19+ */
@@ -6429,7 +6430,10 @@ A.none, A.none:active, A.none:visited, A.none:hover {
 body.cke_show_borders {
 	margin: 5px !important;
 }
-
+table.cke_dialog.cke_browser_webkit {
+	border-collapse: separate;
+	border-radius: 10px;
+}
 .cke_dialog {
 	border: 1px #bbb solid ! important;
 }
@@ -6450,17 +6454,10 @@ a.cke_dialog_ui_button
 	-webkit-box-shadow: 3px 3px 4px #f4f4f4 !important;
 	box-shadow: 3px 3px 4px #f4f4f4 !important;
 }
-.cke_dialog_ui_hbox_last
-{
-	vertical-align: bottom !important;
-}
-.cke_dialog_ui_hbox_last
-{
-	vertical-align: bottom !important;
-}
 .cke_combo_text {
 	width: 40px !important;
 }
+
 /*
 .cke_editable
 {

@@ -749,6 +749,7 @@ input:-webkit-autofill {
 /* CSS for placeholder */
 .placeholder { color: #ccc; }
 select.placeholder { color: #ccc; }
+.select2-selection__choice .placeholder { color: #aaa; }
 ::-webkit-input-placeholder { color: #ccc; }
 input:-moz-placeholder { color: #ccc; }
 select.placeholder option:not(.opacitymediumbycolor):not(.opacitymedium) {
@@ -6533,10 +6534,6 @@ a.cke_dialog_ui_button
 	border-radius:0px 5px 0px 5px !important;
 	-webkit-box-shadow: 3px 3px 4px #DDD !important;
 	box-shadow: 3px 3px 4px #DDD !important;
-}
-.cke_dialog_ui_hbox_last
-{
-	vertical-align: bottom !important;
 }
 .cke_dialog_ui_hbox_first {
 	vertical-align: middle !important;
