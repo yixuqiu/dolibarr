@@ -8309,7 +8309,7 @@ function getCommonSubstitutionArray($outputlangs, $onlykey = 0, $exclude = null,
 			$substitutionarray['__NOTE_PRIVATE__'] = (isset($object->note_private) ? $object->note_private : null);
 			// handle date_delivery: in customer order/supplier order, the property name is delivery_date, in shipment/reception it is date_delivery
 			$date_delivery = null;
-				if (property_exists($object, 'date_delivery')) {
+			if (property_exists($object, 'date_delivery')) {
 				$date_delivery =  $object->date_delivery;
 			} elseif (property_exists($object, delivery_date')) {
    				$date_delivery =  $object->delivery_date;
