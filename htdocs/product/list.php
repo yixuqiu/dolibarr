@@ -829,7 +829,7 @@ $arrayofmassactions = array(
 	//'presend'=>img_picto('', 'email', 'class="pictofixedwidth"').$langs->trans("SendByMail"),
 );
 if ($user->hasRight($rightskey, 'creer')) {
-	if (getDolGlobalString('PRODUCT_PRICE_UNIQ')) {
+	if (getDolGlobalString('PRODUCT_PRICE_UNIQ') || getDolGlobalString('PRODUIT_CUSTOMER_PRICES')) {
 		$arrayofmassactions['preupdateprice'] = img_picto('', 'edit', 'class="pictofixedwidth"').$langs->trans("UpdatePrice");
 	}
 
