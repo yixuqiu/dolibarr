@@ -8312,7 +8312,7 @@ function getCommonSubstitutionArray($outputlangs, $onlykey = 0, $exclude = null,
 			if (property_exists($object, 'date_delivery')) {
 				$date_delivery =  $object->date_delivery;
 			} elseif (property_exists($object, 'delivery_date')) {
-   				$date_delivery =  $object->delivery_date;
+				$date_delivery =  $object->delivery_date;
 			}
 			$substitutionarray['__DATE_DELIVERY__'] = (isset($date_delivery) ? dol_print_date($date_delivery, 'day', 0, $outputlangs) : '');
 			$substitutionarray['__DATE_DELIVERY_DAY__'] = (isset($date_delivery) ? dol_print_date($date_delivery, "%d") : '');
