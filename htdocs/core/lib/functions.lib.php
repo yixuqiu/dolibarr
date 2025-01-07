@@ -7988,7 +7988,7 @@ function dol_mkdir($dir, $dataroot = '', $newmask = '')
 				umask(0);
 				$dirmaskdec = octdec((string) $newmask);
 				if (empty($newmask)) {
-					$dirmaskdec = getDolGlobalString('MAIN_UMASK', octdec('0755'));
+					$dirmaskdec = octdec(getDolGlobalString('MAIN_UMASK', '0755'));
 				}
 				$dirmaskdec |= octdec('0111'); // Set x bit required for directories
 				if (!@mkdir($ccdir_osencoded, $dirmaskdec)) {
