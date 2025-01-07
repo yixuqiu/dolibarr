@@ -950,8 +950,8 @@ class ProductCombination
 				$variations[$tmp_pc2v->fk_prod_attr] = $tmp_pc2v->fk_prod_attr_val;
 			}
 
-            $variation_price_percentage = $combination->variation_price_percentage;
-            $variation_price = $combination->variation_price;
+			$variation_price_percentage = $combination->variation_price_percentage;
+			$variation_price = $combination->variation_price;
 
 			if (getDolGlobalInt('PRODUIT_MULTIPRICES') && getDolGlobalInt('PRODUIT_MULTIPRICES_LIMIT') > 1) {
 				$variation_price_percentage = [ ];
