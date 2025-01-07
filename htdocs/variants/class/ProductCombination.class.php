@@ -753,7 +753,7 @@ class ProductCombination
 		}
 
 		if (!is_array($price_var_percent)) {
-			$price_var_percent = array(1 => (float) $price_var_percent);
+			$price_var_percent = array(1 => (bool) $price_var_percent);
 		}
 
 		$newcomb = new ProductCombination($this->db);
@@ -840,7 +840,7 @@ class ProductCombination
 				$productCombinationLevel->fk_product_attribute_combination = $newcomb->id;
 				$productCombinationLevel->fk_price_level = $i;
 				$productCombinationLevel->variation_price = $price_impact[$i];
-				$productCombinationLevel->variation_price_percentage = (empty($price_var_percent[$i]) ? false : $price_var_percent[$i]);
+				$productCombinationLevel->variation_price_percentage = $price_var_percent[$i];
 
 				$newcomb->combination_price_levels[$i] = $productCombinationLevel;
 			}
