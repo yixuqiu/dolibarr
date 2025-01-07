@@ -4207,6 +4207,7 @@ div .tdtop:not(.tagtdnote) {
 	padding-bottom: 2px !important; */
 	padding-top: 7px !important;
 	padding-bottom: 0px !important;
+	height: unset !important;
 }
 
 table.border td, table.bordernooddeven td, div.border div div.tagtd {
