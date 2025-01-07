@@ -8307,12 +8307,11 @@ function getCommonSubstitutionArray($outputlangs, $onlykey = 0, $exclude = null,
 			$substitutionarray['__REF_SUPPLIER__'] = (isset($object->ref_supplier) ? $object->ref_supplier : null);
 			$substitutionarray['__NOTE_PUBLIC__'] = (isset($object->note_public) ? $object->note_public : null);
 			$substitutionarray['__NOTE_PRIVATE__'] = (isset($object->note_private) ? $object->note_private : null);
-			
 			// handle date_delivery: in customer order/supplier order, the property name is delivery_date, in shipment/reception it is date_delivery
 			$date_delivery = null;
-			if (property_exists($object, 'date_delivery')) {
+				if (property_exists($object, 'date_delivery')) {
 				$date_delivery =  $object->date_delivery;
-			} else if (property_exists($object, delivery_date')) {
+			} elseif (property_exists($object, delivery_date')) {
    				$date_delivery =  $object->delivery_date;
 			}
 			$substitutionarray['__DATE_DELIVERY__'] = (isset($date_delivery) ? dol_print_date($date_delivery, 'day', 0, $outputlangs) : '');
