@@ -844,7 +844,7 @@ if ($action == 'create') {
 		$res = $soc->fetch($socid);
 	}
 
-	if (GETPOSTINT('origin') && GETPOSTINT('originid')) {
+	if (GETPOST('origin', 'alphanohtml') && GETPOSTINT('originid')) {
 		// Parse element/subelement (ex: project_task)
 		$regs = array();
 		$element = $subelement = GETPOST('origin', 'alphanohtml');
@@ -1011,6 +1011,7 @@ if ($action == 'create') {
 		if (!empty($origin) && !empty($originid) && is_object($objectsrc)) {
 			$newclassname = $classname;
 			if ($newclassname == 'Propal') {
+				$langs->load('propal');
 				$newclassname = 'CommercialProposal';
 			}
 			print '<tr><td>'.$langs->trans($newclassname).'</td><td colspan="2">'.$objectsrc->getNomUrl(1).'</td></tr>';
@@ -1054,7 +1055,7 @@ if ($action == 'create') {
 		print $form->buttonsSaveCancel("CreateDraftIntervention");
 
 		// Show origin lines
-		if (!empty($origin) && !empty($originid) && is_object($objectsrc)) {
+		if (!empty($origin) && !empty($originid) && is_object($objectsrc) && !getDolGlobalInt('FICHINTER_DISABLE_DETAILS')) {
 			$title = $langs->trans('Services');
 			print load_fiche_titre($title);
 
@@ -1282,14 +1283,14 @@ if ($action == 'create') {
 		print '<table class="nobordernopadding centpercent"><tr><td>';
 		print $langs->trans('Contract');
 		print '</td>';
-		if ($action != 'contrat') {
-			print '<td class="right"><a class="editfielda" href="'.$_SERVER["PHP_SELF"].'?action=contrat&amp;id='.$object->id.'">';
+		if ($action != 'editcontract') {
+			print '<td class="right"><a class="editfielda" href="'.$_SERVER["PHP_SELF"].'?action=editcontract&id='.$object->id.'">';
 			print img_edit($langs->trans('SetContract'), 1);
 			print '</a></td>';
 		}
 		print '</tr></table>';
 		print '</td><td>';
-		if ($action == 'contrat') {
+		if ($action == 'editcontract') {
 			$formcontract = new FormContract($db);
 			$formcontract->formSelectContract($_SERVER["PHP_SELF"].'?id='.$object->id, $object->socid, $object->fk_contrat, 'contratid', 0, 1, 1);
 		} else {

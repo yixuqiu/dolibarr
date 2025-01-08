@@ -583,7 +583,7 @@ if (empty($reshook)) {
 			}
 		}
 	} elseif ($action == 'set_incoterms' && isModEnabled('incoterm') && $usercancreate) {		// Set incoterm
-		$result = $object->setIncoterms(GETPOSTINT('incoterm_id'), GETPOSTINT('location_incoterms'));
+		$result = $object->setIncoterms(GETPOSTINT('incoterm_id'), GETPOST('location_incoterms'));
 	} elseif ($action == 'setbankaccount' && $usercancreate) {	// bank account
 		$result = $object->setBankAccount(GETPOSTINT('fk_account'));
 	} elseif ($action == 'setremisepercent' && $usercancreate) {
@@ -1093,7 +1093,7 @@ if (empty($reshook)) {
 				$object->fk_incoterms       = GETPOSTINT('incoterm_id');
 				$object->location_incoterms = GETPOST('location_incoterms', 'alpha');
 				$object->multicurrency_code = GETPOST('multicurrency_code', 'alpha');
-				$object->multicurrency_tx   = GETPOSTINT('originmulticurrency_tx');
+				$object->multicurrency_tx   = GETPOSTFLOAT('originmulticurrency_tx');
 
 				// Special properties of replacement invoice
 				$object->fk_facture_source = GETPOSTINT('fac_replacement');
@@ -1154,7 +1154,7 @@ if (empty($reshook)) {
 				$object->fk_incoterms       = GETPOSTINT('incoterm_id');
 				$object->location_incoterms = GETPOST('location_incoterms', 'alpha');
 				$object->multicurrency_code = GETPOST('multicurrency_code', 'alpha');
-				$object->multicurrency_tx   = GETPOSTINT('originmulticurrency_tx');
+				$object->multicurrency_tx   = GETPOSTFLOAT('originmulticurrency_tx');
 
 				// Special properties of replacement invoice
 				$object->fk_facture_source = $sourceinvoice > 0 ? $sourceinvoice : '';
@@ -1393,7 +1393,7 @@ if (empty($reshook)) {
 				$object->fk_incoterms       = GETPOSTINT('incoterm_id');
 				$object->location_incoterms = GETPOST('location_incoterms', 'alpha');
 				$object->multicurrency_code = GETPOST('multicurrency_code', 'alpha');
-				$object->multicurrency_tx   = GETPOSTINT('originmulticurrency_tx');
+				$object->multicurrency_tx   = GETPOSTFLOAT('originmulticurrency_tx');
 
 				// Source facture
 				$object->fac_rec = GETPOSTINT('fac_rec');
@@ -1480,7 +1480,7 @@ if (empty($reshook)) {
 				$object->fk_incoterms       = GETPOSTINT('incoterm_id');
 				$object->location_incoterms = GETPOST('location_incoterms', 'alpha');
 				$object->multicurrency_code = GETPOST('multicurrency_code', 'alpha');
-				$object->multicurrency_tx   = GETPOSTINT('originmulticurrency_tx');
+				$object->multicurrency_tx   = GETPOSTFLOAT('originmulticurrency_tx');
 
 				if (GETPOST('type') == Facture::TYPE_SITUATION) {
 					$object->situation_counter = 1;
@@ -2742,7 +2742,7 @@ if (empty($reshook)) {
 		// Invoice situation
 		if (getDolGlobalInt('INVOICE_USE_SITUATION') == 2) {
 			$previousprogress = $line->get_allprev_progress($line->fk_facture);
-			$fullprogress = price2num(GETPOST('progress', 'alpha'));
+			$fullprogress = price2num(GETPOST('progress', 'alpha'), 2);
 
 			if ($fullprogress < $previousprogress) {
 				$error++;
@@ -2873,7 +2873,7 @@ if (empty($reshook)) {
 					$percent = $line->get_prev_progress($object->id);
 				}
 				if ((float) $all_progress < (float) $percent) {
-					$mesg = $langs->trans("Line").' '.$i.' : '.$langs->trans("CantBeLessThanMinPercent");
+					$mesg = $langs->trans("Line").' '.$line->rang.' : '.$langs->trans("CantBeLessThanMinPercent");
 					setEventMessages($mesg, null, 'warnings');
 					$result = -1;
 				} else {
@@ -4036,8 +4036,9 @@ if ($action == 'create') {
 		include_once DOL_DOCUMENT_ROOT.'/core/modules/facture/modules_facture.php';
 		$liste = ModelePDFFactures::liste_modeles($db);
 		if (getDolGlobalString('INVOICE_USE_DEFAULT_DOCUMENT')) {
+			$type = GETPOSTISSET('type') ? GETPOSTINT('type') : $object->type;
 			// Hidden conf
-			$paramkey = 'FACTURE_ADDON_PDF_'.$object->type;
+			$paramkey = 'FACTURE_ADDON_PDF_'.$type;
 			$preselected = getDolGlobalString($paramkey, getDolGlobalString('FACTURE_ADDON_PDF'));
 		} else {
 			$preselected = getDolGlobalString('FACTURE_ADDON_PDF');
@@ -4653,6 +4654,9 @@ if ($action == 'create') {
 	$morehtmlref .= '</div>';
 
 	$object->totalpaid = $totalpaid; // To give a chance to dol_banner_tab to use already paid amount to show correct status
+	$object->totalcreditnotes = $totalcreditnotes;
+	$object->totaldeposits = $totaldeposits;
+	$object->remaintopay = price2num($object->total_ttc - $object->totalpaid - $object->totalcreditnotes - $object->totaldeposits, 'MT');
 
 	dol_banner_tab($object, 'ref', $linkback, 1, 'ref', 'ref', $morehtmlref, '', 0, '', '');
 
@@ -4668,7 +4672,7 @@ if ($action == 'create') {
 		print '<table class="border centpercent tableforfield">';
 
 		// Type
-		print '<tr><td class="titlefield fieldname_type">'.$langs->trans('Type').'</td><td class="valuefield fieldname_type">';
+		print '<tr><td class="fieldname_type">'.$langs->trans('Type').'</td><td class="valuefield fieldname_type">';
 		print $object->getLibType(2);
 		if ($object->subtype > 0) {
 			print ' '.$object->getSubtypeLabel('facture');

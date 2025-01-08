@@ -1690,6 +1690,11 @@ table.paymenttable td.amountpaymentcomplete, table.paymenttable td.amountremaint
 .fa-15 {
 	font-size: 1.5em;
 }
+
+.fa-map-marked-alt:before {
+	font-size: 0.85em;
+}
+
 .text-security {
 	-webkit-text-security: disc;
 }
@@ -1937,6 +1942,22 @@ select.widthcentpercentminusxx, span.widthcentpercentminusxx:not(.select2-select
 	display: inline-block;
 	min-width: 100px;
 }
+
+/* Disabled: Has no effect, even on chrome
+datalist option {
+			width: 300px;
+		}
+datalist {
+			position: absolute;
+			width: 200px;
+			max-height: 150px;
+			overflow-y: auto;
+			background-color: white;
+			border: 1px solid #ccc;
+			border-radius: 4px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+*/
 
 
 /* Force values for small screen 768 */
@@ -2414,11 +2435,11 @@ div.vmenu, td.vmenu {
 div.fiche {
 	margin-<?php print $left; ?>: <?php print(GETPOST('optioncss', 'aZ09') == 'print' ? 6 : (empty($conf->dol_optimize_smallscreen) ? '42' : '6')); ?>px;
 	margin-<?php print $right; ?>: <?php print(GETPOST('optioncss', 'aZ09') == 'print' ? 6 : (empty($conf->dol_optimize_smallscreen) ? '38' : '6')); ?>px;
-	<?php if (!empty($dol_hide_leftmenu)) {
-		print 'margin-bottom: 12px;'."\n";
-	} ?>
-	<?php if (!empty($dol_hide_leftmenu)) {
+	<?php if (!empty($dol_hide_topmenu) || GETPOST('dol_openinpopup', 'aZ09')) {
 		print 'margin-top: 12px;'."\n";
+	} ?>
+	<?php if (!empty($dol_hide_topmenu) || GETPOST('dol_openinpopup', 'aZ09')) {
+		print 'margin-bottom: 12px;'."\n";
 	} ?>
 }
 body.onlinepaymentbody div.fiche {	/* For online payment page */
@@ -4208,6 +4229,9 @@ table.liste tr, table.noborder tr, div.noborder form {
 }
 table.liste th, table.noborder th, table.noborder tr.liste_titre td, table.noborder tr.box_titre td {
 	padding: 6px 10px 6px 12px;			/* t r b l */
+}
+table.tableforfield td, .tagtr.table-border-row .tagtd {
+	padding: 2px 4px 2px 10px;			/* t r b l */
 }
 table.liste td, table.noborder td, div.noborder form div, table.tableforservicepart1 td, table.tableforservicepart2 td {
 	padding: 6px 10px 6px 12px;			/* t r b l */
@@ -6167,8 +6191,9 @@ a.cke_dialog_ui_button_ok span {
 a.cke_button, a.cke_combo_button {
 	height: 18px !important;
 }
-/* .cke_notifications_area { display: none; } */
-
+div.cke_notifications_area .cke_notification_warning {
+	visibility: hidden;
+}
 
 /* ============================================================================== */
 /*  ACE editor                                                                    */
@@ -6468,6 +6493,7 @@ div.ecmjqft {
 	float: <?php echo $right; ?>;
 	right:4px;
 	clear: both;
+	height: 16px;
 }
 #ecm-layout-north {
 	min-height: 40px;

@@ -59,6 +59,7 @@ if (isModEnabled('incoterm')) {
 $action = GETPOST('action', 'aZ09');
 $confirm = GETPOST('confirm', 'alpha');
 $backtopage = GETPOST('backtopage', 'alpha');
+$id = GETPOSTINT('id');
 
 $object = new Delivery($db);
 $extrafields = new ExtraFields($db);
@@ -78,7 +79,6 @@ $hookmanager->initHooks(array('deliverycard', 'globalcard'));
 $error = 0;
 
 // Security check
-$id = GETPOSTINT('id');
 if ($user->socid) {
 	$socid = $user->socid;
 }
@@ -193,7 +193,7 @@ if ($action == 'setdate_delivery' && $permissiontoadd) {
 	}
 } elseif ($action == 'set_incoterms' && isModEnabled('incoterm')) {
 	// Set incoterm
-	$result = $object->setIncoterms(GETPOSTINT('incoterm_id'), GETPOSTINT('location_incoterms'));
+	$result = $object->setIncoterms(GETPOSTINT('incoterm_id'), GETPOST('location_incoterms'));
 }
 
 // Update extrafields

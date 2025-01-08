@@ -920,6 +920,7 @@ class Societe extends CommonObject
 		$this->name = $this->name ? trim($this->name) : trim((string) $this->nom);
 		$this->setUpperOrLowerCase();
 		$this->nom = $this->name; // For backward compatibility
+
 		if (empty($this->client)) {
 			$this->client = 0;
 		}
@@ -1372,7 +1373,7 @@ class Societe extends CommonObject
 		$this->address		= trim((string) $this->address);
 		$this->zip 			= trim((string) $this->zip);
 		$this->town 		= trim((string) $this->town);
-		$this->state_id 	= (is_numeric($this->state_id)) ? (int) trim((string) $this->state_id) : 0;
+		$this->state_id 	= (is_numeric($this->state_id)) ? (int) $this->state_id : 0;
 		$this->country_id 	= ($this->country_id > 0) ? $this->country_id : 0;
 		$this->phone		= trim((string) $this->phone);
 		$this->phone		= preg_replace("/\s/", "", $this->phone);
@@ -2077,7 +2078,7 @@ class Societe extends CommonObject
 				$this->model_pdf = $obj->model_pdf;
 				$this->last_main_doc = $obj->last_main_doc;
 
-				$result = 1;
+				$result = $this->id;
 
 				// fetch optionals attributes and labels
 				$this->fetch_optionals();
@@ -2096,6 +2097,45 @@ class Societe extends CommonObject
 		if ((getDolGlobalString('PRODUIT_MULTIPRICES') || getDolGlobalString('PRODUIT_CUSTOMER_PRICES_BY_QTY_MULTIPRICES')) && empty($this->price_level)) {
 			$this->price_level = 1;
 		}
+
+		return $result;
+	}
+
+	/**
+	 *    Search the thirdparty that match the most the provided parameters.
+	 *    Searching rules try to find the existing third party.
+	 *
+	 *    @param	int		$rowid			Id of third party
+	 *    @param    string	$ref			Reference of third party, name (Warning, this can return several records)
+	 *    @param    string	$ref_ext       	External reference of third party (Warning, this information is a free field not provided by Dolibarr)
+	 *    @param    string	$barcode       	Barcode of third party to load
+	 *    @param    string	$idprof1		Prof id 1 of third party (Warning, this can return several records)
+	 *    @param    string	$idprof2		Prof id 2 of third party (Warning, this can return several records)
+	 *    @param    string	$idprof3		Prof id 3 of third party (Warning, this can return several records)
+	 *    @param    string	$idprof4		Prof id 4 of third party (Warning, this can return several records)
+	 *    @param    string	$idprof5		Prof id 5 of third party (Warning, this can return several records)
+	 *    @param    string	$idprof6		Prof id 6 of third party (Warning, this can return several records)
+	 *    @param    string	$email   		Email of third party (Warning, this can return several records)
+	 *    @param    string	$ref_alias 		Name_alias of third party (Warning, this can return several records)
+	 * 	  @param	int		$is_client		Only client third party
+	 *    @param	int		$is_supplier	Only supplier third party
+	 *    @return   int						ID of thirdparty found if OK, <0 if KO or if two records found, 0 if not found.
+	 */
+	public function findNearest($rowid = 0, $ref = '', $ref_ext = '', $barcode = '', $idprof1 = '', $idprof2 = '', $idprof3 = '', $idprof4 = '', $idprof5 = '', $idprof6 = '', $email = '', $ref_alias = '', $is_client = 0, $is_supplier = 0)
+	{
+		// A rowid is known, it is a unique key so we found it
+		if ($rowid) {
+			return $rowid;
+		}
+
+		// We try to find the thirdparty with exact matching on all fields
+		// TODO Replace this with step by step search
+		// Then search on barcode if we have it (+ restriction on is_client and is_supplier)
+		// Then search on profids with a OR (+ restriction on is_client and is_supplier)
+		// Then search on email (+ restriction on is_client and is_supplier)
+		// Then search ref, ref_ext or alias with a OR (+ restriction on is_client and is_supplier)
+		$tmpthirdparty = new Societe($this->db);
+		$result = $tmpthirdparty->fetch($rowid, $ref, $ref_ext, $barcode, $idprof1, $idprof2, $idprof3, $idprof4, $idprof5, $idprof6, $email, $ref_alias, $is_client, $is_supplier);
 
 		return $result;
 	}
@@ -2335,7 +2375,7 @@ class Societe extends CommonObject
 			// Writes trace in discount history
 			$sql = "INSERT INTO ".MAIN_DB_PREFIX."societe_remise";
 			$sql .= " (entity, datec, fk_soc, remise_client, note, fk_user_author)";
-			$sql .= " VALUES (".$conf->entity.", '".$this->db->idate($now)."', ".((int) $this->id).", '".$this->db->escape($remise)."',";
+			$sql .= " VALUES (".((int) $conf->entity).", '".$this->db->idate($now)."', ".((int) $this->id).", '".$this->db->escape($remise)."',";
 			$sql .= " '".$this->db->escape($note)."',";
 			$sql .= " ".((int) $user->id);
 			$sql .= ")";
@@ -2396,7 +2436,7 @@ class Societe extends CommonObject
 			// Writes trace in discount history
 			$sql = "INSERT INTO ".MAIN_DB_PREFIX."societe_remise_supplier";
 			$sql .= " (entity, datec, fk_soc, remise_supplier, note, fk_user_author)";
-			$sql .= " VALUES (".$conf->entity.", '".$this->db->idate($now)."', ".((int) $this->id).", '".$this->db->escape($remise)."',";
+			$sql .= " VALUES (".((int) $conf->entity).", '".$this->db->idate($now)."', ".((int) $this->id).", '".$this->db->escape($remise)."',";
 			$sql .= " '".$this->db->escape($note)."',";
 			$sql .= " ".((int) $user->id);
 			$sql .= ")";

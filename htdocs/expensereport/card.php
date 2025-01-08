@@ -682,7 +682,7 @@ if (empty($reshook)) {
 				}
 				*/
 
-				$mailfile = new CMailFile($subject, $emailTo, $emailFrom, $message, $filedir, $mimetype, $filename, '', '', 0, -1);
+				$mailfile = new CMailFile($subject, $emailTo, $emailFrom, $message, $filedir, $mimetype, $filename, $emailCC, '', 0, -1);
 
 				if ($mailfile) {
 					// SEND
@@ -1566,7 +1566,7 @@ if ($action == 'create') {
 
 		$head = expensereport_prepare_head($object);
 
-		if ($action == 'edit' && ($object->status < 3 || $object->status == 99)) {
+		if ($action == 'edit' && ($object->status < 3 || $object->status == ExpenseReport::STATUS_REFUSED)) {
 			print "<form name='update' action=\"".$_SERVER['PHP_SELF']."\" method=\"post\">\n";
 			print '<input type="hidden" name="token" value="'.newToken().'">';
 			print '<input type="hidden" name="id" value="'.$id.'">';
@@ -1574,7 +1574,7 @@ if ($action == 'create') {
 
 			print dol_get_fiche_head($head, 'card', $langs->trans("ExpenseReport"), 0, 'trip');
 
-			if ($object->status == 99) {
+			if ($object->status == ExpenseReport::STATUS_REFUSED) {
 				print '<input type="hidden" name="action" value="updateFromRefuse">';
 			} else {
 				print '<input type="hidden" name="action" value="update">';
@@ -1640,7 +1640,7 @@ if ($action == 'create') {
 				print '</td></tr>';
 			}
 
-			if ($object->status == 6) {
+			if ($object->status == ExpenseReport::STATUS_CLOSED) {
 				print '<tr>';
 				print '<td>'.$langs->trans("AUTHORPAIEMENT").'</td>';
 				print '<td>';
@@ -1858,7 +1858,7 @@ if ($action == 'create') {
 				print '</tr>';
 			}
 
-			if ($object->status == $object::STATUS_CLOSED) {
+			if ($object->status == ExpenseReport::STATUS_CLOSED) {
 				/* TODO this fields are not yet filled
 				  print '<tr>';
 				  print '<td>'.$langs->trans("AUTHORPAIEMENT").'</td>';
@@ -2600,12 +2600,12 @@ if ($action == 'create') {
 
 				// Unit price net
 				print '<td class="right inputpricenet">';
-				print '<input type="text" class="right maxwidth50" id="value_unit_ht" name="value_unit_ht" value="'.dol_escape_htmltag((!empty($value_unit_ht) ? $value_unit_ht : 0)).'"'.$taxlessUnitPriceDisabled.' />';
+				print '<input type="text" class="right maxwidth50" id="value_unit_ht" name="value_unit_ht" value="'.dol_escape_htmltag((!empty($value_unit_ht) ? $value_unit_ht : "")).'"'.$taxlessUnitPriceDisabled.' />';
 				print '</td>';
 
 				// Unit price with tax
 				print '<td class="right inputtax">';
-				print '<input type="text" class="right maxwidth50" id="value_unit" name="value_unit" value="'.dol_escape_htmltag((!empty($value_unit) ? $value_unit : 0)).'">';
+				print '<input type="text" class="right maxwidth50" id="value_unit" name="value_unit" value="'.dol_escape_htmltag((!empty($value_unit) ? $value_unit : "")).'">';
 				print '</td>';
 
 				// Quantity
@@ -2662,7 +2662,7 @@ if ($action == 'create') {
                     let tva = jQuery("#vatrate").find(":selected").val();
                     let qty = jQuery(".input_qty").val();
 
-					let path = "'.DOL_DOCUMENT_ROOT.'/expensereport/ajax/ajaxik.php";
+					let path = "'.DOL_URL_ROOT.'/expensereport/ajax/ajaxik.php";
 					path += "?fk_c_exp_tax_cat="+tax_cat;
 					path += "&fk_expense="+'.((int) $object->id).';
                     path += "&vatrate="+tva;
@@ -2925,7 +2925,7 @@ if ($action != 'presend') {
 }
 
 // Presend form
-$modelmail = 'expensereport';
+$modelmail = 'expensereport_send';
 $defaulttopic = 'SendExpenseReportRef';
 $diroutput = $conf->expensereport->dir_output;
 $trackid = 'exp'.$object->id;

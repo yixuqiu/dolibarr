@@ -123,6 +123,7 @@ $formactions = new FormActions($db);
 // Load object
 if ($id > 0 && $action != 'add') {
 	$ret = $object->fetch($id);
+	$ret1 = 0;
 	if ($ret > 0) {
 		$ret = $object->fetch_optionals();
 		$ret1 = $object->fetch_userassigned();
@@ -156,7 +157,7 @@ $TDurationTypes = array('y' => $langs->trans('Years'), 'm' => $langs->trans('Mon
 
 $result = restrictedArea($user, 'agenda', $object, 'actioncomm&societe', 'myactions|allactions', 'fk_soc', 'id');
 
-$usercancreate = $user->hasRight('agenda', 'allactions', 'create') || (($object->authorid == $user->id || $object->userownerid == $user->id) && $user->hasRight('agenda', 'myactions', 'create'));
+$usercancreate = $user->hasRight('agenda', 'allactions', 'create') || ((empty($object->id) || $object->authorid == $user->id || $object->userownerid == $user->id) && $user->hasRight('agenda', 'myactions', 'create'));
 
 
 /*
@@ -185,10 +186,10 @@ if (empty($reshook) && (GETPOST('removedassigned') || GETPOST('removedassigned')
 
 	$_SESSION['assignedtouser'] = json_encode($tmpassigneduserids);
 	$donotclearsession = 1;
-	if ($action == 'add') {
+	if ($action == 'add') {		// Test on permission not required here
 		$action = 'create';
 	}
-	if ($action == 'update') {
+	if ($action == 'update') {	// Test on permission not required here
 		$action = 'edit';
 	}
 
@@ -212,10 +213,10 @@ if (empty($reshook) && (GETPOST('removedassignedresource') || GETPOST('removedas
 
 	$_SESSION['assignedtoresource'] = json_encode($tmpassignedresourceids);
 	$donotclearsessionresource = 1;
-	if ($action == 'add') {
+	if ($action == 'add' && $usercancreate) {
 		$action = 'create';
 	}
-	if ($action == 'update') {
+	if ($action == 'update' && $usercancreate) {
 		$action = 'edit';
 	}
 
@@ -234,10 +235,10 @@ if (empty($reshook) && (GETPOST('addassignedtouser') || GETPOST('updateassignedt
 		$_SESSION['assignedtouser'] = json_encode($assignedtouser);
 	}
 	$donotclearsession = 1;
-	if ($action == 'add') {
+	if ($action == 'add' && $usercancreate) {
 		$action = 'create';
 	}
-	if ($action == 'update') {
+	if ($action == 'update' && $usercancreate) {
 		$action = 'edit';
 	}
 
@@ -256,10 +257,10 @@ if (empty($reshook) && (GETPOST('addassignedtoresource') || GETPOST('updateassig
 		$_SESSION['assignedtoresource'] = json_encode($assignedtoresource);
 	}
 	$donotclearsession = 1;
-	if ($action == 'add') {
+	if ($action == 'add' && $usercancreate) {
 		$action = 'create';
 	}
-	if ($action == 'update') {
+	if ($action == 'update' && $usercancreate) {
 		$action = 'edit';
 	}
 
@@ -274,7 +275,7 @@ if (empty($reshook) && $action == 'classin' && ($user->hasRight('agenda', 'allac
 }
 
 // Action clone object
-if (empty($reshook) && $action == 'confirm_clone' && $confirm == 'yes') {
+if (empty($reshook) && $action == 'confirm_clone' && $confirm == 'yes' && $usercancreate) {
 	if (1 == 0 && !GETPOST('clone_content') && !GETPOST('clone_receivers')) {
 		setEventMessages($langs->trans("NoCloneOptionsSpecified"), null, 'errors');
 	} else {
@@ -297,7 +298,7 @@ if (empty($reshook) && $action == 'confirm_clone' && $confirm == 'yes') {
 }
 
 // Add event
-if (empty($reshook) && $action == 'add') {
+if (empty($reshook) && $action == 'add' && $usercancreate) {
 	$error = 0;
 
 	if (empty($backtopage)) {
@@ -356,7 +357,7 @@ if (empty($reshook) && $action == 'add') {
 	}
 
 	if (!$error) {
-		// Initialisation object actioncomm
+		// Initialisation of object actioncomm
 		$object->priority = GETPOSTISSET("priority") ? GETPOSTINT("priority") : 0;
 		$object->fulldayevent = ($fulldayevent ? 1 : 0);
 		$object->location = GETPOST("location", 'alphanohtml');
@@ -365,11 +366,15 @@ if (empty($reshook) && $action == 'add') {
 		if (GETPOST("elementtype", 'alpha')) {
 			$elProp = getElementProperties(GETPOST("elementtype", 'alpha'));
 			$modulecodetouseforpermissioncheck = $elProp['module'];
+			$submodulecodetouseforpermissioncheck = $elProp['subelement'];
 
 			$hasPermissionOnLinkedObject = 0;
 			if ($user->hasRight($modulecodetouseforpermissioncheck, 'read')) {
 				$hasPermissionOnLinkedObject = 1;
+			} elseif ($user->hasRight($modulecodetouseforpermissioncheck, $submodulecodetouseforpermissioncheck, 'read')) {
+				$hasPermissionOnLinkedObject = 1;
 			}
+
 			if ($hasPermissionOnLinkedObject) {
 				$object->fk_element = GETPOSTINT("fk_element");
 				$object->elementtype = GETPOST("elementtype", 'alpha');
@@ -430,7 +435,9 @@ if (empty($reshook) && $action == 'add') {
 	$object->note_private = trim(GETPOST("note", "restricthtml"));
 
 	if (GETPOSTISSET("contactid")) {
-		$object->contact = $contact;
+		$object->contact_id = GETPOSTINT("contactid");
+
+		$object->contact = $contact;	// For backward compatibility
 	}
 
 	if (GETPOSTINT('socid') > 0) {
@@ -735,10 +742,8 @@ if (empty($reshook) && $action == 'add') {
 	}
 }
 
-/*
- * Action update event
- */
-if (empty($reshook) && $action == 'update') {
+// Action update event
+if (empty($reshook) && $action == 'update' && $usercancreate) {
 	if (empty($cancel)) {
 		$fulldayevent = GETPOST('fullday');
 		$aphour = GETPOSTINT('aphour');
@@ -995,6 +1000,13 @@ if (empty($reshook) && $action == 'update') {
 					// the notification must be created for every user assigned to the event
 					foreach ($object->userassigned as $userassigned) {
 						$actionCommReminder->fk_user = $userassigned['id'];
+
+						// We update the event, so we recreate the notification event.
+						// First we delete all reminders for the user and the type of reminding (all offset dates).
+						$sqldelete = "DELETE FROM ".MAIN_DB_PREFIX."actioncomm_reminder";
+						$sqldelete .= " WHERE fk_user = ".((int) $actionCommReminder->fk_user)." AND fk_actioncomm = ".((int) $object->id)." AND typeremind = '".$db->escape($remindertype)."'";
+						$resqldelete = $db->query($sqldelete);
+
 						$res = $actionCommReminder->create($user);
 
 						if ($res <= 0) {
@@ -1009,13 +1021,14 @@ if (empty($reshook) && $action == 'update') {
 					}
 				}
 
-				unset($_SESSION['assignedtouser']);
-				unset($_SESSION['assignedtoresource']);
-
 				if (!$error) {
+					unset($_SESSION['assignedtouser']);
+					unset($_SESSION['assignedtoresource']);
+
 					$db->commit();
 				} else {
 					$db->rollback();
+					$action = 'edit';
 				}
 			} else {
 				setEventMessages($object->error, $object->errors, 'errors');
@@ -1275,7 +1288,7 @@ if ($action == 'create') {
 	}
 
 	// Title
-	print '<tr><td'.(!getDolGlobalString('AGENDA_USE_EVENT_TYPE') ? ' class="fieldrequired titlefieldcreate"' : '').'>'.$langs->trans("Label").'</td><td><input type="text" id="label" name="label" class="soixantepercent" value="'.GETPOST('label').'"></td></tr>';
+	print '<tr><td'.(!getDolGlobalString('AGENDA_USE_EVENT_TYPE') ? ' class="fieldrequired titlefieldcreate"' : '').'>'.$langs->trans("Title").'</td><td><input type="text" id="label" name="label" class="soixantepercent" value="'.GETPOST('label').'"></td></tr>';
 
 	// Full day
 	print '<tr><td><span class="fieldrequired">'.$langs->trans("Date").'</span></td>';
@@ -1499,7 +1512,7 @@ if ($action == 'create') {
 			print '<input type="hidden" id="socid" name="socid" value="'.GETPOSTINT('socid').'">';
 		} else {
 			$events = array();
-			$events[] = array('method' => 'getContacts', 'url' => dol_buildpath('/core/ajax/contacts.php?showempty=1', 1), 'htmlname' => 'contactid', 'params' => array('add-customer-contact' => 'disabled'));
+			$events[] = array('method' => 'getContacts', 'url' => dol_buildpath('/core/ajax/contacts.php?showempty=1&token='.currentToken(), 1), 'htmlname' => 'contactid', 'params' => array('add-customer-contact' => 'disabled'));
 			//For external user force the company to user company
 			if (!empty($user->socid)) {
 				print img_picto('', 'company', 'class="paddingrightonly"').$form->select_company($user->socid, 'socid', '', 1, 1, 0, $events, 0, 'minwidth300 widthcentpercentminusxx maxwidth500');
@@ -1951,8 +1964,8 @@ if ($id > 0) {
 					'type' => 'user',
 					//'transparency'=>$object->userassigned[$user->id]['transparency'],
 					'transparency' => $object->transparency, // Force transparency on ownerfrom event
-					'answer_status' => $object->userassigned[$object->userownerid]['answer_status'],
-					'mandatory' => $object->userassigned[$object->userownerid]['mandatory']
+					'answer_status' => (isset($object->userassigned[$object->userownerid]['answer_status']) ? $object->userassigned[$object->userownerid]['answer_status']: null),
+					'mandatory' => (isset($object->userassigned[$object->userownerid]['mandatory']) ? $object->userassigned[$object->userownerid]['mandatory']:null)
 				);
 			}
 			if (!empty($object->userassigned)) {	// Now concat assigned users
@@ -1970,6 +1983,7 @@ if ($id > 0) {
 				$listofuserid = json_decode($_SESSION['assignedtouser'], true);
 			}
 		}
+
 		$listofcontactid = $object->socpeopleassigned; // Contact assigned
 		$listofotherid = $object->otherassigned; // Other undefined email (not used yet)
 
@@ -2024,7 +2038,7 @@ if ($id > 0) {
 			print '<td>';
 			print '<div>';
 			$events = array(); // 'method'=parameter action of url, 'url'=url to call that return new list of contacts
-			$events[] = array('method' => 'getContacts', 'url' => dol_buildpath('/core/ajax/contacts.php?showempty=1', 1), 'htmlname' => 'contactid', 'params' => array('add-customer-contact' => 'disabled'));
+			$events[] = array('method' => 'getContacts', 'url' => dol_buildpath('/core/ajax/contacts.php?showempty=1&token='.currentToken(), 1), 'htmlname' => 'contactid', 'params' => array('add-customer-contact' => 'disabled'));
 			// TODO Refresh also list of project if conf PROJECT_ALLOW_TO_LINK_FROM_OTHER_COMPANY not defined with list linked to socid ?
 			// FIXME If we change company, we may get a project that does not match
 			print img_picto('', 'company', 'class="pictofixedwidth"').$form->select_company($object->socid, 'socid', '', 'SelectThirdParty', 1, 0, $events, 0, 'minwidth300');
@@ -2034,6 +2048,7 @@ if ($id > 0) {
 			// Related contact
 			print '<tr><td>'.$langs->trans("ActionOnContact").'</td><td>';
 			print '<div class="maxwidth200onsmartphone">';
+
 			print img_picto('', 'contact', 'class="paddingrightonly"');
 			if (getDolGlobalString('CONTACT_USE_SEARCH_TO_SELECT') && $conf->use_javascript_ajax) {
 				// FIXME Use the select_contact supporting the "multiple"
@@ -2485,9 +2500,11 @@ if ($id > 0) {
 		}
 
 		// Priority
-		print '<tr><td class="nowrap" class="titlefield">'.$langs->trans("Priority").'</td><td>';
-		print($object->priority ? $object->priority : '');
-		print '</td></tr>';
+		if (getDolGlobalString('AGENDA_SUPPORT_PRIORITY_IN_EVENTS')) {
+			print '<tr><td class="nowrap" class="titlefield">' . $langs->trans("Priority") . '</td><td>';
+			print($object->priority ? $object->priority : '');
+			print '</td></tr>';
+		}
 
 		// Object linked (if link is for thirdparty, contact, project it is a recording error. We should not have links in link table
 		// for such objects because there is already a dedicated field into table llx_actioncomm.

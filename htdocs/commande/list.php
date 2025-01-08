@@ -16,6 +16,7 @@
  * Copyright (C) 2024		Noé Cendrier				<noe.cendrier@altairis.fr>
  * Copyright (C) 2024		Benjamin Falière			<benjamin.faliere@altairis.fr>
  * Copyright (C) 2024		Alexandre Spangaro			<alexandre@inovea-conseil.com>
+ * Copyright (C) 2024		William Mead			    <william.mead@manchenumerique.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -125,6 +126,11 @@ $search_fk_cond_reglement = GETPOST('search_fk_cond_reglement', 'intcomma');
 $search_fk_shipping_method = GETPOST('search_fk_shipping_method', 'intcomma');
 $search_fk_mode_reglement = GETPOST('search_fk_mode_reglement', 'intcomma');
 $search_fk_input_reason = GETPOST('search_fk_input_reason', 'intcomma');
+
+$search_option = GETPOST('search_option', 'alpha');
+if ($search_option == 'late') {
+	$search_status = '-2';
+}
 
 $diroutputmassaction = $conf->commande->multidir_output[$conf->entity].'/temp/massgeneration/'.$user->id;
 
@@ -316,6 +322,7 @@ if (empty($reshook)) {
 		$search_fk_shipping_method = '';
 		$search_fk_mode_reglement = '';
 		$search_fk_input_reason = '';
+		$search_option = '';
 	}
 	if (GETPOST('button_removefilter_x', 'alpha') || GETPOST('button_removefilter.x', 'alpha') || GETPOST('button_removefilter', 'alpha')
 		|| GETPOST('button_search_x', 'alpha') || GETPOST('button_search.x', 'alpha') || GETPOST('button_search', 'alpha')) {
@@ -642,6 +649,9 @@ if (empty($reshook)) {
 			if ($search_status != '') {
 				$param .= '&search_status='.urlencode($search_status);
 			}
+			if ($search_option) {
+				$param .= "&search_option=".urlencode($search_option);
+			}
 			if ($search_orderday) {
 				$param .= '&search_orderday='.urlencode($search_orderday);
 			}
@@ -939,7 +949,9 @@ if ($search_status != '') {
 		$sql .= ' AND (c.fk_statut IN (1,2,3))'; // validated, in process or closed
 	}
 }
-
+if ($search_option == 'late') {
+	$sql .= " AND c.date_commande < '".$db->idate(dol_now() - $conf->commande->client->warning_delay)."'";
+}
 if ($search_datecloture_start) {
 	$sql .= " AND c.date_cloture >= '".$db->idate($search_datecloture_start)."'";
 }
@@ -1038,8 +1050,8 @@ if ($search_fk_input_reason > 0) {
 if ($search_user > 0) {
 	$sql .= " AND EXISTS (";
 	$sql .= " SELECT ec.fk_c_type_contact, ec.element_id, ec.fk_socpeople";
-	$sql .= " FROM llx_element_contact as ec";
-	$sql .= " INNER JOIN  llx_c_type_contact as tc";
+	$sql .= " FROM ".MAIN_DB_PREFIX."element_contact as ec";
+	$sql .= " INNER JOIN  ".MAIN_DB_PREFIX."c_type_contact as tc";
 	$sql .= " ON ec.fk_c_type_contact = tc.rowid AND tc.element='commande' AND tc.source='internal'";
 	$sql .= " WHERE ec.element_id = c.rowid AND ec.fk_socpeople = ".((int) $search_user).")";
 }
@@ -1228,6 +1240,9 @@ if ($socid > 0) {
 }
 if ($search_status != '') {
 	$param .= '&search_status='.urlencode($search_status);
+}
+if ($search_option) {
+	$param .= "&search_option=".urlencode($search_option);
 }
 if ($search_datecloture_start) {
 	$param .= '&search_datecloture_startday='.dol_print_date($search_datecloture_start, '%d').'&search_datecloture_startmonth='.dol_print_date($search_datecloture_start, '%m').'&search_datecloture_startyear='.dol_print_date($search_datecloture_start, '%Y');
@@ -1530,6 +1545,7 @@ if (isModEnabled('stock') && getDolGlobalString('WAREHOUSE_ASK_WAREHOUSE_DURING_
 	$moreforfilter .= img_picto($tmptitle, 'stock', 'class="pictofixedwidth"').$formproduct->selectWarehouses($search_warehouse, 'search_warehouse', '', 1, 0, 0, $tmptitle, 0, 0, array(), 'maxwidth250 widthcentpercentminusx');
 	$moreforfilter .= '</div>';
 }
+
 $parameters = array();
 $reshook = $hookmanager->executeHooks('printFieldPreListTitle', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 if (empty($reshook)) {
@@ -2196,7 +2212,15 @@ while ($i < $imaxinloop) {
 		// Ref
 		if (!empty($arrayfields['c.ref']['checked'])) {
 			print '<td class="nowraponall">';
-			print $generic_commande->getNomUrl(1, ($search_status != 2 ? 0 : $obj->fk_statut), 0, 0, 0, 1, 1);
+			$getNomUrlOption = $search_status != 2 ? 0 : $obj->fk_statut;
+			if (getDolGlobalInt('MAIN_LIST_ORDER_LINK_DONT_USE_STATUS')) {
+				// TODO : This hidden conf must be added to the user's individual conf.
+				//  The user must be able to manage this behavior to adapt it to his use of the software, because depending on the employee's workstation, his use differs.
+				//  This hidden configuration ensures that users are not confused by keeping the same behavior of click, whatever the current filter.
+				//  If the aim is to use a different url when the filter is applied via the link in the left-hand menu, then this detection should be adapted instead.
+				$getNomUrlOption = '';
+			}
+			print $generic_commande->getNomUrl(1, $getNomUrlOption, 0, 0, 0, 1, 1);
 
 			$filename = dol_sanitizeFileName($obj->ref);
 			$filedir = $conf->commande->multidir_output[$conf->entity].'/'.dol_sanitizeFileName($obj->ref);
@@ -2269,7 +2293,7 @@ while ($i < $imaxinloop) {
 
 		// Alias name
 		if (!empty($arrayfields['s.name_alias']['checked'])) {
-			print '<td class="nocellnopadd tdoverflowmax125" title="'.dolPrintHTMLForTextArea($obj->alias).'">';
+			print '<td class="nocellnopadd tdoverflowmax100" title="'.dolPrintHTMLForTextArea($obj->alias).'">';
 			print dolPrintLabel($obj->alias);
 			print '</td>';
 			if (!$i) {
@@ -2300,7 +2324,7 @@ while ($i < $imaxinloop) {
 
 		// Town
 		if (!empty($arrayfields['s.town']['checked'])) {
-			print '<td class="tdoverflowmax100">';
+			print '<td class="tdoverflowmax100" title="'.dolPrintHTMLForTextArea($obj->town).'">';
 			print dolPrintLabel($obj->town);
 			print '</td>';
 			if (!$i) {
@@ -2310,7 +2334,7 @@ while ($i < $imaxinloop) {
 
 		// Zip
 		if (!empty($arrayfields['s.zip']['checked'])) {
-			print '<td class="nocellnopadd">';
+			print '<td class="tdoverflowmax100" title="'.dolPrintHTMLForTextArea($obj->zip).'">';
 			print dolPrintLabel($obj->zip);
 			print '</td>';
 			if (!$i) {
@@ -2320,7 +2344,7 @@ while ($i < $imaxinloop) {
 
 		// State
 		if (!empty($arrayfields['state.nom']['checked'])) {
-			print "<td>".dolPrintLabel($obj->state_name)."</td>\n";
+			print '<td class="tdoverflowmax100" title="'.dolPrintHTMLForTextArea($obj->state_name).'">'.dolPrintLabel($obj->state_name)."</td>\n";
 			if (!$i) {
 				$totalarray['nbfield']++;
 			}
@@ -2343,7 +2367,7 @@ while ($i < $imaxinloop) {
 			if (empty($typenArray)) {
 				$typenArray = $formcompany->typent_array(1);
 			}
-			print $typenArray[$obj->typent_code];
+			print $typenArray[$obj->typent_code]??'';
 			print '</td>';
 			if (!$i) {
 				$totalarray['nbfield']++;
@@ -2594,6 +2618,11 @@ while ($i < $imaxinloop) {
 			if (!$i) {
 				$totalarray['pos'][$totalarray['nbfield']] = 'total_margin';
 			}
+
+			if (!isset($totalarray['val']['total_margin'])) {
+				$totalarray['val']['total_margin'] = 0;
+			}
+
 			$totalarray['val']['total_margin'] += $marginInfo['total_margin'];
 		}
 
@@ -2699,7 +2728,7 @@ while ($i < $imaxinloop) {
 								$productstat_cachevirtual[$generic_commande->lines[$lig]->fk_product]['stock_reel'] = $generic_product->stock_theorique;
 							} else {
 								$generic_product->stock_reel = $productstat_cache[$generic_commande->lines[$lig]->fk_product]['stock_reel'];
-								$generic_product->stock_theorique = $productstat_cachevirtual[$generic_commande->lines[$lig]->fk_product]['stock_reel'] = $generic_product->stock_theorique;
+								$generic_product->stock_theorique = $productstat_cachevirtual[$generic_commande->lines[$lig]->fk_product]['stock_reel'];
 							}
 
 							if ($reliquat > $generic_product->stock_reel) {

@@ -20,7 +20,7 @@
  * Copyright (C) 2019-2020  Thibault FOUCART     <support@ptibogxiv.net>
  * Copyright (C) 2020  		Pierre Ardoin     	 <mapiolca@me.com>
  * Copyright (C) 2022  		Vincent de Grandpré  <vincent@de-grandpre.quebec>
- * Copyright (C) 2024		MDW							<mdeweerd@users.noreply.github.com>
+ * Copyright (C) 2024		MDW					 <mdeweerd@users.noreply.github.com>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -201,7 +201,7 @@ if ($object->id > 0) {
 $hookmanager->initHooks(array('productcard', 'globalcard'));
 
 // Permissions
-$usercanread   = (($object->type == Product::TYPE_PRODUCT && $user->hasRight('produit', 'read')) || ($object->type == Product::TYPE_SERVICE && $user->hasRight('service', 'lire')));
+$usercanread   = (($object->type == Product::TYPE_PRODUCT && $user->hasRight('produit', 'lire')) || ($object->type == Product::TYPE_SERVICE && $user->hasRight('service', 'lire')));
 $usercancreate = (($object->type == Product::TYPE_PRODUCT && $user->hasRight('produit', 'creer')) || ($object->type == Product::TYPE_SERVICE && $user->hasRight('service', 'creer')));
 $usercandelete = (($object->type == Product::TYPE_PRODUCT && $user->hasRight('produit', 'supprimer')) || ($object->type == Product::TYPE_SERVICE && $user->hasRight('service', 'supprimer')));
 
@@ -1325,6 +1325,7 @@ if (is_object($objcanvas) && $objcanvas->displayCanvasExists($canvasdisplayactio
 			print '<script type="text/javascript">';
 			print '$(document).ready(function () {
                         $("#selectcountry_id").change(function() {
+							console.log("selectcountry_id change");
                         	document.formprod.action.value="create";
                         	document.formprod.submit();
                         });
@@ -1397,7 +1398,7 @@ if (is_object($objcanvas) && $objcanvas->displayCanvasExists($canvasdisplayactio
 			}
 
 			// Label
-			print '<tr><td class="fieldrequired">'.$langs->trans("Label").'</td><td><input name="label" class="minwidth300 maxwidth400onsmartphone" maxlength="255" value="'.dol_escape_htmltag(GETPOST('label', $label_security_check)).'"></td></tr>';
+			print '<tr><td class="fieldrequired">'.$langs->trans("Label").'</td><td><input id="label" name="label" class="minwidth300 maxwidth400onsmartphone" maxlength="255" value="'.dol_escape_htmltag(GETPOST('label', $label_security_check)).'"></td></tr>';
 
 			// On sell
 			print '<tr><td class="fieldrequired">'.$langs->trans("Status").' ('.$langs->trans("Sell").')</td><td>';
@@ -1470,7 +1471,7 @@ if (is_object($objcanvas) && $objcanvas->displayCanvasExists($canvasdisplayactio
 
 				// SellBy / EatBy mandatory list
 				if (!empty($sellOrEatByMandatoryList)) {
-					print '<tr><td>'.$langs->trans('BatchSellOrEatByMandatoryList', $langs->trans('SellByDate'), $langs->trans('EatByDate')).'</td><td>';
+					print '<tr><td>'.$langs->trans('BatchSellOrEatByMandatoryList', $langs->transnoentities('SellByDate'), $langs->transnoentities('EatByDate')).'</td><td>';
 					print $form->selectarray('sell_or_eat_by_mandatory', $sellOrEatByMandatoryList, GETPOSTINT('sell_or_eat_by_mandatory'));
 					print '</td></tr>';
 				}
@@ -2097,7 +2098,7 @@ if (is_object($objcanvas) && $objcanvas->displayCanvasExists($canvasdisplayactio
 						} else {
 							$sellOrEatByMandatorySelectedId = $object->sell_or_eat_by_mandatory;
 						}
-						print '<tr><td>'.$langs->trans('BatchSellOrEatByMandatoryList', $langs->trans('SellByDate'), $langs->trans('EatByDate')).'</td><td>';
+						print '<tr><td>'.$langs->trans('BatchSellOrEatByMandatoryList', $langs->transnoentities('SellByDate'), $langs->transnoentities('EatByDate')).'</td><td>';
 						print $form->selectarray('sell_or_eat_by_mandatory', $sellOrEatByMandatoryList, $sellOrEatByMandatorySelectedId);
 						print '</td></tr>';
 					}
@@ -2549,7 +2550,7 @@ if (is_object($objcanvas) && $objcanvas->displayCanvasExists($canvasdisplayactio
 						}
 					}
 
-					print '<tr><td>'.$langs->trans('BatchSellOrEatByMandatoryList', $langs->trans('SellByDate'), $langs->trans('EatByDate')).'</td><td>';
+					print '<tr><td>'.$langs->trans('BatchSellOrEatByMandatoryList', $langs->transnoentities('SellByDate'), $langs->transnoentities('EatByDate')).'</td><td>';
 					print $object->getSellOrEatByMandatoryLabel();
 					print '</td></tr>';
 				}
@@ -3064,7 +3065,7 @@ if (getDolGlobalString('PRODUCT_ADD_FORM_ADD_TO') && $object->id && ($action == 
 		$html .= '<input type="text" class="flat" name="remise_percent" size="1" value="0">';
 		$html .= '</td></tr>';
 
-		print '<table width="100%" class="border">';
+		print '<table class="centpercent border">';
 		print $html;
 		print '</table>';
 

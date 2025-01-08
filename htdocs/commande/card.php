@@ -633,7 +633,7 @@ if (empty($reshook)) {
 		}
 	} elseif ($action == 'set_incoterms' && isModEnabled('incoterm') && $usercancreate) {
 		// Set incoterm
-		$result = $object->setIncoterms(GETPOSTINT('incoterm_id'), GETPOSTFLOAT('location_incoterms'));
+		$result = $object->setIncoterms(GETPOSTINT('incoterm_id'), GETPOST('location_incoterms'));
 		if ($result < 0) {
 			setEventMessages($object->error, $object->errors, 'errors');
 		}
@@ -911,17 +911,17 @@ if (empty($reshook)) {
 
 				// Set unit price to use
 				if (!empty($price_ht) || $price_ht === '0') {
-					$pu_ht = price2num($price_ht, 'MU');
-					$pu_ttc = price2num((float) $pu_ht * (1 + ($tmpvat / 100)), 'MU');
+					$pu_ht = (float) price2num($price_ht, 'MU');
+					$pu_ttc = (float) price2num((float) $pu_ht * (1 + ($tmpvat / 100)), 'MU');
 				} elseif (!empty($price_ttc) || $price_ttc === '0') {
-					$pu_ttc = price2num($price_ttc, 'MU');
-					$pu_ht = price2num((float) $pu_ttc / (1 + ($tmpvat / 100)), 'MU');
+					$pu_ttc = (float) price2num($price_ttc, 'MU');
+					$pu_ht = (float) price2num((float) $pu_ttc / (1 + ($tmpvat / 100)), 'MU');
 				} elseif ($tmpvat != $tmpprodvat) {
 					// Is this still used ?
 					if ($price_base_type != 'HT') {
-						$pu_ht = price2num($pu_ttc / (1 + ($tmpvat / 100)), 'MU');
+						$pu_ht = (float) price2num($pu_ttc / (1 + ($tmpvat / 100)), 'MU');
 					} else {
-						$pu_ttc = price2num($pu_ht * (1 + ($tmpvat / 100)), 'MU');
+						$pu_ttc = (float) price2num($pu_ht * (1 + ($tmpvat / 100)), 'MU');
 					}
 				}
 
@@ -1627,7 +1627,7 @@ if (empty($reshook)) {
 
 
 	if (!$error && getDolGlobalString('MAIN_DISABLE_CONTACTS_TAB') && $usercancreate) {
-		if ($action == 'addcontact') {
+		if ($action == 'addcontact' && $usercancreate) {
 			if ($object->id > 0) {
 				$contactid = (GETPOST('userid') ? GETPOST('userid') : GETPOST('contactid'));
 				$typeid = (GETPOST('typecontact') ? GETPOST('typecontact') : GETPOST('type'));
@@ -1645,14 +1645,14 @@ if (empty($reshook)) {
 					setEventMessages($object->error, $object->errors, 'errors');
 				}
 			}
-		} elseif ($action == 'swapstatut') {
+		} elseif ($action == 'swapstatut' && $usercancreate) {
 			// bascule du statut d'un contact
 			if ($object->id > 0) {
 				$result = $object->swapContactStatus(GETPOSTINT('ligne'));
 			} else {
 				dol_print_error($db);
 			}
-		} elseif ($action == 'deletecontact') {
+		} elseif ($action == 'deletecontact' && $usercancreate) {
 			// Efface un contact
 			$result = $object->delete_contact($lineid);
 

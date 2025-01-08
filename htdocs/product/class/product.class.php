@@ -87,9 +87,9 @@ class Product extends CommonObject
 		'contratdet' => array('name' => 'Contract', 'parent' => 'contrat', 'parentkey' => 'fk_contrat'),
 		'facture_fourn_det' => array('name' => 'SupplierInvoice', 'parent' => 'facture_fourn', 'parentkey' => 'fk_facture_fourn'),
 		'commande_fournisseurdet' => array('name' => 'SupplierOrder', 'parent' => 'commande_fournisseur', 'parentkey' => 'fk_commande'),
-		'mrp_production' => array('name' => 'Mo', 'parent' => 'mrp_mo', 'parentkey' => 'fk_mo' ),
-		'bom_bom' => array('name' => 'BOM'),
-		'bom_bomline' => array('name' => 'BOMLine', 'parent' => 'bom_bom', 'parentkey' => 'fk_bom'),
+		'mrp_production' => array('name' => 'Mo', 'parent' => 'mrp_mo', 'parentkey' => 'fk_mo', 'enabled' => 'isModEnabled("mrp")'),
+		'bom_bom' => array('name' => 'BOM', 'enabled' => 'isModEnabled("bom")'),
+		'bom_bomline' => array('name' => 'BOMLine', 'parent' => 'bom_bom', 'parentkey' => 'fk_bom', 'enabled' => 'isModEnabled("bom")'),
 	);
 
 	/**
@@ -600,7 +600,7 @@ class Product extends CommonObject
 		'import_key'    => array('type' => 'varchar(14)', 'label' => 'ImportId', 'enabled' => 1, 'visible' => -2, 'notnull' => -1, 'index' => 0, 'position' => 1000),
 		//'tosell'       =>array('type'=>'integer',      'label'=>'Status',           'enabled'=>1, 'visible'=>1,  'notnull'=>1, 'default'=>'0', 'index'=>1,  'position'=>1000, 'arrayofkeyval'=>array(0=>'Draft', 1=>'Active', -1=>'Cancel')),
 		//'tobuy'        =>array('type'=>'integer',      'label'=>'Status',           'enabled'=>1, 'visible'=>1,  'notnull'=>1, 'default'=>'0', 'index'=>1,  'position'=>1000, 'arrayofkeyval'=>array(0=>'Draft', 1=>'Active', -1=>'Cancel')),
-		'mandatory_period' => array('type' => 'integer', 'label' => 'mandatoryperiod', 'enabled' => 1, 'visible' => 1,  'notnull' => 1, 'default' => '0', 'index' => 1,  'position' => 1000),
+		'mandatory_period' => array('type' => 'integer', 'label' => 'mandatoryperiod', 'enabled' => 1, 'visible' => -1,  'notnull' => 1, 'default' => '0', 'index' => 1,  'position' => 1000),
 	);
 
 	/**
@@ -1092,19 +1092,19 @@ class Product extends CommonObject
 		$this->note_private = (isset($this->note_private) ? trim($this->note_private) : null);
 		$this->note_public = (isset($this->note_public) ? trim($this->note_public) : null);
 		$this->net_measure = price2num($this->net_measure);
-		$this->net_measure_units = (empty($this->net_measure_units) ? '' : trim($this->net_measure_units));
+		$this->net_measure_units = (is_null($this->net_measure_units) ? '' : trim((string) $this->net_measure_units));
 		$this->weight = price2num($this->weight);
-		$this->weight_units = (empty($this->weight_units) ? '' : trim($this->weight_units));
+		$this->weight_units = (is_null($this->weight_units) ? '' : trim((string) $this->weight_units));
 		$this->length = price2num($this->length);
-		$this->length_units = (empty($this->length_units) ? '' : trim($this->length_units));
+		$this->length_units = (is_null($this->length_units) ? '' : trim((string) $this->length_units));
 		$this->width = price2num($this->width);
-		$this->width_units = (empty($this->width_units) ? '' : trim($this->width_units));
+		$this->width_units = (is_null($this->width_units) ? '' : trim((string) $this->width_units));
 		$this->height = price2num($this->height);
-		$this->height_units = (empty($this->height_units) ? '' : trim($this->height_units));
+		$this->height_units = (is_null($this->height_units) ? '' : trim((string) $this->height_units));
 		$this->surface = price2num($this->surface);
-		$this->surface_units = (empty($this->surface_units) ? '' : trim($this->surface_units));
+		$this->surface_units = (is_null($this->surface_units) ? '' : trim((string) $this->surface_units));
 		$this->volume = price2num($this->volume);
-		$this->volume_units = (empty($this->volume_units) ? '' : trim($this->volume_units));
+		$this->volume_units = (is_null($this->volume_units) ? '' : trim((string) $this->volume_units));
 
 		// set unit not defined
 		if (is_numeric($this->length_units)) {
@@ -1273,7 +1273,7 @@ class Product extends CommonObject
 			$sql .= ", sell_or_eat_by_mandatory = ".((empty($this->sell_or_eat_by_mandatory) || $this->sell_or_eat_by_mandatory < 0) ? 0 : (int) $this->sell_or_eat_by_mandatory);
 			$sql .= ", batch_mask = '".$this->db->escape($this->batch_mask)."'";
 
-			$sql .= ", finished = ".((!isset($this->finished) || $this->finished < 0 || $this->finished == '') ? "null" : (int) $this->finished);
+			$sql .= ", finished = ".((!isset($this->finished) || $this->finished < 0 || $this->finished === '') ? "null" : (int) $this->finished);
 			$sql .= ", fk_default_bom = ".((!isset($this->fk_default_bom) || $this->fk_default_bom < 0 || $this->fk_default_bom == '') ? "null" : (int) $this->fk_default_bom);
 			$sql .= ", net_measure = ".($this->net_measure != '' ? "'".$this->db->escape($this->net_measure)."'" : 'null');
 			$sql .= ", net_measure_units = ".($this->net_measure_units != '' ? "'".$this->db->escape($this->net_measure_units)."'" : 'null');
@@ -1329,7 +1329,6 @@ class Product extends CommonObject
 				// Multilangs
 				if (getDolGlobalInt('MAIN_MULTILANGS')) {
 					if ($this->setMultiLangs($user) < 0) {
-						$this->error = $langs->trans("Error")." : ".$this->db->error()." - ".$sql;
 						$this->db->rollback();
 						return -2;
 					}
@@ -2362,14 +2361,14 @@ class Product extends CommonObject
 
 		if ($newprice !== '' || $newprice === 0) {
 			if ($newpricebase == 'TTC') {
-				$price_ttc = price2num($newprice, 'MU');
+				$price_ttc = (float) price2num($newprice, 'MU');
 				$price = (float) price2num($newprice) / (1 + ((float) $newvat / 100));
-				$price = price2num($price, 'MU');
+				$price = (float) price2num($price, 'MU');
 
 				if ($newminprice != '' || $newminprice == 0) {
-					$price_min_ttc = price2num($newminprice, 'MU');
+					$price_min_ttc = (float) price2num($newminprice, 'MU');
 					$price_min = (float) price2num($newminprice) / (1 + ($newvat / 100));
-					$price_min = price2num($price_min, 'MU');
+					$price_min = (float) price2num($price_min, 'MU');
 				} else {
 					$price_min = 0;
 					$price_min_ttc = 0;
@@ -2380,9 +2379,9 @@ class Product extends CommonObject
 				$price_ttc = (float) price2num($price_ttc, 'MU');
 
 				if ($newminprice !== '' || $newminprice === 0) {
-					$price_min = price2num($newminprice, 'MU');
+					$price_min = (float) price2num($newminprice, 'MU');
 					$price_min_ttc = (float) price2num($newminprice) * (1 + ($newvat / 100));
-					$price_min_ttc = price2num($price_min_ttc, 'MU');
+					$price_min_ttc = (float) price2num($price_min_ttc, 'MU');
 					//print 'X'.$newminprice.'-'.$price_min;
 				} else {
 					$price_min = 0;
@@ -2698,18 +2697,18 @@ class Product extends CommonObject
 				$this->net_measure = $obj->net_measure;
 				$this->net_measure_units = $obj->net_measure_units;
 				$this->weight = $obj->weight;
-				$this->weight_units = $obj->weight_units;
+				$this->weight_units = (is_null($obj->weight_units) ? 0 : $obj->weight_units);
 				$this->length = $obj->length;
-				$this->length_units = $obj->length_units;
+				$this->length_units = (is_null($obj->length_units) ? 0 : $obj->length_units);
 				$this->width = $obj->width;
-				$this->width_units = $obj->width_units;
+				$this->width_units = (is_null($obj->width_units) ? 0 : $obj->width_units);
 				$this->height = $obj->height;
-				$this->height_units = $obj->height_units;
+				$this->height_units = (is_null($obj->height_units) ? 0 : $obj->height_units);
 
 				$this->surface = $obj->surface;
-				$this->surface_units = $obj->surface_units;
+				$this->surface_units = (is_null($obj->surface_units) ? 0 : $obj->surface_units);
 				$this->volume = $obj->volume;
-				$this->volume_units = $obj->volume_units;
+				$this->volume_units = (is_null($obj->volume_units) ? 0 : $obj->volume_units);
 				$this->barcode = $obj->barcode;
 				$this->barcode_type = $obj->fk_barcode_type;
 
@@ -2753,7 +2752,8 @@ class Product extends CommonObject
 
 				// Load multiprices array
 				if (getDolGlobalString('PRODUIT_MULTIPRICES') && empty($ignore_price_load)) {                // prices per segment
-					for ($i = 1; $i <= $conf->global->PRODUIT_MULTIPRICES_LIMIT; $i++) {
+					$maxi = getDolGlobalInt('PRODUIT_MULTIPRICES_LIMIT');
+					for ($i = 1; $i <= $maxi; $i++) {
 						$sql = "SELECT price, price_ttc, price_min, price_min_ttc,";
 						$sql .= " price_base_type, tva_tx, default_vat_code, tosell, price_by_qty, rowid, recuperableonly";
 						$sql .= " ,price_label";
@@ -2869,7 +2869,8 @@ class Product extends CommonObject
 						return -1;
 					}
 				} elseif (getDolGlobalString('PRODUIT_CUSTOMER_PRICES_BY_QTY_MULTIPRICES') && empty($ignore_price_load)) {    // prices per customer and quantity
-					for ($i = 1; $i <= $conf->global->PRODUIT_MULTIPRICES_LIMIT; $i++) {
+					$maxi = getDolGlobalInt('PRODUIT_MULTIPRICES_LIMIT');
+					for ($i = 1; $i <= $maxi; $i++) {
 						$sql = "SELECT price, price_ttc, price_min, price_min_ttc,";
 						$sql .= " price_base_type, tva_tx, default_vat_code, tosell, price_by_qty, rowid, recuperableonly";
 						$sql .= " FROM ".$this->db->prefix()."product_price";
@@ -3244,7 +3245,7 @@ class Product extends CommonObject
 			$sql .= " AND c.fk_soc = ".((int) $socid);
 		}
 		if ($filtrestatut != '') {
-			$sql .= " AND c.fk_statut in (".$this->db->sanitize($filtrestatut).")";
+			$sql .= " AND c.fk_statut IN (".$this->db->sanitize($filtrestatut).")";
 		}
 
 		$result = $this->db->query($sql);
@@ -3277,7 +3278,7 @@ class Product extends CommonObject
 			}
 
 			// If stock decrease is on invoice validation, the theoretical stock continue to
-			// count the orders to ship in theoretical stock when some are already removed by invoice validation.
+			// count the orders lines in theoretical stock when some are already removed by invoice validation.
 			if ($forVirtualStock && getDolGlobalString('STOCK_CALCULATE_ON_BILL')) {
 				if (getDolGlobalString('DECREASE_ONLY_UNINVOICEDPRODUCTS')) {
 					// If option DECREASE_ONLY_UNINVOICEDPRODUCTS is on, we make a compensation but only if order not yet invoice.
@@ -5301,7 +5302,16 @@ class Product extends CommonObject
 			return ['optimize' => $langs->trans("ShowProduct")];
 		}
 
-		if (!empty($this->entity)) {
+		// Does user has permission to read product/service
+		$permissiontoreadproduct = 0;
+		if ($this->type == self::TYPE_PRODUCT && $user->hasRight('product', 'read')) {
+			$permissiontoreadproduct = 1;
+		}
+		if ($this->type == self::TYPE_SERVICE && $user->hasRight('service', 'read')) {
+			$permissiontoreadproduct = 1;
+		}
+
+		if (!empty($this->entity) && $permissiontoreadproduct) {
 			$tmpphoto = $this->show_photos('product', $conf->product->multidir_output[$this->entity], 1, 1, 0, 0, 0, 80, 0, 0, 0, 0, 1);
 			if ($this->nbphoto > 0) {
 				$datas['photo'] = '<div class="photointooltip floatright">'."\n" . $tmpphoto . '</div>';
@@ -5323,90 +5333,93 @@ class Product extends CommonObject
 		if (!empty($this->label)) {
 			$datas['label'] = '<br><b>'.$langs->trans('ProductLabel').':</b> '.$this->label;
 		}
-		if (!empty($this->description)) {
-			$datas['description'] = '<br><b>'.$langs->trans('ProductDescription').':</b> '.dolGetFirstLineOfText($this->description, 5);
-		}
-		if ($this->type == Product::TYPE_PRODUCT || getDolGlobalString('STOCK_SUPPORTS_SERVICES')) {
-			if (isModEnabled('productbatch')) {
-				$langs->load("productbatch");
-				$datas['batchstatus'] = "<br><b>".$langs->trans("ManageLotSerial").'</b>: '.$this->getLibStatut(0, 2);
-			}
-		}
-		if (isModEnabled('barcode')) {
-			$datas['barcode'] = '<br><b>'.$langs->trans('BarCode').':</b> '.$this->barcode;
-		}
 
-		if ($this->type == Product::TYPE_PRODUCT) {
-			if ($this->weight) {
-				$datas['weight'] = "<br><b>".$langs->trans("Weight").'</b>: '.$this->weight.' '.measuringUnitString(0, "weight", $this->weight_units);
+		if ($permissiontoreadproduct) {
+			if (!empty($this->description)) {
+				$datas['description'] = '<br><b>'.$langs->trans('ProductDescription').':</b> '.dolGetFirstLineOfText($this->description, 5);
 			}
-			$labelsize = "";
-			if ($this->length) {
-				$labelsize .= ($labelsize ? " - " : "")."<b>".$langs->trans("Length").'</b>: '.$this->length.' '.measuringUnitString(0, 'size', $this->length_units);
-			}
-			if ($this->width) {
-				$labelsize .= ($labelsize ? " - " : "")."<b>".$langs->trans("Width").'</b>: '.$this->width.' '.measuringUnitString(0, 'size', $this->width_units);
-			}
-			if ($this->height) {
-				$labelsize .= ($labelsize ? " - " : "")."<b>".$langs->trans("Height").'</b>: '.$this->height.' '.measuringUnitString(0, 'size', $this->height_units);
-			}
-			if ($labelsize) {
-				$datas['size'] = "<br>".$labelsize;
-			}
-
-			$labelsurfacevolume = "";
-			if ($this->surface) {
-				$labelsurfacevolume .= ($labelsurfacevolume ? " - " : "")."<b>".$langs->trans("Surface").'</b>: '.$this->surface.' '.measuringUnitString(0, 'surface', $this->surface_units);
-			}
-			if ($this->volume) {
-				$labelsurfacevolume .= ($labelsurfacevolume ? " - " : "")."<b>".$langs->trans("Volume").'</b>: '.$this->volume.' '.measuringUnitString(0, 'volume', $this->volume_units);
-			}
-			if ($labelsurfacevolume) {
-				$datas['surface'] = "<br>" . $labelsurfacevolume;
-			}
-		}
-		if ($this->type == Product::TYPE_SERVICE && !empty($this->duration_value)) {
-			// Duration
-			$datas['duration'] = '<br><b>'.$langs->trans("Duration").':</b> '.$this->duration_value;
-			if ($this->duration_value > 1) {
-				$dur = array("i" => $langs->trans("Minutes"), "h" => $langs->trans("Hours"), "d" => $langs->trans("Days"), "w" => $langs->trans("Weeks"), "m" => $langs->trans("Months"), "y" => $langs->trans("Years"));
-			} elseif ($this->duration_value > 0) {
-				$dur = array("i" => $langs->trans("Minute"), "h" => $langs->trans("Hour"), "d" => $langs->trans("Day"), "w" => $langs->trans("Week"), "m" => $langs->trans("Month"), "y" => $langs->trans("Year"));
-			}
-			$datas['duration'] .= (!empty($this->duration_unit) && isset($dur[$this->duration_unit]) ? "&nbsp;".$langs->trans($dur[$this->duration_unit]) : '');
-		}
-		if (empty($user->socid)) {
-			if (!empty($this->pmp) && $this->pmp) {
-				$datas['pmp'] = "<br><b>".$langs->trans("PMPValue").'</b>: '.price($this->pmp, 0, '', 1, -1, -1, $conf->currency);
-			}
-
-			if (isModEnabled('accounting')) {
-				if ($this->status && isset($this->accountancy_code_sell)) {
-					include_once DOL_DOCUMENT_ROOT.'/core/lib/accounting.lib.php';
-					$selllabel = '<br>';
-					$selllabel .= '<br><b>'.$langs->trans('ProductAccountancySellCode').':</b> '.length_accountg($this->accountancy_code_sell);
-					$selllabel .= '<br><b>'.$langs->trans('ProductAccountancySellIntraCode').':</b> '.length_accountg($this->accountancy_code_sell_intra);
-					$selllabel .= '<br><b>'.$langs->trans('ProductAccountancySellExportCode').':</b> '.length_accountg($this->accountancy_code_sell_export);
-					$datas['accountancysell'] = $selllabel;
+			if ($this->type == Product::TYPE_PRODUCT || getDolGlobalString('STOCK_SUPPORTS_SERVICES')) {
+				if (isModEnabled('productbatch')) {
+					$langs->load("productbatch");
+					$datas['batchstatus'] = "<br><b>".$langs->trans("ManageLotSerial").'</b>: '.$this->getLibStatut(0, 2);
 				}
-				if ($this->status_buy && isset($this->accountancy_code_buy)) {
-					include_once DOL_DOCUMENT_ROOT.'/core/lib/accounting.lib.php';
-					$buylabel = '';
-					if (empty($this->status)) {
-						$buylabel .= '<br>';
+			}
+			if (isModEnabled('barcode')) {
+				$datas['barcode'] = '<br><b>'.$langs->trans('BarCode').':</b> '.$this->barcode;
+			}
+
+			if ($this->type == Product::TYPE_PRODUCT) {
+				if ($this->weight) {
+					$datas['weight'] = "<br><b>".$langs->trans("Weight").'</b>: '.$this->weight.' '.measuringUnitString(0, "weight", $this->weight_units);
+				}
+				$labelsize = "";
+				if ($this->length) {
+					$labelsize .= ($labelsize ? " - " : "")."<b>".$langs->trans("Length").'</b>: '.$this->length.' '.measuringUnitString(0, 'size', $this->length_units);
+				}
+				if ($this->width) {
+					$labelsize .= ($labelsize ? " - " : "")."<b>".$langs->trans("Width").'</b>: '.$this->width.' '.measuringUnitString(0, 'size', $this->width_units);
+				}
+				if ($this->height) {
+					$labelsize .= ($labelsize ? " - " : "")."<b>".$langs->trans("Height").'</b>: '.$this->height.' '.measuringUnitString(0, 'size', $this->height_units);
+				}
+				if ($labelsize) {
+					$datas['size'] = "<br>".$labelsize;
+				}
+
+				$labelsurfacevolume = "";
+				if ($this->surface) {
+					$labelsurfacevolume .= ($labelsurfacevolume ? " - " : "")."<b>".$langs->trans("Surface").'</b>: '.$this->surface.' '.measuringUnitString(0, 'surface', $this->surface_units);
+				}
+				if ($this->volume) {
+					$labelsurfacevolume .= ($labelsurfacevolume ? " - " : "")."<b>".$langs->trans("Volume").'</b>: '.$this->volume.' '.measuringUnitString(0, 'volume', $this->volume_units);
+				}
+				if ($labelsurfacevolume) {
+					$datas['surface'] = "<br>" . $labelsurfacevolume;
+				}
+			}
+			if ($this->type == Product::TYPE_SERVICE && !empty($this->duration_value)) {
+				// Duration
+				$datas['duration'] = '<br><b>'.$langs->trans("Duration").':</b> '.$this->duration_value;
+				if ($this->duration_value > 1) {
+					$dur = array("i" => $langs->trans("Minutes"), "h" => $langs->trans("Hours"), "d" => $langs->trans("Days"), "w" => $langs->trans("Weeks"), "m" => $langs->trans("Months"), "y" => $langs->trans("Years"));
+				} elseif ($this->duration_value > 0) {
+					$dur = array("i" => $langs->trans("Minute"), "h" => $langs->trans("Hour"), "d" => $langs->trans("Day"), "w" => $langs->trans("Week"), "m" => $langs->trans("Month"), "y" => $langs->trans("Year"));
+				}
+				$datas['duration'] .= (!empty($this->duration_unit) && isset($dur[$this->duration_unit]) ? "&nbsp;".$langs->trans($dur[$this->duration_unit]) : '');
+			}
+			if (empty($user->socid)) {
+				if (!empty($this->pmp) && $this->pmp) {
+					$datas['pmp'] = "<br><b>".$langs->trans("PMPValue").'</b>: '.price($this->pmp, 0, '', 1, -1, -1, $conf->currency);
+				}
+
+				if (isModEnabled('accounting')) {
+					if ($this->status && isset($this->accountancy_code_sell)) {
+						include_once DOL_DOCUMENT_ROOT.'/core/lib/accounting.lib.php';
+						$selllabel = '<br>';
+						$selllabel .= '<br><b>'.$langs->trans('ProductAccountancySellCode').':</b> '.length_accountg($this->accountancy_code_sell);
+						$selllabel .= '<br><b>'.$langs->trans('ProductAccountancySellIntraCode').':</b> '.length_accountg($this->accountancy_code_sell_intra);
+						$selllabel .= '<br><b>'.$langs->trans('ProductAccountancySellExportCode').':</b> '.length_accountg($this->accountancy_code_sell_export);
+						$datas['accountancysell'] = $selllabel;
 					}
-					$buylabel .= '<br><b>'.$langs->trans('ProductAccountancyBuyCode').':</b> '.length_accountg($this->accountancy_code_buy);
-					$buylabel .= '<br><b>'.$langs->trans('ProductAccountancyBuyIntraCode').':</b> '.length_accountg($this->accountancy_code_buy_intra);
-					$buylabel .= '<br><b>'.$langs->trans('ProductAccountancyBuyExportCode').':</b> '.length_accountg($this->accountancy_code_buy_export);
-					$datas['accountancybuy'] = $buylabel;
+					if ($this->status_buy && isset($this->accountancy_code_buy)) {
+						include_once DOL_DOCUMENT_ROOT.'/core/lib/accounting.lib.php';
+						$buylabel = '';
+						if (empty($this->status)) {
+							$buylabel .= '<br>';
+						}
+						$buylabel .= '<br><b>'.$langs->trans('ProductAccountancyBuyCode').':</b> '.length_accountg($this->accountancy_code_buy);
+						$buylabel .= '<br><b>'.$langs->trans('ProductAccountancyBuyIntraCode').':</b> '.length_accountg($this->accountancy_code_buy_intra);
+						$buylabel .= '<br><b>'.$langs->trans('ProductAccountancyBuyExportCode').':</b> '.length_accountg($this->accountancy_code_buy_export);
+						$datas['accountancybuy'] = $buylabel;
+					}
 				}
 			}
-		}
-		// show categories for this record only in ajax to not overload lists
-		if (isModEnabled('category') && !$nofetch) {
-			require_once DOL_DOCUMENT_ROOT . '/categories/class/categorie.class.php';
-			$form = new Form($this->db);
-			$datas['categories'] = '<br>' . $form->showCategories($this->id, Categorie::TYPE_PRODUCT, 1);
+			// show categories for this record only in ajax to not overload lists
+			if (isModEnabled('category') && !$nofetch) {
+				require_once DOL_DOCUMENT_ROOT . '/categories/class/categorie.class.php';
+				$form = new Form($this->db);
+				$datas['categories'] = '<br>' . $form->showCategories($this->id, Categorie::TYPE_PRODUCT, 1);
+			}
 		}
 
 		return $datas;
@@ -5427,7 +5440,7 @@ class Product extends CommonObject
 	 */
 	public function getNomUrl($withpicto = 0, $option = '', $maxlength = 0, $save_lastsearch_value = -1, $notooltip = 0, $morecss = '', $add_label = 0, $sep = ' - ')
 	{
-		global $conf, $langs, $hookmanager, $user;
+		global $langs, $hookmanager;
 		include_once DOL_DOCUMENT_ROOT.'/core/lib/product.lib.php';
 
 		$result = '';
@@ -5973,22 +5986,40 @@ class Product extends CommonObject
 
 		$this->stock_theorique = $this->stock_reel + $stock_inproduction;
 
+		// $weBillOrderOrShipmentReception is set to 'order' or 'shipmentreception'. it will be used to know how to make virtual stock
+		// calculation when we have a stock increase or decrease on billing. Do we have to count orders to bill or shipment/reception to bill ?
+		$weBillOrderOrShipmentReception = getDolGlobalString('STOCK_DO_WE_BILL_ORDER_OR_SHIPMENTECEPTION_FOR_VIRTUALSTOCK', 'order');
+
 		// Stock decrease mode
 		if (getDolGlobalString('STOCK_CALCULATE_ON_SHIPMENT') || getDolGlobalString('STOCK_CALCULATE_ON_SHIPMENT_CLOSE')) {
 			$this->stock_theorique -= ($stock_commande_client - $stock_sending_client);
 		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_VALIDATE_ORDER')) {
-			$this->stock_theorique += 0;
-		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_BILL')) {
+			if (getDolGlobalString('STOCK_CALCULATE_ON_VALIDATE_ORDER_INCLUDE_DRAFT')) {	// By default, draft means "does not exist", so we do not include them by default, except if option is on
+				$tmpnewprod = dol_clone($this, 1);
+				$result = $tmpnewprod->load_stats_commande(0, '0', 1);	// Get qty in draft orders
+				$this->stock_theorique += $tmpnewprod->stats_commande['qty'];
+			}
+		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_BILL') && $weBillOrderOrShipmentReception == 'order') {
 			$this->stock_theorique -= $stock_commande_client;
+		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_BILL') && $weBillOrderOrShipmentReception == 'shipmentreception') {
+			$this->stock_theorique -= ($stock_commande_client - $stock_sending_client);
 		}
+
 		// Stock Increase mode
 		if (getDolGlobalString('STOCK_CALCULATE_ON_RECEPTION') || getDolGlobalString('STOCK_CALCULATE_ON_RECEPTION_CLOSE')) {
 			$this->stock_theorique += ($stock_commande_fournisseur - $stock_reception_fournisseur);
-		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_SUPPLIER_DISPATCH_ORDER')) {
+		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_SUPPLIER_DISPATCH_ORDER')) {	// This option is similar to STOCK_CALCULATE_ON_RECEPTION_CLOSE but when module Reception is not enabled
 			$this->stock_theorique += ($stock_commande_fournisseur - $stock_reception_fournisseur);
-		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_SUPPLIER_VALIDATE_ORDER')) {
+		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_SUPPLIER_VALIDATE_ORDER')) {	// Warning: stock change "on approval", not on validation !
+			if (getDolGlobalString('STOCK_CALCULATE_ON_SUPPLIER_VALIDATE_ORDER_INCLUDE_DRAFT')) {	// By default, draft means "does not exist", so we do not include them by default, except if option is on
+				$tmpnewprod = dol_clone($this, 1);
+				$result = $tmpnewprod->load_stats_commande_fournisseur(0, '0', 1);	// Get qty in draft orders
+				$this->stock_theorique += $this->stats_commande_fournisseur['qty'];
+			}
 			$this->stock_theorique -= $stock_reception_fournisseur;
-		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_SUPPLIER_BILL')) {
+		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_SUPPLIER_BILL') && $weBillOrderOrShipmentReception == 'order') {
+			$this->stock_theorique += $stock_commande_fournisseur;
+		} elseif (getDolGlobalString('STOCK_CALCULATE_ON_SUPPLIER_BILL') && $weBillOrderOrShipmentReception == 'shipmentreception') {
 			$this->stock_theorique += ($stock_commande_fournisseur - $stock_reception_fournisseur);
 		}
 

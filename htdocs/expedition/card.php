@@ -183,7 +183,7 @@ if (empty($reshook)) {
 
 	// Set incoterm
 	if ($action == 'set_incoterms' && isModEnabled('incoterm')) {
-		$result = $object->setIncoterms(GETPOSTINT('incoterm_id'), GETPOSTINT('location_incoterms'));
+		$result = $object->setIncoterms(GETPOSTINT('incoterm_id'), GETPOST('location_incoterms'));
 	}
 
 	if ($action == 'setref_customer') {
@@ -357,7 +357,7 @@ if (empty($reshook)) {
 				}
 			} else {
 				//shipment line for product with no batch management and no multiple stock location
-				if (GETPOSTINT($qty) > 0) {
+				if (GETPOSTFLOAT($qty) > 0) {
 					$totalqty += price2num(GETPOST($qty, 'alpha'), 'MS');
 					$subtotalqty = price2num(GETPOST($qty, 'alpha'), 'MS');
 				}
@@ -401,7 +401,7 @@ if (empty($reshook)) {
 							}
 						}
 					} else {
-						if (GETPOSTINT($qty) > 0 || getDolGlobalString('SHIPMENT_GETS_ALL_ORDER_PRODUCTS')) {
+						if (GETPOSTFLOAT($qty) > 0 || getDolGlobalString('SHIPMENT_GETS_ALL_ORDER_PRODUCTS')) {
 							$ent = "entl".$i;
 							$idl = "idl".$i;
 							$entrepot_id = is_numeric(GETPOSTINT($ent)) ? GETPOSTINT($ent) : GETPOSTINT('entrepot_id');
@@ -412,7 +412,7 @@ if (empty($reshook)) {
 								$entrepot_id = 0;
 							}
 
-							$ret = $object->addline($entrepot_id, GETPOSTINT($idl), price2num(GETPOSTINT($qty), 'MS'), $array_options[$i]);
+							$ret = $object->addline($entrepot_id, GETPOSTINT($idl), price2num(GETPOSTFLOAT($qty), 'MS'), $array_options[$i]);
 							if ($ret < 0) {
 								setEventMessages($object->error, $object->errors, 'errors');
 								$error++;
@@ -671,7 +671,7 @@ if (empty($reshook)) {
 						$batch = "batchl".$detail_batch->fk_expeditiondet."_".$detail_batch->fk_origin_stock;
 						$qty = "qtyl".$detail_batch->fk_expeditiondet.'_'.$detail_batch->id;
 						$batch_id = GETPOSTINT($batch);
-						$batch_qty = GETPOSTINT($qty);
+						$batch_qty = GETPOSTFLOAT($qty);
 						if (!empty($batch_id)) {
 							if ($lotStock->fetch($batch_id) > 0 && $line->fetch($detail_batch->fk_expeditiondet) > 0) {	// $line is ExpeditionLine
 								if ($lines[$i]->entrepot_id != 0) {
@@ -708,7 +708,7 @@ if (empty($reshook)) {
 					$batch = "batchl".$line_id."_0";
 					$qty = "qtyl".$line_id."_0";
 					$batch_id = GETPOSTINT($batch);
-					$batch_qty = GETPOSTINT($qty);
+					$batch_qty = GETPOSTFLOAT($qty);
 					$lineIdToAddLot = 0;
 					if ($batch_qty > 0 && !empty($batch_id)) {
 						if ($lotStock->fetch($batch_id) > 0) {
@@ -768,8 +768,8 @@ if (empty($reshook)) {
 					if ($lines[$i]->fk_product > 0) {
 						// line without lot
 						if ($lines[$i]->entrepot_id == 0) {
-							// single warehouse shipment line
-							$stockLocation = 0;
+							// single warehouse shipment line or line in several warehouses context but with warehouse not defined
+							$stockLocation = "entl".$line_id;
 							$qty = "qtyl".$line_id;
 							$line->id = $line_id;
 							$line->entrepot_id = GETPOSTINT($stockLocation);
@@ -1116,7 +1116,7 @@ if ($action == 'create') {
 			// Document model
 			include_once DOL_DOCUMENT_ROOT.'/core/modules/expedition/modules_expedition.php';
 			$list = ModelePdfExpedition::liste_modeles($db);
-			if (count($list) > 1) {
+			if (is_countable($list) && count($list) > 1) {
 				print "<tr><td>".$langs->trans("DefaultModel")."</td>";
 				print '<td colspan="3">';
 				print img_picto('', 'pdf', 'class="pictofixedwidth"');
@@ -1745,7 +1745,7 @@ if ($action == 'create') {
 							print '<!-- line not shown yet, we show it -->';
 							print '<tr class="oddeven"><td colspan="3"></td><td class="center">';
 
-							if ($line->product_type == Product::TYPE_PRODUCT || getDolGlobalString('STOCK_SUPPORTS_SERVICES') || getDolGlobalString('SHIPMENT_SUPPORTS_SERVICES')) {
+							if ($line->product_type == Product::TYPE_PRODUCT || getDolGlobalString('STOCK_SUPPORTS_SERVICES')) {
 								$disabled = '';
 								if (isModEnabled('productbatch') && $product->hasbatch()) {
 									$disabled = 'disabled="disabled"';
@@ -1754,6 +1754,18 @@ if ($action == 'create') {
 									$disabled = 'disabled="disabled"';
 								}
 								print '<input class="qtyl right" name="qtyl'.$indiceAsked.'_'.$subj.'" id="qtyl'.$indiceAsked.'_'.$subj.'" type="text" size="4" value="0"'.($disabled ? ' '.$disabled : '').'> ';
+								if (empty($disabled) && getDolGlobalString('STOCK_ALLOW_NEGATIVE_TRANSFER')) {
+									print '<input name="ent1' . $indiceAsked . '_' . $subj . '" type="hidden" value="' . $warehouse_selected_id . '">';
+								}
+							} elseif ($line->product_type == Product::TYPE_SERVICE && getDolGlobalString('SHIPMENT_SUPPORTS_SERVICES')) {
+								$disabled = '';
+								if (isModEnabled('productbatch') && $product->hasbatch()) {
+									$disabled = 'disabled="disabled"';
+								}
+								if ($warehouse_selected_id <= 0) {		// We did not force a given warehouse, so we won't have no warehouse to change qty.
+									$disabled = 'disabled="disabled"';
+								}
+								print '<input class="qtyl right" name="qtyl'.$indiceAsked.'_'.$subj.'" id="qtyl'.$indiceAsked.'_'.$subj.'" type="text" size="4" value="'.$quantityToBeDelivered.'"'.($disabled ? ' '.$disabled : '').'> ';
 								if (empty($disabled) && getDolGlobalString('STOCK_ALLOW_NEGATIVE_TRANSFER')) {
 									print '<input name="ent1' . $indiceAsked . '_' . $subj . '" type="hidden" value="' . $warehouse_selected_id . '">';
 								}

@@ -226,6 +226,14 @@ if ($result) {
 			$vatdata = $vatdata_cache[$tax_id];
 		} else {
 			$vatdata = getTaxesFromId($tax_id, $mysoc, $mysoc, 0);
+			if (getDolGlobalString('SERVICE_ARE_ECOMMERCE_200238EC')) {
+				$buyer = new Societe($db);
+				$buyer->fetch($obj->socid);
+			} else {
+				$buyer = null;	// We don't need the buyer in this case
+			}
+			$seller = $mysoc;
+			$vatdata = getTaxesFromId($tax_id, $buyer, $seller, 0);
 			$vatdata_cache[$tax_id] = $vatdata;
 		}
 		$compta_tva = (!empty($vatdata['accountancy_code_sell']) ? $vatdata['accountancy_code_sell'] : $cpttva);
@@ -419,7 +427,7 @@ if ($resql) {
 //var_dump($errorforinvoice);exit;
 
 // Bookkeeping Write
-if ($action == 'writebookkeeping' && !$error) {
+if ($action == 'writebookkeeping' && !$error && $user->hasRight('accounting', 'bind', 'write')) {
 	$now = dol_now();
 	$error = 0;
 
@@ -479,7 +487,7 @@ if ($action == 'writebookkeeping' && !$error) {
 
 		// Warranty
 		if (!$errorforline && getDolGlobalString('INVOICE_USE_RETAINED_WARRANTY')) {
-			if (isset($tabwaranty[$key]) && is_array($tabwarranty[$key])) {
+			if (isset($tabwarranty[$key]) && is_array($tabwarranty[$key])) {
 				foreach ($tabwarranty[$key] as $k => $mt) {
 					$bookkeeping = new BookKeeping($db);
 					$bookkeeping->doc_date = $val["date"];

@@ -105,6 +105,8 @@ class DoliDBMysqli extends DoliDB
 			dol_syslog(get_class($this)."::DoliDBMysqli Connect error: ".$this->error, LOG_ERR);
 		}
 
+		$disableforcecharset = 0;	// Set to 1 to test without charset forcing
+
 		// If server connection is ok, we try to connect to the database
 		if ($this->connected && $name) {
 			if ($this->select_db($name)) {
@@ -118,12 +120,16 @@ class DoliDBMysqli extends DoliDB
 					$clientmustbe = 'utf8';
 				}
 
-				$disableforcecharset = 0;	// Set to 1 to test without charset forcing
 				if (empty($disableforcecharset) && $this->db->character_set_name() != $clientmustbe) {
 					try {
-						//print "You should set the \$dolibarr_main_db_character_set and \$dolibarr_main_db_collation for the PHP to the one of the database ".$this->db->character_set_name();
-						dol_syslog(get_class($this)."::DoliDBMysqli You should set the \$dolibarr_main_db_character_set and \$dolibarr_main_db_collation for the PHP to the one of the database ".$this->db->character_set_name(), LOG_WARNING);
-						$this->db->set_charset($clientmustbe); // This set charset, but with a bad collation
+						dol_syslog(get_class($this)."::DoliDBMysqli You should set the \$dolibarr_main_db_character_set and \$dolibarr_main_db_collation for the PHP to the same as the database default, so to ".$this->db->character_set_name(). " or upgrade database default to ".$clientmustbe.".", LOG_WARNING);
+						// To get current charset:   USE databasename; SHOW VARIABLES LIKE 'character_set_database'
+						//                     or:   USE databasename; SELECT schema_name, default_character_set_name FROM information_schema.SCHEMATA;
+						// To get current collation: USE databasename; SHOW VARIABLES LIKE 'collation_database'
+						//                       or: USE databasename; SELECT schema_name, default_character_set_name FROM information_schema.SCHEMATA;
+						// To upgrade database default, you can do: ALTER DATABASE databasename CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+						$this->db->set_charset($clientmustbe); // This set charset, but with a bad collation (colllation is forced later)
 					} catch (Exception $e) {
 						print 'Failed to force character_set_client to '.$clientmustbe." (according to setup) to match the one of the server database.<br>\n";
 						print $e->getMessage();
@@ -168,7 +174,7 @@ class DoliDBMysqli extends DoliDB
 					$clientmustbe = 'utf8';
 				}
 
-				if ($this->db->character_set_name() != $clientmustbe) {
+				if (empty($disableforcecharset) && $this->db->character_set_name() != $clientmustbe) {
 					$this->db->set_charset($clientmustbe); // This set utf8_unicode_ci
 
 					$collation = $conf->db->dolibarr_main_db_collation;
@@ -255,6 +261,7 @@ class DoliDBMysqli extends DoliDB
 		try {
 			if (!class_exists('mysqli')) {
 				dol_print_error(null, 'Driver mysqli for PHP not available');
+				return false;
 			}
 			if (strpos($host, 'ssl://') === 0) {
 				$tmp = new mysqliDoli($host, $login, $passwd, $name, $port);
@@ -1282,38 +1289,41 @@ class DoliDBMysqli extends DoliDB
 	}
 }
 
-/**
- * Class to make SSL connection
- */
-class mysqliDoli extends mysqli
-{
+
+if (class_exists('myslqi')) {
 	/**
-	 *	Constructor.
-	 *	This create an opened connection to a database server and eventually to a database
-	 *
-	 *	@param	    string	$host		Address of database server
-	 *	@param	    string	$user		Name of database user
-	 *	@param	    string	$pass		Password of database user
-	 *	@param	    string	$name		Name of database
-	 *	@param	    int		$port		Port of database server
-	 *	@param	    string	$socket		Socket
+	 * Class to make SSL connection
 	 */
-	public function __construct($host, $user, $pass, $name, $port = 0, $socket = "")
+	class mysqliDoli extends mysqli
 	{
-		$flags = 0;
-		if (PHP_VERSION_ID >= 80100) {
-			parent::__construct();
-		} else {
-			// @phan-suppress-next-line PhanDeprecatedFunctionInternal
-			parent::init();
+		/**
+		 *	Constructor.
+		 *	This create an opened connection to a database server and eventually to a database
+		 *
+		 *	@param	    string	$host		Address of database server
+		 *	@param	    string	$user		Name of database user
+		 *	@param	    string	$pass		Password of database user
+		 *	@param	    string	$name		Name of database
+		 *	@param	    int		$port		Port of database server
+		 *	@param	    string	$socket		Socket
+		 */
+		public function __construct($host, $user, $pass, $name, $port = 0, $socket = "")
+		{
+			$flags = 0;
+			if (PHP_VERSION_ID >= 80100) {
+				parent::__construct();
+			} else {
+				// @phan-suppress-next-line PhanDeprecatedFunctionInternal
+				parent::init();
+			}
+			if (strpos($host, 'ssl://') === 0) {
+				$host = substr($host, 6);
+				parent::options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, false);
+				// Suppress false positive @phan-suppress-next-line PhanTypeMismatchArgumentInternalProbablyReal
+				parent::ssl_set(null, null, "", null, null);
+				$flags = MYSQLI_CLIENT_SSL;
+			}
+			parent::real_connect($host, $user, $pass, $name, $port, $socket, $flags);
 		}
-		if (strpos($host, 'ssl://') === 0) {
-			$host = substr($host, 6);
-			parent::options(MYSQLI_OPT_SSL_VERIFY_SERVER_CERT, false);
-			// Suppress false positive @phan-suppress-next-line PhanTypeMismatchArgumentInternalProbablyReal
-			parent::ssl_set(null, null, "", null, null);
-			$flags = MYSQLI_CLIENT_SSL;
-		}
-		parent::real_connect($host, $user, $pass, $name, $port, $socket, $flags);
 	}
 }

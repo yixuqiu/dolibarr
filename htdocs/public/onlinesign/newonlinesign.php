@@ -24,6 +24,8 @@
  *		\ingroup    core
  *		\brief      File to offer a way to make an online signature for a particular Dolibarr entity
  *					Example of URL: https://localhost/public/onlinesign/newonlinesign.php?ref=PR...
+ *
+ *					The signature is added by calling the file /htdocs/core/ajax/onlinSign.php
  */
 
 if (!defined('NOLOGIN')) {
@@ -182,7 +184,7 @@ if ($action == 'confirm_refusepropal' && $confirm == 'yes') {
 	$db->begin();
 
 	$sql  = "UPDATE ".MAIN_DB_PREFIX."propal";
-	$sql .= " SET fk_statut = ".((int) $object::STATUS_NOTSIGNED).", note_private = '".$db->escape($object->note_private)."', date_signature='".$db->idate(dol_now())."'";
+	$sql .= " SET fk_statut = ".((int) $object::STATUS_NOTSIGNED).", note_private = '".$db->escape($object->note_private)."', date_signature = '".$db->idate(dol_now())."'";
 	$sql .= " WHERE rowid = ".((int) $object->id);
 
 	dol_syslog(__FILE__, LOG_DEBUG);
@@ -769,7 +771,7 @@ if ($action == "dosign" && empty($cancel)) {
 						"entity" : \''.dol_escape_htmltag($entity).'\',
 					},
 					success: function(response) {
-						if (response == "success"){
+						if (response.trim() === "success") {
 							console.log("Success on saving signature");
 							window.location.replace("'.$_SERVER["PHP_SELF"].'?ref='.urlencode($ref).'&source='.urlencode($source).'&message=signed&securekey='.urlencode($SECUREKEY).(isModEnabled('multicompany') ? '&entity='.(int) $entity : '').'");
 						} else {

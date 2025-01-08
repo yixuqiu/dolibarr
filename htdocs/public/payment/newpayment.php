@@ -358,10 +358,11 @@ $mesg = '';
  * Actions
  */
 
+// First log into the dolibarr_payment.log file
+dol_syslog("--- newpayment.php action = ".$action." paymentmethod=".$paymentmethod.' amount='.$amount.' newamount='.GETPOST("newamount", 'alpha'), LOG_DEBUG, 0, '_payment');
+
 // Action dopayment is called after clicking/choosing the payment mode
 if ($action == 'dopayment') {
-	dol_syslog("--- newpayment.php Execute action = ".$action." paymentmethod=".$paymentmethod.' amount='.$amount.' newamount='.GETPOST("newamount", 'alpha'), LOG_DEBUG, 0, '_payment');
-
 	if ($paymentmethod == 'paypal') {
 		$PAYPAL_API_PRICE = price2num(GETPOST("newamount", 'alpha'), 'MT');
 		$PAYPAL_PAYMENT_TYPE = 'Sale';
@@ -852,7 +853,6 @@ $conf->dol_hide_leftmenu = 1;
 $replacemainarea = (empty($conf->dol_hide_leftmenu) ? '<div>' : '').'<div>';
 llxHeader($head, $langs->trans("PaymentForm"), '', '', 0, 0, '', '', '', 'onlinepaymentbody', $replacemainarea);
 
-dol_syslog("--- newpayment.php action = ".$action, LOG_DEBUG, 0, '_payment');
 dol_syslog("newpayment.php show page source=".$source." paymentmethod=".$paymentmethod.' amount='.$amount.' newamount='.GETPOST("newamount", 'alpha')." ref=".$ref, LOG_DEBUG, 0, '_payment');
 dol_syslog("_SERVER[SERVER_NAME] = ".(empty($_SERVER["SERVER_NAME"]) ? '' : dol_escape_htmltag($_SERVER["SERVER_NAME"])), LOG_DEBUG, 0, '_payment');
 dol_syslog("_SERVER[SERVER_ADDR] = ".(empty($_SERVER["SERVER_ADDR"]) ? '' : dol_escape_htmltag($_SERVER["SERVER_ADDR"])), LOG_DEBUG, 0, '_payment');
@@ -1522,9 +1522,8 @@ if ($source == 'member' || $source == 'membersubscription') {
 
 	$member = new Adherent($db);
 	$adht = new AdherentType($db);
-	$subscription = new Subscription($db);
 
-	$result = $member->fetch('', $ref);
+	$result = $member->fetch('', $ref, 0, '', true, true);	// This fetch also ->last_subscription_amount
 	if ($result <= 0) {
 		$mesg = $member->error;
 		$error++;
@@ -1536,7 +1535,7 @@ if ($source == 'member' || $source == 'membersubscription') {
 	$object = $member;
 
 	if ($action != 'dopayment') { // Do not change amount if we just click on first dopayment
-		$amount = $subscription->total_ttc;
+		$amount = $member->last_subscription_amount;
 		if (GETPOST("amount", 'alpha')) {
 			$amount = price2num(GETPOST("amount", 'alpha'), 'MT', 2);
 		}
@@ -1673,11 +1672,15 @@ if ($source == 'member' || $source == 'membersubscription') {
 	if (empty($amount) && getDolGlobalString('MEMBER_NEWFORM_AMOUNT')) {
 		$amount = getDolGlobalString('MEMBER_NEWFORM_AMOUNT');
 	}
-	// - If not set, we accept to have amount defined as parameter (for backward compatibility).
-	//if (empty($amount)) {
-	//	$amount = (GETPOST('amount') ? price2num(GETPOST('amount', 'alpha'), 'MT', 2) : '');
-	//}
-	// - If a min is set, we take it into account
+	// - If an amount was posted from the form (for example from page with types of membership)
+	if ($caneditamount && GETPOSTISSET('amount') && GETPOSTFLOAT('amount', 'MT') > 0) {
+		$amount = GETPOSTFLOAT('amount', 'MT');
+	}
+	// - If a new amount was posted from the form
+	if ($caneditamount && GETPOSTISSET('newamount') && GETPOSTFLOAT('newamount', 'MT') > 0) {
+		$amount = GETPOSTFLOAT('newamount', 'MT');
+	}
+	// - If a min is set or an amount from the posted form, we take them into account
 	$amount = max(0, (float) $amount, (float) getDolGlobalInt("MEMBER_MIN_AMOUNT"));
 
 	// Amount
@@ -2108,19 +2111,19 @@ if ($action != 'dopayment') {
 		}
 
 		if ($source == 'order' && $object->billed) {
-			print '<br><br><span class="amountpaymentcomplete size12x">'.$langs->trans("OrderBilled").'</span>';
+			print '<br><br><div class="amountpaymentcomplete size12x wrapimp">'.$langs->trans("OrderBilled").'</div>';
 		} elseif ($source == 'invoice' && $object->paye) {
-			print '<br><br><span class="amountpaymentcomplete size12x">'.$langs->trans("InvoicePaid").'</span>';
+			print '<br><br><div class="amountpaymentcomplete size12x wrapimp">'.$langs->trans("InvoicePaid").'</div>';
 		} elseif ($source == 'donation' && $object->paid) {
-			print '<br><br><span class="amountpaymentcomplete size12x">'.$langs->trans("DonationPaid").'</span>';
+			print '<br><br><div class="amountpaymentcomplete size12x wrapimp">'.$langs->trans("DonationPaid").'</div>';
 		} else {
 			// Membership can be paid and we still allow to make renewal
 			if (($source == 'member' || $source == 'membersubscription') && $object->datefin > dol_now()) {
 				$langs->load("members");
-				print '<br><span class="amountpaymentcomplete size12x">';
+				print '<br><div class="amountpaymentcomplete size12x wrapimp">';
 				$s = $langs->trans("MembershipPaid", '{s1}');
 				print str_replace('{s1}', '<span class="nobold">'.dol_print_date($object->datefin, 'day').'</span>', $s);
-				print '</span><br>';
+				print '</div>';
 				print '<div class="opacitymedium margintoponly">'.$langs->trans("PaymentWillBeRecordedForNextPeriod").'</div>';
 				print '<br>';
 			}
@@ -2164,8 +2167,12 @@ if ($action != 'dopayment') {
 				}
 
 				if ($showbutton) {
+					// By default noidempotency is set to 1, to avoid the error "Keys for idempotant requests...". It means we can pay several times the same tag/ref.
+					// If STRIPE_USE_IDEMPOTENCY_BY_DEFAULT is set or param noidempotency=0 is added, then with add an idempotent key, so we must use a different tag/ref for each payment (if not we will get an error).
+					$noidempotency_key = (GETPOSTISSET('noidempotency') ? GETPOSTINT('noidempotency') : (getDolGlobalInt('STRIPE_USE_IDEMPOTENCY_BY_DEFAULT') ? 0 : 1));
+
 					print '<div class="button buttonpayment" id="div_dopayment_stripe"><span class="fa fa-credit-card"></span> <input class="" type="submit" id="dopayment_stripe" name="dopayment_stripe" value="'.$langs->trans("StripeDoPayment").'">';
-					print '<input type="hidden" name="noidempotency" value="'.GETPOSTINT('noidempotency').'">';
+					print '<input type="hidden" name="noidempotency" value="'.$noidempotency_key.'">';
 					print '<br>';
 					print '<span class="buttonpaymentsmall">'.$langs->trans("CreditOrDebitCard").'</span>';
 					print '</div>';
@@ -2325,7 +2332,10 @@ if (preg_match('/^dopayment/', $action)) {			// If we chose/clicked on the payme
 			}
 
 			if (getDolGlobalString('STRIPE_USE_INTENT_WITH_AUTOMATIC_CONFIRMATION')) {
-				$noidempotency_key = (GETPOSTISSET('noidempotency') ? GETPOSTINT('noidempotency') : 0); // By default noidempotency is unset, so we must use a different tag/ref for each payment. If set, we can pay several times the same tag/ref.
+				// By default noidempotency is set to 1, to avoid the error "Keys for idempotant requests...". It means we can pay several times the same tag/ref.
+				// If STRIPE_USE_IDEMPOTENCY_BY_DEFAULT is set or param noidempotency=0 is added, then with add an idempotent key, so we must use a different tag/ref for each payment (if not we will get an error).
+				$noidempotency_key = (GETPOSTISSET('noidempotency') ? GETPOSTINT('noidempotency') : (getDolGlobalInt('STRIPE_USE_IDEMPOTENCY_BY_DEFAULT') ? 0 : 1));
+
 				$paymentintent = $stripe->getPaymentIntent($amount, $currency, ($tag ? $tag : $fulltag), 'Stripe payment: '.$fulltag.(is_object($object) ? ' ref='.$object->ref : ''), $object, $stripecu, $stripeacc, $servicestatus, 0, 'automatic', false, null, 0, $noidempotency_key);
 				// The paymentintnent has status 'requires_payment_method' (even if paymentintent was already paid)
 				//var_dump($paymentintent);

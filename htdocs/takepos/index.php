@@ -537,10 +537,12 @@ function ClickProduct(position, qty = 1) {
 		console.log($('#prodiv4').data('rowid'));
 		invoiceid = $("#invoiceid").val();
 		idproduct=$('#prodiv'+position).data('rowid');
-		console.log("Click on product at position "+position+" for idproduct "+idproduct+", qty="+qty+" invoicdeid="+invoiceid);
-		if (idproduct=="") return;
+		console.log("Click on product at position "+position+" for idproduct "+idproduct+", qty="+qty+" invoiceid="+invoiceid);
+		if (idproduct == "") {
+			return;
+		}
 		// Call page invoice.php to generate the section with product lines
-		$("#poslines").load("invoice.php?action=addline&token=<?php echo newToken() ?>&place="+place+"&idproduct="+idproduct+"&qty="+qty+"&invoiceid="+invoiceid, function() {
+		$("#poslines").load("invoice.php?action=addline&token=<?php echo newToken(); ?>&place="+place+"&idproduct="+idproduct+"&qty="+qty+"&invoiceid="+invoiceid, function() {
 			<?php if (getDolGlobalString('TAKEPOS_CUSTOMER_DISPLAY')) {
 				echo "CustomerDisplay();";
 			}?>
@@ -595,7 +597,7 @@ function CloseBill() {
 	if (!empty($conf->global->TAKEPOS_FORBID_SALES_TO_DEFAULT_CUSTOMER)) {
 		echo "customerAnchorTag = document.querySelector('a[id=\"customer\"]'); ";
 		echo "if (customerAnchorTag && customerAnchorTag.innerText.trim() === '".$langs->trans("Customer")."') { ";
-		echo "alert('".$langs->trans("NoClientErrorMessage")."'); ";
+		echo "alert('".dol_escape_js($langs->trans("NoClientErrorMessage"))."'); ";
 		echo "return; } \n";
 	}
 	?>
@@ -805,7 +807,7 @@ function Search2(keyCodeForEnter, moreorless) {
 						console.log("There is only 1 answer with barcode matching the search, so we change the thirdparty "+data[0]['rowid']);
 						ChangeThirdparty(data[0]['rowid']);
 					}
-					else if ($('#search').val() == data[0]['barcode'] && 'product' == data[0]['object']) {
+					else if ('product' == data[0]['object'] && $('#search').val() == data[0]['barcode']) {
 						console.log("There is only 1 answer and we found search on a barcode, so we add the product in basket, qty="+data[0]['qty']);
 						ClickProduct(0, data[0]['qty']);
 					}

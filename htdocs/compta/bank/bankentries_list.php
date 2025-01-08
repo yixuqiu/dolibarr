@@ -145,9 +145,11 @@ if (($sortfield == 'b.datev' || $sortfield == 'b.datev,b.dateo,b.rowid')) {
 $hookmanager->initHooks(array('banktransactionlist', $contextpage));
 $extrafields = new ExtraFields($db);
 
+$extrafieldsobjectkey = 'bank';	// Used by extrafields_..._tpl.php
+
 // fetch optionals attributes and labels
-$extrafields->fetch_name_optionals_label('banktransaction');
-$search_array_options = $extrafields->getOptionalsFromPost('banktransaction', '', 'search_');
+$extrafields->fetch_name_optionals_label($extrafieldsobjectkey);
+$search_array_options = $extrafields->getOptionalsFromPost($extrafieldsobjectkey, '', 'search_');
 
 $arrayfields = array(
 	'b.rowid' => array('label' => $langs->trans("Ref"), 'checked' => 1,'position' => 10),
@@ -596,9 +598,9 @@ $sql = "SELECT b.rowid, b.dateo as do, b.datev as dv, b.amount, b.label, b.rappr
 $sql .= " b.fk_account, b.fk_type, b.fk_bordereau,";
 $sql .= " ba.rowid as bankid, ba.ref as bankref";
 // Add fields from extrafields
-if (!empty($extrafields->attributes[$object->table_element]['label'])) {
-	foreach ($extrafields->attributes[$object->table_element]['label'] as $key => $val) {
-		$sql .= ($extrafields->attributes[$object->table_element]['type'][$key] != 'separate' ? ", ef.".$key." as options_".$key : '');
+if (!empty($extrafields->attributes[$extrafieldsobjectkey]['label'])) {
+	foreach ($extrafields->attributes[$extrafieldsobjectkey]['label'] as $key => $val) {
+		$sql .= ($extrafields->attributes[$extrafieldsobjectkey]['type'][$key] != 'separate' ? ", ef.".$key." as options_".$key : '');
 	}
 }
 // Add fields from hooks
@@ -611,8 +613,8 @@ if ($search_bid > 0) {
 }
 $sql .= " ".MAIN_DB_PREFIX."bank_account as ba,";
 $sql .= " ".MAIN_DB_PREFIX."bank as b";
-if (!empty($extrafields->attributes[$object->table_element]['label']) && is_array($extrafields->attributes[$object->table_element]['label']) && count($extrafields->attributes[$object->table_element]['label'])) {
-	$sql .= " LEFT JOIN ".MAIN_DB_PREFIX.$object->table_element."_extrafields as ef on (b.rowid = ef.fk_object)";
+if (!empty($extrafields->attributes[$extrafieldsobjectkey]['label']) && is_array($extrafields->attributes[$extrafieldsobjectkey]['label']) && count($extrafields->attributes[$extrafieldsobjectkey]['label'])) {
+	$sql .= " LEFT JOIN ".MAIN_DB_PREFIX.$extrafieldsobjectkey."_extrafields as ef on (b.rowid = ef.fk_object)";
 }
 
 // Add fields from hooks
@@ -953,20 +955,21 @@ if ($resql) {
 		print '<div class="valignmiddle inline-block" style="padding-right: 20px;">';
 		if (getDolGlobalInt('NW_RECEIPTNUMBERFORMAT')) {
 			print '<strong>'.$langs->trans("InputReceiptNumber").'</strong>: ';
-			print '<input class="flat width175" id="num_releve" name="num_releve" type="text" value="'.(GETPOST('num_releve') ? GETPOST('num_releve') : '').'">';
+			print '<input class="flat width100" id="num_releve" list="num_releve_list" name="num_releve" type="text" value="'.(GETPOST('num_releve') ? GETPOST('num_releve') : '').'">';
 		} else {
 			$texttoshow = $langs->trans("InputReceiptNumber").': ';
 			$yyyy = dol_substr($langs->transnoentitiesnoconv("Year"), 0, 1).substr($langs->transnoentitiesnoconv("Year"), 0, 1).substr($langs->transnoentitiesnoconv("Year"), 0, 1).substr($langs->transnoentitiesnoconv("Year"), 0, 1);
 			$mm = dol_substr($langs->transnoentitiesnoconv("Month"), 0, 1).substr($langs->transnoentitiesnoconv("Month"), 0, 1);
 			$dd = dol_substr($langs->transnoentitiesnoconv("Day"), 0, 1).substr($langs->transnoentitiesnoconv("Day"), 0, 1);
 			$placeholder = $yyyy.$mm;
-			$placeholder .= ' '.$langs->trans("or").' ';
-			$placeholder .= $yyyy.$mm.$dd;
+			$placeholder2 = $yyyy.$mm;
+			$placeholder2 .= ' '.$langs->trans("or").' ';
+			$placeholder2 .= $yyyy.$mm.$dd;
 			if (!$placeholder) {
 				$texttoshow .= $langs->trans("InputReceiptNumberBis");
 			}
 			print $texttoshow;
-			print '<input class="flat width175" pattern="[0-9]+" title="'.dol_escape_htmltag($texttoshow.($placeholder ? ': '.$placeholder : '')).'" id="num_releve" name="num_releve" placeholder="'.dol_escape_htmltag($placeholder).'" type="text" value="'.(GETPOSTINT('num_releve') ? GETPOSTINT('num_releve') : '').'">'; // The only default value is value we just entered
+			print '<input class="flat width100" pattern="[0-9]+" title="'.dol_escape_htmltag($texttoshow.': '.$placeholder2).'" id="num_releve" name="num_releve" placeholder="'.dol_escape_htmltag($placeholder).'" type="text" value="'.(GETPOSTINT('num_releve') ? GETPOSTINT('num_releve') : '').'">'; // The only default value is value we just entered
 		}
 		print '</div>';
 		if (is_array($options) && count($options)) {
@@ -1188,6 +1191,8 @@ if ($resql) {
 	if (!empty($arrayfields['b.fk_bordereau']['checked'])) {
 		print '<td class="liste_titre center"><input type="text" class="flat" name="search_fk_bordereau" value="'.dol_escape_htmltag($search_fk_bordereau).'" size="3"></td>';
 	}
+	// Extra fields
+	include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_list_search_input.tpl.php';
 	// Action edit/delete and select
 	print '<td class="nowraponall center"></td>';
 
@@ -1368,8 +1373,8 @@ if ($resql) {
 						}
 					}
 				}
-				// Extra fields
-				$element = 'banktransaction';
+				// Extra
+				$element = $extrafieldsobjectkey;
 				if (!empty($extrafields->attributes[$element]['label']) && is_array($extrafields->attributes[$element]['label']) && count($extrafields->attributes[$element]['label'])) {
 					foreach ($extrafields->attributes[$element]['label'] as $key => $val) {
 						if (!empty($arrayfields["ef.".$key]['checked'])) {
@@ -1836,8 +1841,11 @@ if ($resql) {
 			}
 		}
 
+		// Extra fields
+		$obj = $objp; // Because extrafield template use $obj and not $objp as object variable name
+		include DOL_DOCUMENT_ROOT.'/core/tpl/extrafields_list_print_fields.tpl.php';
 		// Fields from hook
-		$parameters = array('arrayfields' => $arrayfields, 'obj' => $objp, 'i' => $i, 'totalarray' => &$totalarray);
+		$parameters = array('arrayfields' => $arrayfields, 'object'=>$object, 'obj' => $objp, 'i' => $i, 'totalarray' => &$totalarray);
 		$reshook=$hookmanager->executeHooks('printFieldListValue', $parameters, $object, $action);    // Note that $action and $objecttmpect may have been modified by hook
 		print $hookmanager->resPrint;
 
@@ -1909,9 +1917,9 @@ if ($resql) {
 				print '<td class="right"><span class="amount">'.price($totalarray['totalcred']).'</span></td>';
 			} elseif ($i == $posconciliatecol) {
 				print '<td class="center">';
-				if ($user->hasRight('banque', 'consolidate') && $action == 'reconcile') {
+				/*if ($user->hasRight('banque', 'consolidate') && $action == 'reconcile') {
 					print '<input class="button smallpaddingimp" name="confirm_reconcile" type="submit" value="'.$langs->trans("Conciliate").'">';
-				}
+				}*/
 				print '</td>';
 			} else {
 				print '<td></td>';

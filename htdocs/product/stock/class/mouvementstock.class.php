@@ -446,7 +446,7 @@ class MouvementStock extends CommonObject
 					return -8;
 				}
 			} else {
-				if (isset($product->stock_warehouse[$entrepot_id]) && (empty($product->stock_warehouse[$entrepot_id]->real) || $product->stock_warehouse[$entrepot_id]->real < abs($qty))) {
+				if (empty($product->stock_warehouse[$entrepot_id]) || empty($product->stock_warehouse[$entrepot_id]->real) || $product->stock_warehouse[$entrepot_id]->real < abs($qty)) {
 					$langs->load("stocks");
 					$this->error = $langs->trans('qtyToTranferIsNotEnough').' : '.$product->ref;
 					$this->errors[] = $langs->trans('qtyToTranferIsNotEnough').' : '.$product->ref;
@@ -1145,6 +1145,9 @@ class MouvementStock extends CommonObject
 		$label .= '<b>'.$langs->trans('Ref').':</b> '.$this->id;
 		$label .= '<br><b>'.$langs->trans('Label').':</b> '.$this->label;
 		$qtylabel = (($this->qty > 0) ? '<span class="stockmovemententry">+' : '<span class="stockmovementexit">') . $this->qty . '</span>';
+		if ($this->inventorycode) {
+			$label .= '<br><b>'.$langs->trans('InventoryCode').':</b> '.$this->inventorycode;
+		}
 		$label .= '<br><b>'.$langs->trans('Qty').':</b> ' . $qtylabel;
 		if ($this->batch) {
 			$label .= '<br><b>'.$langs->trans('Batch').':</b> '.$this->batch;

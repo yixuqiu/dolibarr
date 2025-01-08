@@ -151,7 +151,6 @@ $reshook = $hookmanager->executeHooks('doActions', $parameters, $object, $action
 if ($reshook < 0) {
 	setEventMessages($hookmanager->error, $hookmanager->errors, 'errors');
 }
-
 if (empty($reshook)) {
 	$backurlforlist = DOL_URL_ROOT.'/comm/propal/list.php';
 
@@ -416,7 +415,7 @@ if (empty($reshook)) {
 		}
 	} elseif ($action == 'set_incoterms' && isModEnabled('incoterm') && $usercancreate) {
 		// Set incoterm
-		$result = $object->setIncoterms(GETPOSTINT('incoterm_id'), GETPOSTINT('location_incoterms'));
+		$result = $object->setIncoterms(GETPOSTINT('incoterm_id'), GETPOST('location_incoterms'));
 	} elseif ($action == 'add' && $usercancreate) {
 		// Create proposal
 		$object->socid = $socid;
@@ -838,10 +837,7 @@ if (empty($reshook)) {
 				$db->rollback();
 			}
 		}
-	} elseif ($action == 'import_lines_from_object'
-		&& $user->hasRight('propal', 'creer')
-		&& $object->statut == Propal::STATUS_DRAFT
-	) {
+	} elseif ($action == 'import_lines_from_object' && $usercancreate && $object->statut == Propal::STATUS_DRAFT) {
 		// add lines from objectlinked
 		$fromElement = GETPOST('fromelement');
 		$fromElementid = GETPOST('fromelementid');
@@ -926,7 +922,10 @@ if (empty($reshook)) {
 
 	// Go back to draft
 	if ($action == 'modif' && $usercancreate) {
-		$object->setDraft($user);
+		$result = $object->setDraft($user);
+		if ($result < 0) {
+			setEventMessages($object->error, $object->errors, 'errors');
+		}
 
 		if (!getDolGlobalString('MAIN_DISABLE_PDF_AUTOUPDATE')) {
 			// Define output language
@@ -995,7 +994,7 @@ if (empty($reshook)) {
 			// Manage $line->subprice and $line->multicurrency_subprice
 			$multicurrency_subprice = (float) $subprice * $line->multicurrency_subprice / $line->subprice;
 			// Update DB
-			$result = $object->updateline($line->id, $subprice, $line->qty, $line->remise_percent, $line->tva_tx, $line->localtax1_rate, $line->localtax2_rate, $line->desc, 'HT', $line->info_bits, $line->special_code, $line->fk_parent_line, 0, $line->fk_fournprice, $line->pa_ht, $line->label, $line->product_type, $line->date_start, $line->date_end, $line->array_options, $line->fk_unit, $multicurrency_subprice);
+			$result = $object->updateline($line->id, $subprice, $line->qty, $line->remise_percent, $line->tva_tx, $line->localtax1_tx, $line->localtax2_tx, $line->desc, 'HT', $line->info_bits, $line->special_code, $line->fk_parent_line, 0, $line->fk_fournprice, $line->pa_ht, $line->label, $line->product_type, $line->date_start, $line->date_end, $line->array_options, $line->fk_unit, $multicurrency_subprice);
 			// Update $object with new margin info
 			$line->price = $subprice;
 			$line->marge_tx = $margin_rate;
@@ -1669,7 +1668,20 @@ if (empty($reshook)) {
 		$result = $object->set_demand_reason($user, GETPOSTINT('demand_reason_id'));
 	} elseif ($action == 'setconditions' && $usercancreate) {
 		// Terms of payment
-		$result = $object->setPaymentTerms(GETPOSTINT('cond_reglement_id'), GETPOSTINT('cond_reglement_id_deposit_percent'));
+		$sql = "SELECT code ";
+		$sql .= "FROM " . $db->prefix() . "c_payment_term";
+		$sql .= " WHERE rowid = " . ((int) GETPOST('cond_reglement_id', 'int'));
+		$result = $db->query($sql);
+		if ($result) {
+			$obj = $db->fetch_object($result);
+			if ($obj->code == 'DEP30PCTDEL') {
+				$result = $object->setPaymentTerms(GETPOSTINT('cond_reglement_id'), GETPOSTFLOAT('cond_reglement_id_deposit_percent'));
+			} else {
+				$object->deposit_percent = 0;
+				$object->update($user);
+				$result = $object->setPaymentTerms(GETPOSTINT('cond_reglement_id'), $object->deposit_percent);
+			}
+		}
 		//} elseif ($action == 'setremisepercent' && $usercancreate) {
 		//	$result = $object->set_remise_percent($user, price2num(GETPOST('remise_percent'), '', 2));
 		//} elseif ($action == 'setremiseabsolue' && $usercancreate) {
@@ -1713,8 +1725,8 @@ if (empty($reshook)) {
 		}
 	}
 
-	if (getDolGlobalString('MAIN_DISABLE_CONTACTS_TAB') && $usercancreate) {
-		if ($action == 'addcontact') {
+	if (getDolGlobalString('MAIN_DISABLE_CONTACTS_TAB')) {
+		if ($action == 'addcontact' && $usercancreate) {
 			if ($object->id > 0) {
 				$contactid = (GETPOST('userid') ? GETPOST('userid') : GETPOST('contactid'));
 				$typeid = (GETPOST('typecontact') ? GETPOST('typecontact') : GETPOST('type'));
@@ -1732,14 +1744,14 @@ if (empty($reshook)) {
 					setEventMessages($object->error, $object->errors, 'errors');
 				}
 			}
-		} elseif ($action == 'swapstatut') {
+		} elseif ($action == 'swapstatut' && $usercancreate) {
 			// Toggle the status of a contact
 			if ($object->fetch($id) > 0) {
 				$result = $object->swapContactStatus(GETPOSTINT('ligne'));
 			} else {
 				dol_print_error($db);
 			}
-		} elseif ($action == 'deletecontact') {
+		} elseif ($action == 'deletecontact' && $usercancreate) {
 			// Delete a contact
 			$object->fetch($id);
 			$result = $object->delete_contact($lineid);
@@ -1801,6 +1813,7 @@ if ($action == 'create') {
 	$fk_account = GETPOSTINT('fk_account');
 
 	// Load objectsrc
+	$objectsrc = null;
 	if (!empty($origin) && !empty($originid)) {
 		// Parse element/subelement (ex: project_task)
 		$element = $subelement = $origin;
@@ -1812,6 +1825,14 @@ if ($action == 'create') {
 
 		if ($element == 'project') {
 			$projectid = $originid;
+
+			// Fetch project and thirdparty
+			$project = new Project($db);
+			$project->fetch($projectid);
+			if ($project->socid > 0) {
+				$soc = new Societe($db);
+				$soc->fetch($project->socid);
+			}
 		} else {
 			// For compatibility
 			if ($element == 'order' || $element == 'commande') {
@@ -1843,9 +1864,9 @@ if ($action == 'create') {
 
 			$soc = $objectsrc->thirdparty;
 
-			$cond_reglement_id 	= (!empty($objectsrc->cond_reglement_id) ? $objectsrc->cond_reglement_id : (!empty($soc->cond_reglement_id) ? $soc->cond_reglement_id : 0));
-			$mode_reglement_id 	= (!empty($objectsrc->mode_reglement_id) ? $objectsrc->mode_reglement_id : (!empty($soc->mode_reglement_id) ? $soc->mode_reglement_id : 0));
-			$warehouse_id       = (!empty($objectsrc->warehouse_id) ? $objectsrc->warehouse_id : (!empty($soc->warehouse_id) ? $soc->warehouse_id : 0));
+			$cond_reglement_id  = (!empty($objectsrc->cond_reglement_id) ? $objectsrc->cond_reglement_id : (!empty($soc->cond_reglement_id) ? $soc->cond_reglement_id : 0));
+			$mode_reglement_id  = (!empty($objectsrc->mode_reglement_id) ? $objectsrc->mode_reglement_id : (!empty($soc->mode_reglement_id) ? $soc->mode_reglement_id : 0));
+			$warehouse_id      = (!empty($objectsrc->warehouse_id) ? $objectsrc->warehouse_id : (!empty($soc->warehouse_id) ? $soc->warehouse_id : 0));
 
 			// Replicate extrafields
 			$objectsrc->fetch_optionals();
@@ -1860,7 +1881,10 @@ if ($action == 'create') {
 				}
 			}
 		}
-	} else {
+	}
+
+	// Load default values from thirdparty
+	if (!empty($soc)) {
 		$cond_reglement_id  = empty($soc->cond_reglement_id) ? $cond_reglement_id : $soc->cond_reglement_id;
 		$deposit_percent    = empty($soc->deposit_percent) ? $deposit_percent : $soc->deposit_percent;
 		$mode_reglement_id  = empty($soc->mode_reglement_id) ? $mode_reglement_id : $soc->mode_reglement_id;
@@ -2573,7 +2597,7 @@ if ($action == 'create') {
 			$filtercreditnote = "fk_facture_source IS NOT NULL AND (description NOT LIKE '(DEPOSIT)%' OR description LIKE '(EXCESS RECEIVED)%')";
 		}
 
-		print '<tr><td class="titlefield">'.$langs->trans('Discounts').'</td><td>';
+		print '<tr><td>'.$langs->trans('Discounts').'</td><td>';
 
 		$absolute_discount = $soc->getAvailableDiscounts('', $filterabsolutediscount);
 		$absolute_creditnote = $soc->getAvailableDiscounts('', $filtercreditnote);

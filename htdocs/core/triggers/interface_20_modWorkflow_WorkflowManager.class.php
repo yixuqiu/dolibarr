@@ -2,7 +2,7 @@
 /* Copyright (C) 2010      Regis Houssin       <regis.houssin@inodbox.com>
  * Copyright (C) 2011-2017 Laurent Destailleur <eldy@users.sourceforge.net>
  * Copyright (C) 2014      Marcos García       <marcosgdf@gmail.com>
- * Copyright (C) 2022      Ferran Marcet       <fmarcet@2byte.es>
+ * Copyright (C) 2022-2024 Ferran Marcet       <fmarcet@2byte.es>
  * Copyright (C) 2023      Alexandre Janniaux  <alexandre.janniaux@gmail.com>
  * Copyright (C) 2024		MDW							<mdeweerd@users.noreply.github.com>
  *
@@ -248,7 +248,7 @@ class InterfaceWorkflowManager extends DolibarrTriggers
 						$totalHTInvoices = 0;
 						$areAllInvoicesValidated = true;
 						foreach ($orderLinked->linkedObjects['facture'] as $key => $invoice) {
-							if ($invoice->statut == Facture::STATUS_VALIDATED || $object->id == $invoice->id) {
+							if ($invoice->statut == Facture::STATUS_VALIDATED || $invoice->statut == Facture::STATUS_CLOSED || $object->id == $invoice->id) {
 								$totalHTInvoices += (float) $invoice->total_ht;
 							} else {
 								$areAllInvoicesValidated = false;
@@ -331,8 +331,8 @@ class InterfaceWorkflowManager extends DolibarrTriggers
 							$totalonlinkedelements += $element->total_ht;
 						}
 					}
-					dol_syslog("Amount of linked reception = ".$totalonlinkedelements.", of invoice = ".$object->total_ht.", egality is ".($totalonlinkedelements == $object->total_ht), LOG_DEBUG);
-					if ($totalonlinkedelements == $object->total_ht) {
+					dol_syslog("Amount of linked reception = ".$totalonlinkedelements.", of invoice = ".$object->total_ht.", egality is ".((string) $totalonlinkedelements == (string) $object->total_ht), LOG_DEBUG);
+					if ( (string) $totalonlinkedelements == (string) $object->total_ht) {
 						foreach ($object->linkedObjects['reception'] as $element) {
 							$ret = $element->setClosed();
 							if ($ret < 0) {
@@ -585,13 +585,13 @@ class InterfaceWorkflowManager extends DolibarrTriggers
 				}
 			}
 			// Automatically create intervention
-			if (isModEnabled('intervention') && isModEnabled('ticket') && !empty($conf->workflow->enabled) && getDolGlobalString('WORKFLOW_TICKET_CREATE_INTERVENTION')) {
+			if (isModEnabled('intervention') && isModEnabled('ticket') && isModEnabled('workflow') && getDolGlobalString('WORKFLOW_TICKET_CREATE_INTERVENTION')) {
 				$fichinter = new Fichinter($this->db);
 				$fichinter->socid = (int) $object->fk_soc;
 				$fichinter->fk_project = (int) $object->fk_project;
 				$fichinter->fk_contrat = (int) $object->fk_contract;
 				$fichinter->author = $user->id;
-				$fichinter->model_pdf = (getDolGlobalString('FICHEINTER_ADDON_PDF')) ? $conf->global->FICHEINTER_ADDON_PDF : 'soleil';
+				$fichinter->model_pdf = getDolGlobalString('FICHEINTER_ADDON_PDF', 'soleil');
 				$fichinter->origin = $object->element;
 				$fichinter->origin_id = $object->id;
 

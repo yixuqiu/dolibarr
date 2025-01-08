@@ -962,7 +962,7 @@ if ($resql) {
 
 
 	$parameters = array();
-	$reshook = $hookmanager->executeHooks('printFieldPreListTitle', $parameters); // Note that $action and $object may have been modified by hook
+	$reshook = $hookmanager->executeHooks('printFieldPreListTitle', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 	if (empty($reshook)) {
 		$moreforfilter .= $hookmanager->resPrint;
 	} else {
@@ -2110,7 +2110,7 @@ if ($resql) {
 							$productstat_cachevirtual[$obj->fk_product]['stock_reel'] = $generic_product->stock_theorique;
 						} else {
 							$generic_product->stock_reel = $productstat_cache[$obj->fk_product]['stock_reel'];
-							$generic_product->stock_theorique = $productstat_cachevirtual[$obj->fk_product]['stock_reel'] = $generic_product->stock_theorique;
+							$generic_product->stock_theorique = $productstat_cachevirtual[$obj->fk_product]['stock_reel'];
 						}
 
 						if ($reliquat > $generic_product->stock_reel) {

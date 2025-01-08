@@ -562,9 +562,9 @@ if ($result) {
 					$resultmid = $db->query($sqlmid);
 					if ($resultmid) {
 						$objmid = $db->fetch_object($resultmid);
-						$tabtp[$obj->rowid][$objmid->accountancy_account_capital] = isset($tabtp[$obj->rowid][$objmid->accountancy_account_capital]) ? $tabtp[$obj->rowid][$objmid->accountancy_account_capital] - $objmid->amount_capital : $amounttouse;
-						$tabtp[$obj->rowid][$objmid->accountancy_account_insurance] = isset($tabtp[$obj->rowid][$objmid->accountancy_account_insurance]) ? $tabtp[$obj->rowid][$objmid->accountancy_account_insurance] - $objmid->amount_insurance : $amounttouse;
-						$tabtp[$obj->rowid][$objmid->accountancy_account_interest] = isset($tabtp[$obj->rowid][$objmid->accountancy_account_interest]) ? $tabtp[$obj->rowid][$objmid->accountancy_account_interest] - $objmid->amount_interes : $amounttouse;
+						$tabtp[$obj->rowid][$objmid->accountancy_account_capital] = isset($objmid->amount_capital) ? $tabtp[$obj->rowid][$objmid->accountancy_account_capital] - $objmid->amount_capital : 0;
+						$tabtp[$obj->rowid][$objmid->accountancy_account_insurance] = isset($objmid->amount_insurance) ? $tabtp[$obj->rowid][$objmid->accountancy_account_insurance] - $objmid->amount_insurance : 0;
+						$tabtp[$obj->rowid][$objmid->accountancy_account_interest] = isset($objmid->amount_interest) ? $tabtp[$obj->rowid][$objmid->accountancy_account_interest] - $objmid->amount_interest : 0;
 					}
 				} elseif ($links[$key]['type'] == 'banktransfert') {
 					$accountLinestatic->fetch($links[$key]['url_id']);
@@ -608,25 +608,6 @@ if ($result) {
 			$tabtp[$obj->rowid]['NotDefined'] = $tabbq[$obj->rowid][$compta_bank];
 		}
 
-		// Check account number is ok
-		/*if ($action == 'writebookkeeping')		// Make test now in such a case
-		{
-			reset($tabbq[$obj->rowid]);
-			$first_key_tabbq = key($tabbq[$obj->rowid]);
-			if (empty($first_key_tabbq))
-			{
-				$error++;
-				setEventMessages($langs->trans('ErrorAccountancyCodeOnBankAccountNotDefined', $obj->baref), null, 'errors');
-			}
-			reset($tabtp[$obj->rowid]);
-			$first_key_tabtp = key($tabtp[$obj->rowid]);
-			if (empty($first_key_tabtp))
-			{
-				$error++;
-				setEventMessages($langs->trans('ErrorAccountancyCodeOnThirdPartyNotDefined'), null, 'errors');
-			}
-		}*/
-
 		// if($obj->socid)$tabtp[$obj->rowid][$compta_soc] += $amounttouse;
 
 		$i++;
@@ -643,7 +624,7 @@ if ($result) {
 //var_dump($tabtype);
 
 // Write bookkeeping
-if (!$error && $action == 'writebookkeeping') {
+if (!$error && $action == 'writebookkeeping' && $user->hasRight('accounting', 'bind', 'write')) {
 	$now = dol_now();
 
 	$accountingaccountcustomer = new AccountingAccount($db);
@@ -977,7 +958,7 @@ if (!$error && $action == 'writebookkeeping') {
 
 
 // Export
-if ($action == 'exportcsv') {		// ISO and not UTF8 !
+if ($action == 'exportcsv' && $user->hasRight('accounting', 'bind', 'write')) {		// ISO and not UTF8 !
 	$sep = getDolGlobalString('ACCOUNTING_EXPORT_SEPARATORCSV');
 
 	$filename = 'journal';
