@@ -699,6 +699,10 @@ class Translate
 				$str
 			);
 
+			if (preg_match('/%\)/', $str)) {
+				$str = preg_replace('/%\)/', '__percent__)', $str);
+			}
+
 			if (strpos($key, 'Format') !== 0) {
 				try {
 					// @phan-suppress-next-line PhanPluginPrintfVariableFormatString
@@ -707,6 +711,8 @@ class Translate
 					// No exception managed
 				}
 			}
+
+			$str = str_replace('__percent__', '%', $str);
 
 			// Encode string into HTML
 			$str = htmlentities($str, ENT_COMPAT, $this->charset_output); // Do not convert simple quotes in translation (strings in html are embraced by "). Use dol_escape_htmltag around text in HTML content
