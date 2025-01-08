@@ -2100,7 +2100,7 @@ function dol_escape_htmltag($stringtoescape, $keepb = 0, $keepn = 0, $noescapeta
 		// In a future, we should not need this
 
 		$tmp = (string) $stringtoescape;
-		/*
+
 		// We protect the 6 special entities that we don't want to decode.
 		$tmp = str_ireplace('&lt', '__DONOTDECODELT', $tmp);
 		$tmp = str_ireplace('&gt', '__DONOTDECODEGT', $tmp);
@@ -2118,7 +2118,7 @@ function dol_escape_htmltag($stringtoescape, $keepb = 0, $keepn = 0, $noescapeta
 		$tmp = str_ireplace('__DONOTDECODEQUOT', '&quot', $tmp);
 		$tmp = str_ireplace('__DONOTDECODEAPOS', '&apos', $tmp);
 		$tmp = str_ireplace('__DONOTDECODE39', '&#39', $tmp);
-		*/
+
 		$tmp = str_ireplace('&#39;', '__SIMPLEQUOTE', $tmp);	// HTML 4
 	}
 	if (!$keepb) {
@@ -2178,17 +2178,9 @@ function dol_escape_htmltag($stringtoescape, $keepb = 0, $keepn = 0, $noescapeta
 
 			$tmp = str_ireplace('&lt', '__LESSTAN', $tmp);
 			$tmp = str_ireplace('&gt', '__GREATERTHAN', $tmp);
-		} else {
-			//	var_dump($tmp);
-			//$tmp = str_ireplace('&lt', '__LESSTHAN', $tmp);
-			//$tmp = str_ireplace('&gt', '__GREATERTHAN', $tmp);
 		}
-		// Warning: htmlentities encode HTML tags like <abc>, but forget &lt; &gt; &quotes; &apos; &#39; &amp;
-		// So we do it ourself afterfor &lt; at &gt;
-		//$tmp = str_ireplace('&lt', '&amp;lt', $tmp);
-		//$tmp = str_ireplace('&gt', '&amp;gt', $tmp);
-		//var_dump("eeeeeeeeeeeeeeeeeeeee");
-		//var_dump($tmp);
+
+		// Warning: htmlentities encode HTML tags like <abc>, but not &lt; &gt; &quotes; &apos; &#39; &amp; that remains untouched.
 		$result = htmlentities($tmp, ENT_COMPAT, 'UTF-8');	// Convert & into &amp; and more...
 
 		//print $result;
