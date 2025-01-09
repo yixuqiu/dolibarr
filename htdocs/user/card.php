@@ -2063,7 +2063,7 @@ if ($action == 'create' || $action == 'adduserldap') {
 				print '<td>';
 				if (!empty($object->api_key)) {
 					print '<span class="opacitymedium">';
-					print showValueWithClipboardCPButton($object->api_key, 1, $langs->trans("Hidden"));		// TODO Add an option to also reveal the hash, not only copy paste
+					print showValueWithClipboardCPButton($object->api_key, 1, $langs->transnoentities("Hidden"));		// TODO Add an option to also reveal the hash, not only copy paste
 					print '</span>';
 				}
 				print '</td></tr>';
