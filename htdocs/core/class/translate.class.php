@@ -699,9 +699,7 @@ class Translate
 				$str
 			);
 
-			if (preg_match('/%\)/', $str)) {
-				$str = preg_replace('/%\)/', '__percent__)', $str);
-			}
+			$str = preg_replace('/%\)/', '__percent__)', $str);
 
 			if (strpos($key, 'Format') !== 0) {
 				try {
