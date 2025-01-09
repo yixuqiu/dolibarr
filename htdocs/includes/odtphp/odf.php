@@ -45,15 +45,31 @@ class Odf
 	 * @var string To store content of content.xml file
 	 */
 	protected $contentXml;
-	protected $metaXml;			    // To store content of meta.xml file
-	protected $stylesXml;			// To store content of styles.xml file
-	protected $manifestXml;			// To store content of META-INF/manifest.xml file
+
+	/**
+	 * @var string To store content of meta.xml file
+	 */
+	protected $metaXml;
+
+	/**
+	 * @var string To store content of styles.xml file
+	 */
+	protected $stylesXml;
+
+	/**
+	 * @var string To store content of META-INF/manifest.xml file
+	 */
+	protected $manifestXml;
+
+	/**
+	 * @var string
+	 */
 	protected $tmpfile;
 
 	/**
 	 * @var string
 	 */
-	protected $tmpdir='';
+	protected $tmpdir = '';
 	protected $images = array();
 	protected $vars = array();
 	protected $segments = array();
@@ -72,7 +88,7 @@ class Odf
 	 * @var string
 	 */
 	public $subject;
-	public $userdefined=array();
+	public $userdefined = array();
 
 	const PIXEL_TO_CM = 0.026458333;
 	const FIND_TAGS_REGEX = '/<([A-Za-z0-9]+)(?:\s([A-Za-z]+(?:\-[A-Za-z]+)?(?:=(?:".*?")|(?:[0-9]+))))*(?:(?:\s\/>)|(?:>(.*)<\/\1>))/s';
@@ -83,7 +99,7 @@ class Odf
 	 * Class constructor
 	 *
 	 * @param string $filename     The name of the odt file
-	 * @param string $config       Array of config data
+	 * @param array $config       Array of config data
 	 * @throws OdfException
 	 */
 	public function __construct($filename, $config = array())
