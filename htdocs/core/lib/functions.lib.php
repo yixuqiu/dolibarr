@@ -2176,6 +2176,7 @@ function dol_escape_htmltag($stringtoescape, $keepb = 0, $keepn = 0, $noescapeta
 				} while ($diff);
 			}
 
+			$tmp = str_ireplace('&quot', '__DOUBLEQUOT', $tmp);
 			$tmp = str_ireplace('&lt', '__LESSTAN', $tmp);
 			$tmp = str_ireplace('&gt', '__GREATERTHAN', $tmp);
 		}
@@ -2203,6 +2204,7 @@ function dol_escape_htmltag($stringtoescape, $keepb = 0, $keepn = 0, $noescapeta
 
 		$result = str_ireplace('__SIMPLEQUOTE', '&#39;', $result);
 
+		$result = str_ireplace('__DOUBLEQUOT', '&quot', $result);
 		$result = str_ireplace('__LESSTAN', '&lt', $result);
 		$result = str_ireplace('__GREATERTHAN', '&gt', $result);
 
@@ -8526,7 +8528,8 @@ function dol_htmlwithnojs($stringtoencode, $nouseofiframesandbox = 0, $check = '
 						// See options at https://tidy.sourceforge.net/docs/quickref.html
 						$config = array(
 							'clean' => false,
-							'quote-marks' => false,		// do not replace " that are used for real text content (not a string symbol for html attribute) into &quot;
+							// Best will be to set 'quote-marks' to false to not replace " that are used for real text content (not a string symbol for html attribute) into &quot;
+							'quote-marks' => false,
 							'doctype'     => 'strict',
 							'show-body-only' => true,
 							"indent-attributes" => false,
