@@ -1010,12 +1010,12 @@ class SecurityTest extends CommonClassTest
 
 		$result = dol_htmlwithnojs('<img onerror=alert(document.domain) src=x>', 1, 'restricthtml');
 		print __METHOD__." result=".$result."\n";
-		$this->assertEquals('<img alert(document.domain) src=x>', $result, 'Test example');
+		$this->assertEquals('<img alert(document.domain) src=x>', $result, 'Test js sanitizing without tidy on');
 
 		$result = dol_htmlwithnojs('<<r>scr<r>ipt<r>>alert("hello")<<r>&#x2f;scr<r>ipt<r>>', 1, 'restricthtml');
 		//$result = dol_string_onlythesehtmltags($aa, 0, 1, 1);
 		print __METHOD__." result=".$result."\n";
-		$this->assertEquals('alert("hello")', $result, 'Test js sanitizing');
+		$this->assertEquals('alert("hello")', $result, 'Test js sanitizing without tidy');
 
 		$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML = $sav1;
 		$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML_TIDY = $sav2;
@@ -1029,12 +1029,12 @@ class SecurityTest extends CommonClassTest
 			$result = dol_htmlwithnojs('<img onerror=alert(document.domain) src=x>', 1, 'restricthtml');
 			//$result = dol_string_onlythesehtmltags($aa, 0, 1, 1);
 			print __METHOD__." result=".$result."\n";
-			$this->assertEquals('<img src="x">', $result, 'Test example');
+			$this->assertEquals('<img src="x">', $result, 'Test js sanitizing with tidy on');
 
 			$result = dol_htmlwithnojs('<<r>scr<r>ipt<r>>alert("hello")<<r>&#x2f;scr<r>ipt<r>>', 1, 'restricthtml');
 			//$result = dol_string_onlythesehtmltags($aa, 0, 1, 1);
 			print __METHOD__." result=".$result."\n";
-			$this->assertEquals('&lt;script&gt;alert("hello")&lt;/script&gt;', $result, 'Test js sanitizing');
+			$this->assertEquals('&lt;script&gt;alert("hello")&lt;/script&gt;', $result, 'Test js sanitizing with tidy on');
 
 			$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML = $sav1;
 			$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML_TIDY = $sav2;
