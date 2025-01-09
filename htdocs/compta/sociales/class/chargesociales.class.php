@@ -688,9 +688,9 @@ class ChargeSociales extends CommonObject
 		if (empty($notooltip) && $user->hasRight("facture", "read")) {
 			if (getDolGlobalString('MAIN_OPTIMIZEFORTEXTBROWSER')) {
 				$label = $langs->trans("SocialContribution");
-				$linkclose .= ' alt="'.dolPrintHtmlForAttribute($label).'"';
+				$linkclose .= ' alt="'.dolPrintHTMLForAttribute($label).'"';
 			}
-			$linkclose .= ' title="'.dolPrintHtmlForAttribute($label).'"';
+			$linkclose .= ' title="'.dolPrintHTMLForAttribute($label).'"';
 			$linkclose .= ' class="classfortooltip"';
 		}
 

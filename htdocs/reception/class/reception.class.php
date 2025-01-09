@@ -1352,9 +1352,9 @@ class Reception extends CommonObject
 		if (empty($notooltip)) {
 			if (getDolGlobalInt('MAIN_OPTIMIZEFORTEXTBROWSER')) {
 				$label = $langs->trans("Reception");
-				$linkclose .= ' alt="'.dolPrintHtmlForAttribute($label).'"';
+				$linkclose .= ' alt="'.dolPrintHTMLForAttribute($label).'"';
 			}
-			$linkclose .= ' title="'.dolPrintHtmlForAttribute($label).'"';
+			$linkclose .= ' title="'.dolPrintHTMLForAttribute($label).'"';
 			$linkclose .= ' class="classfortooltip"';
 		}
 

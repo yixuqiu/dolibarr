@@ -2109,9 +2109,9 @@ class Facture extends CommonInvoice
 		if (empty($notooltip) && $user->hasRight("facture", "read")) {
 			if (getDolGlobalString('MAIN_OPTIMIZEFORTEXTBROWSER')) {
 				$label = $langs->trans("Invoice");
-				$linkclose .= ' alt="'.dolPrintHtmlForAttribute($label).'"';
+				$linkclose .= ' alt="'.dolPrintHTMLForAttribute($label).'"';
 			}
-			$linkclose .= ($label ? ' title="'.dolPrintHtmlForAttribute($label).'"' : ' title="tocomplete"');
+			$linkclose .= ($label ? ' title="'.dolPrintHTMLForAttribute($label).'"' : ' title="tocomplete"');
 			$linkclose .= $dataparams.' class="'.$classfortooltip.'"';
 		}
 

@@ -2600,9 +2600,9 @@ class SupplierProposal extends CommonObject
 		if (empty($notooltip) && $user->hasRight('propal', 'lire')) {
 			if (getDolGlobalString('MAIN_OPTIMIZEFORTEXTBROWSER')) {
 				$label = $langs->trans("ShowSupplierProposal");
-				$linkclose .= ' alt="'.dolPrintHtmlForAttribute($label).'"';
+				$linkclose .= ' alt="'.dolPrintHTMLForAttribute($label).'"';
 			}
-			$linkclose .= ($label ? ' title="'.dolPrintHtmlForAttribute($label).'"' : ' title="tocomplete"');
+			$linkclose .= ($label ? ' title="'.dolPrintHTMLForAttribute($label).'"' : ' title="tocomplete"');
 			$linkclose .= $dataparams.' class="'.$classfortooltip.'"';
 		}
 
