@@ -2656,7 +2656,7 @@ if ($action == 'create' || $action == 'adduserldap') {
 				if ($permissiontoeditpasswordandsee || $user->hasRight("api", "apikey", "generate")) {
 					print '<input class="minwidth300 maxwidth400 widthcentpercentminusx" minlength="12" maxlength="128" type="text" id="api_key" name="api_key" value="'.$object->api_key.'" autocomplete="off">';
 					if (!empty($conf->use_javascript_ajax)) {
-						print img_picto($langs->trans('Generate'), 'refresh', 'id="generate_api_key" class="linkobject paddingleft"');
+						print img_picto($langs->transnoentities('Generate'), 'refresh', 'id="generate_api_key" class="linkobject paddingleft"');
 					}
 				}
 				print '</td></tr>';
