@@ -46,11 +46,11 @@ print "\n";
 
 // dol_escape_htmltag(dol_string_onlythesehtmltags(dol_htmlentitiesbr($s), 1, 0, 0, 0, array('br', 'b', 'font', 'hr', 'span')), 1, -1, '', 0, 1);
 print ">>> dolPrintHtmlForattribute(eée < > bb<b>bold</b> ç)\n";
-print dolPrintHtmlForAttribute("eée < > bb<b>bold</b> ç");
+print dolPrintHTMLForAttribute("eée < > bb<b>bold</b> ç");
 print "\n";
-print ">>> dolPrintHtmlForAttribute(eée &lt; &gt; bb<b>bold</b> ç)\n";
-print dolPrintHtmlForAttribute("eée &lt; &gt; bb<b>bold</b> ç");
+print ">>> dolPrintHTMLForAttribute(eée &lt; &gt; bb<b>bold</b> ç)\n";
+print dolPrintHTMLForAttribute("eée &lt; &gt; bb<b>bold</b> ç");
 print "\n";
 print '>>> dolPrintHtmlForattribute(&lt;script&gt;alert("azerty")&lt;/script&gt;)'."\n";
-print dolPrintHtmlForAttribute('&lt;script&gt;alert("azerty")&lt;/script&gt;');
+print dolPrintHTMLForAttribute('&lt;script&gt;alert("azerty")&lt;/script&gt;');
 print "\n";
