@@ -21397,18 +21397,6 @@ parameters:
 			path: ../../../htdocs/includes/odtphp/Segment.php
 
 		-
-			message: '#^Method Segment\:\:macroReplace\(\) has parameter \$text with no type specified\.$#'
-			identifier: missingType.parameter
-			count: 1
-			path: ../../../htdocs/includes/odtphp/Segment.php
-
-		-
-			message: '#^PHPDoc tag @param references unknown parameter\: \$value$#'
-			identifier: parameter.notFound
-			count: 1
-			path: ../../../htdocs/includes/odtphp/Segment.php
-
-		-
 			message: '#^Parameter \#3 \$encode of method Segment\:\:setVars\(\) expects string, false given\.$#'
 			identifier: argument.type
 			count: 1
