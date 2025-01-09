@@ -1980,7 +1980,7 @@ if ($action == 'create' || $action == 'adduserldap') {
 			print '</tr>';
 
 			// Date login validity
-			print '<tr class="nooddeven"><td class="titlefieldmax45">'.$langs->trans("RangeOfLoginValidity").'</td>';
+			print '<tr class="nooddeven"><td class="titlefieldmax45 nowraponall">'.$langs->trans("RangeOfLoginValidity").'</td>';
 			print '<td>';
 			if ($object->datestartvalidity) {
 				print '<span class="opacitymedium">'.$langs->trans("FromDate").'</span> ';
@@ -2043,9 +2043,9 @@ if ($action == 'create' || $action == 'adduserldap') {
 			// Other form for user password
 			$parameters = array('valuetoshow' => $valuetoshow, 'caneditpasswordandsee' => $permissiontoeditpasswordandsee, 'caneditpasswordandsend' => $permissiontoeditpasswordandsend);
 			$reshook = $hookmanager->executeHooks('printUserPasswordField', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
-			if ($reshook > 0) {
+			if ($reshook === 1) {
 				$valuetoshow = $hookmanager->resPrint; // to replace
-			} else {
+			} elseif (empty($reshook)) {
 				$valuetoshow .= $hookmanager->resPrint; // to add
 			}
 
@@ -2055,6 +2055,11 @@ if ($action == 'create' || $action == 'adduserldap') {
 				print $valuetoshow;
 				print "</td>";
 				print '</tr>'."\n";
+			}
+
+			// for compatibility with externals modules
+			if ($reshook > 1) {
+				print $hookmanager->resPrint;
 			}
 
 			// API key
