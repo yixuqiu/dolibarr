@@ -1007,22 +1007,37 @@ class SecurityTest extends CommonClassTest
 		// Without HTML_TIDY
 		$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML = 0;
 		$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML_TIDY = 0;
+
 		$result = dol_htmlwithnojs('<img onerror=alert(document.domain) src=x>', 1, 'restricthtml');
-		$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML = $sav1;
-		$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML_TIDY = $sav2;
 		print __METHOD__." result=".$result."\n";
 		$this->assertEquals('<img alert(document.domain) src=x>', $result, 'Test example');
+
+		$result = dol_htmlwithnojs('<<r>scr<r>ipt<r>>alert("hello")<<r>&#x2f;scr<r>ipt<r>>', 1, 'restricthtml');
+		//$result = dol_string_onlythesehtmltags($aa, 0, 1, 1);
+		print __METHOD__." result=".$result."\n";
+		$this->assertEquals('alert("hello")', $result, 'Test js sanitizing');
+
+		$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML = $sav1;
+		$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML_TIDY = $sav2;
+
 
 		// With HTML TIDY
 		if (extension_loaded('tidy') && class_exists("tidy")) {
 			$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML = 0;
 			$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML_TIDY = 1;
+
 			$result = dol_htmlwithnojs('<img onerror=alert(document.domain) src=x>', 1, 'restricthtml');
-			$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML = $sav1;
-			$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML_TIDY = $sav2;
 			//$result = dol_string_onlythesehtmltags($aa, 0, 1, 1);
 			print __METHOD__." result=".$result."\n";
 			$this->assertEquals('<img src="x">', $result, 'Test example');
+
+			$result = dol_htmlwithnojs('<<r>scr<r>ipt<r>>alert("hello")<<r>&#x2f;scr<r>ipt<r>>', 1, 'restricthtml');
+			//$result = dol_string_onlythesehtmltags($aa, 0, 1, 1);
+			print __METHOD__." result=".$result."\n";
+			$this->assertEquals('&lt;script&gt;alert("hello")&lt;/script&gt;', $result, 'Test js sanitizing');
+
+			$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML = $sav1;
+			$conf->global->MAIN_RESTRICTHTML_ONLY_VALID_HTML_TIDY = $sav2;
 		}
 
 
