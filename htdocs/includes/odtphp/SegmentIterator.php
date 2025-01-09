@@ -12,6 +12,7 @@ class SegmentIterator implements RecursiveIterator
 {
     private $ref;
     private $key;
+	private $keys;
     public function __construct(array $ref)
     {
         $this->ref = $ref;
