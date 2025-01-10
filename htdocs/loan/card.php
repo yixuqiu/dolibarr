@@ -106,7 +106,7 @@ if (empty($reshook)) {
 		if (!$cancel) {
 			$datestart = dol_mktime(12, 0, 0, GETPOSTINT('startmonth'), GETPOSTINT('startday'), GETPOSTINT('startyear'));
 			$dateend = dol_mktime(12, 0, 0, GETPOSTINT('endmonth'), GETPOSTINT('endday'), GETPOSTINT('endyear'));
-			$capital = price2num(GETPOSTFLOAT('capital'));
+			$capital = GETPOSTFLOAT('capital');
 			$rate = price2num(GETPOST('rate'));
 
 			if (!$capital) {
@@ -181,7 +181,7 @@ if (empty($reshook)) {
 
 			$datestart = dol_mktime(12, 0, 0, GETPOSTINT('startmonth'), GETPOSTINT('startday'), GETPOSTINT('startyear'));
 			$dateend = dol_mktime(12, 0, 0, GETPOSTINT('endmonth'), GETPOSTINT('endday'), GETPOSTINT('endyear'));
-			$capital = price2num(GETPOSTFLOAT('capital'));
+			$capital = GETPOSTFLOAT('capital');
 
 			if (!$capital) {
 				setEventMessages($langs->trans("ErrorFieldRequired", $langs->transnoentities("LoanCapital")), null, 'errors');
@@ -192,7 +192,7 @@ if (empty($reshook)) {
 				$object->capital = $capital;
 				$object->nbterm = GETPOSTINT("nbterm");
 				$object->rate = price2num(GETPOST("rate", 'alpha'));
-				$object->insurance_amount = price2num(GETPOSTFLOAT('insurance_amount'));
+				$object->insurance_amount = GETPOSTFLOAT('insurance_amount');
 
 				$accountancy_account_capital = GETPOST('accountancy_account_capital');
 				$accountancy_account_insurance = GETPOST('accountancy_account_insurance');
