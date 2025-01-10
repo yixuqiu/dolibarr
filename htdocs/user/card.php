@@ -2088,9 +2088,9 @@ if ($action == 'create' || $action == 'adduserldap') {
 			print '</table>';
 			print '</div>';
 
-			// Other informations block
+			// Other informations bloc
 			$parameters = array('caneditpasswordandsee' => $permissiontoeditpasswordandsee, 'caneditpasswordandsend' => $permissiontoeditpasswordandsend);
-			$reshook = $hookmanager->executeHooks('addMoreInformationsBlock', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
+			$reshook = $hookmanager->executeHooks('addMoreInformationBloc', $parameters, $object, $action); // Note that $action and $object may have been modified by hook
 			if ($reshook > 0) {
 				print $hookmanager->resPrint;
 			}
