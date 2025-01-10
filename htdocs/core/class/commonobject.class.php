@@ -10361,6 +10361,7 @@ abstract class CommonObject
 		if (array_key_exists('pass_crypted', $fieldvalues) && property_exists($this, 'pass')) {
 			// @phan-suppress-next-line PhanUndeclaredProperty
 			$fieldvalues['pass_crypted'] = dol_hash($this->pass);
+			// TODO Add value $fieldvalues['pass_encoding'] of encoding;
 		}
 		if (array_key_exists('ref', $fieldvalues)) {
 			$fieldvalues['ref'] = dol_string_nospecial($fieldvalues['ref']); // If field is a ref, we sanitize data
