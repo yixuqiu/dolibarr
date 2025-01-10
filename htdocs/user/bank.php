@@ -114,7 +114,6 @@ if ($user->hasRight('expensereport', 'readall') || ($user->hasRight('expenserepo
 if ($user->hasRight('holiday', 'readall') || ($user->hasRight('holiday', 'read') && in_array($object->id, $childids))) {
 	$ok = true;
 }
-var_dump($ok);
 if (!$ok) {
 	accessforbidden();
 }
