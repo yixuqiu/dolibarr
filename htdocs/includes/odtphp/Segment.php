@@ -64,6 +64,7 @@ class Segment implements IteratorAggregate, Countable
 	 *
 	 * @return int
 	 */
+	#[\ReturnTypeWillChange]
 	public function count()
 	{
 		return count($this->children);
@@ -73,6 +74,7 @@ class Segment implements IteratorAggregate, Countable
 	 *
 	 * @return Iterator
 	 */
+	#[\ReturnTypeWillChange]
 	public function getIterator()
 	{
 		return new RecursiveIteratorIterator(new SegmentIterator($this->children), 1);
@@ -165,7 +167,7 @@ class Segment implements IteratorAggregate, Countable
 	*
 	* Miguel Erill 09/04/2017
 	*
-	* @param	string	$value	String to convert
+	* @param	string	$text	String to convert
 	*/
 	public function macroReplace($text)
 	{
