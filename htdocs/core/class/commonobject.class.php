@@ -10365,7 +10365,6 @@ abstract class CommonObject
 			if (array_key_exists('pass_encoding', $fieldvalues) && property_exists($this, 'pass_encoding')) {
 				$fieldvalues['pass_encoding'] = $tmparray['pass_encoding'];
 			}
-			var_dump($fieldvalues);
 		}
 		if (array_key_exists('ref', $fieldvalues)) {
 			$fieldvalues['ref'] = dol_string_nospecial($fieldvalues['ref']); // If field is a ref, we sanitize data
