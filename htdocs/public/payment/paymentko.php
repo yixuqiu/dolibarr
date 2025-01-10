@@ -145,6 +145,7 @@ $object = new stdClass(); // For triggers
  */
 
 // Check if we have redirtodomain to do.
+$doactionsthenredirect = 0;
 if ($ws) {
 	$doactionsthenredirect = 1;
 }

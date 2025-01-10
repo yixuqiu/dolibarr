@@ -174,6 +174,7 @@ $error = 0;
 
 // Check if we have redirtodomain to do.
 $ws_virtuelhost = null;
+$doactionsthenredirect = 0;
 if ($ws) {
 	$doactionsthenredirect = 1;
 	include_once DOL_DOCUMENT_ROOT.'/website/class/website.class.php';
