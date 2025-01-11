@@ -8,7 +8,8 @@
  * Copyright (C) 2014		Christophe Battarel		<contact@altairis.fr>
  * Copyright (C) 2014		Cedric Gross			<c.gross@kreiz-it.fr>
  * Copyright (C) 2020-2021	Alexandre Spangaro		<aspangaro@open-dsi.fr>
- * Copyright (C) 2024		MDW							<mdeweerd@users.noreply.github.com>
+ * Copyright (C) 2024		MDW						<mdeweerd@users.noreply.github.com>
+ * Copyright (C) 2025       Frédéric France         <frederic.france@free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -78,29 +79,30 @@ class modProduct extends DolibarrModules
 		$this->langfiles = array("products", "companies", "stocks", "bills");
 
 		// Constants
-		$this->const = array();
-		$r = 0;
+		$this->const = [
+			[
+				"PRODUCT_CODEPRODUCT_ADDON",
+				"chaine",
+				"mod_codeproduct_leopard",
+				'Module to control product codes',
+				0,
+			],
+			[
 
-		$this->const[$r][0] = "PRODUCT_CODEPRODUCT_ADDON";
-		$this->const[$r][1] = "chaine";
-		$this->const[$r][2] = "mod_codeproduct_leopard";
-		$this->const[$r][3] = 'Module to control product codes';
-		$this->const[$r][4] = 0;
-		$r++;
-
-		$this->const[$r][0] = "PRODUCT_PRICE_UNIQ";
-		$this->const[$r][1] = "chaine";
-		$this->const[$r][2] = "1";
-		$this->const[$r][3] = 'pricing rule by default';
-		$this->const[$r][4] = 0;
-		$r++;
-
-		/*$this->const[$r][0] = "PRODUCT_ADDON_PDF";
-		$this->const[$r][1] = "chaine";
-		$this->const[$r][2] = "standard";
-		$this->const[$r][3] = 'Default module for document generation';
-		$this->const[$r][4] = 0;
-		$r++;*/
+				"PRODUCT_PRICE_UNIQ",
+				"chaine",
+				"1",
+				'pricing rule by default',
+				0,
+			],
+			/*[
+				"PRODUCT_ADDON_PDF",
+				"chaine",
+				"standard",
+				'Default module for document generation',
+				0,
+			],*/
+		];
 
 		// Boxes
 		$this->boxes = array(
