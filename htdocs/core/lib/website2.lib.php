@@ -164,6 +164,7 @@ function dolSavePageContent($filetpl, Website $object, WebsitePage $objectpage, 
 		$shortlangcode = substr($objectpage->lang, 0, 2); // en_US or en-US -> en
 	}
 	if (empty($shortlangcode)) {
+		// Take the language of website
 		$shortlangcode = substr($object->lang, 0, 2); // en_US or en-US -> en
 	}
 
@@ -186,7 +187,8 @@ function dolSavePageContent($filetpl, Website $object, WebsitePage $objectpage, 
 		if (getDolGlobalString('WEBSITE_FORCE_DOCTYPE_HTML5')) {
 			$tplcontent .= "<!DOCTYPE html>\n";
 		}
-		$tplcontent .= '<html'.($shortlangcode ? ' lang="'.$shortlangcode.'"' : '').'>'."\n";
+		// If a language was forced on page, we use it, else we use the lang of visitor else the lang of web site
+		$tplcontent .= '<html'.($objectpage->lang ? ' lang="'.substr($objectpage->lang, 0, 2).'"' : '<?php echo $weblangs->shortlang ? \' lang="\'.$weblangs->shortlang.\'"\' : \'\' ?>').'>'."\n";
 		$tplcontent .= '<head>'."\n";
 		$tplcontent .= '<title>'.dol_string_nohtmltag($objectpage->title, 0, 'UTF-8').'</title>'."\n";
 		$tplcontent .= '<meta charset="utf-8">'."\n";
