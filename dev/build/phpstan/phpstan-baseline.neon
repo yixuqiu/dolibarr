@@ -16903,8 +16903,8 @@ parameters:
 			path: ../../../htdocs/ecm/dir_add_card.php
 
 		-
-			message: '#^Variable \$extrafields might not be defined\.$#'
-			identifier: variable.undefined
+			message: '#^Parameter \#1 \$object of function ecm_prepare_head expects EcmDirectory, CommonObject given\.$#'
+			identifier: argument.type
 			count: 1
 			path: ../../../htdocs/ecm/dir_card.php
 
@@ -24919,12 +24919,6 @@ parameters:
 			path: ../../../htdocs/product/price.php
 
 		-
-			message: '#^Variable \$db might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: ../../../htdocs/product/price.php
-
-		-
 			message: '#^Variable \$extrafield_values might not be defined\.$#'
 			identifier: variable.undefined
 			count: 2
@@ -25024,12 +25018,6 @@ parameters:
 			message: '#^Variable \$contextpage in empty\(\) always exists and is not falsy\.$#'
 			identifier: empty.variable
 			count: 1
-			path: ../../../htdocs/product/reassortlot.php
-
-		-
-			message: '#^Variable \$extrafields might not be defined\.$#'
-			identifier: variable.undefined
-			count: 2
 			path: ../../../htdocs/product/reassortlot.php
 
 		-
