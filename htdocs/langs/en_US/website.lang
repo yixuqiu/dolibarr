@@ -257,6 +257,7 @@ logOutFromYourCustomerAccount=Log out from your customer account
 filteredByVersion=Filtered by version
 removeFilter=Remove filter
 viewMyCart=View my shopping cart
+Shipping=Shipping
 freeShipping=Free shipping!
 noProducts=No products
 nbrItemsInCart=There are <span class="ajax_cart_quantity">0</span> items in your cart.
