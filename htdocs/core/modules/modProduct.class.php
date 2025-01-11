@@ -164,7 +164,7 @@ class modProduct extends DolibarrModules
 
 		$this->menu = 1; // This module adds menu entries. They are coded into menu manager.
 		/* We can't enable this here because it must be enabled in both product and service module and this creates duplicate inserts
-		$r=0;
+		$r = 0;
 		$this->menu[$r] = array(
 			// Use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
 			'fk_menu' => 'fk_mainmenu=home,fk_leftmenu=admintools',
@@ -182,8 +182,8 @@ class modProduct extends DolibarrModules
 			'target' => '',
 			// 0=Menu for internal users, 1=external users, 2=both
 			'user' => 0
-		$r++;
 		);
+		$r++;
 		*/
 
 		$usenpr = 0;
