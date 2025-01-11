@@ -21109,12 +21109,6 @@ parameters:
 			path: ../../../htdocs/includes/odtphp/Segment.php
 
 		-
-			message: '#^Property Segment\:\:\$name has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../../htdocs/includes/odtphp/Segment.php
-
-		-
 			message: '#^Property Segment\:\:\$odf has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
@@ -21122,18 +21116,6 @@ parameters:
 
 		-
 			message: '#^Property Segment\:\:\$vars has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../../htdocs/includes/odtphp/Segment.php
-
-		-
-			message: '#^Property Segment\:\:\$xml has no type specified\.$#'
-			identifier: missingType.property
-			count: 1
-			path: ../../../htdocs/includes/odtphp/Segment.php
-
-		-
-			message: '#^Property Segment\:\:\$xmlParsed has no type specified\.$#'
 			identifier: missingType.property
 			count: 1
 			path: ../../../htdocs/includes/odtphp/Segment.php
