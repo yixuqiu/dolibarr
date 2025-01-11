@@ -232,7 +232,7 @@ $urlko = $urlwithroot.'/public/payment/paymentko.php?';
 
 if ($ws && !defined('USEDOLIBARRSERVER') && !defined('USEDOLIBARREDITOR')) {	// So defined('USEEXTERNALSERVER') should be set but is not always
 	include_once DOL_DOCUMENT_ROOT.'/website/class/website.class.php';
-	$tmpwebsite = new WebSite($db);
+	$tmpwebsite = new Website($db);
 	$tmpwebsite->fetch(0, $ws);
 	$urlok = $tmpwebsite->virtualhost.'/public/payment/paymentok.php?';
 	$urlko = $tmpwebsite->virtualhost.'/public/payment/paymentko.php?';
