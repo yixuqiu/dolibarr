@@ -1577,6 +1577,7 @@ while ($i < $imaxinloop) {
 	if (empty($reshook)) {
 		$product_static->id = $obj->rowid;
 		$product_static->ref = $obj->ref;
+		$product_static->ref_ext = $obj->ref_ext;
 		$product_static->description = $obj->description;
 		$product_static->ref_fourn = empty($obj->ref_supplier) ? '' : $obj->ref_supplier; // deprecated
 		$product_static->ref_supplier = empty($obj->ref_supplier) ? '' : $obj->ref_supplier;
