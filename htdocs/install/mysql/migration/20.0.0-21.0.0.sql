@@ -400,5 +400,5 @@ ALTER TABLE llx_societe_rib MODIFY COLUMN label varchar(180);	-- 200 is too long
 -- Add entity field
 ALTER TABLE llx_societe_rib DROP INDEX uk_societe_rib;
 ALTER TABLE llx_societe_rib ADD COLUMN entity integer DEFAULT 1 NOT NULL AFTER rowid;
---select entity, label, fk_soc, MIN(iban_prefix), MAX(iban_prefix), MIN(rowid), MAX(rowid), COUNT(rowid) from llx_societe_rib GROUP BY entity, label, fk_soc HAVING COUNT(rowid) > 1;
+-- select entity, label, fk_soc, default_rib, MIN(iban_prefix), MAX(iban_prefix), MIN(rowid), MAX(rowid), COUNT(rowid) from llx_societe_rib GROUP BY entity, label, fk_soc, default_rib HAVING COUNT(rowid) > 1;
 ALTER TABLE llx_societe_rib ADD UNIQUE INDEX uk_societe_rib(entity, label, fk_soc);
