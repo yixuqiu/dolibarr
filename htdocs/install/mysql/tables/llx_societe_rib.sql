@@ -26,7 +26,7 @@ create table llx_societe_rib
   rowid								integer AUTO_INCREMENT PRIMARY KEY,
   entity							integer DEFAULT 1 NOT NULL,					-- multi company id
   type								varchar(32) DEFAULT 'ban' NOT NULL,			-- 'ban' or 'paypal' or 'card' or 'stripe'
-  label								varchar(200),
+  label								varchar(180),
   fk_soc							integer NOT NULL,
   datec								datetime,
   tms								timestamp DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
