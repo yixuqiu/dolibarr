@@ -79,6 +79,7 @@ $search_cti = preg_replace('/^0+/', '', preg_replace('/[^0-9]/', '', GETPOST('se
 $search_phone = GETPOST("search_phone", 'alpha');
 
 $search_id = GETPOST("search_id", "intcomma");
+$search_ref_ext = GETPOST("search_ref_ext", "alpha");
 $search_firstlast_only = GETPOST("search_firstlast_only", 'alpha');
 $search_lastname = GETPOST("search_lastname", 'alpha');
 $search_firstname = GETPOST("search_firstname", 'alpha');
@@ -367,6 +368,7 @@ if (empty($reshook)) {
 	if (GETPOST('button_removefilter_x', 'alpha') || GETPOST('button_removefilter.x', 'alpha') || GETPOST('button_removefilter', 'alpha')) {	// All tests are required to be compatible with all browsers
 		$search_all = "";
 		$search_id = '';
+		$search_ref = '';
 		$search_firstlast_only = "";
 		$search_lastname = "";
 		$search_firstname = "";
@@ -661,6 +663,9 @@ if (strlen($search_firstlast_only)) {
 if ($search_id > 0) {
 	$sql .= natural_search('p.rowid', $search_id, 1);
 }
+if ($search_ref_ext) {
+	$sql .= natural_search('p.ref_ext', $search_ref_ext);
+}
 if ($search_lastname) {
 	$sql .= natural_search('p.lastname', $search_lastname);
 }
@@ -859,7 +864,10 @@ if ($search_all != '') {
 	$param .= '&search_all='.urlencode($search_all);
 }
 if ($search_id > 0) {
-	$param .= "&search_id=".urlencode((string) ($search_id));
+	$param .= "&search_id=".((int) $search_id);
+}
+if ($search_ref) {
+	$param .= "&search_ref=".urlencode($search_ref);
 }
 if ($search_lastname != '') {
 	$param .= '&search_lastname='.urlencode($search_lastname);
@@ -1082,32 +1090,37 @@ if (!empty($arrayfields['p.rowid']['checked'])) {
 }
 if (!empty($arrayfields['p.lastname']['checked'])) {
 	print '<td class="liste_titre">';
-	print '<input class="flat" type="text" name="search_lastname" size="6" value="'.dol_escape_htmltag($search_lastname).'">';
+	print '<input class="flat width75" type="text" name="search_lastname" value="'.dol_escape_htmltag($search_lastname).'">';
 	print '</td>';
 }
 if (!empty($arrayfields['p.firstname']['checked'])) {
 	print '<td class="liste_titre">';
-	print '<input class="flat" type="text" name="search_firstname" size="6" value="'.dol_escape_htmltag($search_firstname).'">';
+	print '<input class="flat width75" type="text" name="search_firstname" value="'.dol_escape_htmltag($search_firstname).'">';
+	print '</td>';
+}
+if (!empty($arrayfields['p.ref_ext']['checked'])) {
+	print '<td class="liste_titre">';
+	print '<input class="flat width50" type="text" name="search_ref_ext" value="'.dol_escape_htmltag($search_ref_ext).'">';
 	print '</td>';
 }
 if (!empty($arrayfields['p.poste']['checked'])) {
 	print '<td class="liste_titre">';
-	print '<input class="flat" type="text" name="search_poste" size="5" value="'.dol_escape_htmltag($search_poste).'">';
+	print '<input class="flat width50" type="text" name="search_poste" value="'.dol_escape_htmltag($search_poste).'">';
 	print '</td>';
 }
 if (!empty($arrayfields['p.address']['checked'])) {
 	print '<td class="liste_titre">';
-	print '<input class="flat" type="text" name="search_address" size="6" value="'.dol_escape_htmltag($search_address).'">';
+	print '<input class="flat width50" type="text" name="search_address" value="'.dol_escape_htmltag($search_address).'">';
 	print '</td>';
 }
 if (!empty($arrayfields['p.zip']['checked'])) {
 	print '<td class="liste_titre">';
-	print '<input class="flat" type="text" name="search_zip" size="3" value="'.dol_escape_htmltag($search_zip).'">';
+	print '<input class="flat width50" type="text" name="search_zip" value="'.dol_escape_htmltag($search_zip).'">';
 	print '</td>';
 }
 if (!empty($arrayfields['p.town']['checked'])) {
 	print '<td class="liste_titre">';
-	print '<input class="flat" type="text" name="search_town" size="5" value="'.dol_escape_htmltag($search_town).'">';
+	print '<input class="flat width50" type="text" name="search_town" value="'.dol_escape_htmltag($search_town).'">';
 	print '</td>';
 }
 
@@ -1277,6 +1290,10 @@ if (!empty($arrayfields['p.lastname']['checked'])) {
 }
 if (!empty($arrayfields['p.firstname']['checked'])) {
 	print_liste_field_titre($arrayfields['p.firstname']['label'], $_SERVER["PHP_SELF"], "p.firstname", $begin, $param, '', $sortfield, $sortorder);
+	$totalarray['nbfield']++;
+}
+if (!empty($arrayfields['p.ref_ext']['checked'])) {
+	print_liste_field_titre($arrayfields['p.ref_ext']['label'], $_SERVER["PHP_SELF"], "p.ref_ext", $begin, $param, '', $sortfield, $sortorder);
 	$totalarray['nbfield']++;
 }
 if (!empty($arrayfields['p.poste']['checked'])) {
@@ -1483,7 +1500,7 @@ while ($i < $imaxinloop) {
 
 		// (Last) Name
 		if (!empty($arrayfields['p.lastname']['checked'])) {
-			print '<td class="middle tdoverflowmax150">';
+			print '<td class="middle tdoverflowmax150" title="'.dolPrintHTMLForAttribute($contactstatic->lastname).'">';
 			if ($contextpage == 'poslist') {
 				print $contactstatic->lastname;
 			} else {
@@ -1497,7 +1514,19 @@ while ($i < $imaxinloop) {
 
 		// Firstname
 		if (!empty($arrayfields['p.firstname']['checked'])) {
-			print '<td class="tdoverflowmax150" title="'.dol_escape_htmltag($obj->firstname).'">'.dol_escape_htmltag($obj->firstname).'</td>';
+			print '<td class="tdoverflowmax150" title="'.dolPrintHTMLForAttribute($obj->firstname).'">';
+			print dolPrintHTML($obj->firstname);
+			print '</td>';
+			if (!$i) {
+				$totalarray['nbfield']++;
+			}
+		}
+
+		// Ref ext
+		if (!empty($arrayfields['p.ref_ext']['checked'])) {
+			print '<td class="middle tdoverflowmax100" title="'.dolPrintHTMLForAttribute($contactstatic->ref_ext).'">';
+			print dolPrintHTML($contactstatic->ref_ext);
+			print '</td>';
 			if (!$i) {
 				$totalarray['nbfield']++;
 			}
