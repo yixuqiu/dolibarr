@@ -202,7 +202,7 @@ function dolSavePageContent($filetpl, Website $object, WebsitePage $objectpage, 
 		$tplcontent .= '<meta name="dolibarr:pageid" content="'.dol_string_nohtmltag((string) $objectpage->id).'" />'."\n";
 
 		// Add favicon
-		if ($objectpage->id == $object->fk_default_home) {
+		if (in_array($objectpage->type_container, array('page', 'blogpost'))) {
 			$tplcontent .= '<link rel="icon" type="image/png" href="/favicon.png" />'."\n";
 		}
 
