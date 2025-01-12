@@ -396,6 +396,7 @@ ALTER TABLE llx_user MODIFY COLUMN signature LONGTEXT;
 
 
 ALTER TABLE llx_societe_rib MODIFY COLUMN label varchar(180);	-- 200 is too long to allow index after
+ALTER TABLE llx_societe_rib MODIFY COLUMN iban_prefix varchar(100);
 
 -- Add entity field
 ALTER TABLE llx_societe_rib DROP INDEX uk_societe_rib;

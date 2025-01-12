@@ -40,7 +40,7 @@ create table llx_societe_rib
 
   bic								varchar(20),    -- 11 according to ISO 9362 (we keep 20 for backward compatibility)
   bic_intermediate					varchar(11),    -- 11 according to ISO 9362. Same as bic but for intermediate bank
-  iban_prefix						varchar(80),    -- full iban. 34 according to ISO 13616 but we set 80 to allow to store it with encryption information
+  iban_prefix						varchar(100),   -- full iban. 34 according to ISO 13616 but we set 100 to allow to store it with encryption information
 
   domiciliation						varchar(255),
   proprio							varchar(60),
