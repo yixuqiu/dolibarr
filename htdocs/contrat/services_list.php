@@ -281,7 +281,7 @@ if ($filter == "notexpired") {
 	$sql .= " AND cd.date_fin_validite >= '".$db->idate($now)."'";
 }
 if ($search_name) {
-	$sql .= natural_search("c.ref", $search_name);
+	$sql .= natural_search("s.nom", $search_name);
 }
 if ($search_contract) {
 	$sql .= natural_search("c.ref", $search_contract);
