@@ -619,6 +619,7 @@ class ExpenseReport extends CommonObject
 		$sql .= " FROM ".MAIN_DB_PREFIX.$this->table_element." as d";
 		if ($ref) {
 			$sql .= " WHERE d.ref = '".$this->db->escape($ref)."'";
+			$sql .= " WHERE d.entity IN (".getEntity('expensereport').")";
 		} else {
 			$sql .= " WHERE d.rowid = ".((int) $id);
 		}
