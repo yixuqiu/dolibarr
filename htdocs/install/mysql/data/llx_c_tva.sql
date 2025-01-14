@@ -311,7 +311,7 @@ INSERT INTO llx_c_tva(fk_pays,taux,recuperableonly,note,active,entity) VALUES (2
 
 -- SOUTH AFRICA (id country=205)
 INSERT INTO llx_c_tva(fk_pays,taux,recuperableonly,note,active,entity) VALUES (205,  '0', '0', 'VAT rate 0', 1,__ENTITY__);
-INSERT INTO llx_c_tva(fk_pays,taux,recuperableonly,note,active,entity) VALUES 205, '15', '0', 'VAT rate - standard', 1,__ENTITY__);
+INSERT INTO llx_c_tva(fk_pays,taux,recuperableonly,note,active,entity) VALUES (205, '15', '0', 'VAT rate - standard', 1,__ENTITY__);
 
 -- SPAIN (id country=4)
 insert into llx_c_tva(fk_pays,taux,recuperableonly,localtax1,localtax1_type,localtax2,localtax2_type,note,active,entity) values (4, '0','0',  '0','3','-19:-15:-9','5','VAT rate 0',1,__ENTITY__);
