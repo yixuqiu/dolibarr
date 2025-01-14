@@ -62,6 +62,12 @@ jobs:
       #     files: |
       #        **.php
 
+      - name: Extract PHP version
+        id: extract-php-version
+        run: |
+          PHP_VERSION=$(sed -n 's/.*\$arrayphpmaxversionwarning\s*=\s*array\s*(\s*\([0-9]\+\)\s*,\s*\([0-9]\+\).*/\1.\2/p' htdocs/install/check.php)
+          echo "PHP_VERSION=$PHP_VERSION" >> $GITHUB_ENV
+
       - name: Setup PHPCS
         uses: shivammathur/setup-php@v2
         # Install when we're going to run phpcs
@@ -76,7 +82,7 @@ jobs:
             )
           )
         with:
-          php-version: 8.1
+          php-version: ${{ env.PHP_VERSION }}  # Version from check.php
           coverage: none # disable xdebug, pcov
           tools: phpcs
 
