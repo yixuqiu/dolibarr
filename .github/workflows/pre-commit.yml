@@ -51,17 +51,7 @@ jobs:
 
       - name: Setup PHPCS
         uses: shivammathur/setup-php@v2
-        # Install when we're going to run phpcs
-        if: |
-          steps.changed-php.outputs.any_changed == 'true'
-          ||
-          (
-            github.event_name == 'push'
-            && (
-                 github.event.ref == 'refs/heads/develop'
-               || endsWith(github.event.ref, '.0')
-            )
-          )
+        # Install proper php version, and also install phpcs which may be needed
         with:
           php-version: ${{ env.PHP_VERSION }}  # Version from check.php
           coverage: none # disable xdebug, pcov
