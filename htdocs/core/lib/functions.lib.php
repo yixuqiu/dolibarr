@@ -8882,7 +8882,7 @@ function dol_osencode($str)
  */
 function dol_getIdFromCode($db, $key, $tablename, $fieldkey = 'code', $fieldid = 'id', $entityfilter = 0, $filters = '', $useCache = true)
 {
-	static $cache_codes = array();
+	global $cache_codes;
 
 	// If key empty
 	if ($key == '') {
