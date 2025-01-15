@@ -130,8 +130,8 @@ if ($user->id != $id && !$canreaduser) {
 	accessforbidden();
 }
 
-$caneditpasswordandsee = $canadduser;
-$caneditpasswordandsend = $canadduser;
+$caneditpasswordandsee = false;
+$caneditpasswordandsend = false;
 
 // Define value to know what current user can do on properties of edited user
 if ($id > 0) {
