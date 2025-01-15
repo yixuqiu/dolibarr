@@ -1426,7 +1426,7 @@ function pdf_getlinedesc($object, $i, $outputlangs, $hideref = 0, $hidedesc = 0,
 
 	//id
 	$idprod = (!empty($object->lines[$i]->fk_product) ? $object->lines[$i]->fk_product : false);
-    if($idprod) {
+    if ($idprod) {
         $prodser->fetch($idprod);
         //load multilangs
         if($multilangsactive){
