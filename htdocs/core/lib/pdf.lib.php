@@ -36,7 +36,7 @@
  */
 
 include_once DOL_DOCUMENT_ROOT.'/core/lib/signature.lib.php';
- 
+
 
 /**
  *  Return array head with list of tabs to view object informations.
@@ -1412,8 +1412,8 @@ function pdf_getlinedesc($object, $i, $outputlangs, $hideref = 0, $hidedesc = 0,
 
 	$multilangsactive = getDolGlobalInt('MAIN_MULTILANGS');
 
-    if ($issupplierline) {
-        include_once DOL_DOCUMENT_ROOT.'/fourn/class/fournisseur.product.class.php';
+	if ($issupplierline) {
+		include_once DOL_DOCUMENT_ROOT.'/fourn/class/fournisseur.product.class.php';
         $prodser = new ProductFournisseur($db);
     } else {
         include_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
@@ -1429,7 +1429,7 @@ function pdf_getlinedesc($object, $i, $outputlangs, $hideref = 0, $hidedesc = 0,
     if ($idprod) {
         $prodser->fetch($idprod);
         //load multilangs
-        if($multilangsactive){
+        if ($multilangsactive) {
             $prodser->getMultiLangs();
             $object->lines[$i]->multilangs = $prodser->multilangs;
         }
