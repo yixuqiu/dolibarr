@@ -1414,26 +1414,26 @@ function pdf_getlinedesc($object, $i, $outputlangs, $hideref = 0, $hidedesc = 0,
 
 	if ($issupplierline) {
 		include_once DOL_DOCUMENT_ROOT.'/fourn/class/fournisseur.product.class.php';
-        $prodser = new ProductFournisseur($db);
-    } else {
-        include_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
-        $prodser = new Product($db);
+		$prodser = new ProductFournisseur($db);
+	} else {
+		include_once DOL_DOCUMENT_ROOT.'/product/class/product.class.php';
+		$prodser = new Product($db);
 
-        if (!empty($conf->global->PRODUIT_CUSTOMER_PRICES)) {
-            include_once DOL_DOCUMENT_ROOT . '/product/class/productcustomerprice.class.php';
-        }
-    }
+		if (!empty($conf->global->PRODUIT_CUSTOMER_PRICES)) {
+			include_once DOL_DOCUMENT_ROOT . '/product/class/productcustomerprice.class.php';
+		}
+	}
 
 	//id
 	$idprod = (!empty($object->lines[$i]->fk_product) ? $object->lines[$i]->fk_product : false);
-    if ($idprod) {
-        $prodser->fetch($idprod);
-        //load multilangs
-        if ($multilangsactive) {
-            $prodser->getMultiLangs();
-            $object->lines[$i]->multilangs = $prodser->multilangs;
-        }
-    }
+	if ($idprod) {
+		$prodser->fetch($idprod);
+		//load multilangs
+		if ($multilangsactive) {
+			$prodser->getMultiLangs();
+			$object->lines[$i]->multilangs = $prodser->multilangs;
+		}
+	}
 	//label
 	if (!empty($object->lines[$i]->label)) {
 		$label = $object->lines[$i]->label;
