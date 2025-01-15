@@ -6906,12 +6906,31 @@ class Form
 	public function load_tva($htmlname = 'tauxtva', $selectedrate = '', $societe_vendeuse = null, $societe_acheteuse = null, $idprod = 0, $info_bits = 0, $type = '', $options_only = false, $mode = 0, $type_vat = 0)
 	{
 		// phpcs:enable
-		global $langs, $mysoc;
+		global $langs, $mysoc, $hookmanager;
 
 		$langs->load('errors');
 
 		$return = '';
-
+		// Bypass the default method
+		$hookmanager->initHooks(array('commonobject'));
+		$info_bits == 1 ? $is_npr = 1 : $is_npr = 0;
+		$parameters = array(
+			'seller' => $societe_vendeuse,
+			'buyer' => $societe_acheteuse,
+			'idprod' => $idprod,
+			'is_npr' => $is_npr,
+			'type' => $type,
+			'options_only' => $options_only,
+			'mode' => $mode,
+			'type_vat' => $type_vat
+		);
+		$reshook = $hookmanager->executeHooks('load_tva', $parameters);
+		if ($reshook > 0) {
+			return $hookmanager->resPrint;
+		} elseif ($reshook === 0) {
+			$return .= $hookmanager->resPrint;
+		}
+		
 		// Define defaultnpr, defaultttx and defaultcode
 		$defaultnpr = ($info_bits & 0x01);
 		$defaultnpr = (preg_match('/\*/', $selectedrate) ? 1 : $defaultnpr);
