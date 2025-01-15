@@ -6927,8 +6927,10 @@ class Form
 		$reshook = $hookmanager->executeHooks('load_tva', $parameters);
 		if ($reshook > 0) {
 			return $hookmanager->resPrint;
+		} elseif ($reshook === 0) {
+			$return .= $hookmanager->resPrint;
 		}
-
+		
 		// Define defaultnpr, defaultttx and defaultcode
 		$defaultnpr = ($info_bits & 0x01);
 		$defaultnpr = (preg_match('/\*/', $selectedrate) ? 1 : $defaultnpr);
