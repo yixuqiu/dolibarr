@@ -8585,17 +8585,19 @@ function dol_htmlwithnojs($stringtoencode, $nouseofiframesandbox = 0, $check = '
 			// We replace chars from a/A to z/Z encoded with numeric HTML entities with the real char so we won't loose the chars at the next step (preg_replace).
 			// No need to use a loop here, this step is not to sanitize (this is done at next step, this is to try to save chars, even if they are
 			// using a non conventionnal way to be encoded, to not have them sanitized just after)
-			$out = preg_replace_callback(
-				'/&#(x?[0-9][0-9a-f]+;?)/i',
-				/**
-				 * @param string[] $m
-				 * @return string
-				 */
-				static function ($m) {
-					return realCharForNumericEntities($m);
-				},
-				$out
-			);
+			if (function_exists('realCharForNumericEntities')) {	// May not exist when main.inc.php not loaded, for example in a CLI context
+				$out = preg_replace_callback(
+					'/&#(x?[0-9][0-9a-f]+;?)/i',
+					/**
+					 * @param string[] $m
+					 * @return string
+					 */
+					static function ($m) {
+						return realCharForNumericEntities($m);
+					},
+					$out
+				);
+			}
 
 			// Now we remove all remaining HTML entities starting with a number. We don't want such entities.
 			$out = preg_replace('/&#x?[0-9]+/i', '', $out);	// For example if we have j&#x61vascript with an entities without the ; to hide the 'a' of 'javascript'.
