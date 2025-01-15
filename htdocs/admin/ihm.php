@@ -329,6 +329,8 @@ if ($action == 'update') {
 		$csscontent = dol_string_nohtmltag($csscontent, 2);
 
 		dolibarr_set_const($db, "MAIN_IHM_CUSTOM_CSS", $csscontent, 'chaine', 0, '', $conf->entity);
+
+		setEventMessages($langs->trans("RecordSaved"), null);
 	}
 
 	$_SESSION["mainmenu"] = ""; // The menu manager may have changed
