@@ -496,7 +496,7 @@ function ajax_combobox($htmlname, $events = array(), $minLengthToAutocomplete = 
 	}
 	$msg .= '		width: \''.dol_escape_js($widthTypeOfAutocomplete).'\',		/* off or resolve */
 					minimumInputLength: '.((int) $minLengthToAutocomplete).',
-					language: select2arrayoflanguage || \'en\',
+					language: (typeof select2arrayoflanguage === \'undefined\') ? \'en\' : select2arrayoflanguage),
 					matcher: function (params, data) {
 						if ($.trim(params.term) === "") {
 							return data;
