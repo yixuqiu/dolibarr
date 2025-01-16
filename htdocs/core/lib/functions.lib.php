@@ -1,4 +1,5 @@
 <?php
+
 /* Copyright (C) 2000-2007	Rodolphe Quiedeville		<rodolphe@quiedeville.org>
  * Copyright (C) 2003		Jean-Louis Bergamo			<jlb@j1b.org>
  * Copyright (C) 2004-2024	Laurent Destailleur			<eldy@users.sourceforge.net>
@@ -20,8 +21,8 @@
  * Copyright (C) 2022       Anthony Berton	         	<anthony.berton@bb2a.fr>
  * Copyright (C) 2022       Ferran Marcet           	<fmarcet@2byte.es>
  * Copyright (C) 2022       Charlene Benke           	<charlene@patas-monkey.com>
- * Copyright (C) 2023       Joachim Kueter              <git-jk@bloxera.com>
- * Copyright (C) 2024		MDW							<mdeweerd@users.noreply.github.com>
+ * Copyright (C) 2024-2025	MDW							<mdeweerd@users.noreply.github.com>
+ * Copyright (C) 2023-2024  Joachim Kueter              <git-jk@bloxera.com>
  * Copyright (C) 2024		Lenin Rivas					<lenin.rivas777@gmail.com>
  * Copyright (C) 2024		Josep Lluís Amador Teruel	<joseplluis@lliuretic.cat>
  * Copyright (C) 2024		Benoît PASCAL				<contact@p-ben.com>
@@ -8585,17 +8586,19 @@ function dol_htmlwithnojs($stringtoencode, $nouseofiframesandbox = 0, $check = '
 			// We replace chars from a/A to z/Z encoded with numeric HTML entities with the real char so we won't loose the chars at the next step (preg_replace).
 			// No need to use a loop here, this step is not to sanitize (this is done at next step, this is to try to save chars, even if they are
 			// using a non conventionnal way to be encoded, to not have them sanitized just after)
-			$out = preg_replace_callback(
-				'/&#(x?[0-9][0-9a-f]+;?)/i',
-				/**
-				 * @param string[] $m
-				 * @return string
-				 */
-				static function ($m) {
-					return realCharForNumericEntities($m);
-				},
-				$out
-			);
+			if (function_exists('realCharForNumericEntities')) {	// May not exist when main.inc.php not loaded, for example in a CLI context
+				$out = preg_replace_callback(
+					'/&#(x?[0-9][0-9a-f]+;?)/i',
+					/**
+					 * @param string[] $m
+					 * @return string
+					 */
+					static function ($m) {
+						return realCharForNumericEntities($m);
+					},
+					$out
+				);
+			}
 
 			// Now we remove all remaining HTML entities starting with a number. We don't want such entities.
 			$out = preg_replace('/&#x?[0-9]+/i', '', $out);	// For example if we have j&#x61vascript with an entities without the ; to hide the 'a' of 'javascript'.
@@ -9171,23 +9174,33 @@ function getCommonSubstitutionArray($outputlangs, $onlykey = 0, $exclude = null,
 			$substitutionarray['__REF_SUPPLIER__'] = (isset($object->ref_supplier) ? $object->ref_supplier : null);
 			$substitutionarray['__NOTE_PUBLIC__'] = (isset($object->note_public) ? $object->note_public : null);
 			$substitutionarray['__NOTE_PRIVATE__'] = (isset($object->note_private) ? $object->note_private : null);
+
 			$substitutionarray['__DATE_CREATION__'] = (isset($object->date_creation) ? dol_print_date($object->date_creation, 'day', false, $outputlangs) : '');
 			$substitutionarray['__DATE_MODIFICATION__'] = (isset($object->date_modification) ? dol_print_date($object->date_modification, 'day', false, $outputlangs) : '');
 			$substitutionarray['__DATE_VALIDATION__'] = (isset($object->date_validation) ? dol_print_date($object->date_validation, 'day', false, $outputlangs) : '');
-			$substitutionarray['__DATE_DELIVERY__'] = (isset($object->date_delivery) ? dol_print_date($object->date_delivery, 'day', false, $outputlangs) : '');
-			$substitutionarray['__DATE_DELIVERY_DAY__'] = (isset($object->date_delivery) ? dol_print_date($object->date_delivery, "%d") : '');
-			$substitutionarray['__DATE_DELIVERY_DAY_TEXT__'] = (isset($object->date_delivery) ? dol_print_date($object->date_delivery, "%A") : '');
-			$substitutionarray['__DATE_DELIVERY_MON__'] = (isset($object->date_delivery) ? dol_print_date($object->date_delivery, "%m") : '');
-			$substitutionarray['__DATE_DELIVERY_MON_TEXT__'] = (isset($object->date_delivery) ? dol_print_date($object->date_delivery, "%b") : '');
-			$substitutionarray['__DATE_DELIVERY_YEAR__'] = (isset($object->date_delivery) ? dol_print_date($object->date_delivery, "%Y") : '');
-			$substitutionarray['__DATE_DELIVERY_HH__'] = (isset($object->date_delivery) ? dol_print_date($object->date_delivery, "%H") : '');
-			$substitutionarray['__DATE_DELIVERY_MM__'] = (isset($object->date_delivery) ? dol_print_date($object->date_delivery, "%M") : '');
-			$substitutionarray['__DATE_DELIVERY_SS__'] = (isset($object->date_delivery) ? dol_print_date($object->date_delivery, "%S") : '');
+
+			// handle date_delivery: in customer order/supplier order, the property name is delivery_date, in shipment/reception it is date_delivery
+			$date_delivery = null;
+			if (property_exists($object, 'date_delivery')) {
+				$date_delivery =  $object->date_delivery;
+			} elseif (property_exists($object, 'delivery_date')) {
+				$date_delivery =  $object->delivery_date;
+			}
+			$substitutionarray['__DATE_DELIVERY__'] = (isset($date_delivery) ? dol_print_date($date_delivery, 'day', 0, $outputlangs) : '');
+			$substitutionarray['__DATE_DELIVERY_DAY__'] = (isset($date_delivery) ? dol_print_date($date_delivery, "%d") : '');
+			$substitutionarray['__DATE_DELIVERY_DAY_TEXT__'] = (isset($date_delivery) ? dol_print_date($date_delivery, "%A") : '');
+			$substitutionarray['__DATE_DELIVERY_MON__'] = (isset($date_delivery) ? dol_print_date($date_delivery, "%m") : '');
+			$substitutionarray['__DATE_DELIVERY_MON_TEXT__'] = (isset($date_delivery) ? dol_print_date($date_delivery, "%b") : '');
+			$substitutionarray['__DATE_DELIVERY_YEAR__'] = (isset($date_delivery) ? dol_print_date($date_delivery, "%Y") : '');
+			$substitutionarray['__DATE_DELIVERY_HH__'] = (isset($date_delivery) ? dol_print_date($date_delivery, "%H") : '');
+			$substitutionarray['__DATE_DELIVERY_MM__'] = (isset($date_delivery) ? dol_print_date($date_delivery, "%M") : '');
+			$substitutionarray['__DATE_DELIVERY_SS__'] = (isset($date_delivery) ? dol_print_date($date_delivery, "%S") : '');
 
 			// For backward compatibility (deprecated)
 			$substitutionarray['__REFCLIENT__'] = (isset($object->ref_client) ? $object->ref_client : (isset($object->ref_customer) ? $object->ref_customer : null));
 			$substitutionarray['__REFSUPPLIER__'] = (isset($object->ref_supplier) ? $object->ref_supplier : null);
-			$substitutionarray['__SUPPLIER_ORDER_DATE_DELIVERY__'] = (isset($object->delivery_date) ? dol_print_date($object->delivery_date, 'day', false, $outputlangs) : '');
+
+			$substitutionarray['__SUPPLIER_ORDER_DATE_DELIVERY__'] = (isset($date_delivery) ? dol_print_date($date_delivery, 'day', false, $outputlangs) : '');
 			$substitutionarray['__SUPPLIER_ORDER_DELAY_DELIVERY__'] = (isset($object->availability_code) ? ($outputlangs->transnoentities("AvailabilityType".$object->availability_code) != 'AvailabilityType'.$object->availability_code ? $outputlangs->transnoentities("AvailabilityType".$object->availability_code) : $outputlangs->convToOutputCharset(isset($object->availability) ? $object->availability : '')) : '');
 			$substitutionarray['__EXPIRATION_DATE__'] = (isset($object->fin_validite) ? dol_print_date($object->fin_validite, 'daytext') : '');
 
@@ -9686,9 +9699,9 @@ function getCommonSubstitutionArray($outputlangs, $onlykey = 0, $exclude = null,
  *  $mesg = make_substitutions($mesg, $substitutionarray, $langs);
  *
  *  @param	string		$text	      					Source string in which we must do substitution
- *  @param  array<string,string>	$substitutionarray	Array with key->val to substitute. Example: array('__MYKEY__' => 'MyVal', ...)
+ *  @param  array<string,null|string|float|int>	$substitutionarray	Array with key->val to substitute. Example: array('__MYKEY__' => 'MyVal', ...)
  *  @param	?Translate	$outputlangs					Output language
- *  @param	int			$converttextinhtmlifnecessary	0=Convert only value into HTML if text is already in HTML
+ *  @param	int<0,1>	$converttextinhtmlifnecessary	0=Convert only value into HTML if text is already in HTML
  *  													1=Will also convert initial $text into HTML if we try to insert one value that is HTML
  * 	@return string  		    						Output string after substitutions
  *  @see	complete_substitutions_array(), getCommonSubstitutionArray()
@@ -9736,7 +9749,7 @@ function make_substitutions($text, $substitutionarray, $outputlangs = null, $con
 						$msgishtml = 1;
 					}
 				} else {
-					$value = dol_nl2br("$value");
+					$value = dol_nl2br((string) $value);
 				}
 
 				$text = preg_replace('/__\('.preg_quote($reg[1], '/').'\)__/', $value, $text);
@@ -9767,7 +9780,7 @@ function make_substitutions($text, $substitutionarray, $outputlangs = null, $con
 					$msgishtml = 1;
 				}
 			} else {
-				$value = dol_nl2br("$value");
+				$value = dol_nl2br((string) $value);
 			}
 
 			$text = preg_replace('/__\['.preg_quote($keyfound, '/').'\]__/', $value, $text);
@@ -9785,7 +9798,7 @@ function make_substitutions($text, $substitutionarray, $outputlangs = null, $con
 		}
 
 		if (empty($converttextinhtmlifnecessary)) {
-			$text = str_replace("$key", "$value", $text); // We must keep the " to work when value is 123.5 for example
+			$text = str_replace((string) $key, (string) $value, $text); // Cast to string is needed when value is 123.5 for example
 		} else {
 			if (! $msgishtml) {
 				$valueishtml = dol_textishtml($value, 1);
@@ -9795,9 +9808,9 @@ function make_substitutions($text, $substitutionarray, $outputlangs = null, $con
 					$msgishtml = 1;
 				}
 			} else {
-				$value = dol_nl2br("$value");
+				$value = dol_nl2br((string) $value);
 			}
-			$text = str_replace("$key", "$value", $text); // We must keep the " to work when value is 123.5 for example
+			$text = str_replace((string) $key, (string) $value, $text); // Cast to string is needed 123.5 for example
 		}
 	}
 
@@ -9820,7 +9833,7 @@ function make_substitutions($text, $substitutionarray, $outputlangs = null, $con
 			if (isset($lazy_load_arr[1]) && !empty($lazy_load_arr[1])) {
 				$key_to_substitute = $lazy_load_arr[1];
 				if (preg_match('/' . preg_quote($key_to_substitute, '/') . '/', $text)) {
-					$param_arr = explode(':', $value);
+					$param_arr = explode(':', (string) $value);
 					// path:class:method:id
 					if (count($param_arr) == 4) {
 						$path = $param_arr[0];
@@ -9855,7 +9868,7 @@ function make_substitutions($text, $substitutionarray, $outputlangs = null, $con
 									$valuetouseforsubstitution = $tmpobj->$method($id, $key_to_substitute, true);
 								}
 
-								$text = str_replace("$key_to_substitute", "$valuetouseforsubstitution", $text); // We must keep the " to work when value is 123.5 for example
+								$text = str_replace((string) $key_to_substitute, (string) $valuetouseforsubstitution, $text); // Cast to string in case value is 123.5 for example
 							}
 						}
 					}
@@ -10665,9 +10678,9 @@ function dol_eval($s, $returnvalue = 1, $hideerrors = 1, $onlysimplestring = '1'
 			// Check if there is dynamic call (first we use black list patterns)
 			if (preg_match('/\$[\w]*\s*\(/', $s)) {
 				if ($returnvalue) {
-					return 'Bad string syntax to evaluate (mode '.$onlysimplestring.', found a call using of "$abc(" or "$abc (" instead of using the direct name of the function): '.$s;
+					return 'Bad string syntax to evaluate (mode '.$onlysimplestring.', found a call using "$abc(" or "$abc (" instead of using the direct name of the function): '.$s;
 				} else {
-					dol_syslog('Bad string syntax to evaluate (mode '.$onlysimplestring.', found a call using of "$abc(" or "$abc (" instead of using the direct name of the function): '.$s, LOG_WARNING);
+					dol_syslog('Bad string syntax to evaluate (mode '.$onlysimplestring.', found a call using "$abc(" or "$abc (" instead of using the direct name of the function): '.$s, LOG_WARNING);
 					return '';
 				}
 			}
