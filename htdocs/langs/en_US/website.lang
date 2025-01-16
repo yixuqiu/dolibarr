@@ -304,6 +304,7 @@ lastUpdate=Last update
 contactSupport=How to contact support
 noProductToDisplay=Error, No product to display
 yourCompanyInformation=Your company information
+yourBillingInformation=Your billing information
 emailAlreadyRegistered=This email is already registered.
 firstnameContainsLettersOnly=<b>Firstname</b> must contain letters and spaces only
 lastnameContainsLettersOnly=<b>Lastname</b> must contain letters and spaces only
