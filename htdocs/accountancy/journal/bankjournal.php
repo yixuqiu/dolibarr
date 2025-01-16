@@ -297,11 +297,11 @@ if ($result) {
 		$compta_soc = 'NotDefined';
 		$accountancy_code_general = 'NotDefined';
 		if ($lineisapurchase > 0) {
-			$accountancy_code_general = (!empty($obj->accountancy_code_supplier_general)) ? $obj->accountancy_code_supplier_general : $account_supplier;
+			$accountancy_code_general = (!empty($obj->accountancy_code_supplier_general) && $obj->accountancy_code_supplier_general != '-1') ? $obj->accountancy_code_supplier_general : $account_supplier;
 			$compta_soc = (($obj->code_compta_fournisseur != "") ? $obj->code_compta_fournisseur : $account_supplier);
 		}
 		if ($lineisasale > 0) {
-			$accountancy_code_general = (!empty($obj->accountancy_code_customer_general)) ? $obj->accountancy_code_customer_general : $account_customer;
+			$accountancy_code_general = (!empty($obj->accountancy_code_customer_general) && $obj->accountancy_code_customer_general != '-1') ? $obj->accountancy_code_customer_general : $account_customer;
 			$compta_soc = (!empty($obj->code_compta_client) ? $obj->code_compta_client : $account_customer);
 		}
 
