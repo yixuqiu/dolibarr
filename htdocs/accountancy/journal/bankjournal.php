@@ -1277,7 +1277,7 @@ if (empty($action) || $action == 'view') {
 				print "<td>".$date."</td>";
 
 				// Ref
-				print "<td>".dol_escape_htmltag($ref)."</td>";
+				print '<td class="maxwidth300 nopaddingtopimp nopaddingbottomimp">'.dol_escape_htmltag($ref)."</td>";
 
 				// Ledger account
 				$accounttoshow = length_accountg($k);
@@ -1299,7 +1299,7 @@ if (empty($action) || $action == 'view') {
 				print "</td>";
 
 				// Label operation
-				print '<td>';
+				print '<td class="maxwidth300 nopaddingtopimp nopaddingbottomimp">';
 				print $reflabel;	// This is already html escaped content
 				print "</td>";
 
@@ -1332,8 +1332,8 @@ if (empty($action) || $action == 'view') {
 					// Date
 					print "<td>".$date."</td>";
 
-					// Ref
-					print "<td>".dol_escape_htmltag($ref)."</td>";
+					// Ref / Piece
+					print '<td class="nopaddingtopimp nopaddingbottomimp">'.dol_escape_htmltag($ref)."</td>";
 
 
 					// Ledger account
@@ -1421,11 +1421,14 @@ if (empty($action) || $action == 'view') {
 							$accounttoshowsubledger = '';
 						}
 					}
-					print '<td class="maxwidth300">';
+					print '<td class="maxwidth300 nopaddingtopimp nopaddingbottomimp">';
 					print $accounttoshowsubledger;	// This is a html string
 					print "</td>";
 
-					print "<td>".$reflabel."</td>";
+					// Label operation
+					print '<td class="nopaddingtopimpo paddingbottomimp">';
+					print $reflabel;		// This is a html string
+					print "</td>";
 
 					print '<td class="center">'.$val["type_payment"]."</td>";
 
