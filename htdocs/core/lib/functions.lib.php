@@ -1316,6 +1316,7 @@ function sanitizeVal($out = '', $check = 'alphanohtml', $filter = null, $options
 		case 'restricthtmlnolink':
 		case 'restricthtml':		// Recommended for most html textarea
 		case 'restricthtmlallowclass':
+		case 'restricthtmlallowiframe':
 		case 'restricthtmlallowlinkscript':	// Allow link and script tag for head section.
 		case 'restricthtmlallowunvalid':
 			$out = dol_htmlwithnojs($out, 1, $check);
