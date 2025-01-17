@@ -506,7 +506,8 @@ function correctExifImageOrientation($fileSource, $fileDest, $quality = 95)
 
 /**
  *    	Create a thumbnail from an image file (Supported extensions are gif, jpg, png and bmp).
- *      If file is myfile.jpg, new file may be myfile_small.jpg
+ *      If file is myfile.jpg, new file may be myfile_small.jpg. But extension may differs if original file has a format and an extension
+ *      of another one, like a.jpg file when real format is png.
  *
  *    	@param     string	$file           	Path of source file to resize
  *    	@param     int		$maxWidth       	Maximum width of the thumbnail (-1=unchanged, 160 by default)
