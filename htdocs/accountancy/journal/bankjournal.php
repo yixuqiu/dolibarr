@@ -1326,7 +1326,7 @@ if (empty($action) || $action == 'view') {
 						$reflabel .= isset($val['soclib']) ? $val['soclib'] : "";
 					}
 
-					print '<!-- Thirdparty bank.rowid='.$key.' -->';
+					print '<!-- Thirdparty bank.rowid='.$key.'=accounting_bookkeeping.fk_doc (accounting_bookkeeping.doc_type=\'bank\') -->';
 					print '<tr class="oddeven">';
 
 					// Date
@@ -1405,9 +1405,11 @@ if (empty($action) || $action == 'view') {
 							if (empty($accounttoshowsubledger) || $accounttoshowsubledger == 'NotDefined') {
 								//print '<span class="error">'.$langs->trans("ThirdpartyAccountNotDefined").'</span>';
 								if (!empty($tabcompany[$key]['code_compta'])) {
-									if (in_array($tabtype[$key], array('payment_various', 'payment_salary'))) {
+									if (in_array($tabtype[$key], array('payment_various'))) {
 										// For such case, if subledger is not defined, we won't use subledger accounts.
 										$accounttoshowsubledger = '<span class="warning small">'.$langs->trans("ThirdpartyAccountNotDefinedOrThirdPartyUnknownSubledgerIgnored").'</span>';
+									} elseif (in_array($tabtype[$key], array('payment_salary'))) {
+										$accounttoshowsubledger = '<span class="warning small">'.$langs->trans("ThirdpartyAccountNotDefinedOrThirdPartyUnknownSubledgerIgnored2").'</span>';
 									} else {
 										$accounttoshowsubledger = '<span class="warning small">'.$langs->trans("ThirdpartyAccountNotDefinedOrThirdPartyUnknown", $tabcompany[$key]['code_compta']).'</span>';
 									}
