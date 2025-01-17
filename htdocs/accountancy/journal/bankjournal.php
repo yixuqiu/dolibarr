@@ -446,9 +446,9 @@ if ($result) {
 					// If we fill it here to, we must concat.
 					if ($userstatic->id > 0) {
 						if ($is_sc) {
-							$tabpay[$obj->rowid]["soclib"] .= ' '.$userstatic->getNomUrl(1, 'accountancy', 0);
+							$tabpay[$obj->rowid]["soclib"] .= ' '.$userstatic->getNomUrl(-1, 'accountancy', 0);
 						} else {
-							$tabpay[$obj->rowid]["soclib"] = $userstatic->getNomUrl(1, 'accountancy', 0);
+							$tabpay[$obj->rowid]["soclib"] = $userstatic->getNomUrl(-1, 'accountancy', 0);
 						}
 					} else {
 						$tabpay[$obj->rowid]["soclib"] = '???'; // Should not happen, but happens with old data when id of user was not saved on expense report payment.
@@ -600,7 +600,7 @@ if ($result) {
 					}
 				} elseif ($links[$key]['type'] == 'banktransfert') {
 					$accountLinestatic->fetch($links[$key]['url_id']);
-					$tabpay[$obj->rowid]["lib"] .= ' '.$langs->trans("BankTransfer").'- '.$accountLinestatic ->getNomUrl(1);
+					$tabpay[$obj->rowid]["lib"] .= ' '.$langs->trans("BankTransfer").' '.$accountLinestatic ->getNomUrl(1);
 					$tabtp[$obj->rowid][$account_transfer] = isset($tabtp[$obj->rowid][$account_transfer]) ? $tabtp[$obj->rowid][$account_transfer] + $amounttouse : $amounttouse;
 					$bankaccountstatic->fetch($tabpay[$obj->rowid]['fk_bank_account']);
 					$tabpay[$obj->rowid]["soclib"] = $bankaccountstatic->getNomUrl(2);
@@ -699,11 +699,11 @@ if (!$error && $action == 'writebookkeeping' && $user->hasRight('accounting', 'b
 
 					$reflabel = '';
 					if (!empty($val['lib'])) {
-						$reflabel .= dol_string_nohtmltag($val['lib'])." - ";
+						$reflabel .= dol_string_nohtmltag($val['lib'])." / ";
 					}
 					$reflabel .= $langs->trans("Bank").' '.dol_string_nohtmltag($val['bank_account_ref']);
 					if (!empty($val['soclib'])) {
-						$reflabel .= " - ".dol_string_nohtmltag($val['soclib']);
+						$reflabel .= " / ".dol_string_nohtmltag($val['soclib']);
 					}
 
 					$bookkeeping = new BookKeeping($db);
@@ -760,7 +760,7 @@ if (!$error && $action == 'writebookkeeping' && $user->hasRight('accounting', 'b
 
 						$reflabel = '';
 						if (!empty($val['lib'])) {
-							$reflabel .= dol_string_nohtmltag($val['lib']).($val['soclib'] ? " - " : "");
+							$reflabel .= dol_string_nohtmltag($val['lib']).($val['soclib'] ? " / " : "");
 						}
 						if ($tabtype[$key] == 'banktransfert') {
 							$reflabel .= dol_string_nohtmltag($langs->transnoentitiesnoconv('TransitionalAccount').' '.$account_transfer);
@@ -889,7 +889,7 @@ if (!$error && $action == 'writebookkeeping' && $user->hasRight('accounting', 'b
 					if ($mt) {
 						$reflabel = '';
 						if (!empty($val['lib'])) {
-							$reflabel .= dol_string_nohtmltag($val['lib'])." - ";
+							$reflabel .= dol_string_nohtmltag($val['lib'])." / ";
 						}
 						$reflabel .= dol_string_nohtmltag('WaitingAccount');
 
@@ -1010,11 +1010,11 @@ if ($action == 'exportcsv' && $user->hasRight('accounting', 'bind', 'write')) {	
 			if ($mt) {
 				$reflabel = '';
 				if (!empty($val['lib'])) {
-					$reflabel .= dol_string_nohtmltag($val['lib'])." - ";
+					$reflabel .= dol_string_nohtmltag($val['lib'])." / ";
 				}
 				$reflabel .= $langs->trans("Bank").' '.dol_string_nohtmltag($val['bank_account_ref']);
 				if (!empty($val['soclib'])) {
-					$reflabel .= " - ".dol_string_nohtmltag($val['soclib']);
+					$reflabel .= " / ".dol_string_nohtmltag($val['soclib']);
 				}
 
 				print '"'.$key.'"'.$sep;
@@ -1037,7 +1037,7 @@ if ($action == 'exportcsv' && $user->hasRight('accounting', 'bind', 'write')) {	
 				if ($mt) {
 					$reflabel = '';
 					if (!empty($val['lib'])) {
-						$reflabel .= dol_string_nohtmltag($val['lib']).($val['soclib'] ? " - " : "");
+						$reflabel .= dol_string_nohtmltag($val['lib']).($val['soclib'] ? " / " : "");
 					}
 					if ($tabtype[$key] == 'banktransfert') {
 						$reflabel .= dol_string_nohtmltag($langs->transnoentitiesnoconv('TransitionalAccount').' '.$account_transfer);
@@ -1076,7 +1076,7 @@ if ($action == 'exportcsv' && $user->hasRight('accounting', 'bind', 'write')) {	
 				if ($mt) {
 					$reflabel = '';
 					if (!empty($val['lib'])) {
-						$reflabel .= dol_string_nohtmltag($val['lib'])." - ";
+						$reflabel .= dol_string_nohtmltag($val['lib'])." / ";
 					}
 					$reflabel .= dol_string_nohtmltag('WaitingAccount');
 
@@ -1250,8 +1250,6 @@ if (empty($action) || $action == 'view') {
 	print '<td class="right">'.$langs->trans("AccountingCredit")."</td>";
 	print "</tr>\n";
 
-	$r = '';
-
 	foreach ($tabpay as $key => $val) {			  // $key is rowid in llx_bank
 		$date = dol_print_date($val["date"], 'day');
 
@@ -1262,15 +1260,15 @@ if (empty($action) || $action == 'view') {
 			if ($mt) {
 				$reflabel = '';
 				if (!empty($val['lib'])) {
-					$reflabel .= $val['lib']." - ";
+					$reflabel .= $val['lib']." / ";
 				}
 				$reflabel .= $langs->trans("Bank").' '.$val['bank_account_ref'];
 				if (!empty($val['soclib'])) {
-					$reflabel .= " - ".$val['soclib'];
+					$reflabel .= " / ".$val['soclib'];
 				}
 
 				//var_dump($tabpay[$key]);
-				print '<!-- Bank bank.rowid='.$key.' type='.$tabpay[$key]['type'].' ref='.$tabpay[$key]['ref'].'-->';
+				print '<!-- Bank bank.rowid='.$key.'=accounting_bookkeeping.fk_doc (accounting_bookkeeping.doc_type=\'bank\') type='.$tabpay[$key]['type'].' ref='.$tabpay[$key]['ref'].' -->';
 				print '<tr class="oddeven">';
 
 				// Date
@@ -1318,7 +1316,7 @@ if (empty($action) || $action == 'view') {
 				if ($mt) {
 					$reflabel = '';
 					if (!empty($val['lib'])) {
-						$reflabel .= $val['lib'].(isset($val['soclib']) ? " - " : "");
+						$reflabel .= $val['lib'].(isset($val['soclib']) ? " / " : "");
 					}
 					if ($tabtype[$key] == 'banktransfert') {
 						$reflabel .= $langs->trans('TransitionalAccount').' '.$account_transfer;
@@ -1326,7 +1324,7 @@ if (empty($action) || $action == 'view') {
 						$reflabel .= isset($val['soclib']) ? $val['soclib'] : "";
 					}
 
-					print '<!-- Thirdparty bank.rowid='.$key.'=accounting_bookkeeping.fk_doc (accounting_bookkeeping.doc_type=\'bank\') -->';
+					print '<!-- Thirdparty bank.rowid='.$key.'=accounting_bookkeeping.fk_doc (accounting_bookkeeping.doc_type=\'bank\') type='.$tabpay[$key]['type'].' ref='.$tabpay[$key]['ref'].' -->';
 					print '<tr class="oddeven">';
 
 					// Date
@@ -1446,7 +1444,7 @@ if (empty($action) || $action == 'view') {
 				if ($mt) {
 					$reflabel = '';
 					if (!empty($val['lib'])) {
-						$reflabel .= $val['lib']." - ";
+						$reflabel .= $val['lib']." / ";
 					}
 					$reflabel .= 'WaitingAccount';
 
