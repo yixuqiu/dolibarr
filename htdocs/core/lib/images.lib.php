@@ -556,6 +556,9 @@ function vignette($file, $maxWidth = 160, $maxHeight = 120, $extName = '_small',
 	$imgWidth = $infoImg[0]; 	// Width of image
 	$imgHeight = $infoImg[1]; 	// Height of image
 
+	// TODO LDR
+	//if $infoImg[2] != extension of file $file, return a string 'Error: content of file has a format that differs of the format of its extension
+
 	$ort = false;
 	if (function_exists('exif_read_data')) {
 		$exif = @exif_read_data($filetoread);
