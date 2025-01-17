@@ -476,13 +476,10 @@ if ($result) {
 						$chargestatic->label = $links[$key]['label'];
 					}
 					$chargestatic->ref = $chargestatic->label;
-					//$chargestatic->fetch($chargestatic->id);
-
-					$tabpay[$obj->rowid]["soclib"] = $chargestatic->getNomUrl(1, 30);
-					$tabpay[$obj->rowid]["paymentscid"] = $chargestatic->id;
 
 					// Retrieve the accounting code of the social contribution of the payment from link of payment.
 					// Note: We have the social contribution id, it can be faster to get accounting code from social contribution id.
+					/*
 					$sqlmid = "SELECT cchgsoc.accountancy_code";
 					$sqlmid .= " FROM ".MAIN_DB_PREFIX."c_chargesociales cchgsoc";
 					$sqlmid .= " INNER JOIN ".MAIN_DB_PREFIX."chargesociales as chgsoc ON chgsoc.fk_type = cchgsoc.id";
@@ -495,7 +492,19 @@ if ($result) {
 					if ($resultmid) {
 						$objmid = $db->fetch_object($resultmid);
 						$tabtp[$obj->rowid][$objmid->accountancy_code] = isset($tabtp[$obj->rowid][$objmid->accountancy_code]) ? $tabtp[$obj->rowid][$objmid->accountancy_code] + $amounttouse : $amounttouse;
+					}*/
+					$tmpcharge = new ChargeSociales($db);
+					$resultmid = $tmpcharge->fetch($chargestatic->id);
+					if ($resultmid) {
+						$chargestatic->type_label = $tmpcharge->type_label;
+						$chargestatic->type_code = $tmpcharge->type_code;
+						$chargestatic->type_accountancy_code = $tmpcharge->type_accountancy_code;
+
+						$tabtp[$obj->rowid][$tmpcharge->type_accountancy_code] = isset($tabtp[$obj->rowid][$tmpcharge->type_accountancy_code]) ? $tabtp[$obj->rowid][$tmpcharge->type_accountancy_code] + $amounttouse : $amounttouse;
 					}
+
+					$tabpay[$obj->rowid]["soclib"] = $chargestatic->getNomUrl(1, 30);
+					$tabpay[$obj->rowid]["paymentscid"] = $chargestatic->id;
 				} elseif ($links[$key]['type'] == 'payment_donation') {
 					$paymentdonstatic->id = $links[$key]['url_id'];
 					$paymentdonstatic->ref = (string) $links[$key]['url_id'];
