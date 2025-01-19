@@ -618,7 +618,7 @@ function includeContainer($containerref, $once = 0, $cachedelay = 0)
 	$fullpathcache = '';
 	// If we ask to use the cache delay
 	if ($cachedelay > 0 && !getDolGlobalString("WEBSITE_DISABLE_CACHE_OF_CONTAINERS")) {
-		$fullpathcache = DOL_DATA_ROOT.($conf->entity > 1 ? '/'.$conf->entity : '').'/website/temp/'.$websitekey.'-'.$websitepage->id.'-'.$containerref.'cache';
+		$fullpathcache = DOL_DATA_ROOT.($conf->entity > 1 ? '/'.$conf->entity : '').'/website/temp/'.$websitekey.'-'.$websitepage->id.'-'.$containerref.'.cache';
 	}
 
 	if (empty($includehtmlcontentopened)) {
@@ -639,16 +639,27 @@ function includeContainer($containerref, $once = 0, $cachedelay = 0)
 
 	$tmpoutput = '';
 
-	if ($fullpathcache) {
-		// TODO Cache management
-		//$tmpoutput = file_get_contents($fullpathcache);
+	if ($cachedelay > 0 && $fullpathcache) {
+		if (is_file($fullpathcache)) {
+			// Get the last modification time of the file
+				$lastModifiedTime = dol_filemtime($fullpathcache);
+
+				// Get the current time
+				$currentTime = time();
+
+				// Check if the file is not older than X seconds
+			if (($currentTime - $lastModifiedTime) <= $cachedelay) {
+				// The file is too recent
+				$tmpoutput = file_get_contents($fullpathcache);
+			}
+		}
 	}
 
-	// file_get_contents is not possible because we must execute code with include
-	//$content = file_get_contents($fullpathfile);
-	//print preg_replace(array('/^.*<body[^>]*>/ims','/<\/body>.*$/ims'), array('', ''), $content);*/
-
 	if (empty($tmpoutput)) {
+		// file_get_contents is not possible because we must execute code with include
+		//$content = file_get_contents($fullpathfile);
+		//print preg_replace(array('/^.*<body[^>]*>/ims','/<\/body>.*$/ims'), array('', ''), $content);*/
+
 		ob_start();
 		if ($once) {
 			$res = @include_once $fullpathfile;
@@ -658,13 +669,15 @@ function includeContainer($containerref, $once = 0, $cachedelay = 0)
 		$tmpoutput = ob_get_contents();
 		ob_end_clean();
 
-		print preg_replace(array('/^.*<body[^>]*>/ims', '/<\/body>.*$/ims'), array('', ''), $tmpoutput);
+		$tmpoutput = preg_replace(array('/^.*<body[^>]*>/ims', '/<\/body>.*$/ims'), array('', ''), $tmpoutput);
 
-		// Save the content into cache file
-		if ($fullpathcache) {
+		// Save the content into cache file if content is lower than 10M
+		if ($fullpathcache && strlen($tmpoutput) < 10000000) {
 			file_put_contents($fullpathcache, $tmpoutput);
 			dolChmod($fullpathcache);
 		}
+
+		return $tmpoutput;
 	}
 
 	if (!$res) {
