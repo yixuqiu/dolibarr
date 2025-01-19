@@ -1013,6 +1013,10 @@ class FactureFournisseur extends CommonInvoice
 
 				$this->socid  = $obj->socid;
 
+				if ($this->type != self::TYPE_CREDIT_NOTE) {
+					$this->creditnotelist = $this->getListIdAvoirFromInvoice();
+				}
+
 				// Retrieve all extrafield
 				// fetch optionals attributes and labels
 				$this->fetch_optionals();
