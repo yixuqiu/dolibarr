@@ -678,10 +678,10 @@ function includeContainer($containerref, $once = 0, $cachedelay = 0)
 		}
 
 		print $tmpoutput;
-	}
 
-	if (!$res) {
-		print 'ERROR: FAILED TO INCLUDE PAGE '.$containerref."(once=".$once.")\n";
+		if (!$res) {
+			print 'ERROR: FAILED TO INCLUDE PAGE '.$containerref."(once=".$once.")\n";
+		}
 	}
 
 	$includehtmlcontentopened--;
