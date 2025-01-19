@@ -677,7 +677,7 @@ function includeContainer($containerref, $once = 0, $cachedelay = 0)
 			dolChmod($fullpathcache);
 		}
 
-		return $tmpoutput;
+		print $tmpoutput;
 	}
 
 	if (!$res) {
