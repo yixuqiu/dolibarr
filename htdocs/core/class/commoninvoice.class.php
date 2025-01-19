@@ -163,7 +163,7 @@ abstract class CommonInvoice extends CommonObject
 	public $nbofopendirectdebitorcredittransfer;
 
 	/**
-	 * @var string[] return of getListIdAvoirFromInvoice()
+	 * @var int[] return of getListIdAvoirFromInvoice()
 	 */
 	public $creditnotelist;
 
