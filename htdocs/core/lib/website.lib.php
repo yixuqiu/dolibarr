@@ -593,14 +593,15 @@ function redirectToContainer($containerref, $containeraliasalt = '', $containeri
 
 
 /**
- * Clean an HTML page to report only content, so we can include it into another page.
- * It outputs content of file sanitized from html and body part.
+ * Execute content of a php page and report result to be included into another page.
+ * It outputs content of file where the html and body part have been removed.
  *
  * @param 	string	$containerref		Path to file to include (must be a page from website root. Example: 'mypage.php' means 'mywebsite/mypage.php')
  * @param 	int		$once				If set to 1, we use include_once.
+ * @param	int		$cachedelay			A cache delay in seconds.
  * @return  void
  */
-function includeContainer($containerref, $once = 0)
+function includeContainer($containerref, $once = 0, $cachedelay = 0)
 {
 	global $conf, $db, $hookmanager, $langs, $mysoc, $user, $website, $websitepage, $weblangs; // Very important. Required to have var available when running included containers.
 	global $includehtmlcontentopened;
@@ -614,6 +615,11 @@ function includeContainer($containerref, $once = 0)
 	}
 
 	$fullpathfile = DOL_DATA_ROOT.($conf->entity > 1 ? '/'.$conf->entity : '').'/website/'.$websitekey.'/'.$containerref;
+	$fullpathcache = '';
+	// If we ask to use the cache delay
+	if ($cachedelay > 0 && !getDolGlobalString("WEBSITE_DISABLE_CACHE_OF_CONTAINERS")) {
+		$fullpathcache = DOL_DATA_ROOT.($conf->entity > 1 ? '/'.$conf->entity : '').'/website/temp/'.$websitekey.'-'.$websitepage->id.'-'.$containerref.'cache';
+	}
 
 	if (empty($includehtmlcontentopened)) {
 		$includehtmlcontentopened = 0;
@@ -626,27 +632,43 @@ function includeContainer($containerref, $once = 0)
 
 	//dol_syslog("Include container ".$containerref.' includehtmlcontentopened='.$includehtmlcontentopened);
 
-	// file_get_contents is not possible. We must execute code with include
+	// We don't print info messages for pages of type library or service
+	if (!empty($websitepage->type_container) && !in_array($websitepage->type_container, array('library', 'service'))) {
+		print "\n".'<!-- include '.$websitekey.'/'.$containerref.(is_object($websitepage) ? ' parent id='.$websitepage->id : '').' level='.$includehtmlcontentopened.' -->'."\n";
+	}
+
+	$tmpoutput = '';
+
+	if ($fullpathcache) {
+		// TODO Cache management
+		//$tmpoutput = file_get_contents($fullpathcache);
+	}
+
+	// file_get_contents is not possible because we must execute code with include
 	//$content = file_get_contents($fullpathfile);
 	//print preg_replace(array('/^.*<body[^>]*>/ims','/<\/body>.*$/ims'), array('', ''), $content);*/
 
-	ob_start();
-	if ($once) {
-		$res = @include_once $fullpathfile;
-	} else {
-		$res = @include $fullpathfile;
-	}
-	$tmpoutput = ob_get_contents();
-	ob_end_clean();
+	if (empty($tmpoutput)) {
+		ob_start();
+		if ($once) {
+			$res = @include_once $fullpathfile;
+		} else {
+			$res = @include $fullpathfile;
+		}
+		$tmpoutput = ob_get_contents();
+		ob_end_clean();
 
-	// We don't print info messages for pages of type library or service
-	if (!empty($websitepage->type_container) && !in_array($websitepage->type_container, array('library', 'service'))) {
-		print "\n".'<!-- include '.$websitekey.'/'.$containerref.(is_object($websitepage) ? ' parent id='.$websitepage->id : '').' level = '.$includehtmlcontentopened.' -->'."\n";
+		print preg_replace(array('/^.*<body[^>]*>/ims', '/<\/body>.*$/ims'), array('', ''), $tmpoutput);
+
+		// Save the content into cache file
+		if ($fullpathcache) {
+			file_put_contents($fullpathcache, $tmpoutput);
+			dolChmod($fullpathcache);
+		}
 	}
-	print preg_replace(array('/^.*<body[^>]*>/ims', '/<\/body>.*$/ims'), array('', ''), $tmpoutput);
 
 	if (!$res) {
-		print 'ERROR: FAILED TO INCLUDE PAGE '.$containerref.".\n";
+		print 'ERROR: FAILED TO INCLUDE PAGE '.$containerref."(once=".$once.")\n";
 	}
 
 	$includehtmlcontentopened--;
