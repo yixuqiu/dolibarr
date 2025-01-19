@@ -35,6 +35,7 @@ $entity = GETPOSTINT('entity') ? GETPOSTINT('entity') : $conf->entity;
 $original_file = GETPOST("file", "alpha");
 $l = GETPOST('l', 'aZ09');
 $limit = GETPOSTINT('limit');
+$cachedelay = GETPOSTINT('cachedelay');		// The delay in second of the cache
 
 // Parameters for RSS
 $rss = GETPOST('rss', 'aZ09');
@@ -115,7 +116,6 @@ $refname = basename(dirname($original_file)."/");
 if ($rss) {
 	$format = 'rss';
 	$type = '';
-	$cachedelay = 0;
 	$filename = $original_file;
 	$dir_temp = $conf->website->dir_temp;
 
