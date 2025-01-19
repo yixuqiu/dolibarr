@@ -642,12 +642,12 @@ function includeContainer($containerref, $once = 0, $cachedelay = 0)
 	if ($cachedelay > 0 && $fullpathcache) {
 		if (is_file($fullpathcache)) {
 			// Get the last modification time of the file
-				$lastModifiedTime = dol_filemtime($fullpathcache);
+			$lastModifiedTime = filemtime($fullpathcache);
 
-				// Get the current time
-				$currentTime = time();
+			// Get the current time
+			$currentTime = time();
 
-				// Check if the file is not older than X seconds
+			// Check if the file is not older than X seconds
 			if (($currentTime - $lastModifiedTime) <= $cachedelay) {
 				// The file is too recent
 				$tmpoutput = file_get_contents($fullpathcache);
