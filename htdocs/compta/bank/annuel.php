@@ -320,7 +320,7 @@ if ($result < 0) {
 	$tblyear[2] = array();
 
 	for ($annee = 0; $annee < 3; $annee++) {
-		$sql = "SELECT date_format(b.datev,'%m')";
+		$sql = "SELECT date_format(b.datev, '%m')";
 		$sql .= ", SUM(b.amount)";
 		$sql .= " FROM ".MAIN_DB_PREFIX."bank as b";
 		$sql .= ", ".MAIN_DB_PREFIX."bank_account as ba";
@@ -332,7 +332,7 @@ if ($result < 0) {
 		if ($id && GETPOST("option") != 'all') {
 			$sql .= " AND b.fk_account IN (".$db->sanitize($id).")";
 		}
-		$sql .= " GROUP BY date_format(b.datev,'%m');";
+		$sql .= " GROUP BY date_format(b.datev, '%m');";
 
 		$resql = $db->query($sql);
 		if ($resql) {
@@ -369,12 +369,12 @@ if ($result < 0) {
 	$title = $langs->transnoentities("Credit").' - '.$langs->transnoentities("Year").': '.($year - 2).' - '.($year - 1)." - ".$year;
 	$graph_datas = array();
 	for ($i = 0; $i < 12; $i++) {
-		$graph_datas[$i] = array($labels[$i], $data_year_0[$i], $data_year_1[$i], $data_year_2[$i]);
+		$graph_datas[$i] = array($labels[$i], $data_year_2[$i], $data_year_1[$i], $data_year_0[$i]);
 	}
 
 	$px1 = new DolGraph();
 	$px1->SetData($graph_datas);
-	$px1->SetLegend(array(($year), ($year - 1), ($year - 2)));
+	$px1->SetLegend(array(($year - 2), ($year - 1), $year));
 	$px1->SetLegendWidthMin(180);
 	$px1->SetMaxValue($px1->GetCeilMaxValue() < 0 ? 0 : $px1->GetCeilMaxValue());
 	$px1->SetMinValue($px1->GetFloorMinValue() > 0 ? 0 : $px1->GetFloorMinValue());
@@ -403,7 +403,7 @@ if ($result < 0) {
 	$tblyear[2] = array();
 
 	for ($annee = 0; $annee < 3; $annee++) {
-		$sql = "SELECT date_format(b.datev,'%m')";
+		$sql = "SELECT date_format(b.datev, '%m')";
 		$sql .= ", SUM(b.amount)";
 		$sql .= " FROM ".MAIN_DB_PREFIX."bank as b";
 		$sql .= ", ".MAIN_DB_PREFIX."bank_account as ba";
@@ -415,7 +415,7 @@ if ($result < 0) {
 		if ($id && GETPOST("option") != 'all') {
 			$sql .= " AND b.fk_account IN (".$db->sanitize($id).")";
 		}
-		$sql .= " GROUP BY date_format(b.datev,'%m');";
+		$sql .= " GROUP BY date_format(b.datev, '%m');";
 
 		$resql = $db->query($sql);
 		if ($resql) {
@@ -431,6 +431,7 @@ if ($result < 0) {
 			dol_print_error($db);
 		}
 	}
+
 	// Chargement de labels et data_xxx pour tableau 4 Movements
 	$labels = array();
 	$data_year_0 = array();
@@ -450,12 +451,12 @@ if ($result < 0) {
 	$title = $langs->transnoentities("Debit").' - '.$langs->transnoentities("Year").': '.($year - 2).' - '.($year - 1)." - ".$year;
 	$graph_datas = array();
 	for ($i = 0; $i < 12; $i++) {
-		$graph_datas[$i] = array($labels[$i], $data_year_0[$i], $data_year_1[$i], $data_year_2[$i]);
+		$graph_datas[$i] = array($labels[$i], $data_year_2[$i], $data_year_1[$i], $data_year_0[$i]);
 	}
 
 	$px2 = new DolGraph();
 	$px2->SetData($graph_datas);
-	$px2->SetLegend(array(($year), ($year - 1), ($year - 2)));
+	$px2->SetLegend(array(($year - 2), ($year - 1), $year));
 	$px2->SetLegendWidthMin(180);
 	$px2->SetMaxValue($px2->GetCeilMaxValue() < 0 ? 0 : $px2->GetCeilMaxValue());
 	$px2->SetMinValue($px2->GetFloorMinValue() > 0 ? 0 : $px2->GetFloorMinValue());
