@@ -346,7 +346,7 @@ class SocieteAccount extends CommonObject
 	 * @param	string	$site			Site (example: 'stripe', '...')
 	 * @param	int		$status			Status (0=test, 1=live, -1=we don't mind)
 	 * @param	string	$site_account 	Value to use to identify with account to use on site when site can offer several accounts. For example: 'pk_live_123456' when using Stripe service.
-	 * @param	string	$fk_website		Id website
+	 * @param	int		$fk_website		Id website
 	 * @return	string					Stripe customer ref 'cu_xxxxxxxxxxxxx' or ''
 	 * @see getThirdPartyID()
 	 */
