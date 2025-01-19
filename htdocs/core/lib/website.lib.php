@@ -669,20 +669,20 @@ function includeContainer($containerref, $once = 0, $cachedelay = 0)
 		$tmpoutput = ob_get_contents();
 		ob_end_clean();
 
-		$tmpoutput = preg_replace(array('/^.*<body[^>]*>/ims', '/<\/body>.*$/ims'), array('', ''), $tmpoutput);
-
-		// Save the content into cache file if content is lower than 10M
-		if ($fullpathcache && strlen($tmpoutput) < 10000000) {
-			file_put_contents($fullpathcache, $tmpoutput);
-			dolChmod($fullpathcache);
-		}
-
-		print $tmpoutput;
-
 		if (!$res) {
 			print 'ERROR: FAILED TO INCLUDE PAGE '.$containerref."(once=".$once.")\n";
+		} else {
+			$tmpoutput = preg_replace(array('/^.*<body[^>]*>/ims', '/<\/body>.*$/ims'), array('', ''), $tmpoutput);
+
+			// Save the content into cache file if content is lower than 10M
+			if ($fullpathcache && strlen($tmpoutput) < 10000000) {
+				file_put_contents($fullpathcache, $tmpoutput);
+				dolChmod($fullpathcache);
+			}
 		}
 	}
+
+	print $tmpoutput;
 
 	$includehtmlcontentopened--;
 }
