@@ -266,6 +266,11 @@ if ($rss) {
 		exit;
 	}
 
+	// For backward compatibility of old thumbs that were created with filename in lower case and with .png extension
+	if (image_format_supported($fullpath_original_file) && !dol_is_file($fullpath_original_file)) {
+		$fullpath_original_file = getImageFileNameForSize($fullpath_original_file, '', '.png');
+	}
+
 	clearstatcache();
 
 	$filename = basename($fullpath_original_file);
