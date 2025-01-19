@@ -40,7 +40,7 @@ $cachedelay = GETPOSTINT('cachedelay');		// The delay in second of the cache
 // Parameters for RSS
 $rss = GETPOST('rss', 'aZ09');
 if ($rss) {
-	$original_file = 'blog-'.$websitekey.'.rss.cache';
+	$original_file = 'blog'.(($limit > 0 && $limit <= 100) ? '-'.$limit : '').(preg_match('/^[a-z][a-z](_[A-Z][A-Z])?$/', $l) ? '-'.$l : '').'-'.$websitekey.'.rss.cache';
 }
 
 // If we have a hash public (hashp), we guess the original_file.
