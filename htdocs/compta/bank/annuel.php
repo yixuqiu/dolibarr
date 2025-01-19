@@ -478,9 +478,9 @@ if ($result < 0) {
 	unset($tblyear[2]);
 
 	print '<div class="fichecenter"><div class="fichehalfleft"><div align="center">'; // do not use class="center" here, it will have no effect for the js graph inside.
-	print $show1;
+	print $show2;	// debit
 	print '</div></div><div class="fichehalfright"><div align="center">'; // do not use class="center" here, it will have no effect for the js graph inside.
-	print $show2;
+	print $show1;	// credit
 	print '</div></div></div>';
 	print '<div class="clearboth"></div>';
 }
