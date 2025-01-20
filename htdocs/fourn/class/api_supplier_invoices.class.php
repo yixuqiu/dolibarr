@@ -83,7 +83,7 @@ class SupplierInvoices extends DolibarrApi
 		}
 
 		// Retrieve credit note ids
-		$this->getListIdAvoirFromInvoice();
+		$this->invoice->getListIdAvoirFromInvoice();
 
 		$this->invoice->fetchObjectLinked();
 		return $this->_cleanObjectDatas($this->invoice);

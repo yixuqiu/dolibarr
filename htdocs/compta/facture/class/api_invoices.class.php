@@ -150,7 +150,7 @@ class Invoices extends DolibarrApi
 		}
 
 		// Retrieve credit note ids
-		$this->getListIdAvoirFromInvoice();
+		$this->invoice->getListIdAvoirFromInvoice();
 
 		// Add external contacts ids
 		if ($contact_list > -1) {
