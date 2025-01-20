@@ -464,7 +464,7 @@ class Receptions extends DolibarrApi
 				}
 				continue;
 			}
-			$this->reception->$field = $this->_checkValForAPI($field, $val, $this->reception);
+			$this->reception->$field = $this->_checkValForAPI($field, $value, $this->reception);
 		}
 
 		if ($this->reception->update(DolibarrApiAccess::$user) > 0) {

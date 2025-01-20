@@ -202,7 +202,7 @@ class Subscriptions extends DolibarrApi
 				}
 				continue;
 			}
-			$subscription->$field = $this->_checkValForAPI($field, $val, $subscription);
+			$subscription->$field = $this->_checkValForAPI($field, $value, $subscription);
 		}
 
 		if ($subscription->update(DolibarrApiAccess::$user) > 0) {

@@ -478,7 +478,7 @@ class Tasks extends DolibarrApi
 				}
 				continue;
 			}
-			$this->task->$field = $this->_checkValForAPI($field, $val, $this->task);
+			$this->task->$field = $this->_checkValForAPI($field, $value, $this->task);
 		}
 
 		if ($this->task->update(DolibarrApiAccess::$user) > 0) {
