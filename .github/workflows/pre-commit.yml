@@ -67,7 +67,7 @@ jobs:
 
       - name: Setup PHPCS
         uses: shivammathur/setup-php@v2
-		# Install proper php version, and also install phpcs which may be needed
+        # Install proper php version, and also install phpcs which may be needed
         if: |
           ! cancelled() &&
           (
