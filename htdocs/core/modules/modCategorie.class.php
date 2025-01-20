@@ -1,9 +1,10 @@
 <?php
-/* Copyright (C) 2005      Matthieu Valleton    <mv@seeschloss.org>
- * Copyright (C) 2005-2014 Laurent Destailleur  <eldy@users.sourceforge.net>
- * Copyright (C) 2012-2016 Juanjo Menent		<jmenent@2byte.es>
- * Copyright (C) 2020      Stéphane Lesage		<stephane.lesage@ateis.com>
- * Copyright (C) 2024		MDW							<mdeweerd@users.noreply.github.com>
+/* Copyright (C) 2005       Matthieu Valleton       <mv@seeschloss.org>
+ * Copyright (C) 2005-2014  Laurent Destailleur  	<eldy@users.sourceforge.net>
+ * Copyright (C) 2012-2016  Juanjo Menent		    <jmenent@2byte.es>
+ * Copyright (C) 2020       Stéphane Lesage		    <stephane.lesage@ateis.com>
+ * Copyright (C) 2024		MDW						<mdeweerd@users.noreply.github.com>
+ * Copyright (C) 2025       Frédéric France         <frederic.france@free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -70,14 +71,15 @@ class modCategorie extends DolibarrModules
 		$this->langfiles = array("products", "companies", "categories", "members", "stocks", "website");
 
 		// Constants
-		$this->const = array();
-		$r = 0;
-		$this->const[$r][0] = "CATEGORIE_RECURSIV_ADD";
-		$this->const[$r][1] = "yesno";
-		$this->const[$r][2] = "0";
-		$this->const[$r][3] = 'Affect parent categories';
-		$this->const[$r][4] = 0;
-		$r++;
+		$this->const = [
+			[
+				"CATEGORIE_RECURSIV_ADD",
+				"yesno",
+				"0",
+				"Affect parent categories",
+				0,
+			],
+		];
 
 		// Boxes
 		$this->boxes = array();
@@ -182,7 +184,11 @@ class modCategorie extends DolibarrModules
 		$this->export_label[$r] = 'CatProdList';
 		$this->export_icon[$r] = $this->picto;
 		$this->export_enabled[$r] = 'isModEnabled("product") || isModEnabled("service")';
-		$this->export_permission[$r] = array(array("categorie", "lire"), array("produit", "export"));
+		if (isModEnabled('product')) {
+			$this->export_permission[$r] = array(array("categorie", "lire"), array("produit", "export"));
+		} elseif (isModEnabled('service')) {
+			$this->export_permission[$r] = array(array("categorie", "lire"), array("service", "export"));
+		}
 		$this->export_fields_array[$r] = array('cat.rowid' => "CategId", 'cat.label' => "Label", 'cat.description' => "Description", 'cat.fk_parent' => "ParentCategoryID", 'pcat.label' => "ParentCategoryLabel", 'cat.color' => "Color", 'cat.date_creation' => "DateCreation", 'cat.tms' => "DateLastModification", 'p.rowid' => 'ProductId', 'p.ref' => 'Ref', 'p.label' => 'Label');
 		$this->export_TypeFields_array[$r] = array('cat.rowid' => 'Numeric', 'cat.label' => "Text", 'cat.description' => "Text", 'cat.fk_parent' => 'Numeric', 'pcat.label' => 'Text', 'p.rowid' => 'Numeric', 'p.ref' => 'Text', 'p.label' => 'Text');
 		$this->export_entities_array[$r] = array('p.rowid' => 'product', 'p.ref' => 'product', 'p.label' => 'product'); // We define here only fields that use another picto
@@ -235,7 +241,7 @@ class modCategorie extends DolibarrModules
 
 		$keyforselect = 'societe';
 		$keyforelement = 'company';
-		$keyforaliasextra = 'extra';  // @phan-suppress-current-line PhanPluginRedundantAssignment
+		$keyforaliasextra = 'extra';
 		include DOL_DOCUMENT_ROOT.'/core/extrafieldsinexport.inc.php';
 
 		$this->export_sql_start[$r] = 'SELECT DISTINCT ';
@@ -281,9 +287,9 @@ class modCategorie extends DolibarrModules
 			't.libelle' => 'company', 'pl.code' => 'company', 'st.code' => 'company'
 		); // We define here only fields that use another picto
 
-		$keyforselect = 'societe';  // @phan-suppress-current-line PhanPluginRedundantAssignment
-		$keyforelement = 'company';  // @phan-suppress-current-line PhanPluginRedundantAssignment
-		$keyforaliasextra = 'extra';  // @phan-suppress-current-line PhanPluginRedundantAssignment
+		$keyforselect = 'societe';
+		$keyforelement = 'company';
+		$keyforaliasextra = 'extra';
 		include DOL_DOCUMENT_ROOT.'/core/extrafieldsinexport.inc.php';
 
 		$this->export_sql_start[$r] = 'SELECT DISTINCT ';
@@ -312,7 +318,7 @@ class modCategorie extends DolibarrModules
 
 		$keyforselect = 'adherent';
 		$keyforelement = 'member';
-		$keyforaliasextra = 'extra';  // @phan-suppress-current-line PhanPluginRedundantAssignment
+		$keyforaliasextra = 'extra';
 		include DOL_DOCUMENT_ROOT.'/core/extrafieldsinexport.inc.php';
 
 		$this->export_sql_start[$r] = 'SELECT DISTINCT ';
@@ -367,7 +373,7 @@ class modCategorie extends DolibarrModules
 
 		$keyforselect = 'socpeople';
 		$keyforelement = 'contact';
-		$keyforaliasextra = 'extra';  // @phan-suppress-current-line PhanPluginRedundantAssignment
+		$keyforaliasextra = 'extra';
 		include DOL_DOCUMENT_ROOT.'/core/extrafieldsinexport.inc.php';
 
 		$this->export_sql_start[$r] = 'SELECT DISTINCT ';
@@ -397,7 +403,7 @@ class modCategorie extends DolibarrModules
 
 		$keyforselect = 'projet';
 		$keyforelement = 'project';
-		$keyforaliasextra = 'extra';  // @phan-suppress-current-line PhanPluginRedundantAssignment
+		$keyforaliasextra = 'extra';
 		include DOL_DOCUMENT_ROOT.'/core/extrafieldsinexport.inc.php';
 
 		$this->export_sql_start[$r] = 'SELECT DISTINCT ';
@@ -423,7 +429,7 @@ class modCategorie extends DolibarrModules
 
 		$keyforselect = 'user';
 		$keyforelement = 'user';
-		$keyforaliasextra = 'extra';  // @phan-suppress-current-line PhanPluginRedundantAssignment
+		$keyforaliasextra = 'extra';
 		include DOL_DOCUMENT_ROOT.'/core/extrafieldsinexport.inc.php';
 
 		$this->export_sql_start[$r] = 'SELECT DISTINCT ';

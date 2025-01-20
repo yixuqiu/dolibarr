@@ -1,8 +1,8 @@
 <?php
 /* Copyright (C) 2005		Rodolphe Quiedeville	<rodolphe@quiedeville.org>
- * Copyright (C) 2006-2015	Laurent Destailleur		<eldy@users.sourceforge.net>
+ * Copyright (C) 2006-2024	Laurent Destailleur		<eldy@users.sourceforge.net>
  * Copyright (C) 2010-2012	Regis Houssin			<regis.houssin@inodbox.com>
- * Copyright (C) 2024       Frédéric France             <frederic.france@free.fr>
+ * Copyright (C) 2024       Frédéric France         <frederic.france@free.fr>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -30,6 +30,14 @@ require_once DOL_DOCUMENT_ROOT.'/projet/class/task.class.php';
 require_once DOL_DOCUMENT_ROOT.'/contact/class/contact.class.php';
 require_once DOL_DOCUMENT_ROOT.'/core/lib/project.lib.php';
 require_once DOL_DOCUMENT_ROOT.'/core/class/html.formcompany.class.php';
+
+/**
+ * @var Conf $conf
+ * @var DoliDB $db
+ * @var HookManager $hookmanager
+ * @var Translate $langs
+ * @var User $user
+ */
 
 // Load translation files required by the page
 $langs->loadLangs(array('projects', 'companies'));
@@ -153,7 +161,7 @@ if (!empty($withproject)) {
 }
 $help_url = '';
 
-llxHeader('', $title, $help_url);
+llxHeader('', $title, $help_url, '', 0, 0, '', '', '', 'mod-project project-tasks page-task_contact');
 
 
 /* *************************************************************************** */
@@ -204,7 +212,7 @@ if ($id > 0 || !empty($ref)) {
 			// Define a complementary filter for search of next/prev ref.
 			if (!$user->hasRight('projet', 'all', 'lire')) {
 				$objectsListId = $projectstatic->getProjectsAuthorizedForUser($user, 0, 0);
-				$projectstatic->next_prev_filter = "rowid IN (".$db->sanitize(count($objectsListId) ? implode(',', array_keys($objectsListId)) : '0').")";
+				$projectstatic->next_prev_filter = "rowid:IN:".$db->sanitize(count($objectsListId) ? implode(',', array_keys($objectsListId)) : '0');
 			}
 
 			dol_banner_tab($projectstatic, 'project_ref', $linkback, 1, 'ref', 'ref', $morehtmlref);
@@ -327,9 +335,9 @@ if ($id > 0 || !empty($ref)) {
 
 		if (!GETPOST('withproject') || empty($projectstatic->id)) {
 			$projectsListId = $projectstatic->getProjectsAuthorizedForUser($user, 0, 1);
-			$object->next_prev_filter = "fk_projet IN (".$db->sanitize($projectsListId).")";
+			$object->next_prev_filter = "fk_projet:IN:".$db->sanitize($projectsListId);
 		} else {
-			$object->next_prev_filter = "fk_projet = ".((int) $projectstatic->id);
+			$object->next_prev_filter = "fk_projet:=:".((int) $projectstatic->id);
 		}
 
 		$morehtmlref = '';
@@ -380,6 +388,7 @@ if ($id > 0 || !empty($ref)) {
 			print '<input type="hidden" name="withproject" value="'.$withproject.'">';
 		}
 
+		print '<div class="div-table-responsive">'; // You can use div-table-responsive-no-min if you don't need reserved height for your table
 		print '<table class="noborder centpercent">';
 
 		if ($action != 'editline' && $user->hasRight('projet', 'creer')) {
@@ -433,7 +442,8 @@ if ($id > 0 || !empty($ref)) {
 
 				print '<td>';
 				$contactofproject = $projectstatic->getListContactId('external');
-				print $form->selectcontacts($selectedCompany, '', 'contactid', 0, '', $contactofproject, 0, '', false, 0, 0);
+				//print $form->selectcontacts($selectedCompany, '', 'contactid', 0, '', $contactofproject, 0, '', false, 0, 0);
+				print $form->select_contact($selectedCompany, '', 'contactid', 0, '', $contactofproject, 0, 'maxwidth300 widthcentpercentminusx', true);
 				$nbofcontacts = $form->num;
 				print '</td>';
 				print '<td>';
@@ -502,6 +512,7 @@ if ($id > 0 || !empty($ref)) {
 					$userstatic->photo = $tab[$i]['photo'];
 					$userstatic->login = $tab[$i]['login'];
 					$userstatic->email = $tab[$i]['email'];
+					$userstatic->gender = $tab[$i]['gender'];
 					$userstatic->status = $tab[$i]['statuscontact'];
 
 					print $userstatic->getNomUrl(-1);
@@ -522,11 +533,11 @@ if ($id > 0 || !empty($ref)) {
 				// Statut
 				print '<td class="center">';
 				// Activation desativation du contact
-				if ($object->statut >= 0) {
+				if ($object->status >= 0) {
 					print '<a href="'.$_SERVER["PHP_SELF"].'?id='.$object->id.'&action=swapstatut&ligne='.$tab[$i]['rowid'].($withproject ? '&withproject=1' : '').'">';
 				}
 				print $contactstatic->LibStatut($tab[$i]['status'], 3);
-				if ($object->statut >= 0) {
+				if ($object->status >= 0) {
 					print '</a>';
 				}
 				print '</td>';
@@ -547,6 +558,7 @@ if ($id > 0 || !empty($ref)) {
 			}
 		}
 		print "</table>";
+		print '</div>';
 
 		print "</form>";
 	} else {
