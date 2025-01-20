@@ -51,28 +51,23 @@ class Ccountry extends CommonDict
 	 */
 	public $ecc;
 
-	
-	/**
-	 * @var array<string,array{type:string,label:string,enabled:int<0,2>|string,position:int,notnull?:int,visible:int<-5,5>|string,alwayseditable?:int<0,1>,noteditable?:int<0,1>,default?:string,index?:int,foreignkey?:string,searchall?:int<0,1>,isameasure?:int<0,1>,css?:string,csslist?:string,help?:string,showoncombobox?:int<0,4>,disabled?:int<0,1>,arrayofkeyval?:array<int|string,string>,autofocusoncreate?:int<0,1>,comment?:string,copytoclipboard?:int<1,2>,validate?:int<0,1>,showonheader?:int<0,1>}>
-	 */
-	public $fields = array(
-		'label' => array('type' => 'varchar(250)', 'label' => 'Label', 'enabled' => 1, 'visible' => 1, 'position' => 15, 'notnull' => -1, 'showoncombobox' => 1)
-	);
-
 	/**
 	 * @var int
 	 */
 	public $favorite;
 
 	/**
-	 * @var int
-	 */
-	public $eec;
-
-	/**
 	 * @var string
 	 */
 	public $numeric_code;
+
+
+	/**
+	 * @var array<string,array{type:string,label:string,enabled:int<0,2>|string,position:int,notnull?:int,visible:int<-5,5>|string,alwayseditable?:int<0,1>,noteditable?:int<0,1>,default?:string,index?:int,foreignkey?:string,searchall?:int<0,1>,isameasure?:int<0,1>,css?:string,csslist?:string,help?:string,showoncombobox?:int<0,4>,disabled?:int<0,1>,arrayofkeyval?:array<int|string,string>,autofocusoncreate?:int<0,1>,comment?:string,copytoclipboard?:int<1,2>,validate?:int<0,1>,showonheader?:int<0,1>}>
+	 */
+	public $fields = array(
+		'label' => array('type' => 'varchar(250)', 'label' => 'Label', 'enabled' => 1, 'visible' => 1, 'position' => 15, 'notnull' => -1, 'showoncombobox' => 1)
+	);
 
 
 	/**
@@ -171,7 +166,6 @@ class Ccountry extends CommonDict
 		$sql .= " t.rowid,";
 		$sql .= " t.code,";
 		$sql .= " t.code_iso,";
-		$sql .= " t.ecc,";
 		$sql .= " t.label,";
 		$sql .= " t.eec,";
 		$sql .= " t.active,";
@@ -201,7 +195,6 @@ class Ccountry extends CommonDict
 					$this->ecc = $obj->ecc;
 					$this->active = $obj->active;
 					$this->favorite = $obj->favorite;
-					$this->eec = $obj->eec;
 					$this->numeric_code = $obj->numeric_code;
 				}
 
