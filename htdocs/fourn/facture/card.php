@@ -3339,9 +3339,12 @@ if ($action == 'create') {
 				}
 			}
 
-			if (!empty($object->creditnotelist)) {
+			// Retrieve credit note ids
+			$object->getListIdAvoirFromInvoice();
+
+			if (!empty($object->creditnote_ids)) {
 				$invoicecredits = array();
-				foreach ($object->creditnotelist as $invoiceid) {
+				foreach ($object->creditnote_ids as $invoiceid) {
 					$creditnote = new FactureFournisseur($db);
 					$creditnote->fetch($invoiceid);
 					$invoicecredits[] = $creditnote->getNomUrl(1);

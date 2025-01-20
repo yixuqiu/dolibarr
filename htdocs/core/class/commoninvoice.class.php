@@ -165,7 +165,7 @@ abstract class CommonInvoice extends CommonObject
 	/**
 	 * @var int[] return of getListIdAvoirFromInvoice()
 	 */
-	public $creditnotelist;
+	public $creditnote_ids;
 
 	/**
 	 * @var int
@@ -455,6 +455,9 @@ abstract class CommonInvoice extends CommonObject
 		} else {
 			dol_print_error($this->db);
 		}
+
+		$this->creditnote_ids = $idarray;
+
 		return $idarray;
 	}
 

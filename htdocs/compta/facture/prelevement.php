@@ -439,9 +439,12 @@ if ($object->id > 0) {
 		print ' <span class="opacitymediumbycolor paddingleft">'.$langs->transnoentities("CorrectInvoice", $facusing->getNomUrl(1)).'</span>';
 	}
 
-	if (!empty($object->creditnotelist)) {
+	// Retrieve credit note ids
+	$object->getListIdAvoirFromInvoice();
+
+	if (!empty($object->creditnote_ids)) {
 		$invoicecredits = array();
-		foreach ($object->creditnotelist as $invoiceid) {
+		foreach ($object->creditnote_ids as $invoiceid) {
 			if ($type == 'bank-transfer') {
 				$creditnote = new FactureFournisseur($db);
 			} else {

@@ -2300,10 +2300,6 @@ class Facture extends CommonInvoice
 				$this->multicurrency_total_tva 	= $obj->multicurrency_total_tva;
 				$this->multicurrency_total_ttc 	= $obj->multicurrency_total_ttc;
 
-				if ($this->type != self::TYPE_CREDIT_NOTE) {
-					$this->creditnotelist = $this->getListIdAvoirFromInvoice();
-				}
-
 				if (($this->type == self::TYPE_SITUATION || ($this->type == self::TYPE_CREDIT_NOTE && $this->situation_cycle_ref > 0)) && $fetch_situation) {
 					$this->fetchPreviousNextSituationInvoice();
 				}
