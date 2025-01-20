@@ -463,7 +463,7 @@ class Shipments extends DolibarrApi
 				}
 				continue;
 			}
-			$this->shipment->$field = $this->_checkValForAPI($field, $value, $this->shipment);;
+			$this->shipment->$field = $this->_checkValForAPI($field, $value, $this->shipment);
 		}
 
 		if ($this->shipment->update(DolibarrApiAccess::$user) > 0) {
