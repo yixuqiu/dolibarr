@@ -22,4 +22,6 @@ ALTER TABLE llx_blockedlog ADD INDEX entity (entity);
 ALTER TABLE llx_blockedlog ADD INDEX fk_user (fk_user);
 ALTER TABLE llx_blockedlog ADD INDEX entity_action_certified (entity,action,certified);
 
-ALTER TABLE llx_blockedlog ADD INDEX entity_rowid (entity, rowid);	-- for the "SELECT rowid, signature FROM llx_blockedlog FORCE INDEX entity_rowid WHERE entity = x AND rowid < z ORDER BY rowid DESC"
+-- for the "SELECT rowid, signature FROM llx_blockedlog FORCE INDEX entity_rowid WHERE entity = x AND rowid < z ORDER BY rowid DESC"
+
+ALTER TABLE llx_blockedlog ADD INDEX entity_rowid (entity, rowid);
