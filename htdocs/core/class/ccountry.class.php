@@ -59,6 +59,21 @@ class Ccountry extends CommonDict
 		'label' => array('type' => 'varchar(250)', 'label' => 'Label', 'enabled' => 1, 'visible' => 1, 'position' => 15, 'notnull' => -1, 'showoncombobox' => 1)
 	);
 
+	/**
+	 * @var int
+	 */
+	public $favorite;
+
+	/**
+	 * @var int
+	 */
+	public $eec;
+
+	/**
+	 * @var string
+	 */
+	public $numeric_code;
+
 
 	/**
 	 *  Constructor
@@ -158,7 +173,10 @@ class Ccountry extends CommonDict
 		$sql .= " t.code_iso,";
 		$sql .= " t.ecc,";
 		$sql .= " t.label,";
-		$sql .= " t.active";
+		$sql .= " t.eec,";
+		$sql .= " t.active,";
+		$sql .= " t.favorite,";
+		$sql .= " t.numeric_code";
 		$sql .= " FROM ".$this->db->prefix()."c_country as t";
 		if ($id) {
 			$sql .= " WHERE t.rowid = ".((int) $id);
@@ -169,6 +187,7 @@ class Ccountry extends CommonDict
 		}
 
 		dol_syslog(get_class($this)."::fetch", LOG_DEBUG);
+
 		$resql = $this->db->query($sql);
 		if ($resql) {
 			if ($this->db->num_rows($resql)) {
@@ -181,6 +200,9 @@ class Ccountry extends CommonDict
 					$this->label = $obj->label;
 					$this->ecc = $obj->ecc;
 					$this->active = $obj->active;
+					$this->favorite = $obj->favorite;
+					$this->eec = $obj->eec;
+					$this->numeric_code = $obj->numeric_code;
 				}
 
 				$this->db->free($resql);
