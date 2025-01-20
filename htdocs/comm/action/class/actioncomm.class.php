@@ -1263,9 +1263,11 @@ class ActionComm extends CommonObject
 					$already_inserted = array();
 					foreach (array_keys($this->socpeopleassigned) as $key => $val) {
 						if (!is_array($val)) {	// For backward compatibility when val=id
-							$val = array('id'=>$val);
+							$val = array('id' => $val);
 						}
-						if (!empty($already_inserted[$val['id']])) continue;
+						if (!empty($already_inserted[$val['id']])) {
+							continue;
+						}
 
 						$sql = "INSERT INTO ".MAIN_DB_PREFIX."actioncomm_resources(fk_actioncomm, element_type, fk_element, mandatory, transparency, answer_status)";
 						$sql .= " VALUES(".((int) $this->id).", 'socpeople', ".((int) $val['id']).", 0, 0, 0)";
